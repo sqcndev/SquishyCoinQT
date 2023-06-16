@@ -15,7 +15,7 @@ class QNetworkProxy;
 #endif
 QT_END_NAMESPACE
 
-/** Interface from Qt to configuration data structure for Komodo client.
+/** Interface from Qt to configuration data structure for Squishy client.
    To Qt, the options are presented as a list with the different options
    laid out vertically.
    This can be changed to a tree once the settings become sufficiently

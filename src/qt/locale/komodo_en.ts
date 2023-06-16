@@ -80,12 +80,12 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>These are your Komodo addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Squishy addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>These are your Komodo addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <source>These are your Squishy addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -430,8 +430,8 @@
     </message>
     <message>
         <location line="-510"/>
-        <source>Send coins to a Komodo address</source>
-        <translation>Send coins to a Komodo address</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Send coins to a Squishy address</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -460,8 +460,8 @@
     </message>
     <message>
         <location line="+516"/>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <location line="-741"/>
@@ -495,13 +495,13 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Sign messages with your Komodo addresses to prove you own them</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Sign messages with your Squishy addresses to prove you own them</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Verify messages to ensure they were signed with specified Komodo addresses</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Verify messages to ensure they were signed with specified Squishy addresses</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -550,10 +550,10 @@
     </message>
     <message numerus="yes">
         <location line="+356"/>
-        <source>%n active connection(s) to Komodo network</source>
+        <source>%n active connection(s) to Squishy network</source>
         <translation>
-            <numerusform>%n active connection to Komodo network</numerusform>
-            <numerusform>%n active connections to Komodo network</numerusform>
+            <numerusform>%n active connection to Squishy network</numerusform>
+            <numerusform>%n active connections to Squishy network</numerusform>
         </translation>
     </message>
     <message>
@@ -611,7 +611,7 @@
     </message>
     <message>
         <location line="-440"/>
-        <source>Show the %1 help message to get a list with possible Komodo command-line options</source>
+        <source>Show the %1 help message to get a list with possible Squishy command-line options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -691,7 +691,7 @@
     </message>
     <message>
         <location filename="../squishy.cpp" line="+534"/>
-        <source>A fatal error occurred. Komodo can no longer continue safely and will quit.</source>
+        <source>A fatal error occurred. Squishy can no longer continue safely and will quit.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -934,7 +934,7 @@
     </message>
     <message>
         <location line="+71"/>
-        <source>The entered address &quot;%1&quot; is not a valid Komodo address.</source>
+        <source>The entered address &quot;%1&quot; is not a valid Squishy address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1094,8 +1094,8 @@
     </message>
     <message>
         <location filename="../intro.cpp" line="+20"/>
-        <source>Komodo</source>
-        <translation type="unfinished">Komodo</translation>
+        <source>Squishy</source>
+        <translation type="unfinished">Squishy</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1109,7 +1109,7 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>%1 will download and store a copy of the Komodo block chain.</source>
+        <source>%1 will download and store a copy of the Squishy block chain.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1376,8 +1376,8 @@
     </message>
     <message>
         <location line="+30"/>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1386,7 +1386,7 @@
     </message>
     <message>
         <location line="+17"/>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1434,7 +1434,7 @@
     </message>
     <message>
         <location line="+25"/>
-        <source>Connect to the Komodo network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <source>Connect to the Squishy network through a separate SOCKS5 proxy for Tor hidden services.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1579,8 +1579,8 @@
     <message>
         <location line="+62"/>
         <location line="+386"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</source>
-        <translation>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</source>
+        <translation>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</translation>
     </message>
     <message>
         <location line="-139"/>
@@ -1699,7 +1699,7 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>URI cannot be parsed! This can be caused by an invalid Komodo address or malformed URI parameters.</source>
+        <source>URI cannot be parsed! This can be caused by an invalid Squishy address or malformed URI parameters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1821,7 +1821,7 @@
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+130"/>
-        <source>Enter a Komodo address (e.g. %1)</source>
+        <source>Enter a Squishy address (e.g. %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2407,7 +2407,7 @@
     <message>
         <location line="+14"/>
         <location line="+23"/>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Komodo network.</source>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Squishy network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2921,7 +2921,7 @@
     </message>
     <message>
         <location line="+101"/>
-        <source>Warning: Invalid Komodo address</source>
+        <source>Warning: Invalid Squishy address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2976,7 +2976,7 @@
     </message>
     <message>
         <location line="+39"/>
-        <source>The Komodo address to send the payment to</source>
+        <source>The Squishy address to send the payment to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3033,7 +3033,7 @@
     </message>
     <message>
         <location line="+47"/>
-        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
+        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Squishy network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3095,7 +3095,7 @@
     </message>
     <message>
         <location line="+18"/>
-        <source>The Komodo address to sign the message with</source>
+        <source>The Squishy address to sign the message with</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3137,8 +3137,8 @@
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this Komodo address</source>
-        <translation>Sign the message to prove you own this Komodo address</translation>
+        <source>Sign the message to prove you own this Squishy address</source>
+        <translation>Sign the message to prove you own this Squishy address</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3168,13 +3168,13 @@
     </message>
     <message>
         <location line="+21"/>
-        <source>The Komodo address the message was signed with</source>
+        <source>The Squishy address the message was signed with</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+37"/>
-        <source>Verify the message to ensure it was signed with the specified Komodo address</source>
-        <translation>Verify the message to ensure it was signed with the specified Komodo address</translation>
+        <source>Verify the message to ensure it was signed with the specified Squishy address</source>
+        <translation>Verify the message to ensure it was signed with the specified Squishy address</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -4066,8 +4066,8 @@
     </message>
     <message>
         <location line="-386"/>
-        <source>Komodo Core</source>
-        <translation type="unfinished">Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation type="unfinished">Squishy Core</translation>
     </message>
     <message>
         <location line="+1"/>

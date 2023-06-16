@@ -49,7 +49,7 @@ namespace TestMultiSigTests {
         escrow << OP_2 << ToByteVector(key[0].GetPubKey()) << ToByteVector(key[1].GetPubKey()) << ToByteVector(key[2].GetPubKey()) << OP_3 << OP_CHECKMULTISIG;
         ASSERT_TRUE(::IsStandard(escrow, whichType));
 
-        // Komodo supported up to x-of-9 multisig txns as standard (ZCash only x-of-3)
+        // Squishy supported up to x-of-9 multisig txns as standard (ZCash only x-of-3)
 
         CScript one_of_four;
         one_of_four << OP_1 << ToByteVector(key[0].GetPubKey()) << ToByteVector(key[1].GetPubKey()) << ToByteVector(key[2].GetPubKey()) << ToByteVector(key[3].GetPubKey()) << OP_4 << OP_CHECKMULTISIG;

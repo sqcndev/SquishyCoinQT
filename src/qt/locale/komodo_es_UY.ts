@@ -110,16 +110,16 @@
         <translation>Recibiendo direcciones</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Enviar monedas a una dirección Komodo</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Enviar monedas a una dirección Squishy</translation>
     </message>
     <message>
         <source>Change the passphrase used for wallet encryption</source>
         <translation>Cambie la clave utilizada para el cifrado del monedero</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>

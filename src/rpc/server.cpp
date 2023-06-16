@@ -269,7 +269,7 @@ UniValue stop(const UniValue& params, bool fHelp, const CPubKey& mypk)
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "stop\n"
-            "\nStop Komodo server.");
+            "\nStop Squishy server.");
 
 #ifdef ENABLE_WALLET
     GenerateBitcoins(false, pwalletMain, 0);
@@ -279,7 +279,7 @@ UniValue stop(const UniValue& params, bool fHelp, const CPubKey& mypk)
 
     // Shutdown will take long enough that the response should get back
     StartShutdown();
-    sprintf(buf,"%s server stopping", !chainName.isKMD() ? chainName.symbol().c_str() : "Komodo");
+    sprintf(buf,"%s server stopping", !chainName.isKMD() ? chainName.symbol().c_str() : "Squishy");
     return buf;
 }
 

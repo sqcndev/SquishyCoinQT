@@ -62,12 +62,12 @@
         <translation>Empfangsadressen</translation>
     </message>
     <message>
-        <source>These are your Komodo addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Dies sind ihre Komodo-Adressen zum Tätigen von Überweisungen. Bitte prüfen Sie den Betrag und die Empfangsadresse, bevor Sie Komodos überweisen.</translation>
+        <source>These are your Squishy addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Dies sind ihre Squishy-Adressen zum Tätigen von Überweisungen. Bitte prüfen Sie den Betrag und die Empfangsadresse, bevor Sie Komodos überweisen.</translation>
     </message>
     <message>
-        <source>These are your Komodo addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Dies sind Ihre Komodo-Adressen zum Empfangen von Zahlungen. Es wird empfohlen, für jede Transaktion eine neue Empfangsadresse zu verwenden.</translation>
+        <source>These are your Squishy addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Dies sind Ihre Squishy-Adressen zum Empfangen von Zahlungen. Es wird empfohlen, für jede Transaktion eine neue Empfangsadresse zu verwenden.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -338,8 +338,8 @@
         <translation>Reindiziere Blöcke auf Datenträger...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Komodos an eine Komodo-Adresse überweisen</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Komodos an eine Squishy-Adresse überweisen</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -362,8 +362,8 @@
         <translation>Nachricht &amp;verifizieren...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -390,12 +390,12 @@
         <translation>Verschlüsselt die zu Ihrer Wallet gehörenden privaten Schlüssel</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Nachrichten signieren, um den Besitz Ihrer Komodo-Adressen zu beweisen</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Nachrichten signieren, um den Besitz Ihrer Squishy-Adressen zu beweisen</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Nachrichten verifizieren, um sicherzustellen, dass diese mit den angegebenen Komodo-Adressen signiert wurden</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Nachrichten verifizieren, um sicherzustellen, dass diese mit den angegebenen Squishy-Adressen signiert wurden</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -434,8 +434,8 @@
         <translation>&amp;Kommandozeilenoptionen</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Komodo network</source>
-        <translation><numerusform>%n aktive Verbindung zum Komodo-Netzwerk</numerusform><numerusform>%n aktive Verbindungen zum Komodo-Netzwerk</numerusform></translation>
+        <source>%n active connection(s) to Squishy network</source>
+        <translation><numerusform>%n aktive Verbindung zum Squishy-Netzwerk</numerusform><numerusform>%n aktive Verbindungen zum Squishy-Netzwerk</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -478,7 +478,7 @@
         <translation>Auf aktuellem Stand</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Komodo command-line options</source>
+        <source>Show the %1 help message to get a list with possible Squishy command-line options</source>
         <translation>Zeige den "%1"-Hilfetext, um eine Liste mit möglichen Kommandozeilenoptionen zu erhalten</translation>
     </message>
     <message>
@@ -548,8 +548,8 @@
         <translation>Wallet ist &lt;b&gt;verschlüsselt&lt;/b&gt; und aktuell &lt;b&gt;gesperrt&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Komodo can no longer continue safely and will quit.</source>
-        <translation>Ein schwerer Fehler ist aufgetreten. Komodo kann nicht stabil weiter ausgeführt werden und wird beendet.</translation>
+        <source>A fatal error occurred. Squishy can no longer continue safely and will quit.</source>
+        <translation>Ein schwerer Fehler ist aufgetreten. Squishy kann nicht stabil weiter ausgeführt werden und wird beendet.</translation>
     </message>
 </context>
 <context>
@@ -742,8 +742,8 @@
         <translation>Zahlungsadresse bearbeiten</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Komodo address.</source>
-        <translation>Die eingegebene Adresse "%1" ist keine gültige Komodo-Adresse.</translation>
+        <source>The entered address "%1" is not a valid Squishy address.</source>
+        <translation>Die eingegebene Adresse "%1" ist keine gültige Squishy-Adresse.</translation>
     </message>
     <message>
         <source>The entered address "%1" is already in the address book.</source>
@@ -851,7 +851,7 @@
         <translation>Da Sie das Programm gerade zum ersten Mal starten, können Sie nun auswählen wo %1 seine Daten ablegen wird.</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Komodo block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>%1 will download and store a copy of the Squishy block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation>%1 wird eine Kopie der Blockkette herunterladen und speichern. Mindestens %2GB Daten werden in diesem Verzeichnis abgelegt und die Datenmenge wächst über die Zeit an. Auch die Wallet wird in diesem Verzeichnis abgelegt.</translation>
     </message>
     <message>
@@ -887,7 +887,7 @@
     </message>
     <message>
         <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the squishy network, as detailed below.</source>
-        <translation>Neueste Transaktionen werden eventuell noch nicht angezeigt, daher könnte Ihr Kontostand veraltet sein. Er wird korrigiert, sobald Ihr Wallet die Synchronisation mit dem Komodo-Netzwerk erfolgreich abgeschlossen. Details dazu finden sich weiter unten.</translation>
+        <translation>Neueste Transaktionen werden eventuell noch nicht angezeigt, daher könnte Ihr Kontostand veraltet sein. Er wird korrigiert, sobald Ihr Wallet die Synchronisation mit dem Squishy-Netzwerk erfolgreich abgeschlossen. Details dazu finden sich weiter unten.</translation>
     </message>
     <message>
         <source>Attempting to spend coins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
@@ -1048,16 +1048,16 @@
         <translation>&amp;Unbestätigtes Wechselgeld darf ausgegeben werden</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatisch den Komodo-Clientport auf dem Router öffnen. Dies funktioniert nur, wenn Ihr Router UPnP unterstützt und dies aktiviert ist.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automatisch den Squishy-Clientport auf dem Router öffnen. Dies funktioniert nur, wenn Ihr Router UPnP unterstützt und dies aktiviert ist.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>Portweiterleitung via &amp;UPnP</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
-        <translation>Über einen SOCKS5-Proxy mit dem Komodo-Netzwerk verbinden.</translation>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
+        <translation>Über einen SOCKS5-Proxy mit dem Squishy-Netzwerk verbinden.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1096,7 +1096,7 @@
         <translation>Tor</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <source>Connect to the Squishy network through a separate SOCKS5 proxy for Tor hidden services.</source>
         <translation>Über einen separaten SOCKS5 Proxy für Tor Services mit dem Komodot Netzwerk verbinden.</translation>
     </message>
     <message>
@@ -1195,8 +1195,8 @@
         <translation>Formular</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</source>
-        <translation>Die angezeigten Informationen sind möglicherweise nicht mehr aktuell. Ihre Wallet wird automatisch synchronisiert, nachdem eine Verbindung zum Komodo-Netzwerk hergestellt wurde. Dieser Prozess ist jedoch derzeit noch nicht abgeschlossen.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</source>
+        <translation>Die angezeigten Informationen sind möglicherweise nicht mehr aktuell. Ihre Wallet wird automatisch synchronisiert, nachdem eine Verbindung zum Squishy-Netzwerk hergestellt wurde. Dieser Prozess ist jedoch derzeit noch nicht abgeschlossen.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1271,7 +1271,7 @@
     </message>
     <message>
         <source>Cannot start squishy: click-to-pay handler</source>
-        <translation>Kann Komodo nicht starten: Klicken-zum-Bezahlen-Handler</translation>
+        <translation>Kann Squishy nicht starten: Klicken-zum-Bezahlen-Handler</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1286,8 +1286,8 @@
         <translation>Ungültige Zahlungsadresse %1</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Komodo address or malformed URI parameters.</source>
-        <translation>URI kann nicht analysiert werden! Dies kann durch eine ungültige Komodo-Adresse oder fehlerhafte URI-Parameter verursacht werden.</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid Squishy address or malformed URI parameters.</source>
+        <translation>URI kann nicht analysiert werden! Dies kann durch eine ungültige Squishy-Adresse oder fehlerhafte URI-Parameter verursacht werden.</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1380,8 +1380,8 @@
         <translation>Betrag</translation>
     </message>
     <message>
-        <source>Enter a Komodo address (e.g. %1)</source>
-        <translation>Komodo-Adresse eingeben (z.B. %1)</translation>
+        <source>Enter a Squishy address (e.g. %1)</source>
+        <translation>Squishy-Adresse eingeben (z.B. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1800,8 +1800,8 @@
         <translation>Vorhandene Empfangsadresse &amp;wiederverwenden (nicht empfohlen)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Komodo network.</source>
-        <translation>Eine optionale Nachricht, die an die Zahlungsanforderung angehängt wird. Sie wird angezeigt, wenn die Anforderung geöffnet wird. Hinweis: Diese Nachricht wird nicht mit der Zahlung über das Komodo-Netzwerk gesendet.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Squishy network.</source>
+        <translation>Eine optionale Nachricht, die an die Zahlungsanforderung angehängt wird. Sie wird angezeigt, wenn die Anforderung geöffnet wird. Hinweis: Diese Nachricht wird nicht mit der Zahlung über das Squishy-Netzwerk gesendet.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -2034,7 +2034,7 @@
     </message>
     <message>
         <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for squishy transactions than the network can process.</source>
-        <translation>Nur die minimale Gebühr zu bezahlen ist so lange in Ordnung, wie weniger Transaktionsvolumen als Platz in den Blöcken vorhanden ist. Aber Vorsicht, diese Option kann dazu führen, dass Transaktionen nicht bestätigt werden, wenn mehr Bedarf an Komodo-Transaktionen besteht als das Netzwerk verarbeiten kann.</translation>
+        <translation>Nur die minimale Gebühr zu bezahlen ist so lange in Ordnung, wie weniger Transaktionsvolumen als Platz in den Blöcken vorhanden ist. Aber Vorsicht, diese Option kann dazu führen, dass Transaktionen nicht bestätigt werden, wenn mehr Bedarf an Squishy-Transaktionen besteht als das Netzwerk verarbeiten kann.</translation>
     </message>
     <message>
         <source>(read the tooltip)</source>
@@ -2197,8 +2197,8 @@
         <translation><numerusform>Voraussichtlicher Beginn der Bestätigung innerhalb von %n Block.</numerusform><numerusform>Voraussichtlicher Beginn der Bestätigung innerhalb von %n Blöcken.</numerusform></translation>
     </message>
     <message>
-        <source>Warning: Invalid Komodo address</source>
-        <translation>Warnung: Ungültige Komodo-Adresse</translation>
+        <source>Warning: Invalid Squishy address</source>
+        <translation>Warnung: Ungültige Squishy-Adresse</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2240,7 +2240,7 @@
         <translation>Dies ist eine normale Überweisung.</translation>
     </message>
     <message>
-        <source>The Komodo address to send the payment to</source>
+        <source>The Squishy address to send the payment to</source>
         <translation>Die Zahlungsadresse der Überweisung</translation>
     </message>
     <message>
@@ -2284,8 +2284,8 @@
         <translation>Adressbezeichnung eingeben, die dann zusammen mit der Adresse der Liste bereits verwendeter Adressen hinzugefügt wird.</translation>
     </message>
     <message>
-        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
-        <translation>Eine an die "squishy:"-URI angefügte Nachricht, die zusammen mit der Transaktion gespeichert wird. Hinweis: Diese Nachricht wird nicht über das Komodo-Netzwerk gesendet.</translation>
+        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Squishy network.</source>
+        <translation>Eine an die "squishy:"-URI angefügte Nachricht, die zusammen mit der Transaktion gespeichert wird. Hinweis: Diese Nachricht wird nicht über das Squishy-Netzwerk gesendet.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2333,8 +2333,8 @@
         <translation>Sie können Nachrichten/Vereinbarungen mit Hilfe Ihrer Adressen signieren, um zu beweisen, dass Sie Komodos empfangen können, die an diese Adressen überwiesen werden. Seien Sie vorsichtig und signieren Sie nichts Vages oder Willkürliches, um Ihre Indentität vor Phishingangriffen zu schützen. Signieren Sie nur vollständig-detaillierte Aussagen, mit denen Sie auch einverstanden sind.</translation>
     </message>
     <message>
-        <source>The Komodo address to sign the message with</source>
-        <translation>Die Komodo-Adresse mit der die Nachricht signiert wird</translation>
+        <source>The Squishy address to sign the message with</source>
+        <translation>Die Squishy-Adresse mit der die Nachricht signiert wird</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2365,8 +2365,8 @@
         <translation>Aktuelle Signatur in die Zwischenablage kopieren</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Komodo address</source>
-        <translation>Die Nachricht signieren, um den Besitz dieser Komodo-Adresse zu beweisen</translation>
+        <source>Sign the message to prove you own this Squishy address</source>
+        <translation>Die Nachricht signieren, um den Besitz dieser Squishy-Adresse zu beweisen</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2389,12 +2389,12 @@
         <translation>Geben Sie die Zahlungsadresse des Empfängers, Nachricht (achten Sie darauf Zeilenumbrüche, Leerzeichen, Tabulatoren usw. exakt zu kopieren) und Signatur unten ein, um die Nachricht zu verifizieren. Vorsicht, interpretieren Sie nicht mehr in die Signatur hinein, als in der signierten Nachricht selber enthalten ist, um nicht von einem Man-in-the-middle-Angriff hinters Licht geführt zu werden. Beachten Sie dass dies nur beweißt, dass die signierende Partei über diese Adresse Überweisungen empfangen kann.</translation>
     </message>
     <message>
-        <source>The Komodo address the message was signed with</source>
-        <translation>Die Komodo-Adresse mit der die Nachricht signiert wurde</translation>
+        <source>The Squishy address the message was signed with</source>
+        <translation>Die Squishy-Adresse mit der die Nachricht signiert wurde</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Komodo address</source>
-        <translation>Die Nachricht verifizieren, um sicherzustellen, dass diese mit der angegebenen Komodo-Adresse signiert wurde</translation>
+        <source>Verify the message to ensure it was signed with the specified Squishy address</source>
+        <translation>Die Nachricht verifizieren, um sicherzustellen, dass diese mit der angegebenen Squishy-Adresse signiert wurde</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -3054,8 +3054,8 @@
         <translation>Kann HTTP Server nicht starten. Siehe debug log für Details.</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>The %s developers</source>

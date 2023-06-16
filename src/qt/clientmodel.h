@@ -29,7 +29,7 @@ enum BlockSource {
     BLOCK_SOURCE_NETWORK
 };
 
-/** Model for Komodo network client. */
+/** Model for Squishy network client. */
 class ClientModel : public QObject
 {
     Q_OBJECT

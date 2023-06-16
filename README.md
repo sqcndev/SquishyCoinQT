@@ -70,7 +70,7 @@ brew install binutils
 brew install protobuf
 brew install coreutils
 brew install wget
-# Clone the Komodo repo
+# Clone the Squishy repo
 git clone https://github.com/sqcndev/SquishyCoinQT-V0.8.git
 # Change master branch to other branch you wish to compile
 cd squishy
@@ -122,8 +122,8 @@ cd squishy
 Before start the wallet you should [create config file](https://github.com/DeckerSU/KomodoOcean/wiki/F.A.Q.#q-after-i-start-squishy-qt-i-receive-the-following-error-error-cannot-parse-configuration-file-missing-squishyconf-only-use-keyvalue-syntax-what-should-i-do) `squishy.conf` at one of the following locations:
 
 - Linux - `~/.squishy/squishy.conf`
-- Windows - `%APPDATA%\Komodo\squishy.conf`
-- MacOS - `~/Library/Application Support/Komodo/squishy.conf`
+- Windows - `%APPDATA%\Squishy\squishy.conf`
+- MacOS - `~/Library/Application Support/Squishy/squishy.conf`
 
 With the following content:
 

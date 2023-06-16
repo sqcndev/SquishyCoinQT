@@ -153,10 +153,10 @@ bool TryCreateDirectory(const boost::filesystem::path& p);
 boost::filesystem::path GetAppDir();
 /****
  * @brief get the OS-specific default squishyd data directory
- * @note Windows: be "C:\Users\[username]\AppData\Roaming\Komodo"
- * @note Mac: ~/Library/Application Support/Komodo
+ * @note Windows: be "C:\Users\[username]\AppData\Roaming\Squishy"
+ * @note Mac: ~/Library/Application Support/Squishy
  * @note Unix: ~/.squishy
- * @returns the default path to the Komodo data directory
+ * @returns the default path to the Squishy data directory
  */
 boost::filesystem::path GetDefaultDataDir();
 const boost::filesystem::path &GetDataDir(bool fNetSpecific = true);

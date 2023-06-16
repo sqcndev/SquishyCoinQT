@@ -142,7 +142,7 @@
         <translation>Cargando el index de bloques...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
+        <source>Send coins to a Squishy address</source>
         <translation>Enviar monedas a una dirección squishy</translation>
     </message>
     <message>
@@ -166,8 +166,8 @@
         <translation>Verificar mensaje....</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -186,7 +186,7 @@
         <translation>&amp;Mostrar/Ocultar</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
         <translation>Firmar un mensaje para provar que usted es dueño de esta dirección</translation>
     </message>
     <message>
@@ -363,8 +363,8 @@
         <translation>experto</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Abre automáticamente el puerto del cliente Komodo en el router. Esto funciona solo cuando tu router es compatible con UPnP y está habilitado.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Abre automáticamente el puerto del cliente Squishy en el router. Esto funciona solo cuando tu router es compatible con UPnP y está habilitado.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -687,7 +687,7 @@
         <translation>Firma</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Komodo address</source>
+        <source>Sign the message to prove you own this Squishy address</source>
         <translation>Firmar un mensjage para probar que usted es dueño de esta dirección</translation>
     </message>
     <message>
@@ -772,7 +772,7 @@
 </translation>
     </message>
     <message>
-        <source>Komodo Core</source>
+        <source>Squishy Core</source>
         <translation>squishy core</translation>
     </message>
     <message>

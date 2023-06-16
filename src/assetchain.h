@@ -25,7 +25,7 @@ public:
             symbol_ = symbol_.substr(0, 64);
     }
     /*****
-     * @returns true if the chain is Komodo
+     * @returns true if the chain is Squishy
      */
     bool isKMD() { return symbol_.empty(); }
     /****
@@ -38,7 +38,7 @@ public:
      */
     std::string symbol() { return symbol_; }
     /****
-     * @returns this chain's symbol, "KMD" in the case of Komodo
+     * @returns this chain's symbol, "KMD" in the case of Squishy
      */
     std::string ToString() 
     { 

@@ -518,7 +518,7 @@ static std::string FormatException(const std::exception* pex, const char* pszThr
     char pszModule[MAX_PATH] = "";
     GetModuleFileNameA(NULL, pszModule, sizeof(pszModule));
 #else
-    const char* pszModule = "Komodo";
+    const char* pszModule = "Squishy";
 #endif
     if (pex)
         return strprintf(
@@ -577,10 +577,10 @@ boost::filesystem::path GetAppDir()
 
 /****
  * @brief get the OS-specific default squishyd data directory
- * @note Windows: be "C:\Users\[username]\AppData\Roaming\Komodo"
- * @note Mac: ~/Library/Application Support/Komodo
+ * @note Windows: be "C:\Users\[username]\AppData\Roaming\Squishy"
+ * @note Mac: ~/Library/Application Support/Squishy
  * @note Unix: ~/.squishy
- * @returns the default path to the Komodo data directory
+ * @returns the default path to the Squishy data directory
  */
 boost::filesystem::path GetDefaultDataDir()
 {    
@@ -589,11 +589,11 @@ boost::filesystem::path GetDefaultDataDir()
 #if defined(_WIN32) || defined(MAC_OSX)
     if (chainName.isKMD())
     {
-        pathRet /= "Komodo";
+        pathRet /= "Squishy";
     }
     else
     {
-        pathRet /= "Komodo";
+        pathRet /= "Squishy";
         TryCreateDirectory(pathRet);
         pathRet /= chainName.symbol();
     }
@@ -684,7 +684,7 @@ const boost::filesystem::path GetExportDir()
  * @note looks at the -datadir command-line parameter or OS-specific defaults
  * @note creates the directory if it does not already exist
  * @param fNetSpecific if true, adds network-specific subdirectory (i.e. "regtest" or "testnet3")
- * @returns the full OS-specific data directory including Komodo (i.e. "~/.squishy")
+ * @returns the full OS-specific data directory including Squishy (i.e. "~/.squishy")
  */
 const boost::filesystem::path &GetDataDir(bool fNetSpecific)
 {
@@ -731,7 +731,7 @@ boost::filesystem::path GetConfigFile()
     else
     {
 #ifdef __APPLE__
-        strcpy(confname,"Komodo.conf");
+        strcpy(confname,"Squishy.conf");
 #else
         strcpy(confname,"squishy.conf");
 #endif
@@ -1109,9 +1109,9 @@ std::string CopyrightHolders(const std::string& strPrefix)
 {
     std::string strCopyrightHolders = strPrefix + strprintf(_(COPYRIGHT_HOLDERS), _(COPYRIGHT_HOLDERS_SUBSTITUTION));
 
-    // Check for untranslated substitution to make sure Komodo Core copyright is not removed by accident
-    if (strprintf(COPYRIGHT_HOLDERS, COPYRIGHT_HOLDERS_SUBSTITUTION).find("Komodo Core") == std::string::npos) {
-        strCopyrightHolders += "\n" + strPrefix + "The Komodo Core developers";
+    // Check for untranslated substitution to make sure Squishy Core copyright is not removed by accident
+    if (strprintf(COPYRIGHT_HOLDERS, COPYRIGHT_HOLDERS_SUBSTITUTION).find("Squishy Core") == std::string::npos) {
+        strCopyrightHolders += "\n" + strPrefix + "The Squishy Core developers";
     }
     return strCopyrightHolders;
 }

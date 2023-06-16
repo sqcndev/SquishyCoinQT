@@ -102,10 +102,10 @@ static int AppInitRPC(int argc, char* argv[])
         chainName = assetchain(name);
 
     if (argc<2 || mapArgs.count("-?") || mapArgs.count("-h") || mapArgs.count("-help") || mapArgs.count("-version")) {
-        std::string strUsage = _("Komodo RPC client version") + " " + FormatFullVersion() + "\n" + PrivacyInfo();
+        std::string strUsage = _("Squishy RPC client version") + " " + FormatFullVersion() + "\n" + PrivacyInfo();
         if (!mapArgs.count("-version")) {
             strUsage += "\n" + _("Usage:") + "\n" +
-                  "  squishy-cli [options] <command> [params]  " + _("Send command to Komodo") + "\n" +
+                  "  squishy-cli [options] <command> [params]  " + _("Send command to Squishy") + "\n" +
                   "  squishy-cli [options] help                " + _("List commands") + "\n" +
                   "  squishy-cli [options] help <command>      " + _("Get help for a command") + "\n";
 

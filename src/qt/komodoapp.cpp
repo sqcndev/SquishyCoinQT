@@ -183,7 +183,7 @@ void DebugMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
 }
 #endif
 
-/** Class encapsulating Komodo Core startup and shutdown.
+/** Class encapsulating Squishy Core startup and shutdown.
  * Allows running startup and shutdown in a different thread from the UI thread.
  */
 class KomodoCore: public QObject
@@ -213,7 +213,7 @@ private:
     void handleRunawayException(const std::exception *e);
 };
 
-/** Main Komodo application object */
+/** Main Squishy application object */
 class KomodoApplication: public QApplication
 {
     Q_OBJECT
@@ -615,7 +615,7 @@ void KomodoApplication::shutdownResult()
 
 void KomodoApplication::handleRunawayException(const QString &message)
 {
-    QMessageBox::critical(0, "Runaway exception", KomodoOceanGUI::tr("A fatal error occurred. Komodo can no longer continue safely and will quit.") + QString("\n\n") + message);
+    QMessageBox::critical(0, "Runaway exception", KomodoOceanGUI::tr("A fatal error occurred. Squishy can no longer continue safely and will quit.") + QString("\n\n") + message);
     ::exit(EXIT_FAILURE);
 }
 

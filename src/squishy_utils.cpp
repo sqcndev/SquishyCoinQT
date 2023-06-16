@@ -532,7 +532,7 @@ void squishy_configfile(const char *symbol,uint16_t rpcport)
     while ( fname[strlen(fname)-1] != '/' )
         fname[strlen(fname)-1] = 0;
 #ifdef __APPLE__
-    strcat(fname,"Komodo.conf");
+    strcat(fname,"Squishy.conf");
 #else
     strcat(fname,"squishy.conf");
 #endif
@@ -553,7 +553,7 @@ uint16_t squishy_userpass(char *userpass,const char *symbol)
     if ( strcmp("KMD",symbol) == 0 )
     {
 #ifdef __APPLE__
-        sprintf(confname,"Komodo.conf");
+        sprintf(confname,"Squishy.conf");
 #else
         sprintf(confname,"squishy.conf");
 #endif
@@ -986,7 +986,7 @@ void set_kmd_user_password_port(const std::string& ltc_config_filename)
     ASSETCHAINS_P2PPORT = 7770; // default port for P2P
     ASSETCHAINS_RPCPORT = 7771; // default port for RPC
 #ifdef __APPLE__
-    std::string filename = "Komodo.conf";
+    std::string filename = "Squishy.conf";
 #else
     std::string filename = "squishy.conf";
 #endif

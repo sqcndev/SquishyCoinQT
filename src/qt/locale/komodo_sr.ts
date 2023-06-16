@@ -130,7 +130,7 @@
         <translation>Промени &amp;лозинку...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
+        <source>Send coins to a Squishy address</source>
         <translation>Пошаљите новац на squishy адресу</translation>
     </message>
     <message>

@@ -154,8 +154,8 @@
         <translation>Se reindexează blocurile pe disc...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Trimite monede către o adresă Komodo</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Trimite monede către o adresă Squishy</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -178,8 +178,8 @@
         <translation>&amp;Verifică mesaj...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -206,12 +206,12 @@
         <translation>Criptează cheile private ale portofelului dvs.</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Semnaţi mesaje cu adresa dvs. Komodo pentru a dovedi că vă aparţin</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Semnaţi mesaje cu adresa dvs. Squishy pentru a dovedi că vă aparţin</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Verificaţi mesaje pentru a vă asigura că au fost semnate cu adresa Komodo specificată</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Verificaţi mesaje pentru a vă asigura că au fost semnate cu adresa Squishy specificată</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -250,8 +250,8 @@
         <translation>Opţiuni linie de &amp;comandă</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Komodo network</source>
-        <translation><numerusform>%n conexiune activă către reţeaua Komodo</numerusform><numerusform>%n conexiuni active către reţeaua Komodo</numerusform><numerusform>%n de conexiuni active către reţeaua Komodo</numerusform></translation>
+        <source>%n active connection(s) to Squishy network</source>
+        <translation><numerusform>%n conexiune activă către reţeaua Squishy</numerusform><numerusform>%n conexiuni active către reţeaua Squishy</numerusform><numerusform>%n de conexiuni active către reţeaua Squishy</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Processed %n block(s) of transaction history.</source>
@@ -656,16 +656,16 @@
         <translation>Cheltuire rest neconfirmat</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Deschide automat în router portul aferent clientului Komodo. Funcţionează doar dacă routerul duportă UPnP şi e activat.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Deschide automat în router portul aferent clientului Squishy. Funcţionează doar dacă routerul duportă UPnP şi e activat.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>Mapare port folosind &amp;UPnP</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
-        <translation>Conectare la reţeaua Komodo printr-un proxy SOCKS.</translation>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
+        <translation>Conectare la reţeaua Squishy printr-un proxy SOCKS.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -775,8 +775,8 @@
         <translation>Form</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</source>
-        <translation>Informaţiile afişate pot fi neactualizate. Portofelul dvs. se sincronizează automat cu reţeaua Komodo după ce o conexiune este stabilită, dar acest proces nu a fost finalizat încă.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</source>
+        <translation>Informaţiile afişate pot fi neactualizate. Portofelul dvs. se sincronizează automat cu reţeaua Squishy după ce o conexiune este stabilită, dar acest proces nu a fost finalizat încă.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -864,8 +864,8 @@
         <translation>Cantitate</translation>
     </message>
     <message>
-        <source>Enter a Komodo address (e.g. %1)</source>
-        <translation>Introduceţi o adresă Komodo (de exemplu %1)</translation>
+        <source>Enter a Squishy address (e.g. %1)</source>
+        <translation>Introduceţi o adresă Squishy (de exemplu %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1164,8 +1164,8 @@
         <translation>R&amp;efoloseşte o adresă de primire (nu este recomandat)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Komodo network.</source>
-        <translation>Un mesaj opţional de ataşat la cererea de plată, care va fi afişat cînd cererea este deschisă. Notă: Acest mesaj nu va fi trimis cu plata către reţeaua Komodo.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Squishy network.</source>
+        <translation>Un mesaj opţional de ataşat la cererea de plată, care va fi afişat cînd cererea este deschisă. Notă: Acest mesaj nu va fi trimis cu plata către reţeaua Squishy.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1384,7 +1384,7 @@
         <translation>Aceasta este o tranzacţie normală.</translation>
     </message>
     <message>
-        <source>The Komodo address to send the payment to</source>
+        <source>The Squishy address to send the payment to</source>
         <translation>Adresa squishy către care se face plata</translation>
     </message>
     <message>
@@ -1412,7 +1412,7 @@
         <translation>Introduceţi eticheta pentru ca această adresa să fie introdusă în lista de adrese folosite</translation>
     </message>
     <message>
-        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
+        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Squishy network.</source>
         <translation>un mesaj a fost ataşat la squishy: URI care va fi stocat cu tranzacţia pentru referinţa dvs. Notă: Acest mesaj nu va fi trimis către reţeaua squishy.</translation>
     </message>
     <message>
@@ -1449,7 +1449,7 @@
         <translation>&amp;Semnează mesaj</translation>
     </message>
     <message>
-        <source>The Komodo address to sign the message with</source>
+        <source>The Squishy address to sign the message with</source>
         <translation>Adresa cu care semnaţi mesajul</translation>
     </message>
     <message>
@@ -1481,8 +1481,8 @@
         <translation>Copiază semnatura curentă în clipboard-ul sistemului</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Komodo address</source>
-        <translation>Semnează mesajul pentru a dovedi ca deţineţi acestă adresă Komodo</translation>
+        <source>Sign the message to prove you own this Squishy address</source>
+        <translation>Semnează mesajul pentru a dovedi ca deţineţi acestă adresă Squishy</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1501,12 +1501,12 @@
         <translation>&amp;Verifică mesaj</translation>
     </message>
     <message>
-        <source>The Komodo address the message was signed with</source>
-        <translation>Introduceţi o adresă Komodo</translation>
+        <source>The Squishy address the message was signed with</source>
+        <translation>Introduceţi o adresă Squishy</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Komodo address</source>
-        <translation>Verificaţi mesajul pentru a vă asigura că a fost semnat cu adresa Komodo specificată</translation>
+        <source>Verify the message to ensure it was signed with the specified Squishy address</source>
+        <translation>Verificaţi mesajul pentru a vă asigura că a fost semnat cu adresa Squishy specificată</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -1594,8 +1594,8 @@
         <translation>Rulează în fundal ca un demon şi acceptă comenzi</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Nucleul Komodo</translation>
+        <source>Squishy Core</source>
+        <translation>Nucleul Squishy</translation>
     </message>
     <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>

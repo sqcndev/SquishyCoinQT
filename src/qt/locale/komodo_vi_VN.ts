@@ -186,8 +186,8 @@
         <translation>Đánh chỉ số (indexing) lại các khối (blocks) trên ổ đĩa ...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Gửi coins đến tài khoản Komodo</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Gửi coins đến tài khoản Squishy</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -206,8 +206,8 @@
         <translation>&amp;Tin nhắn xác thực</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -234,12 +234,12 @@
         <translation>Mã hoá các khoá bí mật trong Ví của bạn.</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Dùng địa chỉ Komodo của bạn ký các tin nhắn để xác minh những nội dung tin nhắn đó là của bạn.</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Dùng địa chỉ Squishy của bạn ký các tin nhắn để xác minh những nội dung tin nhắn đó là của bạn.</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Kiểm tra các tin nhắn để chắc chắn rằng chúng được ký bằng các địa chỉ Komodo xác định.</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Kiểm tra các tin nhắn để chắc chắn rằng chúng được ký bằng các địa chỉ Squishy xác định.</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -259,7 +259,7 @@
     </message>
     <message>
         <source>Request payments (generates QR codes and squishy: URIs)</source>
-        <translation>Yêu cầu thanh toán(tạo mã QR và địa chỉ Komodo: URLs)</translation>
+        <translation>Yêu cầu thanh toán(tạo mã QR và địa chỉ Squishy: URLs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -536,8 +536,8 @@
         <translation>Ví</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
-        <translation>Kết nối đến máy chủ Komodo thông qua SOCKS5 proxy.</translation>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
+        <translation>Kết nối đến máy chủ Squishy thông qua SOCKS5 proxy.</translation>
     </message>
     <message>
         <source>Proxy &amp;IP:</source>
@@ -1018,8 +1018,8 @@
         <translation>Lựa chọn:</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>(default: %u)</source>

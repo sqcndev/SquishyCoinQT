@@ -170,8 +170,8 @@
         <translation>Lemezen lévő blokkok újraindexelése...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Komodo küldése megadott címre</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Squishy küldése megadott címre</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -194,8 +194,8 @@
         <translation>Üzenet &amp;valódiságának ellenőrzése</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -222,12 +222,12 @@
         <translation>A tárcádhoz tartozó privát kulcsok titkosítása</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Üzenetek aláírása a Komodo-címmeiddel, amivel bizonyítod, hogy a cím a sajátod</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Üzenetek aláírása a Squishy-címmeiddel, amivel bizonyítod, hogy a cím a sajátod</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Üzenetek ellenőrzése, hogy valóban a megjelölt Komodo-címekkel vannak-e aláírva</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Üzenetek ellenőrzése, hogy valóban a megjelölt Squishy-címekkel vannak-e aláírva</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -266,8 +266,8 @@
         <translation>Paran&amp;cssor kapcsolók</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Komodo network</source>
-        <translation><numerusform>%n aktív kapcsolat a Komodo hálózathoz</numerusform><numerusform>%n aktív kapcsolat a Komodo hálózathoz</numerusform></translation>
+        <source>%n active connection(s) to Squishy network</source>
+        <translation><numerusform>%n aktív kapcsolat a Squishy hálózathoz</numerusform><numerusform>%n aktív kapcsolat a Squishy hálózathoz</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Processed %n block(s) of transaction history.</source>
@@ -604,16 +604,16 @@
         <translation>Szakértő</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>A Komodo-kliens portjának automatikus megnyitása a routeren. Ez csak akkor működik, ha a routered támogatja az UPnP-t és az engedélyezve is van rajta.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>A Squishy-kliens portjának automatikus megnyitása a routeren. Ez csak akkor működik, ha a routered támogatja az UPnP-t és az engedélyezve is van rajta.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>&amp;UPnP port-feltérképezés</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
-        <translation>Csatlakozás a Komodo hálózatához SOCKS5 proxyn keresztül</translation>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
+        <translation>Csatlakozás a Squishy hálózatához SOCKS5 proxyn keresztül</translation>
     </message>
     <message>
         <source>Proxy &amp;IP:</source>
@@ -707,8 +707,8 @@
         <translation>Űrlap</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</source>
-        <translation>A kijelzett információ lehet, hogy elavult. A pénztárcája automatikusan szinkronizálja magát a Komodo hálózattal miután a kapcsolat létrejön, de ez e folyamat még nem fejeződött be.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</source>
+        <translation>A kijelzett információ lehet, hogy elavult. A pénztárcája automatikusan szinkronizálja magát a Squishy hálózattal miután a kapcsolat létrejön, de ez e folyamat még nem fejeződött be.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -776,8 +776,8 @@
         <translation>Összeg</translation>
     </message>
     <message>
-        <source>Enter a Komodo address (e.g. %1)</source>
-        <translation>Ad meg egy Komodo címet (pl: %1)</translation>
+        <source>Enter a Squishy address (e.g. %1)</source>
+        <translation>Ad meg egy Squishy címet (pl: %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1305,7 +1305,7 @@
         <translation>A jelenleg kiválasztott aláírás másolása a rendszer-vágólapra</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Komodo address</source>
+        <source>Sign the message to prove you own this Squishy address</source>
         <translation>Üzenet </translation>
     </message>
     <message>
@@ -1406,8 +1406,8 @@
 </translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>

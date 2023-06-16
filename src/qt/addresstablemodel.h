@@ -29,7 +29,7 @@ public:
         isMine = 0,
         isWatchOnly = 1,
         Label = 2,   /**< User specified label */
-        Address = 3  /**< Komodo address */
+        Address = 3  /**< Squishy address */
     };
 
     enum RoleIndex {

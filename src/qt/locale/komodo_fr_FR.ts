@@ -238,8 +238,8 @@
         <translation>Réindexer les blocs sur le disque...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Envoyer des pièces à une adresse Komodo</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Envoyer des pièces à une adresse Squishy</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -262,8 +262,8 @@
         <translation>&amp;Vérification du message</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -290,8 +290,8 @@
         <translation>Crypter les clé privées qui appartiennent votre portefeuille</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Signer vos messages avec vos adresses Komodo pour prouver que vous les détenez</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Signer vos messages avec vos adresses Squishy pour prouver que vous les détenez</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -326,8 +326,8 @@
         <translation>&amp;Options de ligne de commande</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Komodo network</source>
-        <translation><numerusform>%n connexion active au réseau Komodo</numerusform><numerusform>%n connexions actives au réseau Komodo</numerusform></translation>
+        <source>%n active connection(s) to Squishy network</source>
+        <translation><numerusform>%n connexion active au réseau Squishy</numerusform><numerusform>%n connexions actives au réseau Squishy</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -712,8 +712,8 @@
         <translation>Expert</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Ouvrir le port du client Komodo automatiquement sur le routeur. Cela ne fonctionne que si votre routeur supporte l'UPnP et si la fonctionnalité est activée.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Ouvrir le port du client Squishy automatiquement sur le routeur. Cela ne fonctionne que si votre routeur supporte l'UPnP et si la fonctionnalité est activée.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -872,8 +872,8 @@
         <translation>Montant</translation>
     </message>
     <message>
-        <source>Enter a Komodo address (e.g. %1)</source>
-        <translation>Entrer une adresse Komodo (e.g. %1)</translation>
+        <source>Enter a Squishy address (e.g. %1)</source>
+        <translation>Entrer une adresse Squishy (e.g. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1734,8 +1734,8 @@
         <translation>Impossible de démarrer le serveur HTTP. Voir le journal de débogage pour plus de détails.</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>

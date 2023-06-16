@@ -76,7 +76,7 @@ venv-mnf/
 *.qm
 Makefile
 src/qt/squishy-qt
-Komodo-Qt.app
+Squishy-Qt.app
 background.tiff*
 
 # Unit-tests

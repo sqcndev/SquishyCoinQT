@@ -591,7 +591,7 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-metricsui", _("Set to 1 for a persistent metrics screen, 0 for sequential metrics output (default: 1 if running in a console, 0 otherwise)"));
         strUsage += HelpMessageOpt("-metricsrefreshtime", strprintf(_("Number of seconds between metrics refreshes (default: %u if running in a console, %u otherwise)"), 1, 600));
     }
-    strUsage += HelpMessageGroup(_("Komodo Asset Chain options:"));
+    strUsage += HelpMessageGroup(_("Squishy Asset Chain options:"));
     strUsage += HelpMessageOpt("-ac_algo", _("Choose PoW mining algorithm, default is Equihash"));
     strUsage += HelpMessageOpt("-ac_blocktime", _("Block time in seconds, default is 60"));
     strUsage += HelpMessageOpt("-ac_cc", _("Cryptoconditions, default 0"));
@@ -1294,7 +1294,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     // Sanity check
     if (!InitSanityCheck())
-        return InitError(_("Initialization sanity check failed. Komodo is shutting down."));
+        return InitError(_("Initialization sanity check failed. Squishy is shutting down."));
 
     std::string strDataDir = GetDataDir().string();
 #ifdef ENABLE_WALLET
@@ -1310,9 +1310,9 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     try {
         static boost::interprocess::file_lock lock(pathLockFile.string().c_str());
         if (!lock.try_lock())
-            return InitError(strprintf(_("Cannot obtain a lock on data directory %s. Komodo is probably already running."), strDataDir));
+            return InitError(strprintf(_("Cannot obtain a lock on data directory %s. Squishy is probably already running."), strDataDir));
     } catch(const boost::interprocess::interprocess_exception& e) {
-        return InitError(strprintf(_("Cannot obtain a lock on data directory %s. Komodo is probably already running.") + " %s.", strDataDir, e.what()));
+        return InitError(strprintf(_("Cannot obtain a lock on data directory %s. Squishy is probably already running.") + " %s.", strDataDir, e.what()));
     }
 
 #ifndef _WIN32
@@ -1321,7 +1321,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (GetBoolArg("-shrinkdebugfile", !fDebug))
         ShrinkDebugFile();
     //LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("Komodo version %s (%s)\n", FormatFullVersion(), CLIENT_DATE);
+    LogPrintf("Squishy version %s (%s)\n", FormatFullVersion(), CLIENT_DATE);
 
     if (fPrintToDebugLog)
         OpenDebugLog();
@@ -1816,7 +1816,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 InitWarning(msg);
             }
             else if (nLoadWalletRet == DB_TOO_NEW)
-                strErrors << _("Error loading wallet.dat: Wallet requires newer version of Komodo") << "\n";
+                strErrors << _("Error loading wallet.dat: Wallet requires newer version of Squishy") << "\n";
             else if (nLoadWalletRet == DB_NEED_REWRITE)
             {
                 strErrors << _("Wallet needed to be rewritten: restart Zcash to complete") << "\n";

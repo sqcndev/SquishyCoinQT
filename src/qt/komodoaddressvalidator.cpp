@@ -91,7 +91,7 @@ KomodoAddressCheckValidator::KomodoAddressCheckValidator(QObject *parent, bool a
 QValidator::State KomodoAddressCheckValidator::validate(QString &input, int &pos) const
 {
     Q_UNUSED(pos);
-    // Validate the passed Komodo address
+    // Validate the passed Squishy address
     if (_allowZAddresses) {
 
         // by default we assume SAPLING_BRANCH_ID to allow both type of z-addresses SPROUT and SAPLING,

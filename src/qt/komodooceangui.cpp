@@ -289,7 +289,7 @@ void KomodoOceanGUI::createActions()
     tabGroup->addAction(overviewAction);
 
     sendCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/send"), tr("&Send"), this);
-    sendCoinsAction->setStatusTip(tr("Send coins to a Komodo address"));
+    sendCoinsAction->setStatusTip(tr("Send coins to a Squishy address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
@@ -375,9 +375,9 @@ void KomodoOceanGUI::createActions()
     changePassphraseAction = new QAction(platformStyle->TextColorIcon(":/icons/key"), tr("&Change Passphrase..."), this);
     changePassphraseAction->setStatusTip(tr("Change the passphrase used for wallet encryption"));
     signMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/edit"), tr("Sign &message..."), this);
-    signMessageAction->setStatusTip(tr("Sign messages with your Komodo addresses to prove you own them"));
+    signMessageAction->setStatusTip(tr("Sign messages with your Squishy addresses to prove you own them"));
     verifyMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/verify"), tr("&Verify message..."), this);
-    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Komodo addresses"));
+    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Squishy addresses"));
 
     openRPCConsoleAction = new QAction(platformStyle->TextColorIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging and diagnostic console"));
@@ -396,7 +396,7 @@ void KomodoOceanGUI::createActions()
 
     showHelpMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/info"), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
-    showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Komodo command-line options").arg(tr(PACKAGE_NAME)));
+    showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Squishy command-line options").arg(tr(PACKAGE_NAME)));
 
     m_mask_values_action = new QAction(tr("&Mask values"), this);
     m_mask_values_action->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_M));
@@ -782,7 +782,7 @@ void KomodoOceanGUI::updateNetworkState()
     QString tooltip;
 
     if (clientModel->getNetworkActive()) {
-        tooltip = tr("%n active connection(s) to Komodo network", "", count) + QString(".<br>") + tr("Click to disable network activity.");
+        tooltip = tr("%n active connection(s) to Squishy network", "", count) + QString(".<br>") + tr("Click to disable network activity.");
     } else {
         tooltip = tr("Network activity disabled.") + QString("<br>") + tr("Click to enable network activity again.");
         icon = ":/icons/network_disabled";
@@ -928,7 +928,7 @@ void KomodoOceanGUI::setNumBlocks(int count, const QDateTime& blockDate, double 
 
 void KomodoOceanGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
 {
-    QString strTitle = tr("Komodo"); // default title
+    QString strTitle = tr("Squishy"); // default title
     // Default to information icon
     int nMBoxIcon = QMessageBox::Information;
     int nNotifyIcon = Notificator::Information;
@@ -954,7 +954,7 @@ void KomodoOceanGUI::message(const QString &title, const QString &message, unsig
             break;
         }
     }
-    // Append title to "Komodo - "
+    // Append title to "Squishy - "
     if (!msgType.isEmpty())
         strTitle += " - " + msgType;
 

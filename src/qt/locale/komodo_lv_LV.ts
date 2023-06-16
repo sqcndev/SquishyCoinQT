@@ -142,8 +142,8 @@
         <translation>Bloku reindeksēšana no diska...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Nosūtīt bitkoinus uz Komodo adresi</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Nosūtīt bitkoinus uz Squishy adresi</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -166,8 +166,8 @@
         <translation>&amp;Pārbaudīt ziņojumu...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -194,12 +194,12 @@
         <translation>Šifrēt privātās atslēgas kuras pieder tavam maciņam</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Parakstīt ziņojumus ar savām Komodo adresēm lai pierādītu ka tās pieder tev</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Parakstīt ziņojumus ar savām Squishy adresēm lai pierādītu ka tās pieder tev</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Pārbaudīt ziņojumus lai pārliecinātos, ka tie tika parakstīti ar norādītajām Komodo adresēm</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Pārbaudīt ziņojumus lai pārliecinātos, ka tie tika parakstīti ar norādītajām Squishy adresēm</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -506,8 +506,8 @@
         <translation>&amp;Tērēt neapstiprinātu atlikumu</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Uz rūtera automātiski atvērt Komodo klienta portu. Tas strādā tikai tad, ja rūteris atbalsta UPnP un tas ir ieslēgts.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Uz rūtera automātiski atvērt Squishy klienta portu. Tas strādā tikai tad, ja rūteris atbalsta UPnP un tas ir ieslēgts.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -559,7 +559,7 @@
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
-        <translation>Vai rādīt Komodo kontroles funkcijas vai nē.</translation>
+        <translation>Vai rādīt Squishy kontroles funkcijas vai nē.</translation>
     </message>
     <message>
         <source>&amp;OK</source>
@@ -593,8 +593,8 @@
         <translation>Forma</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</source>
-        <translation>Attēlotā informācija var būt novecojusi. Jūsu maciņš pēc savienojuma izveides automātiski sinhronizējas ar Komodo tīklu, taču šis process vēl nav beidzies.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</source>
+        <translation>Attēlotā informācija var būt novecojusi. Jūsu maciņš pēc savienojuma izveides automātiski sinhronizējas ar Squishy tīklu, taču šis process vēl nav beidzies.</translation>
     </message>
     <message>
         <source>Available:</source>
@@ -852,7 +852,7 @@
     </message>
     <message>
         <source>Coin Control Features</source>
-        <translation>Komodo Kontroles Funkcijas</translation>
+        <translation>Squishy Kontroles Funkcijas</translation>
     </message>
     <message>
         <source>Inputs...</source>
@@ -1027,8 +1027,8 @@
         <translation>Kopēt parakstu uz sistēmas starpliktuvi</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Komodo address</source>
-        <translation>Parakstīt ziņojumu lai pierādītu, ka esi šīs Komodo adreses īpašnieks.</translation>
+        <source>Sign the message to prove you own this Squishy address</source>
+        <translation>Parakstīt ziņojumu lai pierādītu, ka esi šīs Squishy adreses īpašnieks.</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1124,8 +1124,8 @@
         <translation>Darbināt fonā kā servisu un pieņemt komandas</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>

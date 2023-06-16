@@ -16,7 +16,7 @@
 How to write utxo based CryptoConditions contracts for KMD chains
 by jl777
 
-This is not the only smart contracts methodology that is possible to build on top of OP_CHECKCRYPTOCONDITION, just the first one. All the credit for getting OP_CHECKCRYPTOCONDITION working in the Komodo codebase goes to @libscott. I am just hooking into the code that he made and tried to make it just a little easier to make new contracts.
+This is not the only smart contracts methodology that is possible to build on top of OP_CHECKCRYPTOCONDITION, just the first one. All the credit for getting OP_CHECKCRYPTOCONDITION working in the Squishy codebase goes to @libscott. I am just hooking into the code that he made and tried to make it just a little easier to make new contracts.
 
 There is probably some fancy marketing name to use, but for now, I will just call it "CC contract" for short, knowing that it is not 100% technically accurate as the CryptoConditions aspect is not really the main attribute. However, the KMD contracts were built to make the CryptoConditions codebase that was integrated into it to be more accessible.
 
@@ -674,7 +674,7 @@ This codebase and tools in between the GUI and the rpc level will be a very good
 ##########
 
 Conclusion
-I hope this document has helped you understand what a Komodo utxo based CC contract is and how it is different from the other smart contracts. If you are now able to dive into the cc directory and start making your own CC contract, then I am very happy!
+I hope this document has helped you understand what a Squishy utxo based CC contract is and how it is different from the other smart contracts. If you are now able to dive into the cc directory and start making your own CC contract, then I am very happy!
 
 
 gateways CC

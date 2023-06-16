@@ -16,8 +16,8 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Komodo"
-            VALUE "FileDescription",    "squishy-test (Komodo features test utility)"
+            VALUE "CompanyName",        "Squishy"
+            VALUE "FileDescription",    "squishy-test (Squishy features test utility)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
             VALUE "InternalName",       "squishy-test"
             VALUE "LegalCopyright",     COPYRIGHT_STR

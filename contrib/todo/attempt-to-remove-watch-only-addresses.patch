@@ -205,7 +205,7 @@ index 3f72df1..c4f43fb 100644
 +
 +            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Scripts are not yet supported");
 +        } else {
-+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Komodo address");
++            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Squishy address");
 +        }
 +    }
 +

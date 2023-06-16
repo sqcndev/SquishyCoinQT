@@ -1,6 +1,6 @@
-# Komodo Cryptoconditons Terminal User Interfaces (aka TUIs)
+# Squishy Cryptoconditons Terminal User Interfaces (aka TUIs)
 
-These tools creating for demonstration and partial automation of Komodo cryptoconditions modules testing. (RogueCC game, AssetsCC, OraclesCC, GatewaysCC, ...)
+These tools creating for demonstration and partial automation of Squishy cryptoconditions modules testing. (RogueCC game, AssetsCC, OraclesCC, GatewaysCC, ...)
 
 
 Developer installation (on Ubuntu 18.04) :

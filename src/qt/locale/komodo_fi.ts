@@ -62,12 +62,12 @@
         <translation>Vastaanotto-osoitteet</translation>
     </message>
     <message>
-        <source>These are your Komodo addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Nämä ovat Komodo-osoitteesi maksujen lähettämistä varten. Tarkista aina määrä ja vastaanotto-osoite ennen kolikoiden lähettämistä.</translation>
+        <source>These are your Squishy addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Nämä ovat Squishy-osoitteesi maksujen lähettämistä varten. Tarkista aina määrä ja vastaanotto-osoite ennen kolikoiden lähettämistä.</translation>
     </message>
     <message>
-        <source>These are your Komodo addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Tässä ovat Komodo vastaanotto-osoitteesi. On suositeltavaa käyttää uutta vastaanotto-osoitetta jokaista lähetystä varten.</translation>
+        <source>These are your Squishy addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Tässä ovat Squishy vastaanotto-osoitteesi. On suositeltavaa käyttää uutta vastaanotto-osoitetta jokaista lähetystä varten.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -338,8 +338,8 @@
         <translation>Ladataan lohkoindeksiä...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Lähetä kolikoita Komodo-osoitteeseen</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Lähetä kolikoita Squishy-osoitteeseen</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -362,8 +362,8 @@
         <translation>Varmista &amp;viesti...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -383,19 +383,19 @@
     </message>
     <message>
         <source>Show or hide the main Window</source>
-        <translation>Näytä tai piilota Komodo-ikkuna</translation>
+        <translation>Näytä tai piilota Squishy-ikkuna</translation>
     </message>
     <message>
         <source>Encrypt the private keys that belong to your wallet</source>
         <translation>Suojaa yksityiset avaimet, jotka kuuluvat lompakkoosi</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Allekirjoita viestisi omalla Komodo -osoitteellasi todistaaksesi, että omistat ne</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Allekirjoita viestisi omalla Squishy -osoitteellasi todistaaksesi, että omistat ne</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Varmista, että viestisi on allekirjoitettu määritetyllä Komodo -osoitteella</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Varmista, että viestisi on allekirjoitettu määritetyllä Squishy -osoitteella</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -434,8 +434,8 @@
         <translation>&amp;Komentorivin valinnat</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Komodo network</source>
-        <translation><numerusform>%n aktiivinen yhteys Komodo-verkkoon</numerusform><numerusform>%n aktiivista yhteyttä Komodo-verkkoon</numerusform></translation>
+        <source>%n active connection(s) to Squishy network</source>
+        <translation><numerusform>%n aktiivinen yhteys Squishy-verkkoon</numerusform><numerusform>%n aktiivista yhteyttä Squishy-verkkoon</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -478,7 +478,7 @@
         <translation>Rahansiirtohistoria on ajan tasalla</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Komodo command-line options</source>
+        <source>Show the %1 help message to get a list with possible Squishy command-line options</source>
         <translation>Näytä %1 ohjeet saadaksesi listan mahdollisista Komodoin komentorivivalinnoista</translation>
     </message>
     <message>
@@ -548,8 +548,8 @@
         <translation>Lompakko on &lt;b&gt;salattu&lt;/b&gt; ja tällä hetkellä &lt;b&gt;lukittuna&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Komodo can no longer continue safely and will quit.</source>
-        <translation>Peruuttamaton virhe on tapahtunut. Komodo ei voi enää jatkaa turvallisesti ja sammutetaan.</translation>
+        <source>A fatal error occurred. Squishy can no longer continue safely and will quit.</source>
+        <translation>Peruuttamaton virhe on tapahtunut. Squishy ei voi enää jatkaa turvallisesti ja sammutetaan.</translation>
     </message>
 </context>
 <context>
@@ -734,8 +734,8 @@
         <translation>Muokkaa lähettävää osoitetta</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Komodo address.</source>
-        <translation>Antamasi osoite "%1" ei ole kelvollinen Komodo-osoite.</translation>
+        <source>The entered address "%1" is not a valid Squishy address.</source>
+        <translation>Antamasi osoite "%1" ei ole kelvollinen Squishy-osoite.</translation>
     </message>
     <message>
         <source>The entered address "%1" is already in the address book.</source>
@@ -843,7 +843,7 @@
         <translation>Tämä on ensimmäinen kerta, kun %1 on käynnistetty, joten voit valita data-hakemiston paikan.</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Komodo block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>%1 will download and store a copy of the Squishy block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation>%1 lataa ja tallentaa kopion Komodoin lohkoketjusta. Vähintään %2Gt dataa tullaan tallentamaan tähän hakemistoon, ja tarve kasvaa ajan myötä. Lompakko tullaan myös tallentamaan tähän hakemistoon.</translation>
     </message>
     <message>
@@ -1020,16 +1020,16 @@
         <translation>&amp;Käytä varmistamattomia vaihtorahoja</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Avaa Komodo-asiakasohjelman portti reitittimellä automaattisesti. Tämä toimii vain, jos reitittimesi tukee UPnP:tä ja se on käytössä.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Avaa Squishy-asiakasohjelman portti reitittimellä automaattisesti. Tämä toimii vain, jos reitittimesi tukee UPnP:tä ja se on käytössä.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>Portin uudelleenohjaus &amp;UPnP:llä</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
-        <translation>Yhdistä Komodo-verkkoon SOCKS5-välityspalvelimen kautta.</translation>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
+        <translation>Yhdistä Squishy-verkkoon SOCKS5-välityspalvelimen kautta.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1068,8 +1068,8 @@
         <translation>Tor</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>Yhdistä Komodo-verkkoon erillisen SOCKS5-välityspalvelimen kautta piilotettuja Tor-palveluja varten.</translation>
+        <source>Connect to the Squishy network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <translation>Yhdistä Squishy-verkkoon erillisen SOCKS5-välityspalvelimen kautta piilotettuja Tor-palveluja varten.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
@@ -1159,8 +1159,8 @@
         <translation>Lomake</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</source>
-        <translation>Näytetyt tiedot eivät välttämättä ole ajantasalla. Lompakkosi synkronoituu Komodo-verkon kanssa automaattisesti yhteyden muodostamisen jälkeen, mutta synkronointi on vielä meneillään.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</source>
+        <translation>Näytetyt tiedot eivät välttämättä ole ajantasalla. Lompakkosi synkronoituu Squishy-verkon kanssa automaattisesti yhteyden muodostamisen jälkeen, mutta synkronointi on vielä meneillään.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1252,8 +1252,8 @@
         <translation>Määrä</translation>
     </message>
     <message>
-        <source>Enter a Komodo address (e.g. %1)</source>
-        <translation>Syötä Komodo-osoite (esim. %1)</translation>
+        <source>Enter a Squishy address (e.g. %1)</source>
+        <translation>Syötä Squishy-osoite (esim. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1620,8 +1620,8 @@
         <translation>&amp;Uudelleenkäytä vastaanotto-osoitetta (ei suositella)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Komodo network.</source>
-        <translation>Valinnainen viesti liitetään maksupyyntöön ja näytetään avattaessa. Viestiä ei lähetetä Komodo-verkkoon.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Squishy network.</source>
+        <translation>Valinnainen viesti liitetään maksupyyntöön ja näytetään avattaessa. Viestiä ei lähetetä Squishy-verkkoon.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1940,8 +1940,8 @@
         <translation>Tämä on normaali maksu.</translation>
     </message>
     <message>
-        <source>The Komodo address to send the payment to</source>
-        <translation>Komodo-osoite johon maksu lähetetään</translation>
+        <source>The Squishy address to send the payment to</source>
+        <translation>Squishy-osoite johon maksu lähetetään</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1984,8 +1984,8 @@
         <translation>Aseta nimi tälle osoitteelle lisätäksesi sen käytettyjen osoitteiden listalle.</translation>
     </message>
     <message>
-        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
-        <translation>Viesti joka liitettiin squishy: URI:iin tallennetaan rahansiirtoon viitteeksi. Tätä viestiä ei lähetetä Komodo-verkkoon.</translation>
+        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Squishy network.</source>
+        <translation>Viesti joka liitettiin squishy: URI:iin tallennetaan rahansiirtoon viitteeksi. Tätä viestiä ei lähetetä Squishy-verkkoon.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2025,8 +2025,8 @@
         <translation>&amp;Allekirjoita viesti</translation>
     </message>
     <message>
-        <source>The Komodo address to sign the message with</source>
-        <translation>Komodo-osoite jolla viesti allekirjoitetaan</translation>
+        <source>The Squishy address to sign the message with</source>
+        <translation>Squishy-osoite jolla viesti allekirjoitetaan</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2057,8 +2057,8 @@
         <translation>Kopioi tämänhetkinen allekirjoitus leikepöydälle</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Komodo address</source>
-        <translation>Allekirjoita viesti todistaaksesi, että omistat tämän Komodo-osoitteen</translation>
+        <source>Sign the message to prove you own this Squishy address</source>
+        <translation>Allekirjoita viesti todistaaksesi, että omistat tämän Squishy-osoitteen</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2077,12 +2077,12 @@
         <translation>&amp;Varmista viesti</translation>
     </message>
     <message>
-        <source>The Komodo address the message was signed with</source>
-        <translation>Komodo-osoite jolla viesti on allekirjoitettu</translation>
+        <source>The Squishy address the message was signed with</source>
+        <translation>Squishy-osoite jolla viesti on allekirjoitettu</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Komodo address</source>
-        <translation>Tarkista viestin allekirjoitus varmistaaksesi, että se allekirjoitettiin tietyllä Komodo-osoitteella</translation>
+        <source>Verify the message to ensure it was signed with the specified Squishy address</source>
+        <translation>Tarkista viestin allekirjoitus varmistaaksesi, että se allekirjoitettiin tietyllä Squishy-osoitteella</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -2430,8 +2430,8 @@
         <translation>HTTP-palvelinta ei voitu käynnistää. Katso debug-lokista lisätietoja.</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo-ydin</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy-ydin</translation>
     </message>
     <message>
         <source>The %s developers</source>

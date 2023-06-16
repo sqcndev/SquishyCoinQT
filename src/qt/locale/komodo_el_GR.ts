@@ -222,7 +222,7 @@
         <translation>Φόρτωση ευρετηρίου μπλοκ στον σκληρο δισκο...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
+        <source>Send coins to a Squishy address</source>
         <translation>Στείλε νομίσματα σε μια διεύθυνση squishy</translation>
     </message>
     <message>
@@ -246,8 +246,8 @@
         <translation>&amp;Επιβεβαίωση μηνύματος</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -274,12 +274,12 @@
         <translation>Κρυπτογραφήστε τα ιδιωτικά κλειδιά που ανήκουν στο πορτοφόλι σας </translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
         <translation>Υπογράψτε ένα μήνυμα για να βεβαιώσετε πως είστε ο κάτοχος αυτής της διεύθυνσης</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Υπογράψτε ένα μήνυμα για ν' αποδείξετε πως ανήκει μια συγκεκριμένη διεύθυνση Komodo</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Υπογράψτε ένα μήνυμα για ν' αποδείξετε πως ανήκει μια συγκεκριμένη διεύθυνση Squishy</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -720,16 +720,16 @@
         <translation>&amp;Ξόδεμα μη επικυρωμένων ρέστων</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Αυτόματο άνοιγμα των θυρών Komodo στον δρομολογητή. Λειτουργεί μόνο αν ο δρομολογητής σας υποστηρίζει τη λειτουργία UPnP.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Αυτόματο άνοιγμα των θυρών Squishy στον δρομολογητή. Λειτουργεί μόνο αν ο δρομολογητής σας υποστηρίζει τη λειτουργία UPnP.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>Απόδοση θυρών με χρήστη &amp;UPnP</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
-        <translation>Σύνδεση στο Komodo δίκτυο μέσω διαμεσολαβητή SOCKS5 (π.χ. για σύνδεση μέσω Tor)</translation>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
+        <translation>Σύνδεση στο Squishy δίκτυο μέσω διαμεσολαβητή SOCKS5 (π.χ. για σύνδεση μέσω Tor)</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -824,8 +824,8 @@
         <translation>Φόρμα</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</source>
-        <translation>Οι πληροφορίες που εμφανίζονται μπορεί να είναι ξεπερασμένες. Το πορτοφόλι σας συγχρονίζεται αυτόματα με το δίκτυο Komodo μετά από μια σύνδεση, αλλά αυτή η διαδικασία δεν έχει ακόμη ολοκληρωθεί. </translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</source>
+        <translation>Οι πληροφορίες που εμφανίζονται μπορεί να είναι ξεπερασμένες. Το πορτοφόλι σας συγχρονίζεται αυτόματα με το δίκτυο Squishy μετά από μια σύνδεση, αλλά αυτή η διαδικασία δεν έχει ακόμη ολοκληρωθεί. </translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -905,8 +905,8 @@
         <translation>Ποσό</translation>
     </message>
     <message>
-        <source>Enter a Komodo address (e.g. %1)</source>
-        <translation>Εισάγετε μια διεύθυνση Komodo (π.χ. %1)</translation>
+        <source>Enter a Squishy address (e.g. %1)</source>
+        <translation>Εισάγετε μια διεύθυνση Squishy (π.χ. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1373,8 +1373,8 @@
         <translation>Αυτή είναι μια απλή πληρωμή.</translation>
     </message>
     <message>
-        <source>The Komodo address to send the payment to</source>
-        <translation>Η διεύθυνση Komodo που θα σταλεί η πληρωμή</translation>
+        <source>The Squishy address to send the payment to</source>
+        <translation>Η διεύθυνση Squishy που θα σταλεί η πληρωμή</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1430,8 +1430,8 @@
         <translation>&amp;Υπογραφή Μηνύματος</translation>
     </message>
     <message>
-        <source>The Komodo address to sign the message with</source>
-        <translation>Διεύθυνση Komodo που θα σταλεί το μήνυμα</translation>
+        <source>The Squishy address to sign the message with</source>
+        <translation>Διεύθυνση Squishy που θα σταλεί το μήνυμα</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -1462,8 +1462,8 @@
         <translation>Αντέγραφη της επιλεγμενης διεύθυνσης στο πρόχειρο του συστηματος</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Komodo address</source>
-        <translation>Υπογράψτε ένα μήνυμα για ν' αποδείξετε πως σας ανήκει μια συγκεκριμένη διεύθυνση Komodo</translation>
+        <source>Sign the message to prove you own this Squishy address</source>
+        <translation>Υπογράψτε ένα μήνυμα για ν' αποδείξετε πως σας ανήκει μια συγκεκριμένη διεύθυνση Squishy</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1482,12 +1482,12 @@
         <translation>&amp;Επιβεβαίωση μηνύματος</translation>
     </message>
     <message>
-        <source>The Komodo address the message was signed with</source>
-        <translation>Διεύθυνση Komodo η οποία το μήνυμα έχει υπογραφεί</translation>
+        <source>The Squishy address the message was signed with</source>
+        <translation>Διεύθυνση Squishy η οποία το μήνυμα έχει υπογραφεί</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Komodo address</source>
-        <translation>Υπογράψτε ένα μήνυμα για ν' αποδείξετε πως υπογραφθηκε απο μια συγκεκριμένη διεύθυνση Komodo</translation>
+        <source>Verify the message to ensure it was signed with the specified Squishy address</source>
+        <translation>Υπογράψτε ένα μήνυμα για ν' αποδείξετε πως υπογραφθηκε απο μια συγκεκριμένη διεύθυνση Squishy</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -1699,8 +1699,8 @@
         <translation>Εκτέλεση στο παρασκήνιο κι αποδοχή εντολών</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>

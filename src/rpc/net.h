@@ -4,7 +4,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 /******************************************************************************
- * Copyright © 2021 Komodo Core Developers                                    *
+ * Copyright © 2021 Squishy Core Developers                                    *
  *                                                                            *
  * See the AUTHORS, DEVELOPER-AGREEMENT and LICENSE files at                  *
  * the top-level directory of this distribution for the individual copyright  *

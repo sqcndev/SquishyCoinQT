@@ -230,8 +230,8 @@
         <translation>&amp;Проверить сообщение...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -442,8 +442,8 @@
         <translation>Пробросить порт через &amp;UPnP</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
-        <translation>Подключится к сети Komodo через SOCKS5 прокси.</translation>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
+        <translation>Подключится к сети Squishy через SOCKS5 прокси.</translation>
     </message>
     <message>
         <source>Proxy &amp;IP:</source>
@@ -522,8 +522,8 @@
 <context>
     <name>QObject</name>
     <message>
-        <source>Enter a Komodo address (e.g. %1)</source>
-        <translation>Введите Komodo-адрес (напр. %1)</translation>
+        <source>Enter a Squishy address (e.g. %1)</source>
+        <translation>Введите Squishy-адрес (напр. %1)</translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
@@ -836,8 +836,8 @@
 <context>
     <name>squishy-core</name>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</source>

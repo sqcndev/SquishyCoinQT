@@ -126,8 +126,8 @@
         <translation>Abrir &amp;URL...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Enviando monedas a una dirección de Komodo</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Enviando monedas a una dirección de Squishy</translation>
     </message>
     <message>
         <source>Change the passphrase used for wallet encryption</source>
@@ -146,8 +146,8 @@
         <translation>&amp;Verificar Mensaje...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -296,8 +296,8 @@
 <context>
     <name>squishy-core</name>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>Insufficient funds</source>

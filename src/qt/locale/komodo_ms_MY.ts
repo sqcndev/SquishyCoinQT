@@ -63,12 +63,12 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation>alamat-alamat penerimaan</translation>
     </message>
     <message>
-        <source>These are your Komodo addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Ini adalah alamat Komodo anda untuk pembayaran. Periksa jumlah dan alamat penerima sebelum membuat penghantaran koin sentiasa.</translation>
+        <source>These are your Squishy addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Ini adalah alamat Squishy anda untuk pembayaran. Periksa jumlah dan alamat penerima sebelum membuat penghantaran koin sentiasa.</translation>
     </message>
     <message>
-        <source>These are your Komodo addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Ini adalah alamat Komodo anda untuk menerima pembayaraan.  Anda disyorkan untuk menguna alamat menerima untuk setiap transaksi.</translation>
+        <source>These are your Squishy addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Ini adalah alamat Squishy anda untuk menerima pembayaraan.  Anda disyorkan untuk menguna alamat menerima untuk setiap transaksi.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -323,8 +323,8 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation>Reindexi blok pada cakera...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Menghantar koin kepada alamat Komodo</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Menghantar koin kepada alamat Squishy</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>

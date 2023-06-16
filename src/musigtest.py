@@ -16,7 +16,7 @@ def def_credentials(chain):
     rpcport = '';
     operating_system = platform.system()
     if operating_system == 'Darwin':
-        ac_dir = os.environ['HOME'] + '/Library/Application Support/Komodo'
+        ac_dir = os.environ['HOME'] + '/Library/Application Support/Squishy'
     elif operating_system == 'Linux':
         ac_dir = os.environ['HOME'] + '/.squishy'
     elif operating_system == 'Windows':

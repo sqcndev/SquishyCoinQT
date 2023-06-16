@@ -467,7 +467,7 @@ UniValue getrawtransaction(const UniValue& params, bool fHelp, const CPubKey& my
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"squishyaddress\"          (string) Komodo address\n"
+            "           \"squishyaddress\"          (string) Squishy address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
@@ -808,7 +808,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp, const CPubKey&
                 }
             }
             else {
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Komodo address or script: ") + name_);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Squishy address or script: ") + name_);
             }
 
             if (!(fExperimentalMode && IS_SQUISHY_NOTARY)) {
@@ -942,7 +942,7 @@ UniValue decodescript(const UniValue& params, bool fHelp, const CPubKey& mypk)
             "  \"type\":\"type\", (string) The output type\n"
             "  \"reqSigs\": n,    (numeric) The required signatures\n"
             "  \"addresses\": [   (json array of string)\n"
-            "     \"address\"     (string) Komodo address\n"
+            "     \"address\"     (string) Squishy address\n"
             "     ,...\n"
             "  ],\n"
             "  \"p2sh\",\"address\" (string) script address\n"

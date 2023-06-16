@@ -90,8 +90,8 @@
         <translation>&amp;செய்தியை சரிசெய்...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -708,8 +708,8 @@
 <context>
     <name>squishy-core</name>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo மையம்</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy மையம்</translation>
     </message>
     <message>
         <source>(default: %u)</source>

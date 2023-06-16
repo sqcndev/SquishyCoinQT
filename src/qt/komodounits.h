@@ -41,7 +41,7 @@
 #define THIN_SP_UTF8 REAL_THIN_SP_UTF8
 #define THIN_SP_HTML HTML_HACK_SP
 
-/** Komodo unit definitions. Encapsulates parsing and formatting
+/** Squishy unit definitions. Encapsulates parsing and formatting
    and serves as list model for drop-down selection boxes.
 */
 class KomodoUnits: public QAbstractListModel
@@ -51,7 +51,7 @@ class KomodoUnits: public QAbstractListModel
 public:
     explicit KomodoUnits(QObject *parent);
 
-    /** Komodo units.
+    /** Squishy units.
       @note Source: https://en.squishy.it/wiki/Units . Please add only sensible ones
      */
     enum Unit

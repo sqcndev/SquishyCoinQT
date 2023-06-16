@@ -2,7 +2,7 @@ Target x86-unicode
 ; SetCompressor lzma
 
 ; Settings 
-Name "KomodoOcean (Komodo-Qt)"
+Name "KomodoOcean (Squishy-Qt)"
 OutFile "squishy-qt-install.exe"
 RequestExecutionLevel admin
 InstallDir "$PROGRAMFILES64\KomodoOcean"
@@ -19,10 +19,10 @@ Page instfiles
 
 ;--------------------------------
 
-Section "Install Komodo-Qt (GUI)" Section1
+Section "Install Squishy-Qt (GUI)" Section1
   SetOutPath $INSTDIR
   File "content\squishy-qt-win.exe"
-  CreateShortCut "$DESKTOP\Komodo-Qt.lnk" "$INSTDIR\squishy-qt-win.exe"
+  CreateShortCut "$DESKTOP\Squishy-Qt.lnk" "$INSTDIR\squishy-qt-win.exe"
 SectionEnd
 
 Section "Download ZCash Params" Section3
@@ -92,8 +92,8 @@ SectionEnd
 
 Section "Create squishy.conf" Section2
   SetOverwrite on
-  CreateDirectory "$APPDATA\Komodo"  
-  SetOutPath $APPDATA\Komodo
+  CreateDirectory "$APPDATA\Squishy"  
+  SetOutPath $APPDATA\Squishy
   File "content\squishy.conf"
 SectionEnd
 

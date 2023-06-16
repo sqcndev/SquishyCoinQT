@@ -133,7 +133,7 @@ public:
     CZCSproutPaymentAddress(const libzcash::SproutPaymentAddress& addr) { Set(addr); }
 };
 
-/** base58-encoded Komodo addresses.
+/** base58-encoded Squishy addresses.
  * Public-key-hash-addresses have version 0 (or 111 testnet).
  * The data vector contains RIPEMD160(SHA256(pubkey)), where pubkey is the serialized public key.
  * Script-hash-addresses have version 5 (or 196 testnet).

@@ -29,16 +29,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Komodo-Qt</string>
+  <string>Squishy-Qt</string>
 
   <key>CFBundleName</key>
-  <string>Komodo-Qt</string>
+  <string>Squishy-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.squishyplatform.Komodo-Qt</string>
+  <string>org.squishyplatform.Squishy-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>

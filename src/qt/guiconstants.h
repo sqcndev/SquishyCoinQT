@@ -46,7 +46,7 @@ static const int MAX_URI_LENGTH = 255;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
-#define QAPP_ORG_NAME "Komodo"
+#define QAPP_ORG_NAME "Squishy"
 #define QAPP_ORG_DOMAIN "squishy.org"
 #define QAPP_APP_NAME_DEFAULT "KomodoOceanGUI"
 #define QAPP_APP_NAME_TESTNET "KomodoOceanGUI-testnet"

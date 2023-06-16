@@ -114,8 +114,8 @@
         <translation>Newid y cyfrinymadrodd a ddefnyddiwyd ar gyfer amgryptio'r waled</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -484,8 +484,8 @@
         <translation>Opsiynau:</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Craidd Komodo</translation>
+        <source>Squishy Core</source>
+        <translation>Craidd Squishy</translation>
     </message>
     <message>
         <source>Information</source>

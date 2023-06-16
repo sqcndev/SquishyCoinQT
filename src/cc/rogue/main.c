@@ -551,7 +551,7 @@ uint16_t squishy_userpass(char *userpass,const char *symbol)
     if ( strcmp("KMD",symbol) == 0 )
     {
 #ifdef __APPLE__
-        sprintf(confname,"Komodo.conf");
+        sprintf(confname,"Squishy.conf");
 #else
         sprintf(confname,"squishy.conf");
 #endif

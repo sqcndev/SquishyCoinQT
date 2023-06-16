@@ -1,6 +1,6 @@
 #pragma once
 /******************************************************************************
- * Copyright © 2021 Komodo Core developers                                    *
+ * Copyright © 2021 Squishy Core developers                                    *
  *                                                                            *
  * See the AUTHORS, DEVELOPER-AGREEMENT and LICENSE files at                  *
  * the top-level directory of this distribution for the individual copyright  *

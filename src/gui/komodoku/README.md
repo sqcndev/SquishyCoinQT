@@ -1,6 +1,6 @@
 About
 -----
-Komodo SudokuCC GUI
+Squishy SudokuCC GUI
 
 Just solve Sudoku and earn SUDOKU coins!
 

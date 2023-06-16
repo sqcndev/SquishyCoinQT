@@ -341,7 +341,7 @@ def main():
     # Assetchain hardcoded here
     chain = 'SUDOKU'
     try:
-      print 'Welcome to the Komodo SudokuCC'
+      print 'Welcome to the Squishy SudokuCC'
       rpc_connection = sudoku_kmdlib.def_credentials(chain)
       pending_puzzles = rpc_connection.cclib("pending", "17")["pending"]
       puzzle_list = []

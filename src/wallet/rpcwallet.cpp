@@ -351,7 +351,7 @@ UniValue setaccount(const UniValue& params, bool fHelp, const CPubKey& mypk)
 
     CTxDestination dest = DecodeDestination(params[0].get_str());
     if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Komodo address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Squishy address");
     }
 
     string strAccount;
@@ -398,7 +398,7 @@ UniValue getaccount(const UniValue& params, bool fHelp, const CPubKey& mypk)
 
     CTxDestination dest = DecodeDestination(params[0].get_str());
     if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Komodo address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Squishy address");
     }
 
     std::string strAccount;
@@ -535,7 +535,7 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp, const CPubKey& mypk)
 
     CTxDestination dest = DecodeDestination(params[0].get_str());
     if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Komodo address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Squishy address");
     }
 
     // Amount
@@ -721,7 +721,7 @@ UniValue kvupdate(const UniValue& params, bool fHelp, const CPubKey& mypk)
         ret.push_back(Pair("fee",(double)fee/COIN));
         CBitcoinAddress destaddress(CRYPTO777_KMDADDR);
         if (!destaddress.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid dest Komodo address");
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid dest Squishy address");
         SendMoney(destaddress.Get(),10000,false,wtx,opretbuf,opretlen,fee);
         ret.push_back(Pair("txid",wtx.GetHash().GetHex()));
     } else ret.push_back(Pair("error",(char *)"null key"));
@@ -868,7 +868,7 @@ UniValue getreceivedbyaddress(const UniValue& params, bool fHelp, const CPubKey&
     // Bitcoin address
     CTxDestination dest = DecodeDestination(params[0].get_str());
     if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Komodo address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Squishy address");
     }
     CScript scriptPubKey = GetScriptForDestination(dest);
     if (!IsMine(*pwalletMain, scriptPubKey)) {
@@ -1322,7 +1322,7 @@ UniValue sendfrom(const UniValue& params, bool fHelp, const CPubKey& mypk)
     std::string strAccount = AccountFromValue(params[0]);
     CTxDestination dest = DecodeDestination(params[1].get_str());
     if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Komodo address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Squishy address");
     }
     CAmount nAmount = AmountFromValue(params[2]);
     if (nAmount <= 0)
@@ -1425,7 +1425,7 @@ UniValue sendmany(const UniValue& params, bool fHelp, const CPubKey& mypk)
             CScript tmpspk;
             tmpspk << ParseHex(name_) << OP_CHECKSIG;
             if ( !ExtractDestination(tmpspk, dest, true) )
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Komodo address or pubkey: ") + name_);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Squishy address or pubkey: ") + name_);
         }
         CScript scriptPubKey = GetScriptForDestination(dest);
         
@@ -2536,7 +2536,7 @@ UniValue encryptwallet(const UniValue& params, bool fHelp, const CPubKey& mypk)
     // slack space in .dat files; that is bad if the old data is
     // unencrypted private keys. So:
     StartShutdown();
-    return "wallet encrypted; Komodo server stopping, restart to run with encrypted wallet. The keypool has been flushed, you need to make a new backup.";
+    return "wallet encrypted; Squishy server stopping, restart to run with encrypted wallet. The keypool has been flushed, you need to make a new backup.";
 }
 
 UniValue lockunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
@@ -2797,7 +2797,7 @@ UniValue listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
             "    \"txid\" : \"txid\",          (string) the transaction id \n"
             "    \"vout\" : n,               (numeric) the vout value\n"
             "    \"generated\" : true|false  (boolean) true if txout is a coinbase transaction output\n"
-            "    \"address\" : \"address\",    (string) the Komodo address\n"
+            "    \"address\" : \"address\",    (string) the Squishy address\n"
             "    \"account\" : \"account\",    (string) DEPRECATED. The associated account, or \"\" for the default account\n"
             "    \"scriptPubKey\" : \"key\",   (string) the script key\n"
             "    \"amount\" : x.xxx,         (numeric) the transaction amount in " + CURRENCY_UNIT + "\n"
@@ -2831,7 +2831,7 @@ UniValue listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
             const UniValue& input = inputs[idx];
             CTxDestination dest = DecodeDestination(input.get_str());
             if (!IsValidDestination(dest)) {
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Komodo address: ") + input.get_str());
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Squishy address: ") + input.get_str());
             }
             if (!destinations.insert(dest).second) {
                 throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ") + input.get_str());

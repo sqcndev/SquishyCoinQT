@@ -89,7 +89,7 @@ def def_credentials(chain):
     rpcport ='';
     operating_system = platform.system()
     if operating_system == 'Darwin':
-        ac_dir = os.environ['HOME'] + '/Library/Application Support/Komodo'
+        ac_dir = os.environ['HOME'] + '/Library/Application Support/Squishy'
     elif operating_system == 'Linux':
         ac_dir = os.environ['HOME'] + '/.squishy'
     elif operating_system == 'Win64' or operating_system == 'Windows':
@@ -1953,7 +1953,7 @@ def check_if_config_is_here(rpc_connection, assetchain_name):
         print(colorize("Config is already in daemon folder", "green"))
     else:
         if operating_system == 'Darwin':
-            path_to_config = os.environ['HOME'] + '/Library/Application Support/Komodo/' + assetchain_name + '/' + config_name
+            path_to_config = os.environ['HOME'] + '/Library/Application Support/Squishy/' + assetchain_name + '/' + config_name
         elif operating_system == 'Linux':
             path_to_config = os.environ['HOME'] + '/.squishy/' + assetchain_name + '/' + config_name
         elif operating_system == 'Win64' or operating_system == 'Windows':

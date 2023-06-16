@@ -136,7 +136,7 @@ int32_t squishy_notaries(uint8_t pubkeys[64][33],int32_t height,uint32_t timesta
     else if ( timestamp == 0 )
         timestamp = squishy_heightstamp(height); // derive the timestamp from the passed-in height
 
-    // If this chain is not a staked chain, use the normal Komodo logic to determine notaries. 
+    // If this chain is not a staked chain, use the normal Squishy logic to determine notaries. 
     // This allows KMD to still sync and use its proper pubkeys for dPoW.
     if ( is_STAKED(chainName.symbol()) == 0 )
     {

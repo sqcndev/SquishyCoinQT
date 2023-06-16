@@ -29,7 +29,7 @@ class QUrl;
 class QWidget;
 QT_END_NAMESPACE
 
-/** Utility functions used by the Komodo Qt UI.
+/** Utility functions used by the Squishy Qt UI.
  */
 namespace GUIUtil
 {

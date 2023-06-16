@@ -16,8 +16,8 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Komodo"
-            VALUE "FileDescription",    "squishy-cli (JSON-RPC client for Komodo)"
+            VALUE "CompanyName",        "Squishy"
+            VALUE "FileDescription",    "squishy-cli (JSON-RPC client for Squishy)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
             VALUE "InternalName",       "squishy-cli"
             VALUE "LegalCopyright",     COPYRIGHT_STR

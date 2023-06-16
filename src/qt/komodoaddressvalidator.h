@@ -22,7 +22,7 @@ private:
     bool _allowZAddresses;
 };
 
-/** Komodo address widget validator, checks for a valid squishy address.
+/** Squishy address widget validator, checks for a valid squishy address.
  */
 class KomodoAddressCheckValidator : public QValidator
 {

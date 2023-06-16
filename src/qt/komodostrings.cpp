@@ -9,7 +9,7 @@
 #define UNUSED
 #endif
 static const char UNUSED *squishy_strings[] = {
-QT_TRANSLATE_NOOP("squishy-core", "Komodo Core"),
+QT_TRANSLATE_NOOP("squishy-core", "Squishy Core"),
 QT_TRANSLATE_NOOP("squishy-core", "The %s developers"),
 QT_TRANSLATE_NOOP("squishy-core", ""
 "(1 = keep tx meta data e.g. account owner and payment request information, 2 "

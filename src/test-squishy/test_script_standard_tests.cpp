@@ -182,7 +182,7 @@ namespace TestScriptStandartTests {
         s << OP_RETURN << std::vector<unsigned char>({75}) << OP_ADD;
         ASSERT_TRUE(!Solver(s, whichType, solutions));
 
-        /* witness tests are absent, bcz Komodo doesn't support witness */
+        /* witness tests are absent, bcz Squishy doesn't support witness */
     }
 
     TEST(TestScriptStandartTests, script_standard_ExtractDestination) {

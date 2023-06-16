@@ -114,7 +114,7 @@ public:
     }
 };
 
-/** Interface to Komodo wallet from Qt view code. */
+/** Interface to Squishy wallet from Qt view code. */
 class WalletModel : public QObject
 {
     Q_OBJECT

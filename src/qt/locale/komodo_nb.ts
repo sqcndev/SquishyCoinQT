@@ -62,12 +62,12 @@
         <translation>Mottaksadresser</translation>
     </message>
     <message>
-        <source>These are your Komodo addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Dette er dine Komodo-adresser for sending av betalinger. Sjekk alltid beløpet og mottakeradressen før sending av mynter.</translation>
+        <source>These are your Squishy addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Dette er dine Squishy-adresser for sending av betalinger. Sjekk alltid beløpet og mottakeradressen før sending av mynter.</translation>
     </message>
     <message>
-        <source>These are your Komodo addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Dette er dine Komodo-adresser for å sende betalinger med. Det er anbefalt å bruke en ny mottaksadresse for hver transaksjon.</translation>
+        <source>These are your Squishy addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Dette er dine Squishy-adresser for å sende betalinger med. Det er anbefalt å bruke en ny mottaksadresse for hver transaksjon.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -334,8 +334,8 @@
         <translation>Reindekserer blokker på harddisk...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Send til en Komodo-adresse</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Send til en Squishy-adresse</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -358,8 +358,8 @@
         <translation>&amp;Verifiser melding...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -386,12 +386,12 @@
         <translation>Krypter de private nøklene som tilhører lommeboken din</translation>
     </message>
     <message>
-        <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Signer en melding med Komodo-adressene dine for å bevise at du eier dem</translation>
+        <source>Sign messages with your Squishy addresses to prove you own them</source>
+        <translation>Signer en melding med Squishy-adressene dine for å bevise at du eier dem</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Bekreft meldinger for å være sikker på at de ble signert av en angitt Komodo-adresse</translation>
+        <source>Verify messages to ensure they were signed with specified Squishy addresses</source>
+        <translation>Bekreft meldinger for å være sikker på at de ble signert av en angitt Squishy-adresse</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -423,15 +423,15 @@
     </message>
     <message>
         <source>Open a squishy: URI or payment request</source>
-        <translation>Åpne en Komodo: URI eller betalingsetterspørring</translation>
+        <translation>Åpne en Squishy: URI eller betalingsetterspørring</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>&amp;Kommandolinjevalg</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Komodo network</source>
-        <translation><numerusform>%n aktiv forbindelse til Komodo-nettverket</numerusform><numerusform>%n aktive forbindelser til Komodo-nettverket</numerusform></translation>
+        <source>%n active connection(s) to Squishy network</source>
+        <translation><numerusform>%n aktiv forbindelse til Squishy-nettverket</numerusform><numerusform>%n aktive forbindelser til Squishy-nettverket</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Processed %n block(s) of transaction history.</source>
@@ -524,8 +524,8 @@
         <translation>Lommeboken er &lt;b&gt;kryptert&lt;/b&gt; og for tiden &lt;b&gt;låst&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Komodo can no longer continue safely and will quit.</source>
-        <translation>En fatal feil har inntruffet. Komodo kan ikke lenger trygt fortsette, og må derfor avslutte.</translation>
+        <source>A fatal error occurred. Squishy can no longer continue safely and will quit.</source>
+        <translation>En fatal feil har inntruffet. Squishy kan ikke lenger trygt fortsette, og må derfor avslutte.</translation>
     </message>
 </context>
 <context>
@@ -952,16 +952,16 @@
         <translation>&amp;Bruk ubekreftet veksel</translation>
     </message>
     <message>
-        <source>Automatically open the Komodo client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Åpne automatisk Komodo klientporten på ruteren. Dette virker kun om din ruter støtter UPnP og dette er påslått.</translation>
+        <source>Automatically open the Squishy client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Åpne automatisk Squishy klientporten på ruteren. Dette virker kun om din ruter støtter UPnP og dette er påslått.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>Sett opp port ved hjelp av &amp;UPnP</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a SOCKS5 proxy.</source>
-        <translation>Koble til Komodo-nettverket gjennom en SOCKS5 proxy.</translation>
+        <source>Connect to the Squishy network through a SOCKS5 proxy.</source>
+        <translation>Koble til Squishy-nettverket gjennom en SOCKS5 proxy.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1000,8 +1000,8 @@
         <translation>Tor</translation>
     </message>
     <message>
-        <source>Connect to the Komodo network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>Koble til Komodo-nettverket gjennom en separat SOCKS5 mellomtjener for Tor skjulte tjenester.</translation>
+        <source>Connect to the Squishy network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <translation>Koble til Squishy-nettverket gjennom en separat SOCKS5 mellomtjener for Tor skjulte tjenester.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
@@ -1095,8 +1095,8 @@
         <translation>Skjema</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Komodo network after a connection is established, but this process has not completed yet.</source>
-        <translation>Informasjonen som vises kan være foreldet. Din lommebok synkroniseres automatisk med Komodo-nettverket etter at tilkobling er opprettet, men denne prosessen er ikke ferdig enda.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Squishy network after a connection is established, but this process has not completed yet.</source>
+        <translation>Informasjonen som vises kan være foreldet. Din lommebok synkroniseres automatisk med Squishy-nettverket etter at tilkobling er opprettet, men denne prosessen er ikke ferdig enda.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1184,8 +1184,8 @@
         <translation>Beløp</translation>
     </message>
     <message>
-        <source>Enter a Komodo address (e.g. %1)</source>
-        <translation>Oppgi en Komodo-adresse (f.eks. %1)</translation>
+        <source>Enter a Squishy address (e.g. %1)</source>
+        <translation>Oppgi en Squishy-adresse (f.eks. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1560,8 +1560,8 @@
         <translation>Gj&amp;enbruk en eksisterende mottaksadresse (ikke anbefalt)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Komodo network.</source>
-        <translation>En valgfri melding å tilknytte betalingsetterspørringen, som vil bli vist når forespørselen er åpnet. Meldingen vil ikke bli sendt med betalingen over Komodo-nettverket.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Squishy network.</source>
+        <translation>En valgfri melding å tilknytte betalingsetterspørringen, som vil bli vist når forespørselen er åpnet. Meldingen vil ikke bli sendt med betalingen over Squishy-nettverket.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1746,7 +1746,7 @@
     </message>
     <message>
         <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for squishy transactions than the network can process.</source>
-        <translation>Betaling av bare minimumsavgiften går helt fint så lenge det er mindre transaksjonsvolum enn plass i blokkene. Men vær klar over at dette kan ende opp i en transaksjon som aldri blir bekreftet når det er mer etterspørsel etter Komodo-transaksjoner enn nettverket kan behandle.</translation>
+        <translation>Betaling av bare minimumsavgiften går helt fint så lenge det er mindre transaksjonsvolum enn plass i blokkene. Men vær klar over at dette kan ende opp i en transaksjon som aldri blir bekreftet når det er mer etterspørsel etter Squishy-transaksjoner enn nettverket kan behandle.</translation>
     </message>
     <message>
         <source>(read the tooltip)</source>
@@ -1852,8 +1852,8 @@
         <translation>Dette er en normal betaling.</translation>
     </message>
     <message>
-        <source>The Komodo address to send the payment to</source>
-        <translation>Komodo-adressen betalingen skal sendes til</translation>
+        <source>The Squishy address to send the payment to</source>
+        <translation>Squishy-adressen betalingen skal sendes til</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1896,8 +1896,8 @@
         <translation>Skriv inn en merkelapp for denne adressen for å legge den til listen av brukte adresser</translation>
     </message>
     <message>
-        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
-        <translation>En melding som var tilknyttet squishyen: URI vil bli lagret med transaksjonen for din oversikt. Denne meldingen vil ikke bli sendt over Komodo-nettverket.</translation>
+        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Squishy network.</source>
+        <translation>En melding som var tilknyttet squishyen: URI vil bli lagret med transaksjonen for din oversikt. Denne meldingen vil ikke bli sendt over Squishy-nettverket.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -1941,8 +1941,8 @@
         <translation>Du kan signere meldinger/avtaler med adresser for å bevise at du kan motta squishys sendt til dem. Vær forsiktig med å signere noe vagt eller tilfeldig, siden phishing-angrep kan prøve å lure deg til å signere din identitet over til dem. Bare signer fullt detaljerte utsagn som du er enig i.</translation>
     </message>
     <message>
-        <source>The Komodo address to sign the message with</source>
-        <translation>Komodo-adressen meldingen skal signeres med</translation>
+        <source>The Squishy address to sign the message with</source>
+        <translation>Squishy-adressen meldingen skal signeres med</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -1973,8 +1973,8 @@
         <translation>Kopier valgt signatur til utklippstavle</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Komodo address</source>
-        <translation>Signer meldingen for å bevise at du eier denne Komodo-adressen</translation>
+        <source>Sign the message to prove you own this Squishy address</source>
+        <translation>Signer meldingen for å bevise at du eier denne Squishy-adressen</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1997,12 +1997,12 @@
         <translation>Skriv inn mottakerens adresse, melding (forsikre deg om at du kopier linjeskift, mellomrom, faner osv. nøyaktig) og underskrift nedenfor for å bekrefte meldingen. Vær forsiktig så du ikke leser mer ut av signaturen enn hva som er i den signerte meldingen i seg selv, for å unngå å bli lurt av et man-in-the-middle-angrep. Merk at dette bare beviser at den som signerer kan motta med adressen, dette beviser ikke hvem som har sendt transaksjoner!</translation>
     </message>
     <message>
-        <source>The Komodo address the message was signed with</source>
-        <translation>Komodo-adressen meldingen ble signert med</translation>
+        <source>The Squishy address the message was signed with</source>
+        <translation>Squishy-adressen meldingen ble signert med</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Komodo address</source>
-        <translation>Verifiser meldingen for å være sikker på at den ble signert av den angitte Komodo-adressen</translation>
+        <source>Verify the message to ensure it was signed with the specified Squishy address</source>
+        <translation>Verifiser meldingen for å være sikker på at den ble signert av den angitte Squishy-adressen</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -2246,8 +2246,8 @@
         <translation>Kunne ikke starte HTTP server. Se debug logg for detaljer.</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>

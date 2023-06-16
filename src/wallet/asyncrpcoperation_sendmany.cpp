@@ -367,13 +367,13 @@ bool AsyncRPCOperation_sendmany::main_impl() {
                 CAmount amount = std::get<2>(t);
                 builder_.AddTransparentInput(COutPoint(txid, vout), scriptPubKey, amount);
             }
-            // for Komodo, set lock time to accure interest, for other chains, set
+            // for Squishy, set lock time to accure interest, for other chains, set
             // locktime to spend time locked coinbases
             if (chainName.isKMD())
             {
                 //if ((uint32_t)chainActive.Tip()->nTime < ASSETCHAINS_STAKED_HF_TIMESTAMP)
                 if ( !squishy_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
-                    builder_.SetLockTime((uint32_t)time(NULL) - 60); // set lock time for Komodo interest
+                    builder_.SetLockTime((uint32_t)time(NULL) - 60); // set lock time for Squishy interest
                 else
                     builder_.SetLockTime((uint32_t)chainActive.Tip()->GetMedianTimePast());
             }

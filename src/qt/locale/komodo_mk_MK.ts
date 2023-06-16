@@ -138,16 +138,16 @@
         <translation>Повторно индексирање на блокови од дискот...</translation>
     </message>
     <message>
-        <source>Send coins to a Komodo address</source>
-        <translation>Испрати squishy на Komodo адреса</translation>
+        <source>Send coins to a Squishy address</source>
+        <translation>Испрати squishy на Squishy адреса</translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
         <translation>&amp;Потврди порака...</translation>
     </message>
     <message>
-        <source>Komodo</source>
-        <translation>Komodo</translation>
+        <source>Squishy</source>
+        <translation>Squishy</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -578,8 +578,8 @@
         <translation>Опции:</translation>
     </message>
     <message>
-        <source>Komodo Core</source>
-        <translation>Komodo Core</translation>
+        <source>Squishy Core</source>
+        <translation>Squishy Core</translation>
     </message>
     <message>
         <source>Warning</source>

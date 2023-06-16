@@ -1,19 +1,26 @@
-# KomodoOcean (komodo-qt) #
+# Squishy-qt
 
-![Downloads](https://img.shields.io/github/downloads/DeckerSU/KomodoOcean/total)
+![](./doc/images/squishy-logo.png)
 
-![](./doc/images/komodo-qt-promo-2020-01.jpg)
+Squishy-Qt is a Qt native wallet for SQCN. It's available for three OS platforms - Windows, Linux, MacOS.
 
-Komodo-Qt (KomodoOcean) is a world-first Qt native wallet for KMD ([Komodo](https://komodoplatform.com/)) and smartchains (assetchains). It's available for three OS platforms - Windows, Linux, MacOS.
-
-Use the default `static` branch and following scripts to build:
+Use the following scripts to build:
 
 - Linux: `build.sh` (native build)
 - Windows: `build-win.sh` (cross-compilation for Win)
 - MacOS: `build-mac-cross.sh` (cross-compilation for OSX)
 - MacOS: `build-mac.sh` (native build)
 
-Visit `#🤝│general-support` or `#wallet-ocean-qt` channel in [Komodo Discord](https://komodoplatform.com/discord) for more information.
+## Coin Info 
+- 23,000,000 max coin amount
+- 100 coin block reward for era 1 (6 total eras 100, 25, 12.5, 6.25, 3.125, 1.5625)
+- 7 min block time
+- 25% staking rewards
+- 1,468,750 pre-mine (6.4% of total coin) to be used for exchange listing, liquidity, faucet.
+	Community to vote on other uses, wallet address to be posted publicly!
+## Connect
+
+Discord Server ([SquishyCoin](https://discord.gg/zxbBrzAqhZ))
 
 ## How to build? ##
 
@@ -25,7 +32,7 @@ sudo apt-get install build-essential pkg-config libc6-dev m4 g++-multilib autoco
 ```
 
 ```shell
-git clone https://github.com/DeckerSU/KomodoOcean --branch static --single-branch
+git clone https://github.com/sqcndev/SquishyCoinQT-V0.8.git
 cd komodo
 ./zcutil/fetch-params.sh
 # -j8 = using 8 threads for the compilation - replace 8 with number of threads you want to use
@@ -65,7 +72,7 @@ brew install protobuf
 brew install coreutils
 brew install wget
 # Clone the Komodo repo
-git clone https://github.com/DeckerSU/KomodoOcean --branch static --single-branch
+git clone https://github.com/sqcndev/SquishyCoinQT-V0.8.git
 # Change master branch to other branch you wish to compile
 cd komodo
 ./zcutil/fetch-params.sh
@@ -100,7 +107,7 @@ sudo update-alternatives --config x86_64-w64-mingw32-gcc
 sudo update-alternatives --config x86_64-w64-mingw32-g++
 # (configure to use POSIX variant)
 
-git clone https://github.com/DeckerSU/KomodoOcean --branch static --single-branch
+git clone https://github.com/sqcndev/SquishyCoinQT-V0.8.git
 cd komodo
 ./zcutil/fetch-params.sh
 # -j8 = using 8 threads for the compilation - replace 8 with number of threads you want to use

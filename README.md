@@ -16,8 +16,7 @@ Use the following scripts to build:
 - 100 coin block reward for era 1 (6 total eras 100, 25, 12.5, 6.25, 3.125, 1.5625)
 - 7 min block time
 - 25% staking rewards
-- 1,468,750 pre-mine (6.4% of total coin) to be used for exchange listing, liquidity, faucet.
-	Community to vote on other uses, wallet address to be posted publicly!
+
 ## Connect
 
 Discord Server ([SquishyCoin](https://discord.gg/zxbBrzAqhZ))

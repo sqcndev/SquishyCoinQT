@@ -406,8 +406,8 @@
         <translation>Раздели</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Изискване на плащания(генерира QR кодове и komodo: URIs)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Изискване на плащания(генерира QR кодове и squishy: URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -418,8 +418,8 @@
         <translation>Покажи списък с използваните адреси и имена.</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Отворете komodo: URI  или заявка за плащане</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Отворете squishy: URI  или заявка за плащане</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1086,7 +1086,7 @@
         <translation>Възникна грешка по време назаявката за плащане</translation>
     </message>
     <message>
-        <source>Cannot start komodo: click-to-pay handler</source>
+        <source>Cannot start squishy: click-to-pay handler</source>
         <translation>Komodo не можe да се стартира: click-to-pay handler</translation>
     </message>
     <message>
@@ -2352,7 +2352,7 @@
     </message>
 </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Опции:</translation>

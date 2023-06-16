@@ -27,7 +27,7 @@
 #include "core_io.h"
 #include "crosschain.h"
 #include "hex.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 #define FAUCET2SIZE COIN
 #define EVAL_FAUCET2 EVAL_FIRSTUSER
@@ -51,7 +51,7 @@ std::string MYCCLIBNAME = (char *)"sudoku";
 #endif
 
 #ifndef BUILD_GAMESCC
-void komodo_netevent(std::vector<uint8_t> payload) {}
+void squishy_netevent(std::vector<uint8_t> payload) {}
 #endif
 
 extern std::string MYCCLIBNAME;
@@ -566,7 +566,7 @@ int64_t AddCClibtxfee(struct CCcontract_info *cp,CMutableTransaction &mtx,CPubKe
 
 std::string Faucet2Fund(struct CCcontract_info *cp,uint64_t txfee,int64_t funds)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk,cclibpk; CScript opret;
     if ( txfee == 0 )
         txfee = 10000;
@@ -582,7 +582,7 @@ std::string Faucet2Fund(struct CCcontract_info *cp,uint64_t txfee,int64_t funds)
 
 std::string CClib_rawtxgen(struct CCcontract_info *cp,uint8_t funcid,cJSON *params)
 {
-    CMutableTransaction tmpmtx,mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction tmpmtx,mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk,cclibpk; int64_t funds,txfee=0,inputs,CCchange=0,nValue=FAUCET2SIZE; std::string rawhex; uint32_t j; int32_t i,len; uint8_t buf[32768]; bits256 hash;
     if ( txfee == 0 )
         txfee = 10000;

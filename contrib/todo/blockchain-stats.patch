@@ -143,7 +143,7 @@ index 3492624..8861111 100644
 +    // TODO: we should think about operation cancel or thread interruption ...
 +
 +    uint8_t pubkeys[66][33];
-+    int32_t n = komodo_notaries(pubkeys,pindexWalk->GetHeight(),pindexWalk->GetBlockTime());
++    int32_t n = squishy_notaries(pubkeys,pindexWalk->GetHeight(),pindexWalk->GetBlockTime());
 +    int32_t id;
 +    
 +    // fill NN scripts vector
@@ -359,7 +359,7 @@ index 3492624..8861111 100644
 +            nSeason = params[0].get_int();
 +        else
 +        {
-+            // workaround for old komodo-cli, which probably pushes any unknown param as UniValue::VSTR
++            // workaround for old squishy-cli, which probably pushes any unknown param as UniValue::VSTR
 +            if (!ParseInt32(params[0].get_str(), &nSeason))
 +                throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid season (should be in [1.." + std::to_string(current_season) + "])");
 +        }

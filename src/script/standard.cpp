@@ -34,7 +34,7 @@ typedef vector<unsigned char> valtype;
 
 unsigned nMaxDatacarrierBytes = MAX_OP_RETURN_RELAY;
 
-bool komodo_is_vSolutionsFixActive(); // didn't want to bring komodo headers here, it's a special case to bypass bad code in Solver() and ExtractDestination() 
+bool squishy_is_vSolutionsFixActive(); // didn't want to bring squishy headers here, it's a special case to bypass bad code in Solver() and ExtractDestination() 
 
 COptCCParams::COptCCParams(std::vector<unsigned char> &vch)
 {
@@ -253,7 +253,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<std::v
                     ptr[i] = hash20[i];
                 vSolutionsRet.push_back(hashBytes);
 
-                if (!komodo_is_vSolutionsFixActive()) 
+                if (!squishy_is_vSolutionsFixActive()) 
                 {
                     // allow this code before the hardfork if anyone might accidentally try it
                     if (vParams.size())
@@ -398,7 +398,7 @@ bool ExtractDestination(const CScript& _scriptPubKey, CTxDestination& addressRet
 
     else if (IsCryptoConditionsEnabled() != 0 && whichType == TX_CRYPTOCONDITION)
     {
-        if (vSolutions.size() > 1 && !komodo_is_vSolutionsFixActive()) // allow this temporarily before the HF; actually this is incorrect to use opdrop's pubkey as the address
+        if (vSolutions.size() > 1 && !squishy_is_vSolutionsFixActive()) // allow this temporarily before the HF; actually this is incorrect to use opdrop's pubkey as the address
         {
             CPubKey pk = CPubKey((vSolutions[1]));
             addressRet = pk;

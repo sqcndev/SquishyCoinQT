@@ -15,7 +15,7 @@
 
 #include "CCassets.h"
 #include "CCtokens.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 UniValue AssetOrders(uint256 refassetid, CPubKey pk, uint8_t additionalEvalCode)
 {
@@ -158,7 +158,7 @@ UniValue AssetOrders(uint256 refassetid, CPubKey pk, uint8_t additionalEvalCode)
 // not used (use TokenCreate instead)
 /* std::string CreateAsset(int64_t txfee,int64_t assetsupply,std::string name,std::string description)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk; struct CCcontract_info *cp,C;
     if ( assetsupply < 0 )
     {
@@ -186,7 +186,7 @@ UniValue AssetOrders(uint256 refassetid, CPubKey pk, uint8_t additionalEvalCode)
 // not used (use TokenTransfer instead)
 /* std::string AssetTransfer(int64_t txfee,uint256 assetid,std::vector<uint8_t> destpubkey,int64_t total)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk; uint64_t mask; int64_t CCchange=0,inputs=0;  struct CCcontract_info *cp,C;
     if ( total < 0 )
     {
@@ -228,7 +228,7 @@ UniValue AssetOrders(uint256 refassetid, CPubKey pk, uint8_t additionalEvalCode)
 // deprecated
 /* std::string AssetConvert(int64_t txfee,uint256 assetid,std::vector<uint8_t> destpubkey,int64_t total,int32_t evalcode)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk; int64_t CCchange=0,inputs=0;  struct CCcontract_info *cp,C;
     if ( total < 0 )
     {
@@ -256,7 +256,7 @@ UniValue AssetOrders(uint256 refassetid, CPubKey pk, uint8_t additionalEvalCode)
 // rpc tokenbid implementation, locks 'bidamount' coins for the 'pricetotal' of tokens
 std::string CreateBuyOffer(int64_t txfee, int64_t bidamount, uint256 assetid, int64_t pricetotal)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk; 
 	struct CCcontract_info *cpAssets, C; 
 	uint256 hashBlock; 
@@ -313,7 +313,7 @@ std::string CreateBuyOffer(int64_t txfee, int64_t bidamount, uint256 assetid, in
 // rpc tokenask implementation, locks 'askamount' tokens for the 'pricetotal' 
 std::string CreateSell(int64_t txfee,int64_t askamount,uint256 assetid,int64_t pricetotal)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk; 
 	uint64_t mask; 
 	int64_t inputs, CCchange; 
@@ -382,7 +382,7 @@ std::string CreateSell(int64_t txfee,int64_t askamount,uint256 assetid,int64_t p
 ////////////////////////// NOT IMPLEMENTED YET/////////////////////////////////
 std::string CreateSwap(int64_t txfee,int64_t askamount,uint256 assetid,uint256 assetid2,int64_t pricetotal)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk; uint64_t mask; int64_t inputs,CCchange; CScript opret; struct CCcontract_info *cp,C;
 
 	////////////////////////// NOT IMPLEMENTED YET/////////////////////////////////
@@ -451,7 +451,7 @@ std::string CreateSwap(int64_t txfee,int64_t askamount,uint256 assetid,uint256 a
 // unlocks coins
 std::string CancelBuyOffer(int64_t txfee,uint256 assetid,uint256 bidtxid)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CTransaction vintx;	uint64_t mask;
 	uint256 hashBlock; int64_t bidamount; 
 	CPubKey mypk; struct CCcontract_info *cpAssets, C;
@@ -496,7 +496,7 @@ std::string CancelBuyOffer(int64_t txfee,uint256 assetid,uint256 bidtxid)
 //unlocks tokens
 std::string CancelSell(int64_t txfee,uint256 assetid,uint256 asktxid)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CTransaction vintx; uint64_t mask; 
 	uint256 hashBlock; 	int64_t askamount; 
 	CPubKey mypk; 
@@ -563,7 +563,7 @@ std::string CancelSell(int64_t txfee,uint256 assetid,uint256 asktxid)
 //send tokens, receive coins:
 std::string FillBuyOffer(int64_t txfee,uint256 assetid,uint256 bidtxid,int64_t fillamount)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CTransaction vintx; 
 	uint256 hashBlock; 
 	CPubKey mypk; 
@@ -651,7 +651,7 @@ std::string FillBuyOffer(int64_t txfee,uint256 assetid,uint256 bidtxid,int64_t f
 // send coins, receive tokens 
 std::string FillSell(int64_t txfee, uint256 assetid, uint256 assetid2, uint256 asktxid, int64_t fillunits)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CTransaction vintx,filltx; 
 	uint256 hashBlock; 
 	CPubKey mypk; 

@@ -24,7 +24,7 @@
 #include "script/sign.h"
 #include "wallet/wallet.h"
 #include "cc/CCinclude.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 
 /******
@@ -40,7 +40,7 @@ CTransaction MakeImportCoinTransaction(const ImportProof proof, const CTransacti
 {
     CScript scriptSig;
 
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     if (mtx.fOverwintered) 
         mtx.nExpiryHeight = 0;
     mtx.vout = payouts;

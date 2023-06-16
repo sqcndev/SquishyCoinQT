@@ -141,8 +141,8 @@ linux:QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra -Wno-igno
 
 # Input
 DEPENDPATH += .
-HEADERS += src\komodo_globals.h \
-     src\qt\komodooceangui.h \
+HEADERS += src\squishy_globals.h \
+     src\qt\squishyoceangui.h \
      src\qt\transactiontablemodel.h \
      src\qt\addresstablemodel.h \
      src\qt\zaddresstablemodel.h \
@@ -156,14 +156,14 @@ HEADERS += src\komodo_globals.h \
      src\qt\signverifymessagedialog.h \
      src\qt\editaddressdialog.h \
      src\qt\editzaddressdialog.h \
-     src\qt\komodoaddressvalidator.h \
+     src\qt\squishyaddressvalidator.h \
      src\qt\clientmodel.h \
      src\qt\guiutil.h \
      src\qt\optionsmodel.h \
      src\qt\trafficgraphwidget.h \
      src\qt\transactiondesc.h \
      src\qt\transactiondescdialog.h \
-     src\qt\komodoamountfield.h \
+     src\qt\squishyamountfield.h \
      src\qt\transactionfilterproxy.h \
      src\qt\transactionview.h \
      src\qt\walletmodel.h \
@@ -171,7 +171,7 @@ HEADERS += src\komodo_globals.h \
      src\qt\csvmodelwriter.h \
      src\qt\sendcoinsentry.h \
      src\qt\qvalidatedlineedit.h \
-     src\qt\komodounits.h \
+     src\qt\squishyunits.h \
      src\qt\qvaluecombobox.h \
      src\qt\askpassphrasedialog.h \
      src\qt\intro.h \
@@ -190,10 +190,10 @@ HEADERS += src\komodo_globals.h \
      src\qt\receivecoinsdialog.h \
      src\qt\receiverequestdialog.h \
      src\streams.h \
-     src\komodo_bitcoind.h \
-     src\komodo_utils.h \
-     src\komodo_notary.h \
-     src\komodo_gateway.h
+     src\squishy_bitcoind.h \
+     src\squishy_utils.h \
+     src\squishy_notary.h \
+     src\squishy_gateway.h
 
 SOURCES += src\protobuf\google\protobuf\any.cc \
     src\protobuf\google\protobuf\arena.cc \
@@ -365,11 +365,11 @@ SOURCES += src\protobuf\google\protobuf\any.cc \
     src\qt\editzaddressdialog.cpp \
     src\qt\guiutil.cpp \
     src\qt\intro.cpp \
-    src\qt\komodo.cpp \
-    src\qt\komodoaddressvalidator.cpp \
-    src\qt\komodoamountfield.cpp \
-    src\qt\komodooceangui.cpp \
-    src\qt\komodounits.cpp \
+    src\qt\squishy.cpp \
+    src\qt\squishyaddressvalidator.cpp \
+    src\qt\squishyamountfield.cpp \
+    src\qt\squishyoceangui.cpp \
+    src\qt\squishyunits.cpp \
     src\qt\modaloverlay.cpp \
     src\qt\networkstyle.cpp \
     src\qt\notificator.cpp \
@@ -552,8 +552,8 @@ SOURCES += src\protobuf\google\protobuf\any.cc \
     src\cryptoconditions\src\include\ed25519\src\fe.cpp 
 
 RESOURCES += \
-    src\qt\komodo.qrc \
-    src\qt\komodo_locale.qrc
+    src\qt\squishy.qrc \
+    src\qt\squishy_locale.qrc
 
 FORMS += \
     src\qt\forms\coincontroldialog.ui \
@@ -580,8 +580,8 @@ FORMS += \
 CODECFORTR = UTF-8
 
 # for lrelease/lupdate
-# also add new translations to komodo.qrc under translations/
-TRANSLATIONS = $$files(src/qt/locale/komodo_*.ts)
+# also add new translations to squishy.qrc under translations/
+TRANSLATIONS = $$files(src/qt/locale/squishy_*.ts)
 
 isEmpty(QMAKE_LRELEASE) {
     windows:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\\lrelease.exe
@@ -598,7 +598,7 @@ QMAKE_EXTRA_COMPILERS += TSQM
 
 # "Other files" to show in Qt Creator
 OTHER_FILES += \
-    doc/*.rst doc/*.txt doc/README README.md src/qt/res/komodo-qt-res.rc
+    doc/*.rst doc/*.txt doc/README README.md src/qt/res/squishy-qt-res.rc
 
 # platform specific defaults, if not overridden on command line
 isEmpty(BOOST_LIB_SUFFIX) {
@@ -612,7 +612,7 @@ isEmpty(BOOST_THREAD_LIB_SUFFIX) {
     else:BOOST_THREAD_LIB_SUFFIX = $$BOOST_LIB_SUFFIX
 }
 
-windows:RC_FILE = src/qt/res/komodo-qt-res.rc
+windows:RC_FILE = src/qt/res/squishy-qt-res.rc
 
 windows:!contains(MINGW_THREAD_BUGFIX, 0) {
     # At least qmake's win32-g++-cross profile is missing the -lmingwthrd
@@ -629,7 +629,7 @@ macx:HEADERS += macdockiconhandler.h macnotificationhandler.h
 macx:OBJECTIVE_SOURCES += macdockiconhandler.mm macnotificationhandler.mm
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
 macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
-macx:ICON = src/qt/res/icons/komodo.icns
+macx:ICON = src/qt/res/icons/squishy.icns
 macx:TARGET = "KomodoOceanGUI"
 macx:QMAKE_CFLAGS_THREAD += -pthread
 macx:QMAKE_CXXFLAGS_THREAD += -pthread

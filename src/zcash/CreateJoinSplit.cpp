@@ -7,7 +7,7 @@
 #include "zcash/JoinSplit.hpp"
 
 #include "libsnark/common/profiling.hpp"
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 uint16_t BITCOIND_RPCPORT = 7771;
 uint32_t ASSETCHAINS_CC = 0;
 

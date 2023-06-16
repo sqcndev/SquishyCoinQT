@@ -91,11 +91,11 @@ def def_credentials(chain):
     if operating_system == 'Darwin':
         ac_dir = os.environ['HOME'] + '/Library/Application Support/Komodo'
     elif operating_system == 'Linux':
-        ac_dir = os.environ['HOME'] + '/.komodo'
+        ac_dir = os.environ['HOME'] + '/.squishy'
     elif operating_system == 'Win64' or operating_system == 'Windows':
-        ac_dir = '%s/komodo/' % os.environ['APPDATA']
+        ac_dir = '%s/squishy/' % os.environ['APPDATA']
     if chain == 'KMD':
-        coin_config_file = str(ac_dir + '/komodo.conf')
+        coin_config_file = str(ac_dir + '/squishy.conf')
     else:
         coin_config_file = str(ac_dir + '/' + chain + '/' + chain + '.conf')
     with open(coin_config_file, 'r') as f:
@@ -489,18 +489,18 @@ def gateways_send_kmd(rpc_connection):
      input("Press [Enter] to continue...")
 
 
-def gateways_deposit_tui(rpc_connection_assetchain, rpc_connection_komodo):
+def gateways_deposit_tui(rpc_connection_assetchain, rpc_connection_squishy):
     while True:
         bind_txid = input("Input your gateway bind txid: ")
         coin_name = input("Input your external coin ticker (e.g. KMD): ")
         coin_txid = input("Input your deposit txid: ")
         dest_pub = input("Input pubkey which claim deposit: ")
         amount = input("Input amount of your deposit: ")
-        height = rpc_connection_komodo.getrawtransaction(coin_txid, 1)["height"]
-        deposit_hex = rpc_connection_komodo.getrawtransaction(coin_txid, 1)["hex"]
+        height = rpc_connection_squishy.getrawtransaction(coin_txid, 1)["height"]
+        deposit_hex = rpc_connection_squishy.getrawtransaction(coin_txid, 1)["hex"]
         claim_vout = "0"
         proof_sending_block = "[\"{}\"]".format(coin_txid)
-        proof = rpc_connection_komodo.gettxoutproof(json.loads(proof_sending_block))
+        proof = rpc_connection_squishy.gettxoutproof(json.loads(proof_sending_block))
         deposit_hex = rpclib.gateways_deposit(rpc_connection_assetchain, bind_txid, str(height), coin_name, \
                          coin_txid, claim_vout, deposit_hex, proof, dest_pub, amount)
         print(deposit_hex)
@@ -1955,9 +1955,9 @@ def check_if_config_is_here(rpc_connection, assetchain_name):
         if operating_system == 'Darwin':
             path_to_config = os.environ['HOME'] + '/Library/Application Support/Komodo/' + assetchain_name + '/' + config_name
         elif operating_system == 'Linux':
-            path_to_config = os.environ['HOME'] + '/.komodo/' + assetchain_name + '/' + config_name
+            path_to_config = os.environ['HOME'] + '/.squishy/' + assetchain_name + '/' + config_name
         elif operating_system == 'Win64' or operating_system == 'Windows':
-            path_to_config = '%s/komodo/' + assetchain_name + '/' + config_name % os.environ['APPDATA']
+            path_to_config = '%s/squishy/' + assetchain_name + '/' + config_name % os.environ['APPDATA']
         try:
             copy(path_to_config, os.getcwd())
         except Exception as e:

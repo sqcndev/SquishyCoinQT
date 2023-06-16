@@ -2,9 +2,9 @@
 #include "notaries_staked.h"
 #include "crosschain.h"
 #include "cc/CCinclude.h"
-#include "komodo_defs.h"
-#include "komodo_globals.h"
-#include "komodo_hardfork.h"
+#include "squishy_defs.h"
+#include "squishy_globals.h"
+#include "squishy_hardfork.h"
 #include "hex.h"
 #include <cstring>
 

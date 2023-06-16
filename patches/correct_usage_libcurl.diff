@@ -17,7 +17,7 @@ index b0184e9..3e4f4e4 100644
 +  AC_CHECK_HEADER([curl/curl.h],, AC_MSG_ERROR(libcurl headers missing),)
 +  AC_CHECK_LIB([curl],        [curl_global_init],[CURL_LIBS=-lcurl], AC_MSG_ERROR([unable to link with libcurl]),[-lssl -lcrypto])
 +
-   if test x$build_komodo_utils$build_komodod$bitcoin_enable_qt$use_tests != xnononono; then
+   if test x$build_squishy_utils$build_squishyd$bitcoin_enable_qt$use_tests != xnononono; then
      AC_CHECK_HEADER([event2/event.h],, AC_MSG_ERROR(libevent headers missing),)
      AC_CHECK_LIB([event],[main],EVENT_LIBS=-levent,AC_MSG_ERROR(libevent missing))
 @@ -1213,6 +1217,7 @@ AC_SUBST(ARM_CRC_CXXFLAGS)
@@ -76,19 +76,19 @@ index 30d8fcb..05d8a94 100644
 --- a/src/Makefile.qt.include
 +++ b/src/Makefile.qt.include
 @@ -446,39 +446,7 @@ if TARGET_WINDOWS
-   qt_komodo_qt_SOURCES += $(KOMODO_RC)
+   qt_squishy_qt_SOURCES += $(SQUISHY_RC)
  endif
  
 -# libbitcoin_server.a(libbitcoin_server_a-rpcserver.o): In function `__static_initialization_and_destruction_0(int, int)':
 -#
--#/home/decker/ssd_m2/komodoocean_src/src/rpcserver.cpp:413: undefined reference to `kvupdate(UniValue const&, bool)'
--#/home/decker/ssd_m2/komodoocean_src/src/rpcserver.cpp:413: undefined reference to `fundrawtransaction(UniValue const&, bool)'
--#/home/decker/ssd_m2/komodoocean_src/src/rpcserver.cpp:413: undefined reference to `resendwallettransactions(UniValue const&, bool)'
--#/home/decker/ssd_m2/komodoocean_src/src/rpcserver.cpp:413: undefined reference to `addmultisigaddress(UniValue const&, bool)'
--#/home/decker/ssd_m2/komodoocean_src/src/rpcserver.cpp:413: undefined reference to `backupwallet(UniValue const&, bool)'
--#/home/decker/ssd_m2/komodoocean_src/src/rpcserver.cpp:413: undefined reference to `dumpprivkey(UniValue const&, bool)'
--#/home/decker/ssd_m2/komodoocean_src/src/rpcserver.cpp:413: undefined reference to `dumpwallet(UniValue const&, bool)'
--#/home/decker/ssd_m2/komodoocean_src/src/rpcserver.cpp:413: undefined reference to `encryptwallet(UniValue const&, bool)'
+-#/home/decker/ssd_m2/squishyocean_src/src/rpcserver.cpp:413: undefined reference to `kvupdate(UniValue const&, bool)'
+-#/home/decker/ssd_m2/squishyocean_src/src/rpcserver.cpp:413: undefined reference to `fundrawtransaction(UniValue const&, bool)'
+-#/home/decker/ssd_m2/squishyocean_src/src/rpcserver.cpp:413: undefined reference to `resendwallettransactions(UniValue const&, bool)'
+-#/home/decker/ssd_m2/squishyocean_src/src/rpcserver.cpp:413: undefined reference to `addmultisigaddress(UniValue const&, bool)'
+-#/home/decker/ssd_m2/squishyocean_src/src/rpcserver.cpp:413: undefined reference to `backupwallet(UniValue const&, bool)'
+-#/home/decker/ssd_m2/squishyocean_src/src/rpcserver.cpp:413: undefined reference to `dumpprivkey(UniValue const&, bool)'
+-#/home/decker/ssd_m2/squishyocean_src/src/rpcserver.cpp:413: undefined reference to `dumpwallet(UniValue const&, bool)'
+-#/home/decker/ssd_m2/squishyocean_src/src/rpcserver.cpp:413: undefined reference to `encryptwallet(UniValue const&, bool)'
 -#
 -# we need add libbitcoin_server_a-rpcserver.o wallet/libbitcoin_wallet_a-rpcwallet.o
 -#
@@ -99,20 +99,20 @@ index 30d8fcb..05d8a94 100644
 -#	  wallet/rpcdump.cpp \
 -#	  wallet/rpcwallet.cpp \
 -#
--# 	Link of komodod:
+-# 	Link of squishyd:
 -#	----------------
--# komodo_qt_clean: FORCE
--#	rm -f $(CLEAN_QT) $(qt_libkomodoqt_a_OBJECTS) $(qt_komodo_qt_OBJECTS) qt/komodo-qt$(EXEEXT) $(LIBBITCOINQT)
+-# squishy_qt_clean: FORCE
+-#	rm -f $(CLEAN_QT) $(qt_libsquishyqt_a_OBJECTS) $(qt_squishy_qt_OBJECTS) qt/squishy-qt$(EXEEXT) $(LIBBITCOINQT)
 -#
--# komodo_qt : qt/komodo-qt$(EXEEXT)
+-# squishy_qt : qt/squishy-qt$(EXEEXT)
 -#
 -# From written makefile:
--# komodod$(EXEEXT): $(komodod_OBJECTS) $(komodod_DEPENDENCIES) $(EXTRA_komodod_DEPENDENCIES) 
--#	@rm -f komodod$(EXEEXT)
--#	$(AM_V_CXXLD)$(komodod_LINK) $(komodod_OBJECTS) $(komodod_LDADD) $(LIBS)
+-# squishyd$(EXEEXT): $(squishyd_OBJECTS) $(squishyd_DEPENDENCIES) $(EXTRA_squishyd_DEPENDENCIES) 
+-#	@rm -f squishyd$(EXEEXT)
+-#	$(AM_V_CXXLD)$(squishyd_LINK) $(squishyd_OBJECTS) $(squishyd_LDADD) $(LIBS)
 -
--qt_komodo_qt_LDADD = $(LIBBITCOIN_SERVER) qt/libkomodoqt.a 
-+qt_komodo_qt_LDADD = $(LIBBITCOIN_SERVER) $(CURL_LIBS) qt/libkomodoqt.a
+-qt_squishy_qt_LDADD = $(LIBBITCOIN_SERVER) qt/libsquishyqt.a 
++qt_squishy_qt_LDADD = $(LIBBITCOIN_SERVER) $(CURL_LIBS) qt/libsquishyqt.a
  if ENABLE_ZMQ
- qt_komodo_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+ qt_squishy_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
  endif

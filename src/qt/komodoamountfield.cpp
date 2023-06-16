@@ -2,9 +2,9 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "komodoamountfield.h"
+#include "squishyamountfield.h"
 
-#include "komodounits.h"
+#include "squishyunits.h"
 #include "guiconstants.h"
 #include "qvaluecombobox.h"
 
@@ -188,7 +188,7 @@ Q_SIGNALS:
     void valueChanged();
 };
 
-#include "komodoamountfield.moc"
+#include "squishyamountfield.moc"
 
 KomodoAmountField::KomodoAmountField(QWidget *parent) :
     QWidget(parent),

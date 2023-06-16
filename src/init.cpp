@@ -35,10 +35,10 @@
 #include "httprpc.h"
 #include "key.h"
 #include "notarisationdb.h"
-#include "komodo.h"
-#include "komodo_globals.h"
-#include "komodo_notary.h"
-#include "komodo_gateway.h"
+#include "squishy.h"
+#include "squishy_globals.h"
+#include "squishy_notary.h"
+#include "squishy_gateway.h"
 #include "main.h"
 
 #ifdef ENABLE_MINING
@@ -99,16 +99,16 @@
 
 using namespace std;
 
-#include "komodo_defs.h"
-#include "komodo_extern_globals.h"
+#include "squishy_defs.h"
+#include "squishy_extern_globals.h"
 #include "assetchain.h"
 
-#include "komodo_gateway.h"
+#include "squishy_gateway.h"
 #include "rpc/net.h"
 #include <event2/event.h>
 extern void ThreadSendAlert();
-//extern bool komodo_dailysnapshot(int32_t height);  //todo remove
-//extern int32_t KOMODO_SNAPSHOT_INTERVAL;
+//extern bool squishy_dailysnapshot(int32_t height);  //todo remove
+//extern int32_t SQUISHY_SNAPSHOT_INTERVAL;
 
 ZCJoinSplit* pzcashParams = NULL;
 
@@ -393,7 +393,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-checkblocks=<n>", strprintf(_("How many blocks to check at startup (default: %u, 0 = all)"), 288));
     strUsage += HelpMessageOpt("-checklevel=<n>", strprintf(_("How thorough the block verification of -checkblocks is (0-4, default: %u)"), 3));
     strUsage += HelpMessageOpt("-clientname=<SomeName>", _("Full node client name, default 'MagicBean'"));
-    strUsage += HelpMessageOpt("-conf=<file>", strprintf(_("Specify configuration file (default: %s)"), "komodo.conf"));
+    strUsage += HelpMessageOpt("-conf=<file>", strprintf(_("Specify configuration file (default: %s)"), "squishy.conf"));
     if (mode == HMM_BITCOIND)
     {
 #if !defined(WIN32)
@@ -409,7 +409,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-par=<n>", strprintf(_("Set the number of script verification threads (%u to %d, 0 = auto, <0 = leave that many cores free, default: %d)"),
         -(int)boost::thread::hardware_concurrency(), MAX_SCRIPTCHECK_THREADS, DEFAULT_SCRIPTCHECK_THREADS));
 #ifndef _WIN32
-    strUsage += HelpMessageOpt("-pid=<file>", strprintf(_("Specify pid file (default: %s)"), "komodod.pid"));
+    strUsage += HelpMessageOpt("-pid=<file>", strprintf(_("Specify pid file (default: %s)"), "squishyd.pid"));
 #endif
     strUsage += HelpMessageOpt("-prune=<n>", strprintf(_("Reduce storage requirements by pruning (deleting) old blocks. This mode disables wallet support and is incompatible with -txindex. "
             "Warning: Reverting this setting requires re-downloading the entire blockchain. "
@@ -677,8 +677,8 @@ void CleanupBlockRevFiles()
                 remove(it->path());
         }
     }
-    path komodostate = GetDataDir() / KOMODO_STATE_FILENAME;
-    remove(komodostate);
+    path squishystate = GetDataDir() / SQUISHY_STATE_FILENAME;
+    remove(squishystate);
     path minerids = GetDataDir() / "minerids";
     remove(minerids);
     // Remove all block files that aren't part of a contiguous set starting at
@@ -718,7 +718,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
         LogPrintf("Reindexing finished\n");
         // To avoid ending up in a situation without genesis block, re-try initializing (no-op if reindexing worked):
         InitBlockIndex();
-        KOMODO_LOADINGBLOCKS = false;
+        SQUISHY_LOADINGBLOCKS = false;
     }
 
     // hardcoded $DATADIR/bootstrap.dat
@@ -872,7 +872,7 @@ bool AppInitServers(boost::thread_group& threadGroup)
     return true;
 }
 
-//extern int32_t KOMODO_REWIND;
+//extern int32_t SQUISHY_REWIND;
 
 /***
  * Initialize everything and fire up the services
@@ -1137,7 +1137,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     RegisterAllCoreRPCCommands(tableRPC);
 #ifdef ENABLE_WALLET
     bool fDisableWallet = GetBoolArg("-disablewallet", false);
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         fDisableWallet = true;
         nLocalServices = 0;
@@ -1218,7 +1218,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // Option to startup with mocktime set (used for regression testing):
     SetMockTime(GetArg("-mocktime", 0)); // SetMockTime(0) is a no-op
 
-    if ( KOMODO_NSPV_FULLNODE )
+    if ( SQUISHY_NSPV_FULLNODE )
     {
         if (GetBoolArg("-peerbloomfilters", true))
             nLocalServices |= NODE_BLOOM;
@@ -1372,7 +1372,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     libsnark::inhibit_profiling_info = true;
     libsnark::inhibit_profiling_counters = true;
 
-    if ( KOMODO_NSPV_FULLNODE )
+    if ( SQUISHY_NSPV_FULLNODE )
     {
 		uiInterface.InitMessage(_("Loading Sapling parameters..."));
         // Initialize Zcash circuit parameters
@@ -1557,7 +1557,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 #endif
 
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         std::vector<boost::filesystem::path> vImportFiles;
         threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));
@@ -1656,7 +1656,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
 
                 if (fReindex) {
-                    boost::filesystem::remove(GetDataDir() / KOMODO_STATE_FILENAME);
+                    boost::filesystem::remove(GetDataDir() / SQUISHY_STATE_FILENAME);
                     boost::filesystem::remove(GetDataDir() / "signedmasks");
                     pblocktree->WriteReindexing(true);
                     //If we're reindexing in prune mode, wipe away unusable block files and all undo data files
@@ -1678,13 +1678,13 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 if (!mapBlockIndex.empty() && mapBlockIndex.count(chainparams.GetConsensus().hashGenesisBlock) == 0)
                     return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
                 
-                komodo_init(1);
+                squishy_init(1);
                 // Initialize the block index (no-op if non-empty database was already loaded)
                 if (!InitBlockIndex()) {
                     strLoadError = _("Error initializing block database");
                     break;
                 }
-                KOMODO_LOADINGBLOCKS = false;
+                SQUISHY_LOADINGBLOCKS = false;
                 // Check for changed -txindex state
                 if (fTxIndex != GetBoolArg("-txindex", true)) {
                     strLoadError = _("You need to rebuild the database using -reindex to change -txindex");
@@ -1698,9 +1698,9 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                     break;
                 }
                 
-                if ( ASSETCHAINS_CC != 0 && KOMODO_SNAPSHOT_INTERVAL != 0 && chainActive.Height() >= KOMODO_SNAPSHOT_INTERVAL )
+                if ( ASSETCHAINS_CC != 0 && SQUISHY_SNAPSHOT_INTERVAL != 0 && chainActive.Height() >= SQUISHY_SNAPSHOT_INTERVAL )
                 {
-                    if ( !komodo_dailysnapshot(chainActive.Height()) )
+                    if ( !squishy_dailysnapshot(chainActive.Height()) )
                     {
                         strLoadError = _("daily snapshot failed, please reindex your chain.");
                         break;
@@ -1720,7 +1720,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                     LogPrintf("Prune: pruned datadir may not have more than %d blocks; -checkblocks=%d may fail\n",
                         MIN_BLOCKS_TO_KEEP, GetArg("-checkblocks", 288));
                 }
-                if ( KOMODO_REWIND == 0 )
+                if ( SQUISHY_REWIND == 0 )
                 {
                     if (!CVerifyDB().VerifyDB(pcoinsdbview, GetArg("-checklevel", 3),
                                               GetArg("-checkblocks", 288))) {
@@ -1755,7 +1755,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             }
         }
     }
-    KOMODO_LOADINGBLOCKS = false;
+    SQUISHY_LOADINGBLOCKS = false;
 
     // As LoadBlockIndex can take several minutes, it's possible the user
     // requested to kill the GUI during the last operation. If so, exit.
@@ -1965,7 +1965,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             PruneAndFlush();
         }
     }
-    if ( KOMODO_NSPV == 0 )
+    if ( SQUISHY_NSPV == 0 )
     {
         if ( GetBoolArg("-addressindex", DEFAULT_ADDRESSINDEX) != 0 )
             nLocalServices |= NODE_ADDRINDEX;
@@ -1977,7 +1977,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     if (mapArgs.count("-blocknotify"))
         uiInterface.NotifyBlockTip.connect(BlockNotifyCallback);
-    if ( KOMODO_REWIND >= 0 )
+    if ( SQUISHY_REWIND >= 0 )
     {
         uiInterface.InitMessage(_("Activating best chain..."));
         // scan for better chains in the block chain database, that are not yet connected in the active best chain

@@ -1,4 +1,4 @@
-#include "komodo_hardfork.h"
+#include "squishy_hardfork.h"
 
 const uint32_t nStakedDecemberHardforkTimestamp = 1576840000; //December 2019 hardfork 12/20/2019 @ 11:06am (UTC)
 const int32_t nDecemberHardforkHeight = 1670000;   //December 2019 hardfork
@@ -120,9 +120,9 @@ const char *notaries_elected[NUM_KMD_SEASONS][NUM_KMD_NOTARIES][2] =
         {"jackson_AR", "038ff7cfe34cb13b524e0941d5cf710beca2ffb7e05ddf15ced7d4f14fbb0a6f69" },
         {"jeezy_EU", "023cb3e593fb85c5659688528e9a4f1c4c7f19206edc7e517d20f794ba686fd6d6" },
         {"karasugoi_NA", "02a348b03b9c1a8eac1b56f85c402b041c9bce918833f2ea16d13452309052a982" },
-        {"komodoninja_EU", "038e567b99806b200b267b27bbca2abf6a3e8576406df5f872e3b38d30843cd5ba" },
-        {"komodoninja_SH", "033178586896915e8456ebf407b1915351a617f46984001790f0cce3d6f3ada5c2" },
-        {"komodopioneers_SH", "033ace50aedf8df70035b962a805431363a61cc4e69d99d90726a2d48fb195f68c" },
+        {"squishyninja_EU", "038e567b99806b200b267b27bbca2abf6a3e8576406df5f872e3b38d30843cd5ba" },
+        {"squishyninja_SH", "033178586896915e8456ebf407b1915351a617f46984001790f0cce3d6f3ada5c2" },
+        {"squishypioneers_SH", "033ace50aedf8df70035b962a805431363a61cc4e69d99d90726a2d48fb195f68c" },
         {"libscott_SH", "03301a8248d41bc5dc926088a8cf31b65e2daf49eed7eb26af4fb03aae19682b95" },
         {"lukechilds_AR", "031aa66313ee024bbee8c17915cf7d105656d0ace5b4a43a3ab5eae1e14ec02696" },
         {"madmax_AR", "03891555b4a4393d655bf76f0ad0fb74e5159a615b6925907678edc2aac5e06a75" }, // 40
@@ -187,8 +187,8 @@ const char *notaries_elected[NUM_KMD_SEASONS][NUM_KMD_NOTARIES][2] =
         {"phba2061_EU", "03f6bd15dba7e986f0c976ea19d8a9093cb7c989d499f1708a0386c5c5659e6c4e" },
         {"indenodes_AR", "02ec0fa5a40f47fd4a38ea5c89e375ad0b6ddf4807c99733c9c3dc15fb978ee147" },
         {"and1-89_EU", "02736cbf8d7b50835afd50a319f162dd4beffe65f2b1dc6b90e64b32c8e7849ddd" },
-        {"komodopioneers_SH", "032a238a5747777da7e819cfa3c859f3677a2daf14e4dce50916fc65d00ad9c52a" },
-        {"komodopioneers_EU", "036d02425916444fff8cc7203fcbfc155c956dda5ceb647505836bef59885b6866" },
+        {"squishypioneers_SH", "032a238a5747777da7e819cfa3c859f3677a2daf14e4dce50916fc65d00ad9c52a" },
+        {"squishypioneers_EU", "036d02425916444fff8cc7203fcbfc155c956dda5ceb647505836bef59885b6866" },
         {"d0ct0r_NA", "0303725d8525b6f969122faf04152653eb4bf34e10de92182263321769c334bf58" },
         {"kolo_DEV", "02849e12199dcc27ba09c3902686d2ad0adcbfcee9d67520e9abbdda045ba83227" },
         {"peer2cloud_AR", "02acc001fe1fe8fd68685ba26c0bc245924cb592e10cec71e9917df98b0e9d7c37" }, // 40
@@ -254,8 +254,8 @@ const char *notaries_elected[NUM_KMD_SEASONS][NUM_KMD_NOTARIES][2] =
         {"phba2061_EU", "03f6bd15dba7e986f0c976ea19d8a9093cb7c989d499f1708a0386c5c5659e6c4e" },
         {"indenodes_AR", "02ec0fa5a40f47fd4a38ea5c89e375ad0b6ddf4807c99733c9c3dc15fb978ee147" },
         {"and1-89_EU", "02736cbf8d7b50835afd50a319f162dd4beffe65f2b1dc6b90e64b32c8e7849ddd" },
-        {"komodopioneers_SH", "032a238a5747777da7e819cfa3c859f3677a2daf14e4dce50916fc65d00ad9c52a" },
-        {"komodopioneers_EU", "036d02425916444fff8cc7203fcbfc155c956dda5ceb647505836bef59885b6866" },
+        {"squishypioneers_SH", "032a238a5747777da7e819cfa3c859f3677a2daf14e4dce50916fc65d00ad9c52a" },
+        {"squishypioneers_EU", "036d02425916444fff8cc7203fcbfc155c956dda5ceb647505836bef59885b6866" },
         {"d0ct0r_NA", "0303725d8525b6f969122faf04152653eb4bf34e10de92182263321769c334bf58" },
         {"kolo_DEV", "02849e12199dcc27ba09c3902686d2ad0adcbfcee9d67520e9abbdda045ba83227" },
         {"peer2cloud_AR", "02acc001fe1fe8fd68685ba26c0bc245924cb592e10cec71e9917df98b0e9d7c37" }, // 40
@@ -376,7 +376,7 @@ const char *notaries_elected[NUM_KMD_SEASONS][NUM_KMD_NOTARIES][2] =
         {"cipi_EU", "03d6e1f3a693b5d69049791005d7cb64c259a1ad85833f5a9c545d4fee29905009"},
         {"cipi2_EU", "0202e430157486503f4bde3d3ca770c8f1e2447cf480a6b273b5265b9620f585e3"},
         {"shadowbit_EU", "02668f5f723584f97f5e6f9196fc31018f36a6cf824c60328ad0c097a785df4745"},
-        {"komodopioneers_EU", "0351f7f2a6ecce863e4e774bfafe2e59e151c08bf8f350286763a6b8ed97274b82"},
+        {"squishypioneers_EU", "0351f7f2a6ecce863e4e774bfafe2e59e151c08bf8f350286763a6b8ed97274b82"},
         {"madmax_EU", "028d04f7ccae0d9d57bfa801c4f1e32c707c17589b3c08a0ce08d44eab637eb66b"},
         {"marmarachain_EU", "023a858bbc3f0c6df5b74243315028e968c2f299d84ea8ecc0b28b5f0e2ad24c3c"},
         {"node-9_EU", "03c375924aac39d0c49de6690199e4d08d10fed6725988dcf5d2486661b5e3a656"},
@@ -450,7 +450,7 @@ const char *notaries_elected[NUM_KMD_SEASONS][NUM_KMD_NOTARIES][2] =
         {"kolo_AR", "028431645f923a9e383a4e37cbb7168fa34988da23d43097124fe882bdac6d175f"},
         {"kolo_EU", "03e1287d4c14ad73ce9ddd31361a7de8df4eeeefe9460a1ff9a6b2a1242ad3b7c2"},
         {"kolox_AR", "0289f5f64f4bb18d014c4e9f4c888f4da2b6518e88fd5b7768728c38177b66d305"}, // 30
-        {"komodopioneers_EU", "0351f7f2a6ecce863e4e774bfafe2e59e151c08bf8f350286763a6b8ed97274b82"},
+        {"squishypioneers_EU", "0351f7f2a6ecce863e4e774bfafe2e59e151c08bf8f350286763a6b8ed97274b82"},
         {"madmax_DEV", "027100e6b3db2028034db651946ecde90e45be3799ebc310d39af4496772a850ad"},
         {"marmarachain_EU", "0234e40800500370d43979586ee2cec2e777a0368d10c682e78bca30fd1630c18d"},
         {"mcrypt_AR", "029bdb33b08f96524082490f4373bc6026b92bcaef9bc521a840a799c73b75ed80"},

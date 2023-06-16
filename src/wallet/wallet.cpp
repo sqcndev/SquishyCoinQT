@@ -39,11 +39,11 @@
 #include "coins.h"
 #include "zcash/zip32.h"
 #include "cc/CCinclude.h"
-#include "komodo_utils.h"
-#include "komodo_bitcoind.h"
-#include "komodo_notary.h"
-#include "komodo_interest.h"
-#include "komodo_globals.h"
+#include "squishy_utils.h"
+#include "squishy_bitcoind.h"
+#include "squishy_notary.h"
+#include "squishy_interest.h"
+#include "squishy_globals.h"
 
 #include <assert.h>
 
@@ -65,16 +65,16 @@ unsigned int nTxConfirmTarget = DEFAULT_TX_CONFIRM_TARGET;
 bool bSpendZeroConfChange = true;
 bool fSendFreeTransactions = false;
 bool fPayAtLeastCustomFee = true;
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 
 const char * DEFAULT_WALLET_DAT = "wallet.dat";
 
 bool fWalletRbf = DEFAULT_WALLET_RBF;
 
 // TODO: remove
-//CBlockIndex *komodo_chainactive(int32_t height);
+//CBlockIndex *squishy_chainactive(int32_t height);
 //extern std::string DONATION_PUBKEY;
-//int32_t komodo_dpowconfs(int32_t height,int32_t numconfs);
+//int32_t squishy_dpowconfs(int32_t height,int32_t numconfs);
 
 /**
  * Fees smaller than this (in satoshi) are considered zero fee (for transaction creation)
@@ -1197,7 +1197,7 @@ bool DecrementNoteWitnesses(NoteDataMap& noteDataMap, int indexHeight, int64_t n
             assert((nWitnessCacheSize - 1) >= nd->witnesses.size());
         }
     }
-    assert(KOMODO_REWIND != 0 || nWitnessCacheSize > 0 || WITNESS_CACHE_SIZE != _COINBASE_MATURITY+10);
+    assert(SQUISHY_REWIND != 0 || nWitnessCacheSize > 0 || WITNESS_CACHE_SIZE != _COINBASE_MATURITY+10);
     return true;
 }
 
@@ -2041,7 +2041,7 @@ CAmount CWallet::GetDebit(const CTxIn &txin, const isminefilter& filter) const
             const CWalletTx& prev = (*mi).second;
             if (txin.prevout.n < prev.vout.size())
                 if (::IsMine(*this, prev.vout[txin.prevout.n].scriptPubKey) & filter)
-                    return prev.vout[txin.prevout.n].nValue; // komodo_interest?
+                    return prev.vout[txin.prevout.n].nValue; // squishy_interest?
         }
     }
     return 0;
@@ -3106,7 +3106,7 @@ std::vector<uint256> CWallet::ResendWalletTransactionsBefore(int64_t nTime)
         if (wtx.nTimeReceived > nTime)
             continue;
 
-        if ( (wtx.nLockTime >= LOCKTIME_THRESHOLD && wtx.nLockTime < now-KOMODO_MAXMEMPOOLTIME) )
+        if ( (wtx.nLockTime >= LOCKTIME_THRESHOLD && wtx.nLockTime < now-SQUISHY_MAXMEMPOOLTIME) )
         {
             //LogPrintf("skip Relaying wtx %s nLockTime %u vs now.%u\n", wtx.GetHash().ToString(),(uint32_t)wtx.nLockTime,now);
             //vwtxh.push_back(wtx.GetHash());
@@ -3317,8 +3317,8 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                             {
                                 if ( (tipindex= chainActive.Tip()) != 0 )
                                 {
-                                    komodo_accrued_interest(&txheight,&locktime,wtxid,i,0,pcoin->vout[i].nValue,(int32_t)tipindex->nHeight);
-                                    interest = komodo_interestnew(txheight,pcoin->vout[i].nValue,locktime,tipindex->nTime);
+                                    squishy_accrued_interest(&txheight,&locktime,wtxid,i,0,pcoin->vout[i].nValue,(int32_t)tipindex->nHeight);
+                                    interest = squishy_interestnew(txheight,pcoin->vout[i].nValue,locktime,tipindex->nTime);
                                 } 
                                 else 
                                     interest = 0;
@@ -3757,7 +3757,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
         txNew.nLockTime = 0;
     else
     {
-        if ( !komodo_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
+        if ( !squishy_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
             txNew.nLockTime = (uint32_t)chainActive.Tip()->nTime + 1; // set to a time close to now
         else
             txNew.nLockTime = (uint32_t)chainActive.Tip()->GetMedianTimePast();
@@ -5056,7 +5056,7 @@ void CWallet::GetFilteredNotes(
         if (minDepth > 1) {
             int nHeight    = tx_height(wtx.GetHash());
             int nDepth     = wtx.GetDepthInMainChain();
-            int dpowconfs  = komodo_dpowconfs(nHeight,nDepth);
+            int dpowconfs  = squishy_dpowconfs(nHeight,nDepth);
             if ( dpowconfs < minDepth || dpowconfs > maxDepth) {
                 continue;
             }

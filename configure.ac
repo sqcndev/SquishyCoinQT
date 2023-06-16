@@ -11,23 +11,23 @@ define(_COPYRIGHT_YEAR, 2023)
 define(_COPYRIGHT_HOLDERS, "The %s developers")
 define(_COPYRIGHT_HOLDERS_SUBSTITUTION, "Ocean and Decker")
 
-AC_INIT([KomodoOcean],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_SUFFIX(_ZC_BUILD_VAL)],[https://github.com/KomodoPlatform/KomodoOcean/issues],[KomodoOcean],[https://komodoplatform.com/en/wallets.html])
+AC_INIT([KomodoOcean],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_SUFFIX(_ZC_BUILD_VAL)],[https://github.com/KomodoPlatform/KomodoOcean/issues],[KomodoOcean],[https://squishyplatform.com/en/wallets.html])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
-BITCOIN_DAEMON_NAME=komodod
-BITCOIN_GUI_NAME=komodo-qt
-BITCOIN_CLI_NAME=komodo-cli
-BITCOIN_TX_NAME=komodo-tx
+BITCOIN_DAEMON_NAME=squishyd
+BITCOIN_GUI_NAME=squishy-qt
+BITCOIN_CLI_NAME=squishy-cli
+BITCOIN_TX_NAME=squishy-tx
 BITCOIN_WALLET_TOOL_NAME=wallet-utility
 
 AC_CANONICAL_HOST
 
-AH_TOP([#ifndef KOMODO_CONFIG_H])
-AH_TOP([#define KOMODO_CONFIG_H])
-AH_BOTTOM([#endif //KOMODO_CONFIG_H])
+AH_TOP([#ifndef SQUISHY_CONFIG_H])
+AH_TOP([#define SQUISHY_CONFIG_H])
+AH_BOTTOM([#endif //SQUISHY_CONFIG_H])
 
 dnl faketime breaks configure and is only needed for make. Disable it here.
 unset FAKETIME
@@ -342,20 +342,20 @@ CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 AC_ARG_WITH([utils],
   [AS_HELP_STRING([--with-utils],
   [build zcash-cli zcash-tx (default=yes)])],
-  [build_komodo_utils=$withval],
-  [build_komodo_utils=yes])
+  [build_squishy_utils=$withval],
+  [build_squishy_utils=yes])
 
 AC_ARG_WITH([libs],
   [AS_HELP_STRING([--with-libs],
   [build libraries (default=yes)])],
-  [build_komodo_libs=$withval],
-  [build_komodo_libs=yes])
+  [build_squishy_libs=$withval],
+  [build_squishy_libs=yes])
 
 AC_ARG_WITH([daemon],
   [AS_HELP_STRING([--with-daemon],
-  [build komodod daemon (default=yes)])],
-  [build_komodod=$withval],
-  [build_komodod=yes])
+  [build squishyd daemon (default=yes)])],
+  [build_squishyd=$withval],
+  [build_squishyd=yes])
 
 AC_LANG_PUSH([C++])
 
@@ -693,7 +693,7 @@ AC_SUBST(LIBMEMENV)
 
 if test x$enable_wallet != xno; then
     dnl Check for libdb_cxx only if wallet enabled
-    KOMODO_FIND_BDB62
+    SQUISHY_FIND_BDB62
 fi
 
 dnl Check for libminiupnpc (optional)
@@ -710,7 +710,7 @@ BITCOIN_QT_INIT
 dnl sets $bitcoin_enable_qt, $bitcoin_enable_qt_test, $bitcoin_enable_qt_dbus
 BITCOIN_QT_CONFIGURE([$use_pkgconfig], [qt5])
 
-if test x$build_komodo_utils$build_komodod$use_tests$build_bitcoind$bitcoin_enable_qt = xnononono; then
+if test x$build_squishy_utils$build_squishyd$use_tests$build_bitcoind$bitcoin_enable_qt = xnononono; then
     use_boost=no
 else
     use_boost=yes
@@ -861,7 +861,7 @@ if test x$use_pkgconfig = xyes; then
       if test x$use_qr != xno; then
         BITCOIN_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
       fi
-      if test x$build_komodo_utils$build_komodod$bitcoin_enable_qt$use_tests != xnononono; then
+      if test x$build_squishy_utils$build_squishyd$bitcoin_enable_qt$use_tests != xnononono; then
         PKG_CHECK_MODULES([EVENT], [libevent],, [AC_MSG_ERROR(libevent not found.)])
         if test x$TARGET_OS != xwindows; then
           PKG_CHECK_MODULES([EVENT_PTHREADS], [libevent_pthreads],, [AC_MSG_ERROR(libevent_pthreads not found.)])
@@ -892,7 +892,7 @@ else
   AC_CHECK_HEADER([curl/curl.h],, AC_MSG_ERROR(libcurl headers missing),)
   AC_CHECK_LIB([curl],        [curl_global_init],[CURL_LIBS=-lcurl], AC_MSG_ERROR([unable to link with libcurl]),[-lssl -lcrypto])
 
-  if test x$build_komodo_utils$build_komodod$bitcoin_enable_qt$use_tests != xnononono; then
+  if test x$build_squishy_utils$build_squishyd$bitcoin_enable_qt$use_tests != xnononono; then
     AC_CHECK_HEADER([event2/event.h],, AC_MSG_ERROR(libevent headers missing),)
     AC_CHECK_LIB([event],[main],EVENT_LIBS=-levent,AC_MSG_ERROR(libevent missing))
     if test x$TARGET_OS != xwindows; then
@@ -1030,22 +1030,22 @@ if test x$enable_bip70 != xno; then
   BITCOIN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 fi
 
-AC_MSG_CHECKING([whether to build komodod])
-AM_CONDITIONAL([BUILD_KOMODOD], [test x$build_komodod = xyes])
-AC_MSG_RESULT($build_komodod)
+AC_MSG_CHECKING([whether to build squishyd])
+AM_CONDITIONAL([BUILD_SQUISHYD], [test x$build_squishyd = xyes])
+AC_MSG_RESULT($build_squishyd)
 
 AC_MSG_CHECKING([whether to build utils (zcash-cli zcash-tx)])
-AM_CONDITIONAL([BUILD_KOMODO_UTILS], [test x$build_komodo_utils = xyes])
-AC_MSG_RESULT($build_komodo_utils)
+AM_CONDITIONAL([BUILD_SQUISHY_UTILS], [test x$build_squishy_utils = xyes])
+AC_MSG_RESULT($build_squishy_utils)
 
 AC_MSG_CHECKING([whether to build libraries])
-AM_CONDITIONAL([BUILD_KOMODO_LIBS], [test x$build_komodo_libs = xyes])
-if test x$build_komodo_libs = xyes; then
+AM_CONDITIONAL([BUILD_SQUISHY_LIBS], [test x$build_squishy_libs = xyes])
+if test x$build_squishy_libs = xyes; then
   AC_DEFINE(HAVE_CONSENSUS_LIB, 1, [Define this symbol if the consensus lib has been built])
   AC_CONFIG_FILES([libzcashconsensus.pc:libzcashconsensus.pc.in])
 fi
 
-AC_MSG_RESULT($build_komodo_libs)
+AC_MSG_RESULT($build_squishy_libs)
 
 AC_LANG_POP
 
@@ -1146,7 +1146,7 @@ fi
 
 AM_CONDITIONAL([ENABLE_ZMQ], [test "x$use_zmq" = "xyes"])
 
-AC_MSG_CHECKING([whether to build test_komodo])
+AC_MSG_CHECKING([whether to build test_squishy])
 if test x$use_tests = xyes; then
   AC_MSG_RESULT([yes])
   BUILD_TEST="yes"
@@ -1171,7 +1171,7 @@ else
   AC_MSG_RESULT([no])
 fi
 
-if test x$build_komodo_utils$build_komodo_libs$build_komodod$use_tests = xnononono; then
+if test x$build_squishy_utils$build_squishy_libs$build_squishyd$use_tests = xnononono; then
   AC_MSG_ERROR([No targets! Please specify at least one of: --with-utils --with-libs --with-daemon or --enable-tests])
 fi
 
@@ -1244,7 +1244,7 @@ AC_SUBST(GMPXX_LIBS)
 AC_SUBST(LIBSNARK_DEPINST)
 AC_SUBST(LIBZCASH_LIBS)
 AC_CONFIG_FILES([Makefile src/Makefile doc/man/Makefile share/setup.nsi share/qt/Info.plist src/test/buildenv.py])
-AC_CONFIG_FILES([qa/pull-tester/run-komodod-for-test.sh],[chmod +x qa/pull-tester/run-komodod-for-test.sh])
+AC_CONFIG_FILES([qa/pull-tester/run-squishyd-for-test.sh],[chmod +x qa/pull-tester/run-squishyd-for-test.sh])
 AC_CONFIG_FILES([qa/pull-tester/tests-config.sh],[chmod +x qa/pull-tester/tests-config.sh])
 
 dnl boost's m4 checks do something really nasty: they export these vars. As a

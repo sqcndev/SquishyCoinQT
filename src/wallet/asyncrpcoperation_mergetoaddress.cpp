@@ -39,7 +39,7 @@
 #include "wallet.h"
 #include "walletdb.h"
 #include "zcash/IncrementalMerkleTree.hpp"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 #include <chrono>
 #include <iostream>
@@ -678,7 +678,7 @@ bool AsyncRPCOperation_mergetoaddress::main_impl()
                 if (mapBlockIndex.find(wtx.hashBlock) == mapBlockIndex.end()) {
                     throw JSONRPCError(RPC_WALLET_ERROR, strprintf("mapBlockIndex does not contain block hash %s", wtx.hashBlock.ToString()));
                 }
-                wtxHeight = komodo_blockheight(wtx.hashBlock);
+                wtxHeight = squishy_blockheight(wtx.hashBlock);
                 wtxDepth = wtx.GetDepthInMainChain();
             }
             LogPrint("zrpcunsafe", "%s: spending note (txid=%s, vjoinsplit=%d, ciphertext=%d, amount=%s, height=%d, confirmations=%d)\n",

@@ -16,7 +16,7 @@
 
 #include "cJSON.h"
 #include "CCinclude.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 #define ROGUE_REGISTRATION 5
 #define ROGUE_REGISTRATIONSIZE (100 * 10000)
@@ -50,29 +50,29 @@ std::string Rogue_pname = "";
  
  Here is how to play:
  
- ./komodo-cli -ac_name=ROGUE cclib newgame 17 \"[3,10]\" -> this will create a hex transaction that when broadcast with sendrawtransaction will get a gametxid onto the blockchain. This specific command was for 3 players and a buyin of 10 ROGUE. Lets assume the gametxid is 4fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a, most all the other commands will need the gametxid.
+ ./squishy-cli -ac_name=ROGUE cclib newgame 17 \"[3,10]\" -> this will create a hex transaction that when broadcast with sendrawtransaction will get a gametxid onto the blockchain. This specific command was for 3 players and a buyin of 10 ROGUE. Lets assume the gametxid is 4fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a, most all the other commands will need the gametxid.
  
  you can always find all the existing games with:
  
-  ./komodo-cli -ac_name=ROGUE cclib pending 17
+  ./squishy-cli -ac_name=ROGUE cclib pending 17
  
  and info about a specific game with:
  
-  ./komodo-cli -ac_name=ROGUE cclib gameinfo 17 \"[%224fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a%22]\"
+  ./squishy-cli -ac_name=ROGUE cclib gameinfo 17 \"[%224fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a%22]\"
 
  due to quirks of various parsing at the shell, rpc and internal level, the above convention is used where %22 is added where " should be. also all fields are separated by , without any space.
  
  When you do a gameinfo command it will show a "run" field and that will tell you if you are registered for the game or not. If not, the "run" field shows the register syntax you need to do, if you are registered, it will show the command line to start the rogue game that is playing the registered game.
  
-./komodo-cli -ac_name=ROGUE cclib register 17 \"[%224fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a%22,%22playerdata_txid%22]\"
+./squishy-cli -ac_name=ROGUE cclib register 17 \"[%224fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a%22,%22playerdata_txid%22]\"
 
  If you want to cash in your ingame gold and preserve your character for another battle, do the bailout:
  
-./komodo-cli -ac_name=ROGUE cclib bailout 17 \"[%224fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a%22]\"
+./squishy-cli -ac_name=ROGUE cclib bailout 17 \"[%224fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a%22]\"
 
  If you won your game before anybody else did or if you are the last one left who didnt bailout, you can claim the prize:
  
- ./komodo-cli -ac_name=ROGUE cclib highlander 17 \"[%224fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a%22]\"
+ ./squishy-cli -ac_name=ROGUE cclib highlander 17 \"[%224fd6f5cad0fac455e5989ca6eef111b00292845447075a802e9335879146ad5a%22]\"
 
  The txid you get from the bailout or highlander transactions is the "playerdata_txid" that you can use in future games.
  
@@ -127,7 +127,7 @@ std::string Rogue_pname = "";
 // keystrokes retry
 
 //////////////////////// start of CClib interface
-//./komodod -ac_name=ROGUE -ac_supply=1000000 -pubkey=03951a6f7967ad784453116bc55cd30c54f91ea8a5b1e9b04d6b29cfd6b395ba6c -addnode=5.9.102.210  -ac_cclib=rogue -ac_perc=10000000 -ac_reward=100000000 -ac_cc=60001 -ac_script=2ea22c80203d1579313abe7d8ea85f48c65ea66fc512c878c0d0e6f6d54036669de940febf8103120c008203000401cc > /dev/null &
+//./squishyd -ac_name=ROGUE -ac_supply=1000000 -pubkey=03951a6f7967ad784453116bc55cd30c54f91ea8a5b1e9b04d6b29cfd6b395ba6c -addnode=5.9.102.210  -ac_cclib=rogue -ac_perc=10000000 -ac_reward=100000000 -ac_cc=60001 -ac_script=2ea22c80203d1579313abe7d8ea85f48c65ea66fc512c878c0d0e6f6d54036669de940febf8103120c008203000401cc > /dev/null &
 
 // cclib newgame 17 \"[3,10]\"
 // cclib pending 17
@@ -136,7 +136,7 @@ std::string Rogue_pname = "";
 // ./rogue <seed> gui -> creates keystroke files
 // ./c cclib register 17 \"[%226d3243c6e5ab383898b28a87e01f6c00b5bdd9687020f17f5caacc8a61febd19%22,%222475182f9d5169d8a3249d17640e4eccd90f4ee43ab04791129b0fa3f177b14a%22]\"
 // ./c cclib bailout 17 \"[%226d3243c6e5ab383898b28a87e01f6c00b5bdd9687020f17f5caacc8a61febd19%22]\"
-// ./komodo-cli -ac_name=ROGUE cclib register 17 \"[%22a898f4ceef7647ba113b9f3c24ef045f5d134935a3b09bdd1a997b9d474f4c1b%22,%22f11d0cb4e2e4c21f029a1146f8e5926f11456885b7ab7d665096f5efedec8ea0%22]\"
+// ./squishy-cli -ac_name=ROGUE cclib register 17 \"[%22a898f4ceef7647ba113b9f3c24ef045f5d134935a3b09bdd1a997b9d474f4c1b%22,%22f11d0cb4e2e4c21f029a1146f8e5926f11456885b7ab7d665096f5efedec8ea0%22]\"
 
 
 CScript rogue_newgameopret(int64_t buyin,int32_t maxplayers)
@@ -309,7 +309,7 @@ int32_t rogue_isvalidgame(struct CCcontract_info *cp,int32_t &gameheight,CTransa
     if ( (txid == zeroid || myGetTransaction(txid,tx,hashBlock) != 0) && (numvouts= tx.vout.size()) > 1 )
     {
         if ( txid != zeroid )
-            gameheight = komodo_blockheight(hashBlock);
+            gameheight = squishy_blockheight(hashBlock);
         else
         {
             txid = tx.GetHash();
@@ -610,8 +610,8 @@ int32_t rogue_findbaton(struct CCcontract_info *cp,uint256 &playertxid,char **ke
                 if ( myGetTransaction(batontxid,batontx,hashBlock) != 0 && batontx.vout.size() > 0 )
                 {
                     if ( hashBlock == zeroid )
-                        batonht = komodo_nextheight();
-                    else if ( (pindex= komodo_blockindex(hashBlock)) == 0 )
+                        batonht = squishy_nextheight();
+                    else if ( (pindex= squishy_blockindex(hashBlock)) == 0 )
                         return(-4);
                     else batonht = pindex->nHeight;
                     batonvalue = batontx.vout[0].nValue;
@@ -628,7 +628,7 @@ int32_t rogue_playersalive(int32_t &openslots,int32_t &numplayers,uint256 gametx
 {
     int32_t i,n,vout,spentvini,registration_open = 0,alive = 0; CTransaction tx; uint256 txid,spenttxid,hashBlock; CBlockIndex *pindex; uint64_t txfee = 10000;
     numplayers = openslots = 0;
-    if ( komodo_nextheight() <= gameht+ROGUE_MAXKEYSTROKESGAP )
+    if ( squishy_nextheight() <= gameht+ROGUE_MAXKEYSTROKESGAP )
         registration_open = 1;
     for (i=0; i<maxplayers; i++)
     {
@@ -666,7 +666,7 @@ int32_t rogue_playersalive(int32_t &openslots,int32_t &numplayers,uint256 gametx
                 {
                     if ( myGetTransaction(txid,tx,hashBlock) != 0 )
                     {
-                        if ( (pindex= komodo_blockindex(hashBlock)) != 0 )
+                        if ( (pindex= squishy_blockindex(hashBlock)) != 0 )
                         {
                             if ( pindex->nHeight <= gameht+ROGUE_MAXKEYSTROKESGAP )
                                 alive++;
@@ -685,15 +685,15 @@ int32_t rogue_playersalive(int32_t &openslots,int32_t &numplayers,uint256 gametx
 uint64_t rogue_gamefields(UniValue &obj,int64_t maxplayers,int64_t buyin,uint256 gametxid,char *myrogueaddr)
 {
     CBlockIndex *pindex; int32_t ht,openslots,delay,numplayers; uint256 hashBlock; uint64_t seed=0; char cmd[512]; CTransaction tx;
-    if ( myGetTransaction(gametxid,tx,hashBlock) != 0 && (pindex= komodo_blockindex(hashBlock)) != 0 )
+    if ( myGetTransaction(gametxid,tx,hashBlock) != 0 && (pindex= squishy_blockindex(hashBlock)) != 0 )
     {
         ht = pindex->nHeight;
         delay = ROGUE_REGISTRATION * (maxplayers > 1);
         obj.push_back(Pair("height",ht));
         obj.push_back(Pair("start",ht+delay));
-        if ( komodo_nextheight() > ht+delay )
+        if ( squishy_nextheight() > ht+delay )
         {
-            if ( (pindex= komodo_chainactive(ht+delay)) != 0 )
+            if ( (pindex= squishy_chainactive(ht+delay)) != 0 )
             {
                 hashBlock = pindex->GetBlockHash();
                 obj.push_back(Pair("starthash",hashBlock.ToString()));
@@ -702,7 +702,7 @@ uint64_t rogue_gamefields(UniValue &obj,int64_t maxplayers,int64_t buyin,uint256
                 obj.push_back(Pair("seed",(int64_t)seed));
                 if ( rogue_iamregistered(maxplayers,gametxid,tx,myrogueaddr) > 0 )
                     sprintf(cmd,"cc/rogue/rogue %llu %s",(long long)seed,gametxid.ToString().c_str());
-                else sprintf(cmd,"./komodo-cli -ac_name=%s cclib register %d \"[%%22%s%%22]\"",chainName.symbol().c_str(),EVAL_ROGUE,gametxid.ToString().c_str());
+                else sprintf(cmd,"./squishy-cli -ac_name=%s cclib register %d \"[%%22%s%%22]\"",chainName.symbol().c_str(),EVAL_ROGUE,gametxid.ToString().c_str());
                 obj.push_back(Pair("run",cmd));
             }
         }
@@ -788,7 +788,7 @@ UniValue rogue_rawtxresult(UniValue &result,std::string rawtx,int32_t broadcastf
 
 UniValue rogue_newgame(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); std::string rawtx; CPubKey roguepk,mypk; char *jsonstr; uint64_t inputsum,change,required,buyin=0; int32_t i,n,maxplayers = 1;
     if ( txfee == 0 )
         txfee = 10000;
@@ -848,7 +848,7 @@ UniValue rogue_register(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
     // vin2 -> original creation TCBOO playerdata used
     // vin3+ -> buyin
     // vout0 -> keystrokes/completion baton
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); char destaddr[64],coinaddr[64]; uint256 tokenid,gametxid,origplayergame,playertxid,hashBlock; int32_t err,maxplayers,gameheight,n,numvouts,vout=1; int64_t inputsum,buyin,CCchange=0; CPubKey pk,mypk,roguepk,burnpk; CTransaction tx,playertx; std::vector<uint8_t> playerdata; std::string rawtx,symbol,pname; bits256 t;
 
     if ( txfee == 0 )
@@ -873,7 +873,7 @@ UniValue rogue_register(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
                     if ( tokenid != zeroid ) // if it is tokentransfer this will be 0
                         vout = 1;
                 }
-                if ( komodo_nextheight() > gameheight + ROGUE_MAXKEYSTROKESGAP )
+                if ( squishy_nextheight() > gameheight + ROGUE_MAXKEYSTROKESGAP )
                     return(cclib_error(result,"didnt register in time, ROGUE_MAXKEYSTROKESGAP"));
                 rogue_univalue(result,0,maxplayers,buyin);
                 GetCCaddress1of2(cp,coinaddr,roguepk,mypk);
@@ -935,7 +935,7 @@ UniValue rogue_keystrokes(uint64_t txfee,struct CCcontract_info *cp,cJSON *param
     // opret -> user input chars
     // being killed should auto broadcast (possible to be suppressed?)
     // respawn to be prevented by including timestamps
-    int32_t nextheight = komodo_nextheight();
+    int32_t nextheight = squishy_nextheight();
     CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(),nextheight);
     UniValue result(UniValue::VOBJ); CPubKey roguepk,mypk; uint256 gametxid,playertxid,batontxid; int64_t batonvalue,buyin; std::vector<uint8_t> keystrokes,playerdata; int32_t numplayers,regslot,numkeys,batonht,batonvout,n,elapsed,gameheight,maxplayers; CTransaction tx; CTxOut txout; char *keystrokestr,destaddr[64]; std::string rawtx,symbol,pname; bits256 t; uint8_t mypriv[32];
    // if ( txfee == 0 )
@@ -1221,7 +1221,7 @@ UniValue rogue_finishgame(uint64_t txfee,struct CCcontract_info *cp,cJSON *param
     // vout0 -> playerdata marker
     // vout0 -> 1% ingame gold
     // get any playerdata, get all keystrokes, replay game and compare final state
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); std::string rawtx,symbol,pname; CTransaction gametx; uint64_t seed,mult; int64_t buyin,batonvalue,inputsum,cashout=0,CCchange=0; int32_t i,err,gameheight,tmp,numplayers,regslot,n,num,dungeonlevel,numkeys,maxplayers,batonht,batonvout; char myrogueaddr[64],*keystrokes = 0; std::vector<uint8_t> playerdata,newdata,nodata; uint256 batontxid,playertxid,gametxid; CPubKey mypk,roguepk; uint8_t player[10000],mypriv[32],funcid;
     struct CCcontract_info *cpTokens, tokensC;
 
@@ -1287,7 +1287,7 @@ UniValue rogue_finishgame(uint64_t txfee,struct CCcontract_info *cp,cJSON *param
                             mtx.vout.push_back(MakeTokensCC1vout(cp->evalcode,1,mypk));
                             cashout = rogue_cashout(&P);
                             LogPrintf("\nextracted $$$gold.%d -> %.8f ROGUE hp.%d strength.%d/%d level.%d exp.%d dl.%d n.%d amulet.%d\n",P.gold,(double)cashout/COIN,P.hitpoints,P.strength&0xffff,P.strength>>16,P.level,P.experience,P.dungeonlevel,n,P.amulet);
-                            if ( komodo_nextheight() > 77777 && cashout > ROGUE_MAXCASHOUT )
+                            if ( squishy_nextheight() > 77777 && cashout > ROGUE_MAXCASHOUT )
                                 cashout = ROGUE_MAXCASHOUT;
                             if ( funcid == 'H' && maxplayers > 1 )
                             {
@@ -1401,7 +1401,7 @@ UniValue rogue_pending(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
     roguepk = GetUnspendable(cp,0);
     GetCCaddress(cp,coinaddr,roguepk);
     SetCCunspents(unspentOutputs,coinaddr,true);
-    nextheight = komodo_nextheight();
+    nextheight = squishy_nextheight();
     for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it=unspentOutputs.begin(); it!=unspentOutputs.end(); it++)
     {
         txid = it->first.txhash;

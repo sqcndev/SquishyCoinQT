@@ -14,14 +14,14 @@
  *                                                                            *
  ******************************************************************************/
 
-#ifndef KOMODO_NSPVFULLNODE_H
-#define KOMODO_NSPVFULLNODE_H
+#ifndef SQUISHY_NSPVFULLNODE_H
+#define SQUISHY_NSPVFULLNODE_H
 
 // NSPV_get... functions need to return the exact serialized length, which is the size of the structure minus size of pointers, plus size of allocated data
 
 #include "notarisationdb.h"
 #include "rpc/server.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 static std::map<std::string,bool> nspv_remote_commands =  {{"channelsopen", true},{"channelspayment", true},{"channelsclose", true},{"channelsrefund", true},
 {"channelslist", true},{"channelsinfo", true},{"oraclescreate", true},{"oraclesfund", true},{"oraclesregister", true},{"oraclessubscribe", true}, 
@@ -83,7 +83,7 @@ int32_t NSPV_ntzextract(struct NSPV_ntz *ptr,uint256 ntztxid,int32_t txidht,uint
     ptr->txidheight = txidht;
     ptr->othertxid = desttxid;
     ptr->txid = ntztxid;
-    if ( (pindex= komodo_chainactive(ptr->txidheight)) != 0 )
+    if ( (pindex= squishy_chainactive(ptr->txidheight)) != 0 )
         ptr->timestamp = pindex->nTime;
     return(0);
 }
@@ -113,7 +113,7 @@ int32_t NSPV_getntzsresp(struct NSPV_ntzsresp *ptr,int32_t origreqheight)
 int32_t NSPV_setequihdr(struct NSPV_equihdr *hdr,int32_t height)
 {
     CBlockIndex *pindex;
-    if ( (pindex= komodo_chainactive(height)) != 0 )
+    if ( (pindex= squishy_chainactive(height)) != 0 )
     {
         hdr->nVersion = pindex->nVersion;
         if ( pindex->pprev == 0 )
@@ -141,7 +141,7 @@ int32_t NSPV_getinfo(struct NSPV_inforesp *ptr,int32_t reqheight)
         if ( NSPV_getntzsresp(&pair,ptr->height-1) < 0 )
             return(-1);
         ptr->notarization = pair.prevntz;
-        if ( (pindex2= komodo_chainactive(ptr->notarization.txidheight)) != 0 )
+        if ( (pindex2= squishy_chainactive(ptr->notarization.txidheight)) != 0 )
             ptr->notarization.timestamp = pindex->nTime;
         //LogPrintf( "timestamp.%i\n", ptr->notarization.timestamp );
         if ( reqheight == 0 )
@@ -188,7 +188,7 @@ int32_t NSPV_getaddressutxos(struct NSPV_utxosresp *ptr,char *coinaddr,bool isCC
                         ptr->utxos[ind].height = it->second.blockHeight;
                         if ( chainName.isKMD() && it->second.satoshis >= 10*COIN )
                         {
-                            ptr->utxos[n].extradata = komodo_accrued_interest(&txheight,&locktime,ptr->utxos[ind].txid,ptr->utxos[ind].vout,ptr->utxos[ind].height,ptr->utxos[ind].satoshis,tipheight);
+                            ptr->utxos[n].extradata = squishy_accrued_interest(&txheight,&locktime,ptr->utxos[ind].txid,ptr->utxos[ind].vout,ptr->utxos[ind].height,ptr->utxos[ind].satoshis,tipheight);
                             interest += ptr->utxos[ind].extradata;
                         }
                         ind++;
@@ -772,11 +772,11 @@ int32_t NSPV_gettxproof(struct NSPV_txproof *ptr,int32_t vout,uint256 txid,int32
         ptr->vout = vout;
         ptr->hashblock = hashBlock;
         if ( height == 0 )
-            ptr->height = komodo_blockheight(hashBlock);
+            ptr->height = squishy_blockheight(hashBlock);
         else
         {
             ptr->height = height;
-            if ( (pindex= komodo_chainactive(height)) != 0 && komodo_blockload(block,pindex) == 0 )
+            if ( (pindex= squishy_chainactive(height)) != 0 && squishy_blockload(block,pindex) == 0 )
             {
                 BOOST_FOREACH(const CTransaction&tx, block.vtx)
                 {
@@ -815,18 +815,18 @@ int32_t NSPV_getntzsproofresp(struct NSPV_ntzsproofresp *ptr,uint256 prevntztxid
     int32_t i; uint256 hashBlock,bhash0,bhash1,desttxid0,desttxid1; CTransaction tx;
     ptr->prevtxid = prevntztxid;
     ptr->prevntz = NSPV_getrawtx(tx,hashBlock,&ptr->prevtxlen,ptr->prevtxid);
-    ptr->prevtxidht = komodo_blockheight(hashBlock);
+    ptr->prevtxidht = squishy_blockheight(hashBlock);
     if ( NSPV_notarizationextract(0,&ptr->common.prevht,&bhash0,&desttxid0,tx) < 0 )
         return(-2);
-    else if ( komodo_blockheight(bhash0) != ptr->common.prevht )
+    else if ( squishy_blockheight(bhash0) != ptr->common.prevht )
         return(-3);
     
     ptr->nexttxid = nextntztxid;
     ptr->nextntz = NSPV_getrawtx(tx,hashBlock,&ptr->nexttxlen,ptr->nexttxid);
-    ptr->nexttxidht = komodo_blockheight(hashBlock);
+    ptr->nexttxidht = squishy_blockheight(hashBlock);
     if ( NSPV_notarizationextract(0,&ptr->common.nextht,&bhash1,&desttxid1,tx) < 0 )
         return(-5);
-    else if ( komodo_blockheight(bhash1) != ptr->common.nextht )
+    else if ( squishy_blockheight(bhash1) != ptr->common.nextht )
         return(-6);
 
     else if ( ptr->common.prevht > ptr->common.nextht || (ptr->common.nextht - ptr->common.prevht) > 1440 )
@@ -874,7 +874,7 @@ int32_t NSPV_getspentinfo(struct NSPV_spentinfo *ptr,uint256 txid,int32_t vout)
     return(len);
 }
 
-void komodo_nSPVreq(CNode *pfrom,std::vector<uint8_t> request) // received a request
+void squishy_nSPVreq(CNode *pfrom,std::vector<uint8_t> request) // received a request
 {
     int32_t len,slen,ind,reqheight,n; std::vector<uint8_t> response; uint32_t timestamp = (uint32_t)time(NULL);
     if ( (len= request.size()) > 0 )
@@ -1234,4 +1234,4 @@ void komodo_nSPVreq(CNode *pfrom,std::vector<uint8_t> request) // received a req
     }
 }
 
-#endif // KOMODO_NSPVFULLNODE_H
+#endif // SQUISHY_NSPVFULLNODE_H

@@ -163,11 +163,11 @@
     </message>
     <message>
         <source>&amp;Sending addresses...</source>
-        <translation>&amp;ที่เก็บเงิน ที่จะส่ง komodo</translation>
+        <translation>&amp;ที่เก็บเงิน ที่จะส่ง squishy</translation>
     </message>
     <message>
         <source>&amp;Receiving addresses...</source>
-        <translation>&amp;ที่เก็บเงิน ที่จะรับ komodo</translation>
+        <translation>&amp;ที่เก็บเงิน ที่จะรับ squishy</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
@@ -231,7 +231,7 @@
     </message>
     <message>
         <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>เซ็นชื่อด้วยข้อความ ที่เก็บ Komodo เพื่อแสดงว่าท่านเป็นเจ้าของ komodo นี้จริง</translation>
+        <translation>เซ็นชื่อด้วยข้อความ ที่เก็บ Komodo เพื่อแสดงว่าท่านเป็นเจ้าของ squishy นี้จริง</translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
@@ -254,20 +254,20 @@
         <translation>แถบเครื่องมือ</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>เรียกเก็บ การชำระเงิน (สร้าง QR codes และ komodo: URIs)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>เรียกเก็บ การชำระเงิน (สร้าง QR codes และ squishy: URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
-        <translation>แสดงรายการ ที่เก็บเงินที่จะส่ง komodo ออก และป้ายชื่อ ที่ใช้ไปแล้ว</translation>
+        <translation>แสดงรายการ ที่เก็บเงินที่จะส่ง squishy ออก และป้ายชื่อ ที่ใช้ไปแล้ว</translation>
     </message>
     <message>
         <source>Show the list of used receiving addresses and labels</source>
-        <translation>แสดงรายการ ที่เก็บเงินที่จะรับ komodo เข้า และป้ายชื่อ ที่ใช้ไปแล้ว</translation>
+        <translation>แสดงรายการ ที่เก็บเงินที่จะรับ squishy เข้า และป้ายชื่อ ที่ใช้ไปแล้ว</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>เปิด komodo: URI หรือ การเรียกเก็บเงิน (การเรียกให้ชำระเงิน)</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>เปิด squishy: URI หรือ การเรียกเก็บเงิน (การเรียกให้ชำระเงิน)</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -916,7 +916,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>ตัวเลือก:</translation>

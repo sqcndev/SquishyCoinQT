@@ -6,13 +6,13 @@
 #include "config/bitcoin-config.h"
 #endif
 
-#include "komodooceangui.h"
+#include "squishyoceangui.h"
 
-#include "komodo.h"
-#include "komodo_bitcoind.h"
-#include "komodo_defs.h"
-#include "komodo_gateway.h"
-#include "komodo_globals.h"
+#include "squishy.h"
+#include "squishy_bitcoind.h"
+#include "squishy_defs.h"
+#include "squishy_gateway.h"
+#include "squishy_globals.h"
 #include "rpc/net.h"
 
 //#include "chainparams.h"
@@ -105,7 +105,7 @@ static void InitMessage(const std::string &message)
  */
 static std::string Translate(const char* psz)
 {
-    return QCoreApplication::translate("komodo-core", psz).toStdString();
+    return QCoreApplication::translate("squishy-core", psz).toStdString();
 }
 
 static QString GetLangTerritory()
@@ -152,11 +152,11 @@ static void initTranslations(QTranslator &qtTranslatorBase, QTranslator &qtTrans
     if (qtTranslator.load("qt_" + lang_territory, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
         QApplication::installTranslator(&qtTranslator);
 
-    // Load e.g. komodo_de.qm (shortcut "de" needs to be defined in komodo.qrc)
+    // Load e.g. squishy_de.qm (shortcut "de" needs to be defined in squishy.qrc)
     if (translatorBase.load(lang, ":/translations/"))
         QApplication::installTranslator(&translatorBase);
 
-    // Load e.g. komodo_de_DE.qm (shortcut "de_DE" needs to be defined in komodo.qrc)
+    // Load e.g. squishy_de_DE.qm (shortcut "de_DE" needs to be defined in squishy.qrc)
     if (translator.load(lang_territory, ":/translations/"))
         QApplication::installTranslator(&translator);
 }
@@ -274,7 +274,7 @@ private:
     void startThread();
 };
 
-#include "komodoapp.moc"
+#include "squishyapp.moc"
 
 KomodoCore::KomodoCore():
     QObject()
@@ -342,9 +342,9 @@ void KomodoCore::shutdown()
 
         int32_t i,height; CBlockIndex *pindex; bool fShutdown = ShutdownRequested(); const uint256 zeroid;
 
-        if (komodo_currentheight()>KOMODO_EARLYTXID_HEIGHT && KOMODO_EARLYTXID!=zeroid && ((height=tx_height(KOMODO_EARLYTXID))==0 || height>KOMODO_EARLYTXID_HEIGHT))
+        if (squishy_currentheight()>SQUISHY_EARLYTXID_HEIGHT && SQUISHY_EARLYTXID!=zeroid && ((height=tx_height(SQUISHY_EARLYTXID))==0 || height>SQUISHY_EARLYTXID_HEIGHT))
         {
-            LogPrintf("error: earlytx must be before block height %d or tx does not exist\n",KOMODO_EARLYTXID_HEIGHT);
+            LogPrintf("error: earlytx must be before block height %d or tx does not exist\n",SQUISHY_EARLYTXID_HEIGHT);
             StartShutdown();
         }
 
@@ -353,9 +353,9 @@ void KomodoCore::shutdown()
             /* TODO: move to ThreadUpdateKomodoInternals */
             if ( chainName.isKMD() )
             {
-                if ( KOMODO_NSPV_FULLNODE ) {
-                    komodo_update_interest();
-                    komodo_longestchain();
+                if ( SQUISHY_NSPV_FULLNODE ) {
+                    squishy_update_interest();
+                    squishy_longestchain();
                 }
                 for (i=0; i<10; i++)
                 {
@@ -396,7 +396,7 @@ void KomodoCore::shutdown()
 }
 
 static int qt_argc = 1;
-static const char* qt_argv = "komodo-qt";
+static const char* qt_argv = "squishy-qt";
 
 KomodoApplication::KomodoApplication():
     QApplication(qt_argc, const_cast<char **>(&qt_argv)),
@@ -592,7 +592,7 @@ void KomodoApplication::initializeResult(bool success)
 
 #ifdef ENABLE_WALLET
         // Now that initialization/startup is done, process any command-line
-        // komodo: URIs or payment requests:
+        // squishy: URIs or payment requests:
         connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
                          window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
         /*connect(paymentServer, SIGNAL(receivedZPaymentRequest(SendCoinsRecipient)),
@@ -627,7 +627,7 @@ WId KomodoApplication::getMainWinId() const
     return window->winId();
 }
 
-#ifndef KOMODO_QT_TEST
+#ifndef SQUISHY_QT_TEST
 int main(int argc, char *argv[])
 {
     SetupEnvironment();
@@ -645,8 +645,8 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForCStrings(QTextCodec::codecForTr());
 #endif
 
-    Q_INIT_RESOURCE(komodo);
-    Q_INIT_RESOURCE(komodo_locale);
+    Q_INIT_RESOURCE(squishy);
+    Q_INIT_RESOURCE(squishy_locale);
 
 #if QT_VERSION > 0x050100
     // Generate high-dpi pixmaps
@@ -706,12 +706,12 @@ int main(int argc, char *argv[])
             return EXIT_FAILURE;
         }
 
-        void komodo_args(char *argv0);
-        komodo_args(argv[0]);
+        void squishy_args(char *argv0);
+        squishy_args(argv[0]);
         void chainparams_commandline();
         chainparams_commandline();
 
-        LogPrintf("call komodo_args.(%s) NOTARY_PUBKEY.(%s)\n",argv[0],NOTARY_PUBKEY.c_str());
+        LogPrintf("call squishy_args.(%s) NOTARY_PUBKEY.(%s)\n",argv[0],NOTARY_PUBKEY.c_str());
         LogPrintf("initialized %s\n",chainName.symbol().c_str());
 
 
@@ -720,7 +720,7 @@ int main(int argc, char *argv[])
     if (!Intro::pickDataDirectory())
         return EXIT_SUCCESS;
 
-    /// 6. Determine availability of data directory and parse komodo.conf
+    /// 6. Determine availability of data directory and parse squishy.conf
     /// - Do not call GetDataDir(true) before this step finishes
     if (!fs::is_directory(GetDataDir(false)))
     {
@@ -730,7 +730,7 @@ int main(int argc, char *argv[])
     }
 
     try {
-//        ReadConfigFile(GetArg("-conf", KOMODO_CONF_FILENAME));
+//        ReadConfigFile(GetArg("-conf", SQUISHY_CONF_FILENAME));
         ReadConfigFile(mapArgs, mapMultiArgs);
     } catch (const std::exception& e) {
         QMessageBox::critical(0, QObject::tr(PACKAGE_NAME),
@@ -775,7 +775,7 @@ int main(int argc, char *argv[])
         exit(EXIT_SUCCESS);
 
     // Start up the payment server early, too, so impatient users that click on
-    // komodo: links repeatedly have their payment requests routed to this process:
+    // squishy: links repeatedly have their payment requests routed to this process:
     app.createPaymentServer();
 #endif
 
@@ -839,4 +839,4 @@ int main(int argc, char *argv[])
     qDebug() << __func__ << ": Final";
     return rv;
 }
-#endif // KOMODO_QT_TEST
+#endif // SQUISHY_QT_TEST

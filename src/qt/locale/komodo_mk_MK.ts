@@ -139,7 +139,7 @@
     </message>
     <message>
         <source>Send coins to a Komodo address</source>
-        <translation>Испрати komodo на Komodo адреса</translation>
+        <translation>Испрати squishy на Komodo адреса</translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
@@ -572,7 +572,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Опции:</translation>

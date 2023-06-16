@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_NETWORKSTYLE_H
-#define KOMODO_QT_NETWORKSTYLE_H
+#ifndef SQUISHY_QT_NETWORKSTYLE_H
+#define SQUISHY_QT_NETWORKSTYLE_H
 
 #include <QIcon>
 #include <QPixmap>
@@ -30,4 +30,4 @@ private:
     QString titleAddText;
 };
 
-#endif // KOMODO_QT_NETWORKSTYLE_H
+#endif // SQUISHY_QT_NETWORKSTYLE_H

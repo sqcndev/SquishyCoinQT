@@ -39,7 +39,7 @@ NotarisationsInBlock ScanBlockNotarisations(const CBlock &block, int nHeight)
         //LogPrintf("Checked notarisation data for %s \n",data.symbol);
         CrosschainType authority = CrossChain::GetSymbolAuthority(data.symbol);
 
-        if (authority == CROSSCHAIN_KOMODO) {
+        if (authority == CROSSCHAIN_SQUISHY) {
             if (!eval->CheckNotaryInputs(tx, nHeight, block.nTime))
                 continue;
         } else if (authority == CROSSCHAIN_STAKED) {

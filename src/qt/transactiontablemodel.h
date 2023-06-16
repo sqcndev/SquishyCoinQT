@@ -2,10 +2,10 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_TRANSACTIONTABLEMODEL_H
-#define KOMODO_QT_TRANSACTIONTABLEMODEL_H
+#ifndef SQUISHY_QT_TRANSACTIONTABLEMODEL_H
+#define SQUISHY_QT_TRANSACTIONTABLEMODEL_H
 
-#include "komodounits.h"
+#include "squishyunits.h"
 
 #include <QAbstractTableModel>
 #include <QStringList>
@@ -117,4 +117,4 @@ public Q_SLOTS:
     friend class TransactionTablePriv;
 };
 
-#endif // KOMODO_QT_TRANSACTIONTABLEMODEL_H
+#endif // SQUISHY_QT_TRANSACTIONTABLEMODEL_H

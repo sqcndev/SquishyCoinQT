@@ -12,25 +12,25 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo_interest.h"
-#include "komodo_bitcoind.h"
-#include "komodo_utils.h" // dstr()
-#include "komodo_hardfork.h"
+#include "squishy_interest.h"
+#include "squishy_bitcoind.h"
+#include "squishy_utils.h" // dstr()
+#include "squishy_hardfork.h"
 
-#define KOMODO_INTEREST ((uint64_t)5000000) //((uint64_t)(0.05 * COIN))   // 5%
+#define SQUISHY_INTEREST ((uint64_t)5000000) //((uint64_t)(0.05 * COIN))   // 5%
 
-uint64_t _komodo_interestnew(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uint32_t tiptime)
+uint64_t _squishy_interestnew(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uint32_t tiptime)
 {
     int32_t minutes; 
     if ( nLockTime >= LOCKTIME_THRESHOLD 
             && tiptime > nLockTime 
-            && (minutes= (tiptime - nLockTime) / 60) >= (KOMODO_MAXMEMPOOLTIME/60) )
+            && (minutes= (tiptime - nLockTime) / 60) >= (SQUISHY_MAXMEMPOOLTIME/60) )
     {
         if ( minutes > 365 * 24 * 60 )
             minutes = 365 * 24 * 60;
         if ( txheight >= 1000000 && minutes > 31 * 24 * 60 )
             minutes = 31 * 24 * 60;
-        minutes -= ((KOMODO_MAXMEMPOOLTIME/60) - 1);
+        minutes -= ((SQUISHY_MAXMEMPOOLTIME/60) - 1);
         uint64_t res = (nValue / 10512000) * minutes;
         if (txheight >= nS7HardforkHeight)
             res /= 500; // KIP-0001 implementation, reduce AUR from 5% to 0.01%
@@ -47,14 +47,14 @@ uint64_t _komodo_interestnew(int32_t txheight,uint64_t nValue,uint32_t nLockTime
  * @param tiptime
  * @return interest calculated
  */
-uint64_t komodo_interestnew(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uint32_t tiptime)
+uint64_t squishy_interestnew(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uint32_t tiptime)
 {
-    if ( txheight < KOMODO_ENDOFERA 
+    if ( txheight < SQUISHY_ENDOFERA 
             && nLockTime >= LOCKTIME_THRESHOLD 
             && tiptime != 0 
             && nLockTime < tiptime 
             && nValue >= 10*COIN )
-        return _komodo_interestnew(txheight,nValue,nLockTime,tiptime);
+        return _squishy_interestnew(txheight,nValue,nLockTime,tiptime);
     return 0;
 }
 
@@ -66,13 +66,13 @@ uint64_t komodo_interestnew(int32_t txheight,uint64_t nValue,uint32_t nLockTime,
  * @param tiptime
  * @returns the interest
  */
-uint64_t komodo_interest(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uint32_t tiptime)
+uint64_t squishy_interest(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uint32_t tiptime)
 {
     int32_t minutes,exception; uint64_t interestnew,numerator,denominator,interest = 0; uint32_t activation;
     activation = 1491350400;  // 1491350400 5th April
     if ( !chainName.isKMD() )
         return(0);
-    if ( txheight >= KOMODO_ENDOFERA )
+    if ( txheight >= SQUISHY_ENDOFERA )
         return 0;
 
     if ( nLockTime >= LOCKTIME_THRESHOLD && tiptime != 0 && nLockTime < tiptime && nValue >= 10*COIN )
@@ -86,7 +86,7 @@ uint64_t komodo_interest(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uin
                 minutes -= 59;
             uint64_t denominator = (((uint64_t)365 * 24 * 60) / minutes);
             if ( denominator == 0 )
-                denominator = 1; // max KOMODO_INTEREST per transfer, do it at least annually!
+                denominator = 1; // max SQUISHY_INTEREST per transfer, do it at least annually!
             if ( nValue > 25000LL*COIN )
             {
                 bool exception = false;
@@ -118,28 +118,28 @@ uint64_t komodo_interest(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uin
                     else if ( txheight < 1000000 )
                     {
                         interest = (numerator * minutes) / ((uint64_t)365 * 24 * 60);
-                        uint64_t interestnew = _komodo_interestnew(txheight,nValue,nLockTime,tiptime);
+                        uint64_t interestnew = _squishy_interestnew(txheight,nValue,nLockTime,tiptime);
                         if ( interest < interestnew )
                             LogPrintf("pathA current interest %.8f vs new %.8f for ht.%d %.8f locktime.%u tiptime.%u\n",
                                     dstr(interest),dstr(interestnew),txheight,dstr(nValue),nLockTime,tiptime);
                     }
                     else 
-                        interest = _komodo_interestnew(txheight,nValue,nLockTime,tiptime);
+                        interest = _squishy_interestnew(txheight,nValue,nLockTime,tiptime);
                 }
                 else if ( txheight < 1000000 )
                 {
-                    uint64_t numerator = (nValue * KOMODO_INTEREST);
+                    uint64_t numerator = (nValue * SQUISHY_INTEREST);
                     interest = (numerator / denominator) / COIN;
-                    uint64_t interestnew = _komodo_interestnew(txheight,nValue,nLockTime,tiptime);
+                    uint64_t interestnew = _squishy_interestnew(txheight,nValue,nLockTime,tiptime);
                     if ( interest < interestnew )
                         LogPrintf("pathB current interest %.8f vs new %.8f for ht.%d %.8f locktime.%u tiptime.%u\n",dstr(interest),dstr(interestnew),txheight,dstr(nValue),nLockTime,tiptime);
                 }
                 else 
-                    interest = _komodo_interestnew(txheight,nValue,nLockTime,tiptime);
+                    interest = _squishy_interestnew(txheight,nValue,nLockTime,tiptime);
             }
             else
             {
-                uint64_t numerator = (nValue * KOMODO_INTEREST);
+                uint64_t numerator = (nValue * SQUISHY_INTEREST);
                 if ( txheight < 250000 || tiptime < activation )
                 {
                     if ( txheight < 250000 || numerator * minutes < 365 * 24 * 60 )
@@ -151,12 +151,12 @@ uint64_t komodo_interest(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uin
                 {
                     uint64_t numerator = (nValue / 20); // assumes 5%!
                     interest = ((numerator * minutes) / ((uint64_t)365 * 24 * 60));
-                    uint64_t interestnew = _komodo_interestnew(txheight,nValue,nLockTime,tiptime);
+                    uint64_t interestnew = _squishy_interestnew(txheight,nValue,nLockTime,tiptime);
                     if ( interest < interestnew )
                         LogPrintf("pathC current interest %.8f vs new %.8f for ht.%d %.8f locktime.%u tiptime.%u\n",dstr(interest),dstr(interestnew),txheight,dstr(nValue),nLockTime,tiptime);
                 }
                 else 
-                    interest = _komodo_interestnew(txheight,nValue,nLockTime,tiptime);
+                    interest = _squishy_interestnew(txheight,nValue,nLockTime,tiptime);
             }
         }
     }
@@ -173,7 +173,7 @@ uint64_t komodo_interest(int32_t txheight,uint64_t nValue,uint32_t nLockTime,uin
  * @param n the vout to look for
  * @returns locktime
  */
-uint32_t komodo_interest_args(uint32_t *txheighttimep,int32_t *txheightp,uint32_t *tiptimep,uint64_t *valuep,
+uint32_t squishy_interest_args(uint32_t *txheighttimep,int32_t *txheightp,uint32_t *tiptimep,uint64_t *valuep,
         uint256 hash,int32_t n)
 {
     *txheighttimep = *txheightp = *tiptimep = 0;
@@ -187,7 +187,7 @@ uint32_t komodo_interest_args(uint32_t *txheighttimep,int32_t *txheightp,uint32_
     uint32_t locktime = 0;
     if ( n < tx.vout.size() )
     {
-        CBlockIndex *pindex = komodo_getblockindex(hashBlock);
+        CBlockIndex *pindex = squishy_getblockindex(hashBlock);
         if ( pindex != nullptr )
         {
             *valuep = tx.vout[n].nValue;
@@ -213,7 +213,7 @@ uint32_t komodo_interest_args(uint32_t *txheighttimep,int32_t *txheightp,uint32_
  * @param[in] tipheight
  * @return the interest calculated
  */
-uint64_t komodo_accrued_interest(int32_t *txheightp,uint32_t *locktimep,uint256 hash,int32_t n,
+uint64_t squishy_accrued_interest(int32_t *txheightp,uint32_t *locktimep,uint256 hash,int32_t n,
         int32_t checkheight,uint64_t checkvalue,int32_t tipheight)
 {
     uint32_t tiptime=0; 
@@ -225,13 +225,13 @@ uint64_t komodo_accrued_interest(int32_t *txheightp,uint32_t *locktimep,uint256 
 
     uint32_t txheighttimep;
     uint64_t value;
-    *locktimep = komodo_interest_args(&txheighttimep, txheightp, &tiptime, &value, hash, n);
+    *locktimep = squishy_interest_args(&txheighttimep, txheightp, &tiptime, &value, hash, n);
     if ( *locktimep != 0 )
     {
         if ( (checkvalue == 0 || value == checkvalue) && (checkheight == 0 || *txheightp == checkheight) )
-            return komodo_interest(*txheightp,value,*locktimep,tiptime);
+            return squishy_interest(*txheightp,value,*locktimep,tiptime);
         else 
-            LogPrintf("komodo_accrued_interest value mismatch %llu vs %llu or height mismatch %d vs %d\n",(long long)value,(long long)checkvalue,*txheightp,checkheight);
+            LogPrintf("squishy_accrued_interest value mismatch %llu vs %llu or height mismatch %d vs %d\n",(long long)value,(long long)checkvalue,*txheightp,checkheight);
     }
     return 0;
 }

@@ -10,7 +10,7 @@
 #include "utilstrencodings.h"
 
 #include "sodium.h"
-#include "komodo_nk.h"
+#include "squishy_nk.h"
 
 #include <cstring>
 #include <exception>

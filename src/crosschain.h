@@ -19,7 +19,7 @@
 #include "cc/eval.h"
 
 enum CrosschainType {
-    CROSSCHAIN_KOMODO = 1,
+    CROSSCHAIN_SQUISHY = 1,
     CROSSCHAIN_TXSCL = 2,
     CROSSCHAIN_STAKED = 3
 };

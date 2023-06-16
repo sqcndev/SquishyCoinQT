@@ -13,8 +13,8 @@
  *                                                                            *
  ******************************************************************************/
 
-// #ifndef H_KOMODO25519_H
-// #define H_KOMODO25519_H
+// #ifndef H_SQUISHY25519_H
+// #define H_SQUISHY25519_H
 
 // derived from curve25519_donna
 #pragma once
@@ -25,7 +25,7 @@
 #include "bits256.h"
 
 #include "uint256.h"
-//#include "komodo_structs.h" // komodo_structs.h -> komodo_defs.h -> arith_uint256.h -> class uint256;
+//#include "squishy_structs.h" // squishy_structs.h -> squishy_defs.h -> arith_uint256.h -> class uint256;
 
 #ifdef _WIN32
 #include <sodium.h>

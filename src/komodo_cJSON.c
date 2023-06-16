@@ -23,7 +23,7 @@
 
 #include <math.h>
 
-#include "komodo_cJSON.h"
+#include "squishy_cJSON.h"
 #include "cJSON.h"
 #include "hex.h"
 #include <string.h>
@@ -49,7 +49,7 @@ static int32_t cJSON_strcasecmp(const char *s1,const char *s2)
 	return tolower((int32_t)(*(const unsigned char *)s1)) - tolower((int32_t)(*(const unsigned char *)s2));
 }
 
-/* komodo_cutils [begin] */
+/* squishy_cutils [begin] */
 static int32_t safecopy(char *dest,char *src,long len)
 {
     int32_t i = -1;
@@ -99,7 +99,7 @@ static char *clonestr(char *str)
     strcpy(clone,str);
     return(clone);
 }
-/* komodo_cutils [end] */
+/* squishy_cutils [end] */
 
 // the following written by jl777
 /******************************************************************************

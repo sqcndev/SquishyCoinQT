@@ -43,7 +43,7 @@ struct CBlockTemplate
     std::vector<CAmount> vTxFees;
     std::vector<int64_t> vTxSigOps;
 };
-#define KOMODO_MAXGPUCOUNT 65
+#define SQUISHY_MAXGPUCOUNT 65
 
 /** Generate a new block, without valid proof-of-work */
 CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& scriptPubKeyIn, int32_t gpucount, bool isStake = false);

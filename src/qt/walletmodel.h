@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_WALLETMODEL_H
-#define KOMODO_QT_WALLETMODEL_H
+#ifndef SQUISHY_QT_WALLETMODEL_H
+#define SQUISHY_QT_WALLETMODEL_H
 
 #if defined(HAVE_CONFIG_H)
 #include "config/bitcoin-config.h"
@@ -331,4 +331,4 @@ public Q_SLOTS:
     void pollBalanceChanged();
 };
 
-#endif // KOMODO_QT_WALLETMODEL_H
+#endif // SQUISHY_QT_WALLETMODEL_H

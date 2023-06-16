@@ -478,7 +478,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Opsiynau:</translation>

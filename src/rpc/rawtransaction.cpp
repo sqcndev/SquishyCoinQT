@@ -36,15 +36,15 @@
 #include "script/standard.h"
 #include "uint256.h"
 #include "importcoin.h"
-#include "komodo_notary.h"
-#include "komodo_bitcoind.h"
+#include "squishy_notary.h"
+#include "squishy_bitcoind.h"
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
 #endif
 
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 #include "assetchain.h"
-#include "komodo_interest.h"
+#include "squishy_interest.h"
 
 #include <stdint.h>
 
@@ -185,7 +185,7 @@ int32_t myIsutxo_spent(uint256 &spenttxid,uint256 txid,int32_t vout)
 void TxToJSONExpanded(const CTransaction& tx, const uint256 hashBlock, UniValue& entry, int nHeight = 0, int nConfirmations = 0, int nBlockTime = 0)
 {
     uint256 notarized_hash,notarized_desttxid; int32_t prevMoMheight,notarized_height;
-    notarized_height = komodo_notarized_height(&prevMoMheight,&notarized_hash,&notarized_desttxid);
+    notarized_height = squishy_notarized_height(&prevMoMheight,&notarized_hash,&notarized_desttxid);
     uint256 txid = tx.GetHash();
     entry.push_back(Pair("txid", txid.GetHex()));
     entry.push_back(Pair("overwintered", tx.fOverwintered));
@@ -272,7 +272,7 @@ void TxToJSONExpanded(const CTransaction& tx, const uint256 hashBlock, UniValue&
         if ( chainName.isKMD() && pindex != 0 && tx.nLockTime >= 500000000 && (tipindex= chainActive.Tip()) != 0 )
         {
             int64_t interest; int32_t txheight; uint32_t locktime;
-            interest = komodo_accrued_interest(&txheight,&locktime,tx.GetHash(),i,0,txout.nValue,(int32_t)tipindex->nHeight);
+            interest = squishy_accrued_interest(&txheight,&locktime,tx.GetHash(),i,0,txout.nValue,(int32_t)tipindex->nHeight);
             out.push_back(Pair("interest", ValueFromAmount(interest)));
         }
         out.push_back(Pair("valueSat", txout.nValue)); // [+] Decker
@@ -321,7 +321,7 @@ void TxToJSONExpanded(const CTransaction& tx, const uint256 hashBlock, UniValue&
 
         if (nConfirmations > 0) {
             entry.push_back(Pair("height", nHeight));
-            entry.push_back(Pair("confirmations", komodo_dpowconfs(nHeight,nConfirmations)));
+            entry.push_back(Pair("confirmations", squishy_dpowconfs(nHeight,nConfirmations)));
             entry.push_back(Pair("rawconfirmations", nConfirmations));
             entry.push_back(Pair("time", nBlockTime));
             entry.push_back(Pair("blocktime", nBlockTime));
@@ -371,10 +371,10 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& entry)
         const CTxOut& txout = tx.vout[i];
         UniValue out(UniValue::VOBJ);
         out.push_back(Pair("value", ValueFromAmount(txout.nValue)));
-        if ( KOMODO_NSPV_FULLNODE && chainName.isKMD() && tx.nLockTime >= 500000000 && (tipindex= chainActive.Tip()) != 0 )
+        if ( SQUISHY_NSPV_FULLNODE && chainName.isKMD() && tx.nLockTime >= 500000000 && (tipindex= chainActive.Tip()) != 0 )
         {
             int64_t interest; int32_t txheight; uint32_t locktime;
-            interest = komodo_accrued_interest(&txheight,&locktime,tx.GetHash(),i,0,txout.nValue,(int32_t)tipindex->nHeight);
+            interest = squishy_accrued_interest(&txheight,&locktime,tx.GetHash(),i,0,txout.nValue,(int32_t)tipindex->nHeight);
             out.push_back(Pair("interest", ValueFromAmount(interest)));
         }        
         out.push_back(Pair("valueZat", txout.nValue));
@@ -408,7 +408,7 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& entry)
             if (chainActive.Contains(pindex)) {
                 entry.push_back(Pair("height", pindex->nHeight));
                 entry.push_back(Pair("rawconfirmations", 1 + chainActive.Height() - pindex->nHeight));
-                entry.push_back(Pair("confirmations", komodo_dpowconfs(pindex->nHeight,1 + chainActive.Height() - pindex->nHeight)));
+                entry.push_back(Pair("confirmations", squishy_dpowconfs(pindex->nHeight,1 + chainActive.Height() - pindex->nHeight)));
                 entry.push_back(Pair("time", pindex->GetBlockTime()));
                 entry.push_back(Pair("blocktime", pindex->GetBlockTime()));
             } else {
@@ -467,7 +467,7 @@ UniValue getrawtransaction(const UniValue& params, bool fHelp, const CPubKey& my
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"komodoaddress\"          (string) Komodo address\n"
+            "           \"squishyaddress\"          (string) Komodo address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
@@ -697,7 +697,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp, const CPubKey&
             "     ]\n"
             "2. \"outputs\"               (object, required) a json object with outputs\n"
             "    {\n"
-            "      \"address\": x.xxx,    (numeric or string, required) The key is the komodo address or script (in hex), the numeric value (can be string) is the " + CURRENCY_UNIT + " amount\n"
+            "      \"address\": x.xxx,    (numeric or string, required) The key is the squishy address or script (in hex), the numeric value (can be string) is the " + CURRENCY_UNIT + " amount\n"
             "      \"data\": \"hex\"      (string, required) The key is \"data\", the value is hex encoded data\n"
             "      ,...\n"
             "    }\n"
@@ -811,7 +811,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp, const CPubKey&
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Komodo address or script: ") + name_);
             }
 
-            if (!(fExperimentalMode && IS_KOMODO_NOTARY)) {
+            if (!(fExperimentalMode && IS_SQUISHY_NOTARY)) {
                 // support of sending duplicates in createrawtransaction requires experimental features enabled and
                 // notary flag, to prevent common users to get messed up with duplicates
 
@@ -872,7 +872,7 @@ UniValue decoderawtransaction(const UniValue& params, bool fHelp, const CPubKey&
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"RTZMZHDFSTFQst8XmX2dR4DaH87cEUs3gC\"   (string) komodo address\n"
+            "           \"RTZMZHDFSTFQst8XmX2dR4DaH87cEUs3gC\"   (string) squishy address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
@@ -1313,7 +1313,7 @@ UniValue sendrawtransaction(const UniValue& params, bool fHelp, const CPubKey& m
     bool fOverrideFees = false;
     if (params.size() > 1)
         fOverrideFees = params[1].get_bool();
-    if ( KOMODO_NSPV_FULLNODE )
+    if ( SQUISHY_NSPV_FULLNODE )
     {
         CCoinsViewCache &view = *pcoinsTip;
         const CCoins* existingCoins = view.AccessCoins(hashTx);

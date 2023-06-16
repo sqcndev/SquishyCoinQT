@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_CONSENSUS_CONSENSUS_H
-#define KOMODO_CONSENSUS_CONSENSUS_H
+#ifndef SQUISHY_CONSENSUS_CONSENSUS_H
+#define SQUISHY_CONSENSUS_CONSENSUS_H
 
 #if defined(_MSC_VER) || defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
 typedef signed int            int32_t;
@@ -55,4 +55,4 @@ static const unsigned int STANDARD_LOCKTIME_VERIFY_FLAGS = LOCKTIME_MEDIAN_TIME_
 
 static const int WITNESS_SCALE_FACTOR = 4;
 
-#endif // KOMODO_CONSENSUS_CONSENSUS_H
+#endif // SQUISHY_CONSENSUS_CONSENSUS_H

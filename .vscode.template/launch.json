@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch (komodo-qt)",
+            "name": "(gdb) Launch (squishy-qt)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/src/qt/komodo-qt",
+            "program": "${workspaceFolder}/src/qt/squishy-qt",
             "args": ["-minrelaytxfee=0.000035", "-opretmintxfee=0.004","-debug=mempool","-listen=0","-server=1"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -29,10 +29,10 @@
             ]
         },
         {
-            "name": "(gdb) Launch (komodo-test)",
+            "name": "(gdb) Launch (squishy-test)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/src/komodo-test",
+            "program": "${workspaceFolder}/src/squishy-test",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

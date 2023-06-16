@@ -202,6 +202,6 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     </context>
 </TS>

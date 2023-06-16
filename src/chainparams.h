@@ -26,7 +26,7 @@
 #include "primitives/block.h"
 #include "protocol.h"
 
-#define KOMODO_MINDIFF_NBITS 0x200f0f0f
+#define SQUISHY_MINDIFF_NBITS 0x200f0f0f
 
 #include <vector>
 
@@ -286,7 +286,7 @@ bool SelectParamsFromCommandLine();
  */
 void UpdateNetworkUpgradeParameters(Consensus::UpgradeIndex idx, int nActivationHeight);
 
-void komodo_setactivation(int32_t height);
+void squishy_setactivation(int32_t height);
 int32_t MAX_BLOCK_SIZE(int32_t height);
 
 #endif // BITCOIN_CHAINPARAMS_H

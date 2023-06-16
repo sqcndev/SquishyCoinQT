@@ -27,7 +27,7 @@
 #include "pow.h"
 #include "uint256.h"
 #include "core_io.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 #include "ui_interface.h"
 #include "init.h"
@@ -614,7 +614,7 @@ UniValue CBlockTreeDB::Snapshot(int top)
           	char amount[32];
           	sprintf(amount, "%.8f", (double) it->first / COIN);
           	obj.push_back( make_pair("amount", amount) );
-            obj.push_back( make_pair("segid",(int32_t)komodo_segid32((char *)it->second.c_str()) & 0x3f) );
+            obj.push_back( make_pair("segid",(int32_t)squishy_segid32((char *)it->second.c_str()) & 0x3f) );
           	addressesSorted.push_back(obj);
             topN++;
             // If requested, only show top N addresses in output JSON
@@ -696,7 +696,7 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) const {
     return true;
 }
 
-void komodo_index2pubkey33(uint8_t *pubkey33,CBlockIndex *pindex,int32_t height);
+void squishy_index2pubkey33(uint8_t *pubkey33,CBlockIndex *pindex,int32_t height);
 
 bool CBlockTreeDB::blockOnchainActive(const uint256 &hash) {
     BlockMap::const_iterator it = mapBlockIndex.find(hash);
@@ -783,7 +783,7 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
                                     diskindex.ToString(),  pindexNew->ToString());
 
                     uint8_t pubkey33[33];
-                    komodo_index2pubkey33(pubkey33,pindexNew,pindexNew->nHeight);
+                    squishy_index2pubkey33(pubkey33,pindexNew,pindexNew->nHeight);
                     if (!CheckProofOfWork(header,pubkey33,pindexNew->nHeight,Params().GetConsensus()))
                         return error("LoadBlockIndex(): CheckProofOfWork failed: %s", pindexNew->ToString());
                 }

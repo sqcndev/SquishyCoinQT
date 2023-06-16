@@ -1,4 +1,4 @@
-AC_DEFUN([KOMODO_FIND_BDB62],[
+AC_DEFUN([SQUISHY_FIND_BDB62],[
   AC_MSG_CHECKING([for Berkeley DB C++ headers])
   BDB_CPPFLAGS=
   BDB_LIBS=
@@ -40,14 +40,14 @@ AC_DEFUN([KOMODO_FIND_BDB62],[
     AC_MSG_RESULT([no])
     AC_MSG_ERROR([libdb_cxx headers missing, Komodo Core requires this library for wallet functionality (--disable-wallet to disable wallet functionality)])
   elif test "x$bdb62path" = "xX"; then
-    KOMODO_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdbpath}],db_cxx)
+    SQUISHY_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdbpath}],db_cxx)
     AC_ARG_WITH([incompatible-bdb],[AS_HELP_STRING([--with-incompatible-bdb], [allow using a bdb version other than 6.2])],[
       AC_MSG_WARN([Found Berkeley DB other than 6.2; wallets opened by this build will not be portable!])
     ],[
       AC_MSG_ERROR([Found Berkeley DB other than 6.2, required for portable wallets (--with-incompatible-bdb to ignore or --disable-wallet to disable wallet functionality)])
     ])
   else
-    KOMODO_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb62path}],db_cxx)
+    SQUISHY_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb62path}],db_cxx)
     bdbpath="${bdb62path}"
   fi
   AC_SUBST(BDB_CPPFLAGS)

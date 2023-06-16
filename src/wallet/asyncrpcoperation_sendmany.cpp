@@ -39,10 +39,10 @@
 #include "zcash/IncrementalMerkleTree.hpp"
 #include "sodium.h"
 #include "miner.h"
-#include "komodo_notary.h"
-#include "komodo_bitcoind.h"
+#include "squishy_notary.h"
+#include "squishy_bitcoind.h"
 #include "rpc/rawtransaction.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 #include <stdint.h>
 
@@ -372,7 +372,7 @@ bool AsyncRPCOperation_sendmany::main_impl() {
             if (chainName.isKMD())
             {
                 //if ((uint32_t)chainActive.Tip()->nTime < ASSETCHAINS_STAKED_HF_TIMESTAMP)
-                if ( !komodo_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
+                if ( !squishy_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
                     builder_.SetLockTime((uint32_t)time(NULL) - 60); // set lock time for Komodo interest
                 else
                     builder_.SetLockTime((uint32_t)chainActive.Tip()->GetMedianTimePast());
@@ -389,7 +389,7 @@ bool AsyncRPCOperation_sendmany::main_impl() {
             if (chainName.isKMD())
             {
                 //if ((uint32_t)chainActive.Tip()->nTime < ASSETCHAINS_STAKED_HF_TIMESTAMP)
-                if ( !komodo_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
+                if ( !squishy_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
                     rawTx.nLockTime = (uint32_t)time(NULL) - 60; // jl777
                 else
                     rawTx.nLockTime = (uint32_t)chainActive.Tip()->GetMedianTimePast();
@@ -595,7 +595,7 @@ bool AsyncRPCOperation_sendmany::main_impl() {
     crypto_sign_keypair(joinSplitPubKey_.begin(), joinSplitPrivKey_);
     mtx.joinSplitPubKey = joinSplitPubKey_;
     //if ((uint32_t)chainActive.Tip()->nTime < ASSETCHAINS_STAKED_HF_TIMESTAMP)
-    if ( !komodo_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
+    if ( !squishy_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
         mtx.nLockTime = (uint32_t)time(NULL) - 60; // jl777
     else
         mtx.nLockTime = (uint32_t)chainActive.Tip()->GetMedianTimePast();
@@ -846,7 +846,7 @@ bool AsyncRPCOperation_sendmany::main_impl() {
                 if (mapBlockIndex.find(wtx.hashBlock) == mapBlockIndex.end()) {
                     throw JSONRPCError(RPC_WALLET_ERROR, strprintf("mapBlockIndex does not contain block hash %s", wtx.hashBlock.ToString()));
                 }
-                wtxHeight = komodo_blockheight(wtx.hashBlock);
+                wtxHeight = squishy_blockheight(wtx.hashBlock);
                 wtxDepth = wtx.GetDepthInMainChain();
             }
             LogPrint("zrpcunsafe", "%s: spending note (txid=%s, vjoinsplit=%d, ciphertext=%d, amount=%s, height=%d, confirmations=%d)\n",
@@ -1063,7 +1063,7 @@ bool AsyncRPCOperation_sendmany::find_utxos(bool fAcceptCoinbase=false) {
 
         if( mindepth_ > 1 ) {
             int nHeight    = tx_height(out.tx->GetHash());
-            int dpowconfs  = komodo_dpowconfs(nHeight, out.nDepth);
+            int dpowconfs  = squishy_dpowconfs(nHeight, out.nDepth);
             if (dpowconfs < mindepth_) {
                 continue;
             }
@@ -1371,7 +1371,7 @@ void AsyncRPCOperation_sendmany::add_taddr_outputs_to_tx() {
         rawTx.vout.push_back(out);
     }
     //if ((uint32_t)chainActive.Tip()->nTime < ASSETCHAINS_STAKED_HF_TIMESTAMP)
-    if ( !komodo_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
+    if ( !squishy_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
         rawTx.nLockTime = (uint32_t)time(NULL) - 60; // jl777
     else
         rawTx.nLockTime = (uint32_t)chainActive.Tip()->GetMedianTimePast();
@@ -1402,7 +1402,7 @@ void AsyncRPCOperation_sendmany::add_taddr_change_output_to_tx(CBitcoinAddress *
     CMutableTransaction rawTx(tx_);
     rawTx.vout.push_back(out);
     //if ((uint32_t)chainActive.Tip()->nTime < ASSETCHAINS_STAKED_HF_TIMESTAMP)
-    if ( !komodo_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
+    if ( !squishy_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
         rawTx.nLockTime = (uint32_t)time(NULL) - 60; // jl777
     else
         rawTx.nLockTime = (uint32_t)chainActive.Tip()->GetMedianTimePast();

@@ -23,8 +23,8 @@
 // make sure no files are updated (this is to allow nSPV=1 and later nSPV=0 without affecting database)
 // bug: under load, fullnode was returning all 0 nServices
 
-#ifndef KOMODO_NSPV_H
-#define KOMODO_NSPV_H
+#ifndef SQUISHY_NSPV_H
+#define SQUISHY_NSPV_H
 
 int32_t iguana_rwbuf(int32_t rwflag,uint8_t *serialized,int32_t len,uint8_t *buf)
 {
@@ -585,7 +585,7 @@ int32_t NSPV_notarizationextract(int32_t verifyntz,int32_t *ntzheightp,uint256 *
             //sleep(1); // needed to avoid no pnodes error
             *desttxidp = NSPV_opretextract(ntzheightp,blockhashp,chainName.ToString().c_str(),opret,tx.GetHash());
             nTime = NSPV_blocktime(*ntzheightp);
-            komodo_notaries(elected,*ntzheightp,nTime);
+            squishy_notaries(elected,*ntzheightp,nTime);
             if ( verifyntz != 0 && (numsigs= NSPV_fastnotariescount(tx,elected,nTime)) < 12 )
             {
                 LogPrintf("numsigs.%d error\n",numsigs);
@@ -600,4 +600,4 @@ int32_t NSPV_notarizationextract(int32_t verifyntz,int32_t *ntzheightp,uint256 *
         }
     } else return(-1);
 }
-#endif // KOMODO_NSPV_H
+#endif // SQUISHY_NSPV_H

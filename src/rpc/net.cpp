@@ -28,7 +28,7 @@
 #include "util.h"
 #include "version.h"
 #include "deprecation.h"
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 
 #include <boost/foreach.hpp>
 
@@ -176,8 +176,8 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp, const CPubKey& mypk)
     return ret;
 }
 
-int32_t KOMODO_LONGESTCHAIN;
-int32_t komodo_longestchain()
+int32_t SQUISHY_LONGESTCHAIN;
+int32_t squishy_longestchain()
 {
     static int32_t depth;
     int32_t ht,n=0,num=0,maxheight=0,height = 0;
@@ -193,7 +193,7 @@ int32_t komodo_longestchain()
         }
         BOOST_FOREACH(const CNodeStats& stats, vstats)
         {
-            //fprintf(stderr,"komodo_longestchain iter.%d\n",n);
+            //fprintf(stderr,"squishy_longestchain iter.%d\n",n);
             CNodeStateStats statestats;
             bool fStateStats = GetNodeStateStats(stats.nodeid,statestats);
             if ( statestats.nSyncHeight < 0 )
@@ -215,14 +215,14 @@ int32_t komodo_longestchain()
         depth--;
         if ( num > (n >> 1) )
         {
-            if ( 0 && height != KOMODO_LONGESTCHAIN )
-                LogPrintf("set %s KOMODO_LONGESTCHAIN <- %d\n",chainName.symbol().c_str(),height);
-            KOMODO_LONGESTCHAIN = height;
+            if ( 0 && height != SQUISHY_LONGESTCHAIN )
+                LogPrintf("set %s SQUISHY_LONGESTCHAIN <- %d\n",chainName.symbol().c_str(),height);
+            SQUISHY_LONGESTCHAIN = height;
             return(height);
         }
-        KOMODO_LONGESTCHAIN = 0;
+        SQUISHY_LONGESTCHAIN = 0;
     }
-    return(KOMODO_LONGESTCHAIN);
+    return(SQUISHY_LONGESTCHAIN);
 }
 
 UniValue addnode(const UniValue& params, bool fHelp, const CPubKey& mypk)

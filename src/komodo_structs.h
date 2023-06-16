@@ -18,31 +18,31 @@
 #include <vector>
 #include <cstdint>
 
-#include "komodo_defs.h"
-#include "komodo_extern_globals.h"
+#include "squishy_defs.h"
+#include "squishy_extern_globals.h"
 
 #include "uthash.h"
 #include "utlist.h"
 
 #define GENESIS_NBITS 0x1f00ffff
-#define KOMODO_MINRATIFY ((height < 90000) ? 7 : 11)
-#define KOMODO_NOTARIES_HARDCODED 180000 // DONT CHANGE Below this height notaries were hardcoded
-#define KOMODO_MAXBLOCKS 250000 // DONT CHANGE
+#define SQUISHY_MINRATIFY ((height < 90000) ? 7 : 11)
+#define SQUISHY_NOTARIES_HARDCODED 180000 // DONT CHANGE Below this height notaries were hardcoded
+#define SQUISHY_MAXBLOCKS 250000 // DONT CHANGE
 
-#define KOMODO_ASSETCHAIN_MAXLEN 65
+#define SQUISHY_ASSETCHAIN_MAXLEN 65
 
 #include "bits256.h"
 #include <mutex>
 
-//extern std::mutex komodo_mutex;  //todo remove
+//extern std::mutex squishy_mutex;  //todo remove
 
-struct komodo_event
+struct squishy_event
 {
-    struct komodo_event *related;
+    struct squishy_event *related;
     uint16_t len;
     int32_t height;
     uint8_t type,reorged;
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN];
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN];
     uint8_t space[];
 };
 
@@ -61,9 +61,9 @@ size_t write_event(T& evt, FILE *fp)
     return fwrite(buf.c_str(), buf.size(), 1, fp);
 }
 
-namespace komodo {
+namespace squishy {
 
-enum komodo_event_type
+enum squishy_event_type
 {
     EVENT_PUBKEYS,
     EVENT_NOTARIZED,
@@ -89,16 +89,16 @@ public:
 class event
 {
 public:
-    event(komodo_event_type t, int32_t height) : type(t), height(height) {}
+    event(squishy_event_type t, int32_t height) : type(t), height(height) {}
     virtual ~event() = default;
-    komodo_event_type type;
+    squishy_event_type type;
     int32_t height;
 };
 std::ostream& operator<<(std::ostream& os, const event& in);
 
 struct event_rewind : public event
 {
-    event_rewind() : event(komodo_event_type::EVENT_REWIND, 0) {}
+    event_rewind() : event(squishy_event_type::EVENT_REWIND, 0) {}
     event_rewind(int32_t ht) : event(EVENT_REWIND, ht) {}
     event_rewind(uint8_t* data, long &pos, long data_len, int32_t height);
 };
@@ -106,10 +106,10 @@ std::ostream& operator<<(std::ostream& os, const event_rewind& in);
 
 struct event_notarized : public event
 {
-    event_notarized() : event(komodo_event_type::EVENT_NOTARIZED, 0), notarizedheight(0), MoMdepth(0) {
+    event_notarized() : event(squishy_event_type::EVENT_NOTARIZED, 0), notarizedheight(0), MoMdepth(0) {
         memset(this->dest, 0, sizeof(this->dest));
     }
-    event_notarized(int32_t ht, const char* _dest) : event(komodo_event_type::EVENT_NOTARIZED, ht), notarizedheight(0), MoMdepth(0) {
+    event_notarized(int32_t ht, const char* _dest) : event(squishy_event_type::EVENT_NOTARIZED, ht), notarizedheight(0), MoMdepth(0) {
         strncpy(this->dest, _dest, sizeof(this->dest)-1); this->dest[sizeof(this->dest)-1] = 0;
     }
     event_notarized(uint8_t* data, long &pos, long data_len, int32_t height, const char* _dest, bool includeMoM = false);
@@ -217,7 +217,7 @@ struct event_pricefeed : public event
 };
 std::ostream& operator<<(std::ostream& os, const event_pricefeed& in);
 
-} // namespace komodo
+} // namespace squishy
 
 struct knotary_entry { UT_hash_handle hh; uint8_t pubkey[33],notaryid; };
 struct knotaries_entry 
@@ -244,31 +244,31 @@ struct notarized_checkpoint
 
 bool operator==(const notarized_checkpoint& lhs, const notarized_checkpoint& rhs);
 
-struct komodo_ccdataMoM
+struct squishy_ccdataMoM
 {
     uint256 MoM;
     int32_t MoMdepth,notarized_height,height,txi;
 };
 
-struct komodo_ccdata_entry { uint256 MoM; int32_t notarized_height,kmdheight,txi; char symbol[65]; };
-struct komodo_ccdatapair { int32_t notarized_height,MoMoMoffset; };
+struct squishy_ccdata_entry { uint256 MoM; int32_t notarized_height,kmdheight,txi; char symbol[65]; };
+struct squishy_ccdatapair { int32_t notarized_height,MoMoMoffset; };
 
-struct komodo_ccdataMoMoM
+struct squishy_ccdataMoMoM
 {
     uint256 MoMoM;
     int32_t kmdstarti,kmdendi,MoMoMoffset,MoMoMdepth,numpairs,len;
-    struct komodo_ccdatapair *pairs;
+    struct squishy_ccdatapair *pairs;
 };
 
-struct komodo_ccdata
+struct squishy_ccdata
 {
-    struct komodo_ccdata *next,*prev;
-    struct komodo_ccdataMoM MoMdata;
+    struct squishy_ccdata *next,*prev;
+    struct squishy_ccdataMoM MoMdata;
     uint32_t CCid,len;
     char symbol[65];
 };
 
-class komodo_state
+class squishy_state
 {
 public:
     std::string symbol;
@@ -281,7 +281,7 @@ public:
     uint64_t approved;
     uint64_t redeemed;
     uint64_t shorted;
-    std::list<std::shared_ptr<komodo::event>> events;
+    std::list<std::shared_ptr<squishy::event>> events;
     uint32_t RTbufs[64][3]; uint64_t RTmask;
     template<class T>
     bool add_event(const std::string& symbol, const uint32_t height, T& in)
@@ -289,7 +289,7 @@ public:
         if (!chainName.isKMD())
         {
             std::shared_ptr<T> ptr = std::make_shared<T>( in );
-            std::lock_guard<std::mutex> lock(komodo_mutex);
+            std::lock_guard<std::mutex> lock(squishy_mutex);
             events.push_back( ptr );
             return true;
         }

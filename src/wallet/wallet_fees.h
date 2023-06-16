@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_WALLET_FEES_H
-#define KOMODO_WALLET_FEES_H
+#ifndef SQUISHY_WALLET_FEES_H
+#define SQUISHY_WALLET_FEES_H
 
 #include "amount.h"
 
@@ -78,4 +78,4 @@ CAmount GetRequiredFee(unsigned int nTxBytes);
  */
 CAmount GetMinimumFee(unsigned int nTxBytes, const CCoinControl& coin_control, const CTxMemPool& pool, const CBlockPolicyEstimator& estimator, FeeCalculation *feeCalc);
 
-#endif // KOMODO_WALLET_FEES_H
+#endif // SQUISHY_WALLET_FEES_H

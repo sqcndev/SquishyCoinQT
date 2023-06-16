@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_WARNINGS_H
-#define KOMODO_WARNINGS_H
+#ifndef SQUISHY_WARNINGS_H
+#define SQUISHY_WARNINGS_H
 
 #include <stdlib.h>
 #include <string>
@@ -24,4 +24,4 @@ std::string GetWarnings(const std::string& strFor);
 
 static const bool DEFAULT_TESTSAFEMODE = false;
 
-#endif //  KOMODO_WARNINGS_H
+#endif //  SQUISHY_WARNINGS_H

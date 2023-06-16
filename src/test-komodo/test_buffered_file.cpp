@@ -254,12 +254,12 @@ namespace TestBufferedFile {
 
     }
 
-    TEST(TestBufferedFile, komodo_block_load) {
+    TEST(TestBufferedFile, squishy_block_load) {
 
         CBlock block;
         block.SetNull();
 
-        FILE* fileIn = fopen("komodo_block_load_tmp", "w+b");
+        FILE* fileIn = fopen("squishy_block_load_tmp", "w+b");
 
         // dd if=blk00000.dat bs=1 count=1700 2>/dev/null | xxd -i
         const uint8_t blockOnDisk[] = {
@@ -442,7 +442,7 @@ namespace TestBufferedFile {
         ASSERT_TRUE(block.GetHash().ToString() == "027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71");
 
         blkdat.fclose();
-        boost::filesystem::remove("komodo_block_load_tmp");
+        boost::filesystem::remove("squishy_block_load_tmp");
 
     }
 

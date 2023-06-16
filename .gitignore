@@ -75,7 +75,7 @@ venv-mnf/
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-src/qt/komodo-qt
+src/qt/squishy-qt
 Komodo-Qt.app
 background.tiff*
 
@@ -124,14 +124,14 @@ src/qt/*.moc
 src/qt/moc_*.cpp           
 src/qt/forms/ui_*.h        
 src/qt/test/moc*.cpp       
-komodo-qt                 
-komodo-qt_test            
+squishy-qt                 
+squishy-qt_test            
 src/qt/gen*
 
-src/config/komodo-config.h
-src/config/komodo-config.h.in
-src/komodod
-src/qt/komodo-qt
+src/config/squishy-config.h
+src/config/squishy-config.h.in
+src/squishyd
+src/qt/squishy-qt
 
 # chain files for iguana
 src/qt/*_7776

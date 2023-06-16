@@ -33,7 +33,7 @@
 #include "wallet/wallet.h"
 #include "wallet/walletdb.h" // for BackupWallet
 #include "key_io.h"
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 #include "utilmoneystr.h"
 #include "asyncrpcoperation.h"
 #include "asyncrpcqueue.h"
@@ -49,7 +49,7 @@
 /* from rpcwallet.cpp */
 extern CAmount getBalanceZaddr(std::string address, int minDepth = 1, bool ignoreUnspendable=true);
 extern CAmount getBalanceTaddr(std::string transparentAddress, int minDepth=1, bool ignoreUnspendable=true);
-extern uint64_t komodo_interestsum();
+extern uint64_t squishy_interestsum();
 
 // JSDescription size depends on the transaction version
 #define V3_JS_DESCRIPTION_SIZE    (GetSerializeSize(JSDescription(), SER_NETWORK, (OVERWINTER_TX_VERSION | (1 << 31))))
@@ -120,7 +120,7 @@ CAmount WalletModel::getPrivateBalance() const
 
 CAmount WalletModel::getInterestBalance() const
 {
-    return (chainName.isKMD()) ? komodo_interestsum() : 0;
+    return (chainName.isKMD()) ? squishy_interestsum() : 0;
 }
 
 bool WalletModel::haveWatchOnly() const
@@ -185,7 +185,7 @@ void WalletModel::checkBalanceChanged()
     CAmount newWatchUnconfBalance = 0;
     CAmount newWatchImmatureBalance = 0;
     CAmount newprivateBalance = getBalanceZaddr("", 1, true);
-    CAmount newinterestBalance = (chainName.isKMD()) ? komodo_interestsum() : 0;
+    CAmount newinterestBalance = (chainName.isKMD()) ? squishy_interestsum() : 0;
     if (haveWatchOnly())
     {
         newWatchOnlyBalance = getWatchBalance();
@@ -292,7 +292,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
         }
         else
         #endif
-        {   // User-entered komodo address / amount:
+        {   // User-entered squishy address / amount:
             if(!validateAddress(rcp.address))
             {
                 return InvalidAddress;
@@ -438,7 +438,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareZTransaction(WalletModelZTransa
                 {
                     return SendingBothSproutAndSapling;
                 }
-                if ( GetTime() > KOMODO_SAPLING_DEADLINE )
+                if ( GetTime() > SQUISHY_SAPLING_DEADLINE )
                 {
                     if ( fromSprout || toSprout )
                         return SproutUsageExpired;
@@ -644,7 +644,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(WalletModelTransaction &tran
             }
             else
             #endif 
-                if (!rcp.message.isEmpty()) // Message from normal komodo:URI (komodo:123...?message=example)
+                if (!rcp.message.isEmpty()) // Message from normal squishy:URI (squishy:123...?message=example)
                     newTx->vOrderForm.push_back(make_pair("Message", rcp.message.toStdString()));
         }
 

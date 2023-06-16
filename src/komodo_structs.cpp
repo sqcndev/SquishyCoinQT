@@ -12,12 +12,12 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo_structs.h"
-#include "komodo_globals.h"
-#include "komodo_bitcoind.h"
+#include "squishy_structs.h"
+#include "squishy_globals.h"
+#include "squishy_bitcoind.h"
 #include "mem_read.h"
 
-namespace komodo {
+namespace squishy {
 
 /***
  * Helps serialize integrals
@@ -343,13 +343,13 @@ std::ostream& operator<<(std::ostream& os, const event_pricefeed& in)
     return os;
 }
 
-} // namespace komodo
+} // namespace squishy
 
 /*****
  * @brief add a checkpoint to the collection and update member values
  * @param in the new values
  */
-void komodo_state::AddCheckpoint(const notarized_checkpoint &in)
+void squishy_state::AddCheckpoint(const notarized_checkpoint &in)
 {
     NPOINTS.push_back(in);
     last = in;
@@ -362,7 +362,7 @@ void komodo_state::AddCheckpoint(const notarized_checkpoint &in)
  * @param[out] notarized_desttxidp the desttxid
  * @returns the notarized height
  */
-int32_t komodo_state::NotarizedData(int32_t nHeight,uint256 *notarized_hashp,uint256 *notarized_desttxidp) const
+int32_t squishy_state::NotarizedData(int32_t nHeight,uint256 *notarized_hashp,uint256 *notarized_desttxidp) const
 {
     bool found = false;
 
@@ -422,12 +422,12 @@ int32_t komodo_state::NotarizedData(int32_t nHeight,uint256 *notarized_hashp,uin
  * @param[out] txidp the DESTTXID
  * @returns the notarized height
  */
-int32_t komodo_state::NotarizedHeight(int32_t *prevMoMheightp,uint256 *hashp,uint256 *txidp)
+int32_t squishy_state::NotarizedHeight(int32_t *prevMoMheightp,uint256 *hashp,uint256 *txidp)
 {
     CBlockIndex *pindex;
-    if ( (pindex= komodo_blockindex(last.notarized_hash)) == 0 || pindex->nHeight < 0 )
+    if ( (pindex= squishy_blockindex(last.notarized_hash)) == 0 || pindex->nHeight < 0 )
     {
-        // found orphaned notarization, adjust the values in the komodo_state object
+        // found orphaned notarization, adjust the values in the squishy_state object
         last.notarized_hash.SetNull();
         last.notarized_desttxid.SetNull();
         last.notarized_height = 0;
@@ -445,7 +445,7 @@ int32_t komodo_state::NotarizedHeight(int32_t *prevMoMheightp,uint256 *hashp,uin
  * Search for the last (chronological) MoM notarized height
  * @returns the last notarized height that has a MoM
  */
-int32_t komodo_state::PrevMoMHeight() const
+int32_t squishy_state::PrevMoMHeight() const
 {
     static uint256 zero;
     // shortcut
@@ -469,7 +469,7 @@ int32_t komodo_state::PrevMoMHeight() const
  * @param height the notarized_height desired
  * @returns the checkpoint or nullptr
  */
-const notarized_checkpoint *komodo_state::CheckpointAtHeight(int32_t height) const
+const notarized_checkpoint *squishy_state::CheckpointAtHeight(int32_t height) const
 {
     // find the nearest notarization_height
     // work backwards, get the first one that meets our criteria
@@ -485,18 +485,18 @@ const notarized_checkpoint *komodo_state::CheckpointAtHeight(int32_t height) con
     return nullptr;
 }
 
-void komodo_state::clear_checkpoints() { NPOINTS.clear(); }
-const uint256& komodo_state::LastNotarizedHash() const { return last.notarized_hash; }
-void komodo_state::SetLastNotarizedHash(const uint256 &in) { last.notarized_hash = in; }
-const uint256& komodo_state::LastNotarizedDestTxId() const { return last.notarized_desttxid; }
-void komodo_state::SetLastNotarizedDestTxId(const uint256 &in) { last.notarized_desttxid = in; }
-const uint256& komodo_state::LastNotarizedMoM() const { return last.MoM; }
-void komodo_state::SetLastNotarizedMoM(const uint256 &in) { last.MoM = in; }
-const int32_t& komodo_state::LastNotarizedHeight() const { return last.notarized_height; }
-void komodo_state::SetLastNotarizedHeight(const int32_t in) { last.notarized_height = in; }
-const int32_t& komodo_state::LastNotarizedMoMDepth() const { return last.MoMdepth; }
-void komodo_state::SetLastNotarizedMoMDepth(const int32_t in) { last.MoMdepth =in; }
-uint64_t komodo_state::NumCheckpoints() const { return NPOINTS.size(); }
+void squishy_state::clear_checkpoints() { NPOINTS.clear(); }
+const uint256& squishy_state::LastNotarizedHash() const { return last.notarized_hash; }
+void squishy_state::SetLastNotarizedHash(const uint256 &in) { last.notarized_hash = in; }
+const uint256& squishy_state::LastNotarizedDestTxId() const { return last.notarized_desttxid; }
+void squishy_state::SetLastNotarizedDestTxId(const uint256 &in) { last.notarized_desttxid = in; }
+const uint256& squishy_state::LastNotarizedMoM() const { return last.MoM; }
+void squishy_state::SetLastNotarizedMoM(const uint256 &in) { last.MoM = in; }
+const int32_t& squishy_state::LastNotarizedHeight() const { return last.notarized_height; }
+void squishy_state::SetLastNotarizedHeight(const int32_t in) { last.notarized_height = in; }
+const int32_t& squishy_state::LastNotarizedMoMDepth() const { return last.MoMdepth; }
+void squishy_state::SetLastNotarizedMoMDepth(const int32_t in) { last.MoMdepth =in; }
+uint64_t squishy_state::NumCheckpoints() const { return NPOINTS.size(); }
 
 bool operator==(const notarized_checkpoint& lhs, const notarized_checkpoint& rhs)
 {

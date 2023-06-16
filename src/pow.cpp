@@ -29,19 +29,19 @@
 #include "streams.h"
 #include "uint256.h"
 #include "util.h"
-#include "komodo.h"
-#include "komodo_notary.h"
-#include "komodo_extern_globals.h"
-#include "komodo_bitcoind.h"
+#include "squishy.h"
+#include "squishy_notary.h"
+#include "squishy_extern_globals.h"
+#include "squishy_bitcoind.h"
 
 #include "sodium.h"
 
 #ifdef ENABLE_RUST
 #include "librustzcash.h"
 #endif // ENABLE_RUST
-uint32_t komodo_chainactive_timestamp();
+uint32_t squishy_chainactive_timestamp();
 
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 
 /* from zawy repo
  Preliminary code for super-fast increases in difficulty.
@@ -395,7 +395,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         bnTarget = arith_uint256().SetCompact(nbits);
         if ( height > (int32_t)(sizeof(ct)/sizeof(*ct)) && pblock != 0 && tipdiff > 0 )
         {
-            easy.SetCompact(KOMODO_MINDIFF_NBITS & (~3),&fNegative,&fOverflow);
+            easy.SetCompact(SQUISHY_MINDIFF_NBITS & (~3),&fNegative,&fOverflow);
             if ( pblock != 0 )
             {
                 origtarget = bnTarget;
@@ -480,7 +480,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
                 {
                     bnTarget = easy;
                     LogPrint("pow", "cmp.%d mult.%d ht.%d -> easy target\n",mult>1,(int32_t)mult,height);
-                    return(KOMODO_MINDIFF_NBITS & (~3));
+                    return(SQUISHY_MINDIFF_NBITS & (~3));
                 }
                 {
                     int32_t z;
@@ -588,16 +588,16 @@ bool CheckEquihashSolution(const CBlockHeader *pblock, const CChainParams& param
     return true;
 }
 
-int32_t komodo_chosennotary(int32_t *notaryidp,int32_t height,uint8_t *pubkey33,uint32_t timestamp);
-int32_t komodo_is_special(uint8_t pubkeys[66][33],int32_t mids[66],uint32_t blocktimes[66],int32_t height,uint8_t pubkey33[33],uint32_t blocktime);
-int32_t komodo_currentheight();
-void komodo_index2pubkey33(uint8_t *pubkey33,CBlockIndex *pindex,int32_t height);
-bool komodo_checkopret(CBlock *pblock, CScript &merkleroot);
-CScript komodo_makeopret(CBlock *pblock, bool fNew);
-#define KOMODO_ELECTION_GAP 2000
+int32_t squishy_chosennotary(int32_t *notaryidp,int32_t height,uint8_t *pubkey33,uint32_t timestamp);
+int32_t squishy_is_special(uint8_t pubkeys[66][33],int32_t mids[66],uint32_t blocktimes[66],int32_t height,uint8_t pubkey33[33],uint32_t blocktime);
+int32_t squishy_currentheight();
+void squishy_index2pubkey33(uint8_t *pubkey33,CBlockIndex *pindex,int32_t height);
+bool squishy_checkopret(CBlock *pblock, CScript &merkleroot);
+CScript squishy_makeopret(CBlock *pblock, bool fNew);
+#define SQUISHY_ELECTION_GAP 2000
 
-int32_t komodo_eligiblenotary(uint8_t pubkeys[66][33],int32_t *mids,uint32_t blocktimes[66],int32_t *nonzpkeysp,int32_t height);
-/* KOMODO_LOADINGBLOCKS moved from here to komodo_globals.cpp and made boolean */
+int32_t squishy_eligiblenotary(uint8_t pubkeys[66][33],int32_t *mids,uint32_t blocktimes[66],int32_t *nonzpkeysp,int32_t height);
+/* SQUISHY_LOADINGBLOCKS moved from here to squishy_globals.cpp and made boolean */
 
 extern std::string NOTARY_PUBKEY;
 
@@ -631,16 +631,16 @@ bool CheckProofOfWork(const CBlockHeader &blkHeader, uint8_t *pubkey33, int32_t 
     //LogPrintf(" checkpow\n");
     memcpy(origpubkey33,pubkey33,33);
     memset(blocktimes,0,sizeof(blocktimes));
-    tiptime = komodo_chainactive_timestamp();
+    tiptime = squishy_chainactive_timestamp();
     bnTarget.SetCompact(blkHeader.nBits, &fNegative, &fOverflow);
     if ( height == 0 )
     {
-        height = komodo_currentheight() + 1;
+        height = squishy_currentheight() + 1;
         //LogPrintf("set height to %d\n",height);
     }
     if ( height > 34000 && chainName.isKMD() ) // 0 -> non-special notary
     {
-        special = komodo_chosennotary(&notaryid,height,pubkey33,tiptime);
+        special = squishy_chosennotary(&notaryid,height,pubkey33,tiptime);
         for (i=0; i<33; i++)
         {
             if ( pubkey33[i] != 0 )
@@ -651,8 +651,8 @@ bool CheckProofOfWork(const CBlockHeader &blkHeader, uint8_t *pubkey33, int32_t 
             //LogPrintf("ht.%d null pubkey checkproof return\n",height);
             return(true); // will come back via different path with pubkey set
         }
-        flag = komodo_eligiblenotary(pubkeys,mids,blocktimes,&nonzpkeys,height);
-        special2 = komodo_is_special(pubkeys,mids,blocktimes,height,pubkey33,blkHeader.nTime);
+        flag = squishy_eligiblenotary(pubkeys,mids,blocktimes,&nonzpkeys,height);
+        special2 = squishy_is_special(pubkeys,mids,blocktimes,height,pubkey33,blkHeader.nTime);
         if ( notaryid >= 0 )
         {
             if ( height > 10000 && height < 80000 && (special != 0 || special2 > 0) )
@@ -660,7 +660,7 @@ bool CheckProofOfWork(const CBlockHeader &blkHeader, uint8_t *pubkey33, int32_t 
             else if ( height >= 80000 && height < 108000 && special2 > 0 )
                 flag = 1;
             else if ( height >= 108000 && special2 > 0 )
-                flag = (height > 1000000 || (height % KOMODO_ELECTION_GAP) > 64 || (height % KOMODO_ELECTION_GAP) == 0);
+                flag = (height > 1000000 || (height % SQUISHY_ELECTION_GAP) > 64 || (height % SQUISHY_ELECTION_GAP) == 0);
             else if ( height == 790833 )
                 flag = 1;
             else if ( special2 < 0 )
@@ -741,7 +741,7 @@ bool CheckProofOfWork(const CBlockHeader &blkHeader, uint8_t *pubkey33, int32_t 
             if ( (flag != 0 || special2 > 0) && special2 != -2 )
             {
                 //LogPrintf("EASY MINING ht.%d\n",height);
-                bnTarget.SetCompact(KOMODO_MINDIFF_NBITS,&fNegative,&fOverflow);
+                bnTarget.SetCompact(SQUISHY_MINDIFF_NBITS,&fNegative,&fOverflow);
             }
         }
     }
@@ -751,12 +751,12 @@ bool CheckProofOfWork(const CBlockHeader &blkHeader, uint8_t *pubkey33, int32_t 
     if ( ASSETCHAINS_STAKED != 0 )
     {
         arith_uint256 bnMaxPoSdiff;
-        bnTarget.SetCompact(KOMODO_MINDIFF_NBITS,&fNegative,&fOverflow);
+        bnTarget.SetCompact(SQUISHY_MINDIFF_NBITS,&fNegative,&fOverflow);
     }
     // Check proof of work matches claimed amount
     if ( UintToArith256(hash = blkHeader.GetHash()) > bnTarget )
     {
-        if ( KOMODO_LOADINGBLOCKS )
+        if ( SQUISHY_LOADINGBLOCKS )
             return true;
 
         if ( !chainName.isKMD() || height > 792000 )

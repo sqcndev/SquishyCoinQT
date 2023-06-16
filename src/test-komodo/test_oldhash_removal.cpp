@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "komodo_utils.h"
+#include "squishy_utils.h"
 #include <cstring>
 #include "hash.h"
 #include "random.h"

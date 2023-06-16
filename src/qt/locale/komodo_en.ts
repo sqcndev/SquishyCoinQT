@@ -299,7 +299,7 @@
 <context>
     <name>KomodoOceanGUI</name>
     <message>
-        <location filename="../komodooceangui.cpp" line="+357"/>
+        <location filename="../squishyoceangui.cpp" line="+357"/>
         <source>Sign &amp;message...</source>
         <translation>Sign &amp;message...</translation>
     </message>
@@ -525,7 +525,7 @@
     </message>
     <message>
         <location line="-158"/>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -540,7 +540,7 @@
     </message>
     <message>
         <location line="+3"/>
-        <source>Open a komodo: URI or payment request</source>
+        <source>Open a squishy: URI or payment request</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -690,7 +690,7 @@
         <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../komodo.cpp" line="+534"/>
+        <location filename="../squishy.cpp" line="+534"/>
         <source>A fatal error occurred. Komodo can no longer continue safely and will quit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1153,7 +1153,7 @@
     </message>
     <message>
         <location line="+119"/>
-        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the komodo network, as detailed below.</source>
+        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the squishy network, as detailed below.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1677,7 +1677,7 @@
     </message>
     <message>
         <location line="-402"/>
-        <source>Cannot start komodo: click-to-pay handler</source>
+        <source>Cannot start squishy: click-to-pay handler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1815,7 +1815,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../komodounits.cpp" line="+176"/>
+        <location filename="../squishyunits.cpp" line="+176"/>
         <source>Amount</source>
         <translation type="unfinished">Amount</translation>
     </message>
@@ -1915,7 +1915,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../komodo.cpp" line="+178"/>
+        <location filename="../squishy.cpp" line="+178"/>
         <source>%1 didn&apos;t yet exit safely...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2705,7 +2705,7 @@
     <message>
         <location line="+84"/>
         <location line="+13"/>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for komodo transactions than the network can process.</source>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for squishy transactions than the network can process.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3033,7 +3033,7 @@
     </message>
     <message>
         <location line="+47"/>
-        <source>A message that was attached to the komodo: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
+        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3876,7 +3876,7 @@
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../komodooceangui.cpp" line="+129"/>
+        <location filename="../squishyoceangui.cpp" line="+129"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3988,9 +3988,9 @@
     </message>
 </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
-        <location filename="../komodostrings.cpp" line="+343"/>
+        <location filename="../squishystrings.cpp" line="+343"/>
         <source>Options:</source>
         <translation>Options:</translation>
     </message>

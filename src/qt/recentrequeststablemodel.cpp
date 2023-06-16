@@ -4,7 +4,7 @@
 
 #include "recentrequeststablemodel.h"
 
-#include "komodounits.h"
+#include "squishyunits.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 

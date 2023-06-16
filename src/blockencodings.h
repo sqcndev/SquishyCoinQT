@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_BLOCK_ENCODINGS_H
-#define KOMODO_BLOCK_ENCODINGS_H
+#ifndef SQUISHY_BLOCK_ENCODINGS_H
+#define SQUISHY_BLOCK_ENCODINGS_H
 
 #include "primitives/block.h"
 

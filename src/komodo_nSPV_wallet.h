@@ -14,13 +14,13 @@
  *                                                                            *
  ******************************************************************************/
 
-#ifndef KOMODO_NSPVWALLET_H
-#define KOMODO_NSPVWALLET_H
+#ifndef SQUISHY_NSPVWALLET_H
+#define SQUISHY_NSPVWALLET_H
 
-#include "komodo_interest.h"
+#include "squishy_interest.h"
 
-// nSPV wallet uses superlite functions (and some komodod built in functions) to implement nSPV_spend
-#include "komodo_bitcoind.h"
+// nSPV wallet uses superlite functions (and some squishyd built in functions) to implement nSPV_spend
+#include "squishy_bitcoind.h"
 #include "rpc/rawtransaction.h"
 
 int32_t NSPV_validatehdrs(struct NSPV_ntzsproofresp *ptr)
@@ -88,7 +88,7 @@ int32_t NSPV_gettransaction(int32_t skipvalidation,int32_t vout,uint256 txid,int
         retval = -2002;
     else if ( chainName.isKMD() && tiptime != 0 )
     {
-        rewards = komodo_interestnew(height,tx.vout[vout].nValue,tx.nLockTime,tiptime);
+        rewards = squishy_interestnew(height,tx.vout[vout].nValue,tx.nLockTime,tiptime);
         if ( rewards != extradata )
             LogPrintf("extradata %.8f vs rewards %.8f\n",dstr(extradata),dstr(rewards));
         rewardsum += rewards;
@@ -250,7 +250,7 @@ bool NSPV_SignTx(CMutableTransaction &mtx,int32_t vini,int64_t utxovalue,const C
         return false;
     }
     keystore.AddKey(NSPV_key);
-    if ( nTime != 0 && nTime < KOMODO_SAPLING_ACTIVATION )
+    if ( nTime != 0 && nTime < SQUISHY_SAPLING_ACTIVATION )
     {
         LogPrintf("use legacy sig validation\n");
         branchid = 0;
@@ -394,7 +394,7 @@ UniValue NSPV_spend(char *srcaddr,char *destaddr,int64_t satoshis) // what its a
     mtx.nVersionGroupId = SAPLING_VERSION_GROUP_ID;
     mtx.nVersion = SAPLING_TX_VERSION;
     if ( chainName.isKMD() ) {
-        if ( !komodo_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
+        if ( !squishy_hardfork_active((uint32_t)chainActive.Tip()->nTime) )
             mtx.nLockTime = (uint32_t)time(NULL) - 777;
         else
             mtx.nLockTime = (uint32_t)chainActive.Tip()->GetMedianTimePast();
@@ -542,4 +542,4 @@ void NSPV_CCtxids(std::vector<uint256> &txids,char *coinaddr,bool ccflag, uint8_
     for(int i=0;i<NSPV_mempoolresult.numtxids;i++) txids.push_back(NSPV_mempoolresult.txids[i]);
 }
 
-#endif // KOMODO_NSPVWALLET_H
+#endif // SQUISHY_NSPVWALLET_H

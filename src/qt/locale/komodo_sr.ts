@@ -131,7 +131,7 @@
     </message>
     <message>
         <source>Send coins to a Komodo address</source>
-        <translation>Пошаљите новац на komodo адресу</translation>
+        <translation>Пошаљите новац на squishy адресу</translation>
     </message>
     <message>
         <source>Change the passphrase used for wallet encryption</source>
@@ -442,7 +442,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Opcije</translation>

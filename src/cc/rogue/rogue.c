@@ -16,9 +16,9 @@
 
 #include "rogue.h"
 #ifdef STANDALONE
-#include "../komodo/src/komodo_cJSON.h"
+#include "../squishy/src/squishy_cJSON.h"
 #else
-#include "../../komodo_cJSON.h"
+#include "../../squishy_cJSON.h"
 #endif
 
 /*
@@ -188,7 +188,7 @@ void rogue_bailout(struct rogue_state *rs)
     //sleep(5);
     return;
     /*fprintf(stderr,"bailing out\n");
-    sprintf(cmd,"./komodo-cli -ac_name=ROGUE cclib bailout 17 \\\"[%%22%s%%22]\\\" >> bailout.log",Gametxidstr);
+    sprintf(cmd,"./squishy-cli -ac_name=ROGUE cclib bailout 17 \\\"[%%22%s%%22]\\\" >> bailout.log",Gametxidstr);
     if ( system(cmd) != 0 )
         fprintf(stderr,"error issuing (%s)\n",cmd);*/
 }

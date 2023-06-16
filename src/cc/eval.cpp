@@ -26,9 +26,9 @@
 #include "chain.h"
 #include "core_io.h"
 #include "crosschain.h"
-#include "komodo_structs.h"
-#include "komodo_notary.h"
-#include "komodo_globals.h"
+#include "squishy_structs.h"
+#include "squishy_notary.h"
+#include "squishy_globals.h"
 #include "consensus/merkle.h"
 
 bool CClib_Dispatch(const CC *cond,Eval *eval,std::vector<uint8_t> paramsNull,const CTransaction &txTo,unsigned int nIn);
@@ -36,14 +36,14 @@ char *CClib_name();
 
 Eval* EVAL_TEST = 0;
 struct CCcontract_info CCinfos[0x100];
-extern pthread_mutex_t KOMODO_CC_mutex;
+extern pthread_mutex_t SQUISHY_CC_mutex;
 
 bool RunCCEval(const CC *cond, const CTransaction &tx, unsigned int nIn)
 {
     EvalRef eval;
-    pthread_mutex_lock(&KOMODO_CC_mutex);
+    pthread_mutex_lock(&SQUISHY_CC_mutex);
     bool out = eval->Dispatch(cond, tx, nIn);
-    pthread_mutex_unlock(&KOMODO_CC_mutex);
+    pthread_mutex_unlock(&SQUISHY_CC_mutex);
     if ( eval->state.IsValid() != out)
         LogPrintf("out %d vs %d isValid\n",(int32_t)out,(int32_t)eval->state.IsValid());
     //assert(eval->state.IsValid() == out);
@@ -166,7 +166,7 @@ bool Eval::GetBlock(uint256 hash, CBlockIndex& blockIdx) const
 
 int32_t Eval::GetNotaries(uint8_t pubkeys[64][33], int32_t height, uint32_t timestamp) const
 {
-    return komodo_notaries(pubkeys, height, timestamp);
+    return squishy_notaries(pubkeys, height, timestamp);
 }
 
 

@@ -35,9 +35,9 @@
 #include "script/sign.h"
 #include "script/standard.h"
 #include "notaries_staked.h"
-#include "komodo_notary.h"
-#include "komodo_bitcoind.h"
-#include "komodo_ccdata.h"
+#include "squishy_notary.h"
+#include "squishy_bitcoind.h"
+#include "squishy_ccdata.h"
 #include "notaries_staked.h"
 
 #include "key_io.h"
@@ -93,7 +93,7 @@ UniValue height_MoM(const UniValue& params, bool fHelp, const CPubKey& mypk)
         height = chainActive.Tip()->nHeight;
     }
     //LogPrintf("height_MoM height.%d\n",height);
-    depth = komodo_MoM(&notarized_height,&MoM,&kmdtxid,height,&MoMoM,&MoMoMoffset,&MoMoMdepth,&kmdstarti,&kmdendi);
+    depth = squishy_MoM(&notarized_height,&MoM,&kmdtxid,height,&MoMoM,&MoMoMoffset,&MoMoMdepth,&kmdstarti,&kmdendi);
     ret.push_back(Pair("coin", chainName.ToString()));
     ret.push_back(Pair("height",height));
     ret.push_back(Pair("timestamp",(uint64_t)timestamp));
@@ -154,7 +154,7 @@ UniValue calc_MoM(const UniValue& params, bool fHelp, const CPubKey& mypk)
     if ( height <= 0 || MoMdepth <= 0 || MoMdepth >= height )
         throw runtime_error("calc_MoM illegal height or MoMdepth\n");
     //LogPrintf("height_MoM height.%d\n",height);
-    MoM = komodo_calcMoM(height,MoMdepth);
+    MoM = squishy_calcMoM(height,MoMdepth);
     ret.push_back(Pair("coin", chainName.ToString()));
     ret.push_back(Pair("height",height));
     ret.push_back(Pair("MoMdepth",MoMdepth));
@@ -177,8 +177,8 @@ UniValue migrate_converttoexport(const UniValue& params, bool fHelp, const CPubK
             "import transaction.\n"
             );
 
-    if (ASSETCHAINS_CC < KOMODO_FIRSTFUNGIBLEID)
-        throw runtime_error("-ac_cc < KOMODO_FIRSTFUNGIBLEID");
+    if (ASSETCHAINS_CC < SQUISHY_FIRSTFUNGIBLEID)
+        throw runtime_error("-ac_cc < SQUISHY_FIRSTFUNGIBLEID");
 
     if ( chainName.isKMD() )
         throw runtime_error("Must be called on assetchain");
@@ -245,8 +245,8 @@ UniValue migrate_createburntransaction(const UniValue& params, bool fHelp, const
             "the \"migrate_createimporttransaction\" method to get the corresponding import transaction.\n"
         );
 
-    if (ASSETCHAINS_CC < KOMODO_FIRSTFUNGIBLEID)
-        throw runtime_error("-ac_cc < KOMODO_FIRSTFUNGIBLEID");
+    if (ASSETCHAINS_CC < SQUISHY_FIRSTFUNGIBLEID)
+        throw runtime_error("-ac_cc < SQUISHY_FIRSTFUNGIBLEID");
 
     if (chainName.isKMD())
         throw runtime_error("Must be called on assetchain");
@@ -287,7 +287,7 @@ UniValue migrate_createburntransaction(const UniValue& params, bool fHelp, const
     struct CCcontract_info *cpTokens, C;
     cpTokens = CCinit(&C, EVAL_TOKENS);
 
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
 
     std::vector<uint8_t> rawproof;
 
@@ -526,8 +526,8 @@ UniValue migrate_createimporttransaction(const UniValue& params, bool fHelp, con
                 "optional notarytxids are txids of notary operator proofs of burn tx existense (from destination chain).\n"
                 "Do not make subsequent call to migrate_completeimporttransaction if notary txids are set");
 
-    if (ASSETCHAINS_CC < KOMODO_FIRSTFUNGIBLEID)
-        throw runtime_error("-ac_cc < KOMODO_FIRSTFUNGIBLEID");
+    if (ASSETCHAINS_CC < SQUISHY_FIRSTFUNGIBLEID)
+        throw runtime_error("-ac_cc < SQUISHY_FIRSTFUNGIBLEID");
 
     if ( chainName.isKMD() )
         throw runtime_error("Must be called on assetchain");
@@ -651,7 +651,7 @@ UniValue migrate_createnotaryapprovaltransaction(const UniValue& params, bool fH
     if (fHelp || params.size() != 2)
         throw runtime_error("migrate_createnotaryapprovaltransaction burntxid txoutproof\n\n"
             "Creates a tx for destination chain with burn tx proof\n"
-            "txoutproof should be retrieved by komodo-cli migrate_checkburntransactionsource call on the source chain\n" );
+            "txoutproof should be retrieved by squishy-cli migrate_checkburntransactionsource call on the source chain\n" );
 
     if (chainName.isKMD())
         throw runtime_error("Must be called on asset chain");
@@ -675,7 +675,7 @@ UniValue migrate_createnotaryapprovaltransaction(const UniValue& params, bool fH
     cpDummy = CCinit(&C, EVAL_TOKENS);  // just for FinalizeCCtx to work 
 
     // creating a tx with proof:
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     if (AddNormalinputs(mtx, Mypubkey(), txfee*2, 4) == 0) 
         throw runtime_error("Cannot find normal inputs\n");
     
@@ -1116,7 +1116,7 @@ UniValue getNotarisationsForBlock(const UniValue& params, bool fHelp, const CPub
     UniValue labs(UniValue::VARR);
     UniValue kmd(UniValue::VARR);
     int8_t numNN = 0, numSN = 0; uint8_t notarypubkeys[64][33] = {0}; uint8_t LABSpubkeys[64][33] = {0};
-    numNN = komodo_notaries(notarypubkeys, height, chainActive[height]->nTime);
+    numNN = squishy_notaries(notarypubkeys, height, chainActive[height]->nTime);
     numSN = numStakedNotaries(LABSpubkeys,STAKED_era(chainActive[height]->nTime));
 
     BOOST_FOREACH(const Notarisation& n, nibs)

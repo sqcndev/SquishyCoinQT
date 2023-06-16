@@ -45,9 +45,9 @@ SendCoinsEntry::SendCoinsEntry(const PlatformStyle *_platformStyle, QWidget *par
     ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book (only for taddrs)"));
 #endif
 
-    // normal komodo address field
+    // normal squishy address field
     GUIUtil::setupAddressWidget(ui->payTo, this, _allowZAddresses);
-    // just a label for displaying komodo address(es)
+    // just a label for displaying squishy address(es)
     ui->payTo_is->setFont(GUIUtil::fixedPitchFont());
 
     // Connect signals

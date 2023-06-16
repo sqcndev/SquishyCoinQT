@@ -41,15 +41,15 @@ using namespace std;
 
 #include "uint256.h"
 #include "arith_uint256.h"
-#include "komodo_structs.h"
-#include "komodo_globals.h"
-#include "komodo_defs.h"
+#include "squishy_structs.h"
+#include "squishy_globals.h"
+#include "squishy_defs.h"
 
-#include "komodo_interest.h"
+#include "squishy_interest.h"
 
 CKey NSPV_key;
 char NSPV_pubkeystr[67],NSPV_wifstr[64];
-uint64_t komodo_accrued_interest(int32_t *txheightp,uint32_t *locktimep,uint256 hash,int32_t n,int32_t checkheight,uint64_t checkvalue,int32_t tipheight)
+uint64_t squishy_accrued_interest(int32_t *txheightp,uint32_t *locktimep,uint256 hash,int32_t n,int32_t checkheight,uint64_t checkvalue,int32_t tipheight)
 {
     return(0);
 }
@@ -196,13 +196,13 @@ static void RegisterLoad(const std::string& strInput)
 }
 
 
-int32_t komodo_nextheight()
+int32_t squishy_nextheight()
 {
     return(100000000);
 }
 
-// function stub to allow build komodo-tx
-bool komodo_is_vSolutionsFixActive()
+// function stub to allow build squishy-tx
+bool squishy_is_vSolutionsFixActive()
 {
     return true;
 }

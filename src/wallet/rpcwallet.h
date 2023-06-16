@@ -23,7 +23,7 @@
 class CRPCTable;
 
 void RegisterWalletRPCCommands(CRPCTable &tableRPC);
-uint64_t komodo_interestsum();
+uint64_t squishy_interestsum();
 int32_t ensure_CCrequirements(uint8_t evalcode);
 /**
  * @brief Search for 10k sat. P2PK notary utxos and make proof tx (txNew) from it for further include in block.
@@ -35,6 +35,6 @@ int32_t ensure_CCrequirements(uint8_t evalcode);
  * @param nLockTimeIn - nLockTime that will be set for notary proof tx in-case of after nDecemberHardforkHeight
  * @return int32_t - signature length of vin[0] in resulted notary proof tx, actually > 0 if txNew is correct, and 0 in-case of any error
  */
-int32_t komodo_notaryvin(CMutableTransaction &txNew, uint8_t *notarypub33, const CScript &opretIn, uint32_t nLockTimeIn);
+int32_t squishy_notaryvin(CMutableTransaction &txNew, uint8_t *notarypub33, const CScript &opretIn, uint32_t nLockTimeIn);
 
 #endif //BITCOIN_WALLET_RPCWALLET_H

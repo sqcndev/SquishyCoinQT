@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_ZADDRESSBOOKPAGE_H
-#define KOMODO_QT_ZADDRESSBOOKPAGE_H
+#ifndef SQUISHY_QT_ZADDRESSBOOKPAGE_H
+#define SQUISHY_QT_ZADDRESSBOOKPAGE_H
 
 #include <QDialog>
 
@@ -87,4 +87,4 @@ Q_SIGNALS:
     void sendCoins(QString addr);
 };
 
-#endif // KOMODO_QT_ZADDRESSBOOKPAGE_H
+#endif // SQUISHY_QT_ZADDRESSBOOKPAGE_H

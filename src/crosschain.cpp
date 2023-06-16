@@ -19,9 +19,9 @@
 #include "main.h"
 #include "merkleblock.h"
 #include "hex.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 #include "cc/CCinclude.h"
-#include "komodo_notary.h"
+#include "squishy_notary.h"
 #include "notarisationdb.h"
 #include "cc/import.h"
 
@@ -60,7 +60,7 @@ CrosschainType CrossChain::GetSymbolAuthority(const std::string& symbol)
     if (is_STAKED(symbol.c_str()) != 0)
         return CROSSCHAIN_STAKED;
 
-    return CROSSCHAIN_KOMODO;
+    return CROSSCHAIN_SQUISHY;
 }
 
 /***
@@ -424,7 +424,7 @@ bool CrossChain::CheckNotariesApproval(uint256 burntxid, const std::vector<uint2
                         if (merkleBlock.txn.ExtractMatches(prooftxids) != merkleBlock.header.hashMerkleRoot ||  // check block merkle root is correct
                             std::find(prooftxids.begin(), prooftxids.end(), burntxid) != prooftxids.end()) {    // check burn txid is in proven txids list
                             
-                            if (komodo_notaries(notaries_pubkeys, block.nHeight, block.GetBlockTime()) >= 0) {
+                            if (squishy_notaries(notaries_pubkeys, block.nHeight, block.GetBlockTime()) >= 0) {
                                 // check it is a notary who signed approved tx:
                                 int i;
                                 for (i = 0; i < sizeof(notaries_pubkeys) / sizeof(notaries_pubkeys[0]); i++) {
@@ -514,7 +514,7 @@ TxProof CrossChain::GetAssetchainProof(uint256 hash,CTransaction burnTx)
         if (blockHash.IsNull())
             throw std::runtime_error("tx still in mempool");
 
-        blockIndex = komodo_getblockindex(blockHash);
+        blockIndex = squishy_getblockindex(blockHash);
         int h = blockIndex->nHeight;
         // The assumption here is that the first notarisation for a height GTE than
         // the transaction block height will contain the corresponding MoM. If there

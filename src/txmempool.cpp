@@ -31,9 +31,9 @@
 #include "utilmoneystr.h"
 #include "validationinterface.h"
 #include "version.h"
-#include "komodo_globals.h"
-#include "komodo_utils.h"
-#include "komodo_bitcoind.h"
+#include "squishy_globals.h"
+#include "squishy_utils.h"
+#include "squishy_bitcoind.h"
 
 using namespace std;
 
@@ -409,7 +409,7 @@ void CTxMemPool::removeForReorg(const CCoinsViewCache *pcoins, unsigned int nMem
                 const CCoins *coins = pcoins->AccessCoins(txin.prevout.hash);
 		        if (nCheckFrequency != 0) assert(coins);
                 if (!coins || (coins->IsCoinBase() && (((signed long)nMemPoolHeight) - coins->nHeight < Params().CoinbaseMaturity()) && 
-                                                       ((signed long)nMemPoolHeight < komodo_block_unlocktime(coins->nHeight) && 
+                                                       ((signed long)nMemPoolHeight < squishy_block_unlocktime(coins->nHeight) && 
                                                          coins->IsAvailable(0) && coins->vout[0].nValue >= ASSETCHAINS_TIMELOCKGTE))) {
                     transactionsToRemove.push_back(tx);
                     break;
@@ -515,7 +515,7 @@ void CTxMemPool::removeExpired(unsigned int nBlockHeight)
 
         bool fInterestNotValidated = chainName.isKMD() 
                 && tipindex != 0 
-                && !komodo_validate_interest(tx,tipindex->nHeight+1,tipindex->GetMedianTimePast() + 777);
+                && !squishy_validate_interest(tx,tipindex->nHeight+1,tipindex->GetMedianTimePast() + 777);
         if (IsExpiredTx(tx, nBlockHeight) || fInterestNotValidated)
         {
             if (fInterestNotValidated && tipindex != 0)

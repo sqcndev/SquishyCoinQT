@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_KOMODOUNITS_H
-#define KOMODO_QT_KOMODOUNITS_H
+#ifndef SQUISHY_QT_SQUISHYUNITS_H
+#define SQUISHY_QT_SQUISHYUNITS_H
 
 #include "amount.h"
 
@@ -52,7 +52,7 @@ public:
     explicit KomodoUnits(QObject *parent);
 
     /** Komodo units.
-      @note Source: https://en.komodo.it/wiki/Units . Please add only sensible ones
+      @note Source: https://en.squishy.it/wiki/Units . Please add only sensible ones
      */
     enum Unit
     {
@@ -127,4 +127,4 @@ private:
 };
 typedef KomodoUnits::Unit KomodoUnit;
 
-#endif // KOMODO_QT_KOMODOUNITS_H
+#endif // SQUISHY_QT_SQUISHYUNITS_H

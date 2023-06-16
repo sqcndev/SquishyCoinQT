@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_THREADINTERRUPT_H
-#define KOMODO_THREADINTERRUPT_H
+#ifndef SQUISHY_THREADINTERRUPT_H
+#define SQUISHY_THREADINTERRUPT_H
 
 #include <atomic>
 #include <chrono>
@@ -31,4 +31,4 @@ private:
     std::atomic<bool> flag;
 };
 
-#endif //KOMODO_THREADINTERRUPT_H
+#endif //SQUISHY_THREADINTERRUPT_H

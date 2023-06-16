@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_WALLETVIEW_H
-#define KOMODO_QT_WALLETVIEW_H
+#ifndef SQUISHY_QT_WALLETVIEW_H
+#define SQUISHY_QT_WALLETVIEW_H
 
 #include "amount.h"
 
@@ -47,7 +47,7 @@ public:
     */
     void setClientModel(ClientModel *clientModel);
     /** Set the wallet model.
-        The wallet model represents a komodo wallet, and offers access to the list of transactions, address book and sending
+        The wallet model represents a squishy wallet, and offers access to the list of transactions, address book and sending
         functionality.
     */
     void setWalletModel(WalletModel *walletModel);
@@ -138,4 +138,4 @@ Q_SIGNALS:
     void setPrivacy(bool privacy);
 };
 
-#endif // KOMODO_QT_WALLETVIEW_H
+#endif // SQUISHY_QT_WALLETVIEW_H

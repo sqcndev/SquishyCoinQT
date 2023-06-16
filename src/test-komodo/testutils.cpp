@@ -53,7 +53,7 @@ void setupChain()
 
     // Init blockchain
     ClearDatadirCache();
-    auto pathTemp = GetTempPath() / strprintf("test_komodo_%li_%i", GetTime(), GetRand(100000));
+    auto pathTemp = GetTempPath() / strprintf("test_squishy_%li_%i", GetTime(), GetRand(100000));
     if (!chainName.isKMD())
         pathTemp = pathTemp / strprintf("_%s", chainName.symbol().c_str());
     boost::filesystem::create_directories(pathTemp);

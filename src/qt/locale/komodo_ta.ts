@@ -706,7 +706,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Komodo Core</source>
         <translation>Komodo மையம்</translation>

@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_CUCKOOCACHE_H
-#define KOMODO_CUCKOOCACHE_H
+#ifndef SQUISHY_CUCKOOCACHE_H
+#define SQUISHY_CUCKOOCACHE_H
 
 #include <array>
 #include <algorithm>
@@ -478,4 +478,4 @@ public:
 };
 } // namespace CuckooCache
 
-#endif // KOMODO_CUCKOOCACHE_H
+#endif // SQUISHY_CUCKOOCACHE_H

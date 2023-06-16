@@ -398,8 +398,8 @@
         <translation>Orebalk</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Versoek betalings (genereer QR-kodes en komodo: URI's)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Versoek betalings (genereer QR-kodes en squishy: URI's)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -410,8 +410,8 @@
         <translation>Vertoon die lys van gebruikte ontvangers-adresse en etikette</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Skep 'n komodo: URI of betalingsversoek</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Skep 'n squishy: URI of betalingsversoek</translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -1010,7 +1010,7 @@
     </message>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Komodo Core</source>
         <translation>Komodo Kern</translation>

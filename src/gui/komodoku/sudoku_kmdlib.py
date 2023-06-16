@@ -12,11 +12,11 @@ def def_credentials(chain):
     if operating_system == 'Darwin':
         ac_dir = os.environ['HOME'] + '/Library/Application Support/Komodo'
     elif operating_system == 'Linux':
-        ac_dir = os.environ['HOME'] + '/.komodo'
+        ac_dir = os.environ['HOME'] + '/.squishy'
     elif operating_system == 'Windows':
-        ac_dir = '%s/komodo/' % os.environ['APPDATA']
+        ac_dir = '%s/squishy/' % os.environ['APPDATA']
     if chain == 'KMD':
-        coin_config_file = str(ac_dir + '/komodo.conf')
+        coin_config_file = str(ac_dir + '/squishy.conf')
     else:
         coin_config_file = str(ac_dir + '/' + chain + '/' + chain + '.conf')
     with open(coin_config_file, 'r') as f:

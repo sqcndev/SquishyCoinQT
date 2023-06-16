@@ -19,8 +19,8 @@
 #else
 #include "games/tetris.c"
 #endif
-#include "komodo_bitcoind.h"
-#include "miner.h" // for komodo_sendmessage
+#include "squishy_bitcoind.h"
+#include "miner.h" // for squishy_sendmessage
 
 int32_t GAMEDATA(struct games_player *P,void *ptr);
 
@@ -475,7 +475,7 @@ int32_t games_event(uint32_t timestamp,uint256 gametxid,int32_t eventid,std::vec
     {
         GetOpReturnData(games_eventopret(timestamp,mypk,sig,payload),vopret);
         games_payloadrecv(mypk,timestamp,payload);
-        komodo_sendmessage(4,8,"events",vopret);
+        squishy_sendmessage(4,8,"events",vopret);
         return(0);
     }
     LogPrintf("games_eventsign error\n");
@@ -535,7 +535,7 @@ UniValue games_events(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
     return(result);
 }
 
-void komodo_netevent(std::vector<uint8_t> message)
+void squishy_netevent(std::vector<uint8_t> message)
 {
     int32_t i,retval,lag,lagerr=0; uint32_t timestamp,now; CPubKey pk; std::vector<uint8_t> sig,payload; char str[67];
     if ( games_eventdecode(timestamp,pk,sig,payload,message) == 'E' )
@@ -556,7 +556,7 @@ void komodo_netevent(std::vector<uint8_t> message)
                 if ( (rand() % 10) == 0 )
                 {
                     //LogPrintf("relay message.[%d]\n",(int32_t)message.size());
-                    komodo_sendmessage(2,2,"events",message);
+                    squishy_sendmessage(2,2,"events",message);
                 }
             }
         }
@@ -597,7 +597,7 @@ int32_t games_isvalidgame(struct CCcontract_info *cp,int32_t &gameheight,CTransa
     if ( (txid == zeroid || myGetTransaction(txid,tx,hashBlock) != 0) && (numvouts= tx.vout.size()) > 1 )
     {
         if ( txid != zeroid )
-            gameheight = komodo_blockheight(hashBlock);
+            gameheight = squishy_blockheight(hashBlock);
         else
         {
             txid = tx.GetHash();
@@ -633,7 +633,7 @@ int32_t games_playersalive(int32_t &openslots,int32_t &numplayers,uint256 gametx
 {
     int32_t i,n,vout,spentvini,registration_open = 0,alive = 0; CTransaction tx; uint256 txid,spenttxid,hashBlock; CBlockIndex *pindex; uint64_t txfee = 10000;
     numplayers = openslots = 0;
-    if ( komodo_nextheight() <= gameht+GAMES_MAXKEYSTROKESGAP )
+    if ( squishy_nextheight() <= gameht+GAMES_MAXKEYSTROKESGAP )
         registration_open = 1;
     for (i=0; i<maxplayers; i++)
     {
@@ -670,7 +670,7 @@ int32_t games_playersalive(int32_t &openslots,int32_t &numplayers,uint256 gametx
                 {
                     if ( myGetTransaction(txid,tx,hashBlock) != 0 )
                     {
-                        if ( (pindex= komodo_blockindex(hashBlock)) != 0 )
+                        if ( (pindex= squishy_blockindex(hashBlock)) != 0 )
                         {
                             if ( pindex->nHeight <= gameht+GAMES_MAXKEYSTROKESGAP )
                                 alive++;
@@ -853,15 +853,15 @@ int64_t games_buyins(uint256 gametxid,int32_t maxplayers)
 uint64_t games_gamefields(UniValue &obj,int64_t maxplayers,int64_t buyin,uint256 gametxid,char *mygamesaddr)
 {
     CBlockIndex *pindex; int32_t ht,openslots,delay,numplayers; uint256 hashBlock; uint64_t seed=0; char cmd[512]; CTransaction tx;
-    if ( myGetTransaction(gametxid,tx,hashBlock) != 0 && (pindex= komodo_blockindex(hashBlock)) != 0 )
+    if ( myGetTransaction(gametxid,tx,hashBlock) != 0 && (pindex= squishy_blockindex(hashBlock)) != 0 )
     {
         ht = pindex->nHeight;
         delay = GAMES_REGISTRATION * (maxplayers > 1);
         obj.push_back(Pair("height",ht));
         obj.push_back(Pair("start",ht+delay));
-        if ( komodo_nextheight() > ht+delay )
+        if ( squishy_nextheight() > ht+delay )
         {
-            if ( (pindex= komodo_chainactive(ht+delay)) != 0 )
+            if ( (pindex= squishy_chainactive(ht+delay)) != 0 )
             {
                 hashBlock = pindex->GetBlockHash();
                 obj.push_back(Pair("starthash",hashBlock.ToString()));
@@ -870,7 +870,7 @@ uint64_t games_gamefields(UniValue &obj,int64_t maxplayers,int64_t buyin,uint256
                 obj.push_back(Pair("seed",(int64_t)seed));
                 if ( games_iamregistered(maxplayers,gametxid,tx,mygamesaddr) > 0 )
                     sprintf(cmd,"cc/%s %llu %s",GAMENAME,(long long)seed,gametxid.ToString().c_str());
-                else sprintf(cmd,"./komodo-cli -ac_name=%s cclib register %d \"[%%22%s%%22]\"",chainName.symbol().c_str(),EVAL_GAMES,gametxid.ToString().c_str());
+                else sprintf(cmd,"./squishy-cli -ac_name=%s cclib register %d \"[%%22%s%%22]\"",chainName.symbol().c_str(),EVAL_GAMES,gametxid.ToString().c_str());
                 obj.push_back(Pair("run",cmd));
             }
         }
@@ -1061,8 +1061,8 @@ int32_t games_findbaton(struct CCcontract_info *cp,uint256 &playertxid,gameseven
                 if ( myGetTransaction(batontxid,batontx,hashBlock) != 0 && batontx.vout.size() > 0 )
                 {
                     if ( hashBlock == zeroid )
-                        batonht = komodo_nextheight();
-                    else if ( (pindex= komodo_blockindex(hashBlock)) == 0 )
+                        batonht = squishy_nextheight();
+                    else if ( (pindex= squishy_blockindex(hashBlock)) == 0 )
                         return(-4);
                     else batonht = pindex->nHeight;
                     batonvalue = batontx.vout[0].nValue;
@@ -1111,7 +1111,7 @@ void games_gameplayerinfo(struct CCcontract_info *cp,UniValue &obj,uint256 gamet
 
 UniValue games_newgame(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); std::string rawtx; CPubKey gamespk,mypk; char *jsonstr; uint64_t inputsum,change,required,buyin=0; int32_t i,n,maxplayers = 1;
     if ( txfee == 0 )
         txfee = 10000;
@@ -1153,7 +1153,7 @@ UniValue games_pending(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
     gamespk = GetUnspendable(cp,0);
     GetCCaddress(cp,coinaddr,gamespk);
     SetCCunspents(unspentOutputs,coinaddr,true);
-    nextheight = komodo_nextheight();
+    nextheight = squishy_nextheight();
     for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it=unspentOutputs.begin(); it!=unspentOutputs.end(); it++)
     {
         txid = it->first.txhash;
@@ -1223,7 +1223,7 @@ UniValue games_register(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
     // vin2 -> original creation TCBOO playerdata used
     // vin3+ -> buyin
     // vout0 -> keystrokes/completion baton
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); char destaddr[64],coinaddr[64]; uint256 tokenid,gametxid,origplayergame,playertxid,hashBlock; int32_t err,maxplayers,gameheight,n,numvouts,vout=1; int64_t inputsum,buyin,CCchange=0; CPubKey pk,mypk,gamespk,burnpk; CTransaction tx,playertx; std::vector<uint8_t> playerdata; std::string rawtx,symbol,pname; bits256 t;
     
     if ( txfee == 0 )
@@ -1248,7 +1248,7 @@ UniValue games_register(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
                     if ( tokenid != zeroid ) // if it is tokentransfer this will be 0
                         vout = 1;
                 }
-                if ( komodo_nextheight() > gameheight + GAMES_MAXKEYSTROKESGAP )
+                if ( squishy_nextheight() > gameheight + GAMES_MAXKEYSTROKESGAP )
                     return(cclib_error(result,"didnt register in time, GAMES_MAXKEYSTROKESGAP"));
                 games_univalue(result,0,maxplayers,buyin);
                 GetCCaddress1of2(cp,coinaddr,gamespk,mypk);
@@ -1310,7 +1310,7 @@ UniValue games_keystrokes(uint64_t txfee,struct CCcontract_info *cp,cJSON *param
     // opret -> user input chars
     // being killed should auto broadcast (possible to be suppressed?)
     // respawn to be prevented by including timestamps
-    int32_t nextheight = komodo_nextheight();
+    int32_t nextheight = squishy_nextheight();
     CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(),nextheight);
     UniValue result(UniValue::VOBJ); CPubKey gamespk,mypk; uint256 gametxid,playertxid,batontxid; int64_t batonvalue,buyin; std::vector<uint8_t> keystrokes,playerdata; int32_t numplayers,regslot,numkeys,batonht,batonvout,n,elapsed,gameheight,maxplayers; CTransaction tx; CTxOut txout; char *keystrokestr,destaddr[64]; std::string rawtx,symbol,pname; bits256 t; uint8_t mypriv[32];
     // if ( txfee == 0 )
@@ -1507,7 +1507,7 @@ UniValue games_finish(uint64_t txfee,struct CCcontract_info *cp,cJSON *params,ch
     // vout0 -> playerdata marker
     // vout0 -> 1% ingame gold
     // get any playerdata, get all keystrokes, replay game and compare final state
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); std::string rawtx,symbol,pname; CTransaction gametx; uint64_t seed; int64_t buyin,batonvalue,inputsum,cashout=0,CCchange=0; int32_t i,err,gameheight,tmp,numplayers,regslot,n,num,numkeys,maxplayers,batonht,batonvout; char mygamesaddr[64],str[512]; gamesevent *keystrokes = 0; std::vector<uint8_t> playerdata,newdata,nodata; uint256 batontxid,playertxid,gametxid; CPubKey mypk,gamespk; uint8_t player[10000],mypriv[32],funcid;
     struct CCcontract_info *cpTokens, tokensC;
     
@@ -1716,7 +1716,7 @@ UniValue games_setname(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 
 UniValue games_fund(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); std::string rawtx; int64_t amount,inputsum; CPubKey gamespk,mypk; CScript opret;
     if ( params != 0 && cJSON_GetArraySize(params) == 1 )
     {

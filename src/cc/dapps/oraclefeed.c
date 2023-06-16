@@ -225,7 +225,7 @@ cJSON *get_cli(char *refcoin,char **retstrp,char *acname,char *method,char *arg0
     {
         if ( refcoin[0] == 0 )
             myprintf("must supply reference coin\n");
-        sprintf(cmdstr,"./komodo-cli -ac_name=%s %s %s %s %s %s > %s 2>/tmp/oraclefeed.error\n",acname,method,arg0,arg1,arg2,arg3,fname);
+        sprintf(cmdstr,"./squishy-cli -ac_name=%s %s %s %s %s %s > %s 2>/tmp/oraclefeed.error\n",acname,method,arg0,arg1,arg2,arg3,fname);
     }
     else if ( REFCOIN_CLI != 0 && REFCOIN_CLI[0] != 0 )
     {
@@ -965,7 +965,7 @@ int32_t main(int32_t argc,char **argv)
     bindtxidstr = argv[5];
     if ( argc > 6 )
         REFCOIN_CLI = argv[6];
-    else REFCOIN_CLI = "./komodo-cli";
+    else REFCOIN_CLI = "./squishy-cli";
     if ( strncmp(format,"Ihh",3) != 0 && format[0] != 'L' )
     {
         myprintf("only formats of L and Ihh are supported now\n");

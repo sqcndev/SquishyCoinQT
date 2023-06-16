@@ -15,7 +15,7 @@
 
 /* first make a combined pk:
 
-./komodo-cli -ac_name=MUSIG cclib combine 18 '["02fb6aa0b96cad24d46b5da93eba3864c45ce07a73bba12da530ae841e140fcf28","0255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4"]'
+./squishy-cli -ac_name=MUSIG cclib combine 18 '["02fb6aa0b96cad24d46b5da93eba3864c45ce07a73bba12da530ae841e140fcf28","0255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4"]'
 {
   "pkhash": "5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b",
   "combined_pk": "03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b",
@@ -25,7 +25,7 @@
  the combined_pk and pkhash will be needed for various other rpc calls
 
  second, send 1 coin to the combined_pk
- ./komodo-cli -ac_name=MUSIG  cclib send 18 '["03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b",1]'
+ ./squishy-cli -ac_name=MUSIG  cclib send 18 '["03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b",1]'
  {
    "hex": "0400008085202f8901a980664dffc810725a79ffb89ac48be4c7b6bade9b789732fcf871acf8e81a2e010000006a47304402207e52763661ecd2c34a65d6623950be11794825db71576dc11894c606ddc317800220028fef46dc20630d0fdf22647b5d4ff0f1c47cf75f48702d0a91d5589eff99d001210255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4ffffffff031008f60500000000302ea22c8020c71ddb3aac7f9b9e4bdacf032aaa8b8e4433c4ff9f8a43cebb9c1f5da96928a48103120c008203000401cce09aa4350000000023210255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4ac0000000000000000266a2412782103f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b00000000920500000000000000000000000000",
    "txid": "5ce74037a153ee210413b48d4e88638b99825a2de1a1f1aa0d36ebf93019824c",
@@ -33,7 +33,7 @@
  }
  
  sendrawtransaction of the above hex.
- ./komodo-cli -ac_name=MUSIG getrawtransaction 5ce74037a153ee210413b48d4e88638b99825a2de1a1f1aa0d36ebf93019824c 1
+ ./squishy-cli -ac_name=MUSIG getrawtransaction 5ce74037a153ee210413b48d4e88638b99825a2de1a1f1aa0d36ebf93019824c 1
  "vout": [
     {
       "value": 1.00010000,
@@ -69,7 +69,7 @@
  
   get the msg we need to sign:
   
- ./komodo-cli -ac_name=MUSIG  cclib calcmsg 18 '["5ce74037a153ee210413b48d4e88638b99825a2de1a1f1aa0d36ebf93019824c","210255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4ac"]'
+ ./squishy-cli -ac_name=MUSIG  cclib calcmsg 18 '["5ce74037a153ee210413b48d4e88638b99825a2de1a1f1aa0d36ebf93019824c","210255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4ac"]'
  
  {
   "msg": "f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75",
@@ -82,7 +82,7 @@ the "msg" is what needs to be signed to create a valid spend
  5 args: ind, numsigners, combined_pk, pkhash, message to be signed
  
  on node with pubkey: 02fb6aa0b96cad24d46b5da93eba3864c45ce07a73bba12da530ae841e140fcf28
- ./komodo-cli -ac_name=MUSIG cclib session 18 '[0,2,"03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b","5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75"]'
+ ./squishy-cli -ac_name=MUSIG cclib session 18 '[0,2,"03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b","5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75"]'
  {
   "myind": 0,
   "numsigners": 2,
@@ -91,7 +91,7 @@ the "msg" is what needs to be signed to create a valid spend
  }
 
  on node with pubkey: 0255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4
- ./komodo-cli -ac_name=MUSIG cclib session 18 '[1,2,"03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b","5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75"]'
+ ./squishy-cli -ac_name=MUSIG cclib session 18 '[1,2,"03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b","5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75"]'
  {
    "myind": 1,
    "numsigners": 2,
@@ -100,7 +100,7 @@ the "msg" is what needs to be signed to create a valid spend
  }
   
  now we need to get the commitment from each node to the other one. the session already put the commitment for each node into the global struct. Keep in mind there is a single global struct with session unique to each cclib session call. that means no restarting any deamon in the middle of the process on any of the nodes and only call cclib session a single time. this is an artificial restriction just to simplify the initial implementation of musig
- ./komodo-cli -ac_name=MUSIG cclib commit 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","1","c2291acb747a75b1a40014d8eb0cc90a1360f74d413f65f78e20a7de45eda851"]'
+ ./squishy-cli -ac_name=MUSIG cclib commit 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","1","c2291acb747a75b1a40014d8eb0cc90a1360f74d413f65f78e20a7de45eda851"]'
  {
   "added_index": 1,
   "myind": 0,
@@ -108,7 +108,7 @@ the "msg" is what needs to be signed to create a valid spend
   "result": "success"
  }
  
- ./komodo-cli -ac_name=MUSIG  cclib commit 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b",0,"d242cff13fa8c9b83248e4219fda459ada146b885f2171481f1b0f66c66d94ad"]'
+ ./squishy-cli -ac_name=MUSIG  cclib commit 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b",0,"d242cff13fa8c9b83248e4219fda459ada146b885f2171481f1b0f66c66d94ad"]'
  {
    "added_index": 0,
    "myind": 1,
@@ -117,7 +117,7 @@ the "msg" is what needs to be signed to create a valid spend
  }
 
  Now exchange the revealed nonces to each node:
- ./komodo-cli -ac_name=MUSIG cclib nonce 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","1","039365deaaaea089d509ba4c9f846de2baf4aa04cf6b26fa2c1cd818553e47f80c"]'
+ ./squishy-cli -ac_name=MUSIG cclib nonce 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","1","039365deaaaea089d509ba4c9f846de2baf4aa04cf6b26fa2c1cd818553e47f80c"]'
 {
   "added_index": 1,
   "myind": 0,
@@ -125,7 +125,7 @@ the "msg" is what needs to be signed to create a valid spend
   "result": "success"
 }
 
-./komodo-cli -ac_name=MUSIG  cclib nonce 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b",0,"02fec7a9310c959a0a97b86bc3f8c30d392d1fb51793915898c568f73f1f70476b"]'
+./squishy-cli -ac_name=MUSIG  cclib nonce 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b",0,"02fec7a9310c959a0a97b86bc3f8c30d392d1fb51793915898c568f73f1f70476b"]'
 {
   "added_index": 0,
   "myind": 1,
@@ -134,14 +134,14 @@ the "msg" is what needs to be signed to create a valid spend
 }
  
  Almost there! final step is to exchange the partial sigs between signers
- ./komodo-cli -ac_name=MUSIG cclib partialsig 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","1","4a3795e6801b355102c617390cf5a462061e082e35dc2ed8f8b1fab54cc0769e"]'
+ ./squishy-cli -ac_name=MUSIG cclib partialsig 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b","1","4a3795e6801b355102c617390cf5a462061e082e35dc2ed8f8b1fab54cc0769e"]'
  {
    "added_index": 1,
    "result": "success",
    "combinedsig": "a76f2790747ed2436a281f2660bdbee21bad9ee130b9cab6e542fa618fba1512679d568359db33a008ca39b773c32134276613e93e025ec17e083553449005f9"
  }
  
- ./komodo-cli -ac_name=MUSIG  cclib partialsig 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b",0,"1d65c09cd9bffe4f0604227e66cd7cd221480bbb08262fe885563a9df7cf8f5b"]'
+ ./squishy-cli -ac_name=MUSIG  cclib partialsig 18 '["5cb5a225064ca6ffc1438cb2a6ac2ac65fe2d5055dc7f6c7ebffb9a231f8912b",0,"1d65c09cd9bffe4f0604227e66cd7cd221480bbb08262fe885563a9df7cf8f5b"]'
  {
    "added_index": 0,
    "result": "success",
@@ -152,7 +152,7 @@ the "msg" is what needs to be signed to create a valid spend
  
  Now for a sanity test, we can use the verify call to make sure this sig will work with the msg needed for the spend:
  
- ./komodo-cli -ac_name=MUSIG cclib verify 18 '["f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75","03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b","a76f2790747ed2436a281f2660bdbee21bad9ee130b9cab6e542fa618fba1512679d568359db33a008ca39b773c32134276613e93e025ec17e083553449005f9"]'
+ ./squishy-cli -ac_name=MUSIG cclib verify 18 '["f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75","03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b","a76f2790747ed2436a281f2660bdbee21bad9ee130b9cab6e542fa618fba1512679d568359db33a008ca39b773c32134276613e93e025ec17e083553449005f9"]'
  {
    "msg": "f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75",
    "combined_pk": "03f016c348437c7422eed92d865aa9789614f75327cada463eefc566126b54785b",
@@ -162,7 +162,7 @@ the "msg" is what needs to be signed to create a valid spend
  
  and finally the spend: sendtxid, scriptPubKey, musig
  
- ./komodo-cli -ac_name=MUSIG cclib spend 18 '["5ce74037a153ee210413b48d4e88638b99825a2de1a1f1aa0d36ebf93019824c","210255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4ac","a76f2790747ed2436a281f2660bdbee21bad9ee130b9cab6e542fa618fba1512679d568359db33a008ca39b773c32134276613e93e025ec17e083553449005f9"]'
+ ./squishy-cli -ac_name=MUSIG cclib spend 18 '["5ce74037a153ee210413b48d4e88638b99825a2de1a1f1aa0d36ebf93019824c","210255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4ac","a76f2790747ed2436a281f2660bdbee21bad9ee130b9cab6e542fa618fba1512679d568359db33a008ca39b773c32134276613e93e025ec17e083553449005f9"]'
 {
   "scriptpubkey": "210255c46dbce584e3751081b39d7fc054fc807100557e73fc444481618b5706afb4ac",
   "msg": "f7fb85d1412814e3c2f98b990802af6ee33dad368c6ba05c2050e9e5506fcd75",
@@ -185,7 +185,7 @@ a10001ffffffff0200e1f5050000000023210255c46dbce584e3751081b39d7fc054fc807100557e
 #include "../secp256k1/include/secp256k1.h"
 #include "../secp256k1/src/ecmult.h"
 #include "../secp256k1/src/ecmult_gen.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 typedef struct { unsigned char data[64]; } secp256k1_schnorrsig;
 struct secp256k1_context_struct {
@@ -751,7 +751,7 @@ UniValue musig_rawtxresult(UniValue &result,std::string rawtx)
 
 UniValue musig_send(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); int32_t n; char *hexstr; std::string rawtx; int64_t amount; CPubKey musigpk,mypk;
     if ( txfee == 0 )
         txfee = MUSIG_TXFEE;
@@ -776,7 +776,7 @@ UniValue musig_send(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 UniValue musig_spend(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 {
     static secp256k1_context *ctx;
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); std::string rawtx; CPubKey mypk,pk; secp256k1_pubkey combined_pk; char *scriptstr,*musigstr; uint8_t msg[32]; CTransaction vintx; uint256 prevhash,hashBlock; int32_t i,n,numvouts; char str[129]; CTxOut vout; secp256k1_schnorrsig musig;
     if ( ctx == 0 )
         ctx = secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY);

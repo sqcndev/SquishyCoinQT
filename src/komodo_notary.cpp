@@ -12,22 +12,22 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo_notary.h"
-#include "komodo_globals.h"
-#include "komodo_extern_globals.h"
-#include "komodo.h" // komodo_stateupdate()
-#include "komodo_structs.h" // KOMODO_NOTARIES_HARDCODED
-#include "komodo_utils.h" // komodo_stateptr
-#include "komodo_bitcoind.h"
+#include "squishy_notary.h"
+#include "squishy_globals.h"
+#include "squishy_extern_globals.h"
+#include "squishy.h" // squishy_stateupdate()
+#include "squishy_structs.h" // SQUISHY_NOTARIES_HARDCODED
+#include "squishy_utils.h" // squishy_stateptr
+#include "squishy_bitcoind.h"
 
 //struct knotaries_entry *Pubkeys;  // todo remove
 
 // statics used within this .cpp for caching purposes
-static int didinit; // see komodo_init
-static uint8_t kmd_pubkeys[NUM_KMD_SEASONS][64][33]; // see komodo_notaries
-static int32_t hwmheight; // highest height ever passed to komodo_notariesinit
-static int32_t hadnotarization; // used in komodo_dpowconfs
-static bool didinit_NOTARIES[NUM_KMD_SEASONS]; // komodo_notaries()
+static int didinit; // see squishy_init
+static uint8_t kmd_pubkeys[NUM_KMD_SEASONS][64][33]; // see squishy_notaries
+static int32_t hwmheight; // highest height ever passed to squishy_notariesinit
+static int32_t hadnotarization; // used in squishy_dpowconfs
+static bool didinit_NOTARIES[NUM_KMD_SEASONS]; // squishy_notaries()
 
 
 /****
@@ -89,9 +89,9 @@ int32_t getacseason(uint32_t timestamp)
  */
 int32_t ht_index_from_height(int32_t height)
 {
-    int32_t htind = height / KOMODO_ELECTION_GAP;
-    if ( htind >= KOMODO_MAXBLOCKS / KOMODO_ELECTION_GAP )
-        htind = (KOMODO_MAXBLOCKS / KOMODO_ELECTION_GAP) - 1;
+    int32_t htind = height / SQUISHY_ELECTION_GAP;
+    if ( htind >= SQUISHY_MAXBLOCKS / SQUISHY_ELECTION_GAP )
+        htind = (SQUISHY_MAXBLOCKS / SQUISHY_ELECTION_GAP) - 1;
     return htind;
 }
 
@@ -99,13 +99,13 @@ int32_t ht_index_from_height(int32_t height)
 //char NOTARY_ADDRESSES[NUM_KMD_SEASONS][64][64]; //todo remove
 
 // ARRR notary exception
-int32_t komodo_isnotaryvout(char *coinaddr,uint32_t tiptime) // from ac_private chains only
+int32_t squishy_isnotaryvout(char *coinaddr,uint32_t tiptime) // from ac_private chains only
 {
     int32_t season = getacseason(tiptime);
     if ( NOTARY_ADDRESSES[season-1][0][0] == 0 )
     {
         uint8_t pubkeys[64][33];
-        komodo_notaries(pubkeys,0,tiptime);
+        squishy_notaries(pubkeys,0,tiptime);
     }
     if ( strcmp(coinaddr,CRYPTO777_KMDADDR) == 0 )
         return(1);
@@ -127,14 +127,14 @@ int32_t komodo_isnotaryvout(char *coinaddr,uint32_t tiptime) // from ac_private 
  * @param[in] timestamp the timestamp
  * @returns the number of notaries
  */
-int32_t komodo_notaries(uint8_t pubkeys[64][33],int32_t height,uint32_t timestamp)
+int32_t squishy_notaries(uint8_t pubkeys[64][33],int32_t height,uint32_t timestamp)
 {
     // calculate timestamp if necessary (only height passed in and non-KMD chain)
     // TODO: check if this logic changed okay 
     if ( chainName.isKMD() )   
         timestamp = 0; // For KMD, we always use height
     else if ( timestamp == 0 )
-        timestamp = komodo_heightstamp(height); // derive the timestamp from the passed-in height
+        timestamp = squishy_heightstamp(height); // derive the timestamp from the passed-in height
 
     // If this chain is not a staked chain, use the normal Komodo logic to determine notaries. 
     // This allows KMD to still sync and use its proper pubkeys for dPoW.
@@ -144,7 +144,7 @@ int32_t komodo_notaries(uint8_t pubkeys[64][33],int32_t height,uint32_t timestam
         if ( chainName.isKMD() )
         {
             // This is KMD, use block heights to determine the KMD notary season.. 
-            if ( height >= KOMODO_NOTARIES_HARDCODED )
+            if ( height >= SQUISHY_NOTARIES_HARDCODED )
                 kmd_season = getkmdseason(height);
         }
         else 
@@ -183,10 +183,10 @@ int32_t komodo_notaries(uint8_t pubkeys[64][33],int32_t height,uint32_t timestam
 
     if ( Pubkeys == nullptr )
     {
-        komodo_init(height);
+        squishy_init(height);
     }
     int32_t htind = ht_index_from_height(height);
-    std::lock_guard<std::mutex> lock(komodo_mutex);
+    std::lock_guard<std::mutex> lock(squishy_mutex);
     int32_t n = Pubkeys[htind].numnotaries;
     uint64_t mask = 0;
     knotary_entry *kp;
@@ -207,10 +207,10 @@ int32_t komodo_notaries(uint8_t pubkeys[64][33],int32_t height,uint32_t timestam
     return -1;
 }
 
-int32_t komodo_electednotary(int32_t *numnotariesp,uint8_t *pubkey33,int32_t height,uint32_t timestamp)
+int32_t squishy_electednotary(int32_t *numnotariesp,uint8_t *pubkey33,int32_t height,uint32_t timestamp)
 {
     int32_t i,n; uint8_t pubkeys[64][33];
-    n = komodo_notaries(pubkeys,height,timestamp);
+    n = squishy_notaries(pubkeys,height,timestamp);
     *numnotariesp = n;
     for (i=0; i<n; i++)
     {
@@ -220,7 +220,7 @@ int32_t komodo_electednotary(int32_t *numnotariesp,uint8_t *pubkey33,int32_t hei
     return(-1);
 }
 
-int32_t komodo_ratify_threshold(int32_t height,uint64_t signedmask)
+int32_t squishy_ratify_threshold(int32_t height,uint64_t signedmask)
 {
     int32_t numnotaries, i, wt = 0;
     int32_t htind = ht_index_from_height(height);
@@ -239,23 +239,23 @@ int32_t komodo_ratify_threshold(int32_t height,uint64_t signedmask)
  * @param pubkeys the notaries' public keys
  * @param num the number of keys in pubkeys
  */
-void komodo_notarysinit(int32_t origheight,uint8_t pubkeys[64][33],int32_t num)
+void squishy_notarysinit(int32_t origheight,uint8_t pubkeys[64][33],int32_t num)
 {
     if ( Pubkeys == 0 )
-        Pubkeys = (knotaries_entry *)calloc(1 + (KOMODO_MAXBLOCKS / KOMODO_ELECTION_GAP),sizeof(*Pubkeys));
+        Pubkeys = (knotaries_entry *)calloc(1 + (SQUISHY_MAXBLOCKS / SQUISHY_ELECTION_GAP),sizeof(*Pubkeys));
     knotaries_entry N;
     memset(&N,0,sizeof(N));
     // calculate the height
     int32_t htind = 0; // height index (number of elections so far)
     if ( origheight > 0 )
     {
-        int32_t height = (origheight + KOMODO_ELECTION_GAP/2);
-        height /= KOMODO_ELECTION_GAP;
-        height = ((height + 1) * KOMODO_ELECTION_GAP);
+        int32_t height = (origheight + SQUISHY_ELECTION_GAP/2);
+        height /= SQUISHY_ELECTION_GAP;
+        height = ((height + 1) * SQUISHY_ELECTION_GAP);
         htind = ht_index_from_height(height);
     }
     {
-        std::lock_guard<std::mutex> lock(komodo_mutex);
+        std::lock_guard<std::mutex> lock(squishy_mutex);
         for (int32_t k=0; k<num; k++)
         {
             knotary_entry *kp = (knotary_entry *)calloc(1,sizeof(*kp));
@@ -264,7 +264,7 @@ void komodo_notarysinit(int32_t origheight,uint8_t pubkeys[64][33],int32_t num)
             HASH_ADD_KEYPTR(hh,N.Notaries,kp->pubkey,33,kp);
         }
         N.numnotaries = num;
-        for (int32_t i=htind; i<KOMODO_MAXBLOCKS / KOMODO_ELECTION_GAP; i++)
+        for (int32_t i=htind; i<SQUISHY_MAXBLOCKS / SQUISHY_ELECTION_GAP; i++)
         {
             if ( Pubkeys[i].height != 0 && origheight < hwmheight )
             {
@@ -272,14 +272,14 @@ void komodo_notarysinit(int32_t origheight,uint8_t pubkeys[64][33],int32_t num)
                 break;
             }
             Pubkeys[i] = N;
-            Pubkeys[i].height = i * KOMODO_ELECTION_GAP;
+            Pubkeys[i].height = i * SQUISHY_ELECTION_GAP;
         }
     }
     if ( origheight > hwmheight )
         hwmheight = origheight;
 }
 
-int32_t komodo_chosennotary(int32_t *notaryidp,int32_t height,uint8_t *pubkey33,uint32_t timestamp)
+int32_t squishy_chosennotary(int32_t *notaryidp,int32_t height,uint8_t *pubkey33,uint32_t timestamp)
 {
     // -1 if not notary, 0 if notary, 1 if special notary
     knotary_entry *kp; 
@@ -287,14 +287,14 @@ int32_t komodo_chosennotary(int32_t *notaryidp,int32_t height,uint8_t *pubkey33,
     int32_t modval = -1;
 
     *notaryidp = -1;
-    if ( height < 0 )//|| height >= KOMODO_MAXBLOCKS )
+    if ( height < 0 )//|| height >= SQUISHY_MAXBLOCKS )
     {
-        LogPrintf("komodo_chosennotary ht.%d illegal\n",height);
+        LogPrintf("squishy_chosennotary ht.%d illegal\n",height);
         return(-1);
     }
-    if ( height >= KOMODO_NOTARIES_HARDCODED || !chainName.isKMD() )
+    if ( height >= SQUISHY_NOTARIES_HARDCODED || !chainName.isKMD() )
     {
-        if ( (*notaryidp= komodo_electednotary(&numnotaries,pubkey33,height,timestamp)) >= 0 && numnotaries != 0 )
+        if ( (*notaryidp= squishy_electednotary(&numnotaries,pubkey33,height,timestamp)) >= 0 && numnotaries != 0 )
         {
             modval = ((height % numnotaries) == *notaryidp);
             return(modval);
@@ -303,10 +303,10 @@ int32_t komodo_chosennotary(int32_t *notaryidp,int32_t height,uint8_t *pubkey33,
     if ( height >= 250000 )
         return(-1);
     if ( Pubkeys == nullptr )
-        komodo_init(0);
+        squishy_init(0);
     int32_t htind = ht_index_from_height(height);
     {
-        std::lock_guard<std::mutex> lock(komodo_mutex);
+        std::lock_guard<std::mutex> lock(squishy_mutex);
         HASH_FIND(hh,Pubkeys[htind].Notaries,pubkey33,33,kp);
     }
     if ( kp != nullptr )
@@ -330,12 +330,12 @@ int32_t komodo_chosennotary(int32_t *notaryidp,int32_t height,uint8_t *pubkey33,
  * @param height the key
  * @returns the checkpoint or nullptr
  */
-const notarized_checkpoint *komodo_npptr(int32_t height)
+const notarized_checkpoint *squishy_npptr(int32_t height)
 {
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN];
-    char dest[KOMODO_ASSETCHAIN_MAXLEN]; 
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN];
+    char dest[SQUISHY_ASSETCHAIN_MAXLEN]; 
 
-    komodo_state *sp = komodo_stateptr(symbol, dest);
+    squishy_state *sp = squishy_stateptr(symbol, dest);
     if ( sp != nullptr )
     {
         return sp->CheckpointAtHeight(height);
@@ -347,12 +347,12 @@ const notarized_checkpoint *komodo_npptr(int32_t height)
  * Search for the last (chronological) MoM notarized height
  * @returns the last notarized height that has a MoM
  */
-int32_t komodo_prevMoMheight()
+int32_t squishy_prevMoMheight()
 {
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN];
-    char dest[KOMODO_ASSETCHAIN_MAXLEN];
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN];
+    char dest[SQUISHY_ASSETCHAIN_MAXLEN];
 
-    komodo_state *sp = komodo_stateptr(symbol,dest);
+    squishy_state *sp = squishy_stateptr(symbol,dest);
     if ( sp != nullptr )
     {
         return sp->PrevMoMHeight();
@@ -367,16 +367,16 @@ int32_t komodo_prevMoMheight()
  * @param[out] txidp the DESTTXID
  * @returns the notarized height
  */
-int32_t komodo_notarized_height(int32_t *prevMoMheightp,uint256 *hashp,uint256 *txidp)
+int32_t squishy_notarized_height(int32_t *prevMoMheightp,uint256 *hashp,uint256 *txidp)
 {
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN];
-    char dest[KOMODO_ASSETCHAIN_MAXLEN];
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN];
+    char dest[SQUISHY_ASSETCHAIN_MAXLEN];
 
     *prevMoMheightp = 0;
     memset(hashp,0,sizeof(*hashp));
     memset(txidp,0,sizeof(*txidp));
 
-    komodo_state *sp = komodo_stateptr(symbol, dest);
+    squishy_state *sp = squishy_stateptr(symbol, dest);
     if ( sp != nullptr )
     {
         return sp->NotarizedHeight(prevMoMheightp, hashp, txidp);
@@ -384,14 +384,14 @@ int32_t komodo_notarized_height(int32_t *prevMoMheightp,uint256 *hashp,uint256 *
     return 0;
 }
 
-int32_t komodo_dpowconfs(int32_t txheight,int32_t numconfs)
+int32_t squishy_dpowconfs(int32_t txheight,int32_t numconfs)
 {
     static int32_t hadnotarization;
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN];
-    char dest[KOMODO_ASSETCHAIN_MAXLEN];
-    komodo_state *sp;
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN];
+    char dest[SQUISHY_ASSETCHAIN_MAXLEN];
+    squishy_state *sp;
 
-    if ( KOMODO_DPOWCONFS != 0 && txheight > 0 && numconfs > 0 && (sp= komodo_stateptr(symbol,dest)) != nullptr )
+    if ( SQUISHY_DPOWCONFS != 0 && txheight > 0 && numconfs > 0 && (sp= squishy_stateptr(symbol,dest)) != nullptr )
     {
         if ( sp->LastNotarizedHeight() > 0 )
         {
@@ -406,9 +406,9 @@ int32_t komodo_dpowconfs(int32_t txheight,int32_t numconfs)
     return(numconfs);
 }
 
-int32_t komodo_MoMdata(int32_t *notarized_htp,uint256 *MoMp,uint256 *kmdtxidp,int32_t height,uint256 *MoMoMp,int32_t *MoMoMoffsetp,int32_t *MoMoMdepthp,int32_t *kmdstartip,int32_t *kmdendip)
+int32_t squishy_MoMdata(int32_t *notarized_htp,uint256 *MoMp,uint256 *kmdtxidp,int32_t height,uint256 *MoMoMp,int32_t *MoMoMoffsetp,int32_t *MoMoMdepthp,int32_t *kmdstartip,int32_t *kmdendip)
 {
-    const notarized_checkpoint *np = komodo_npptr(height);
+    const notarized_checkpoint *np = squishy_npptr(height);
     if ( np != nullptr )
     {
         *notarized_htp = np->notarized_height;
@@ -435,12 +435,12 @@ int32_t komodo_MoMdata(int32_t *notarized_htp,uint256 *MoMp,uint256 *kmdtxidp,in
  * @param[out] notarized_desttxidp the desttxid
  * @returns the notarized height
  */
-int32_t komodo_notarizeddata(int32_t nHeight,uint256 *notarized_hashp,uint256 *notarized_desttxidp)
+int32_t squishy_notarizeddata(int32_t nHeight,uint256 *notarized_hashp,uint256 *notarized_desttxidp)
 {
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN];
-    char dest[KOMODO_ASSETCHAIN_MAXLEN];
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN];
+    char dest[SQUISHY_ASSETCHAIN_MAXLEN];
 
-    komodo_state *sp = komodo_stateptr(symbol,dest);
+    squishy_state *sp = squishy_stateptr(symbol,dest);
     if ( sp != nullptr )
     {
         return sp->NotarizedData(nHeight, notarized_hashp, notarized_desttxidp);
@@ -452,8 +452,8 @@ int32_t komodo_notarizeddata(int32_t nHeight,uint256 *notarized_hashp,uint256 *n
 }
 
 /***
- * Add a notarized checkpoint to the komodo_state
- * @param[in] sp the komodo_state to add to
+ * Add a notarized checkpoint to the squishy_state
+ * @param[in] sp the squishy_state to add to
  * @param[in] nHeight the height
  * @param[in] notarized_height the height of the notarization
  * @param[in] notarized_hash the hash of the notarization
@@ -461,12 +461,12 @@ int32_t komodo_notarizeddata(int32_t nHeight,uint256 *notarized_hashp,uint256 *n
  * @param[in] MoM the MoM
  * @param[in] MoMdepth the depth
  */
-void komodo_notarized_update(struct komodo_state *sp,int32_t nHeight,int32_t notarized_height,
+void squishy_notarized_update(struct squishy_state *sp,int32_t nHeight,int32_t notarized_height,
         uint256 notarized_hash,uint256 notarized_desttxid,uint256 MoM,int32_t MoMdepth)
 {
     if ( notarized_height >= nHeight )
     {
-        LogPrintf("komodo_notarized_update REJECT notarized_height %d > %d nHeight\n",notarized_height,nHeight);
+        LogPrintf("squishy_notarized_update REJECT notarized_height %d > %d nHeight\n",notarized_height,nHeight);
         return;
     }
 
@@ -477,7 +477,7 @@ void komodo_notarized_update(struct komodo_state *sp,int32_t nHeight,int32_t not
     new_cp.notarized_desttxid = notarized_desttxid;
     new_cp.MoM = MoM;
     new_cp.MoMdepth = MoMdepth;
-    std::lock_guard<std::mutex> lock(komodo_mutex);
+    std::lock_guard<std::mutex> lock(squishy_mutex);
     sp->AddCheckpoint(new_cp);
 }
 
@@ -486,7 +486,7 @@ void komodo_notarized_update(struct komodo_state *sp,int32_t nHeight,int32_t not
  * @note After a successful run, subsequent calls do nothing
  * @param height the current height (not used other than to stop initialization if less than zero)
  */
-void komodo_init(int32_t height)
+void squishy_init(int32_t height)
 {
     uint256 zero; 
     uint8_t pubkeys[64][33];
@@ -504,18 +504,18 @@ void komodo_init(int32_t height)
                 decode_hex(pubkeys[count],33,(char *)pair.second.c_str());
                 ++count;
             }
-            komodo_notarysinit(0,pubkeys,count);
+            squishy_notarysinit(0,pubkeys,count);
         }
         didinit = true;
-        komodo_stateupdate(0,0,0,0,zero,0,0,0,0,0,0,0,0,zero,0);
+        squishy_stateupdate(0,0,0,0,zero,0,0,0,0,0,0,0,0,zero,0);
     }
 }
 
 /****
  * A nasty hack to reset statics in this file.
- * Do not put this in komodo_notary.h, as it should only be used for testing
+ * Do not put this in squishy_notary.h, as it should only be used for testing
  */
-void komodo_notaries_uninit()
+void squishy_notaries_uninit()
 {
     didinit = 0;
     hwmheight = 0;

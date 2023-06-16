@@ -9,7 +9,7 @@
 #include "optionsdialog.h"
 #include "ui_optionsdialog.h"
 
-#include "komodounits.h"
+#include "squishyunits.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 
@@ -73,8 +73,8 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     /* Display elements init */
     QDir translations(":translations");
 
-    ui->komodoAtStartup->setToolTip(ui->komodoAtStartup->toolTip().arg(tr(PACKAGE_NAME)));
-    ui->komodoAtStartup->setText(ui->komodoAtStartup->text().arg(tr(PACKAGE_NAME)));
+    ui->squishyAtStartup->setToolTip(ui->squishyAtStartup->toolTip().arg(tr(PACKAGE_NAME)));
+    ui->squishyAtStartup->setText(ui->squishyAtStartup->text().arg(tr(PACKAGE_NAME)));
 
     ui->openKomodoConfButton->setToolTip(ui->openKomodoConfButton->toolTip().arg(tr(PACKAGE_NAME)));
 
@@ -172,7 +172,7 @@ void OptionsDialog::setModel(OptionsModel *_model)
 void OptionsDialog::setMapper()
 {
     /* Main */
-    mapper->addMapping(ui->komodoAtStartup, OptionsModel::StartAtStartup);
+    mapper->addMapping(ui->squishyAtStartup, OptionsModel::StartAtStartup);
     mapper->addMapping(ui->threadsScriptVerif, OptionsModel::ThreadsScriptVerif);
     mapper->addMapping(ui->databaseCache, OptionsModel::DatabaseCache);
 

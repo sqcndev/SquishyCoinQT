@@ -169,7 +169,7 @@
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR COINS&lt;/b&gt;!</source>
-        <translation>Hoiatus:Kui sa krüpteerid oma rahakoti ja kaotad salafraasi, siis sa&lt;b&gt;KAOTAD OMA KOMODOID&lt;/b&gt;!</translation>
+        <translation>Hoiatus:Kui sa krüpteerid oma rahakoti ja kaotad salafraasi, siis sa&lt;b&gt;KAOTAD OMA SQUISHYID&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -366,12 +366,12 @@
         <translation>Vahelehe tööriistariba</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Loo maksepäring (genereerib QR koodid ja komodoi: URId)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Loo maksepäring (genereerib QR koodid ja squishyi: URId)</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Ava komodoi: URI või maksepäring</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Ava squishyi: URI või maksepäring</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1732,7 +1732,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Valikud:</translation>

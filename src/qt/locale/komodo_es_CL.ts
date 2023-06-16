@@ -143,7 +143,7 @@
     </message>
     <message>
         <source>Send coins to a Komodo address</source>
-        <translation>Enviar monedas a una dirección komodo</translation>
+        <translation>Enviar monedas a una dirección squishy</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -206,8 +206,8 @@
         <translation>Barra de pestañas</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Pide pagos (genera codigos QR and komodo: URls)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Pide pagos (genera codigos QR and squishy: URls)</translation>
     </message>
     <message>
         <source>Error</source>
@@ -750,7 +750,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Opciones:
@@ -773,7 +773,7 @@
     </message>
     <message>
         <source>Komodo Core</source>
-        <translation>komodo core</translation>
+        <translation>squishy core</translation>
     </message>
     <message>
         <source>Error loading block database</source>

@@ -370,8 +370,8 @@
         <translation>說明 &amp;H</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>要求付款 (產生QR碼 komodo: URIs)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>要求付款 (產生QR碼 squishy: URIs)</translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -660,7 +660,7 @@
     </message>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Information</source>
         <translation>資訊</translation>

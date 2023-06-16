@@ -12,15 +12,15 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo_kv.h"
-#include "komodo_globals.h"
-#include "komodo_utils.h" // portable_mutex_lock
-#include "komodo_curve25519.h" // for komodo_kvsigverify
+#include "squishy_kv.h"
+#include "squishy_globals.h"
+#include "squishy_utils.h" // portable_mutex_lock
+#include "squishy_curve25519.h" // for squishy_kvsigverify
 #include <mutex>
 
 std::mutex kv_mutex;
 
-struct komodo_kv 
+struct squishy_kv 
 { 
     UT_hash_handle hh; 
     bits256 pubkey; 
@@ -32,7 +32,7 @@ struct komodo_kv
     uint16_t valuesize; 
 };
 
-komodo_kv *KOMODO_KV;
+squishy_kv *SQUISHY_KV;
 
 /****
  * @brief build a private key from the public key and passphrase
@@ -40,7 +40,7 @@ komodo_kv *KOMODO_KV;
  * @param passphrase the passphrase
  * @return a private key
  */
-uint256 komodo_kvprivkey(uint256 *pubkeyp,char *passphrase)
+uint256 squishy_kvprivkey(uint256 *pubkeyp,char *passphrase)
 {
     uint256 privkey;
     conv_NXTpassword((uint8_t *)&privkey,(uint8_t *)pubkeyp,(uint8_t *)passphrase,(int32_t)strlen(passphrase));
@@ -53,7 +53,7 @@ uint256 komodo_kvprivkey(uint256 *pubkeyp,char *passphrase)
  * @param len the length of buf
  * @param _privkey the key to sign with
  */
-uint256 komodo_kvsig(uint8_t *buf,int32_t len,uint256 _privkey)
+uint256 squishy_kvsig(uint8_t *buf,int32_t len,uint256 _privkey)
 {
     // get the private key in the format we need
     bits256 privkey; 
@@ -78,7 +78,7 @@ uint256 komodo_kvsig(uint8_t *buf,int32_t len,uint256 _privkey)
  * @param sig the signature
  * @return -1 on error, otherwise 0
  */
-int32_t komodo_kvsigverify(uint8_t *buf,int32_t len,uint256 _pubkey,uint256 sig)
+int32_t squishy_kvsigverify(uint8_t *buf,int32_t len,uint256 _pubkey,uint256 sig)
 {
     bits256 hash;
     bits256 checksig;
@@ -105,7 +105,7 @@ int32_t komodo_kvsigverify(uint8_t *buf,int32_t len,uint256 _pubkey,uint256 sig)
  * @param flags
  * @returns duration in days
  */
-int32_t komodo_kvnumdays(uint32_t flags)
+int32_t squishy_kvnumdays(uint32_t flags)
 {
     int32_t numdays;
     if ( (numdays= ((flags>>2)&0x3ff)+1) > 365 )
@@ -118,9 +118,9 @@ int32_t komodo_kvnumdays(uint32_t flags)
  * @param flags
  * @return the duration
  */
-int32_t komodo_kvduration(uint32_t flags)
+int32_t squishy_kvduration(uint32_t flags)
 {
-    return(komodo_kvnumdays(flags) * KOMODO_KVDURATION);
+    return(squishy_kvnumdays(flags) * SQUISHY_KVDURATION);
 }
 
 /***
@@ -130,12 +130,12 @@ int32_t komodo_kvduration(uint32_t flags)
  * @param keylen
  * @return the fee
  */
-uint64_t komodo_kvfee(uint32_t flags,int32_t opretlen,int32_t keylen)
+uint64_t squishy_kvfee(uint32_t flags,int32_t opretlen,int32_t keylen)
 {
     int32_t numdays,k; uint64_t fee;
     if ( (k= keylen) > 32 )
         k = 32;
-    numdays = komodo_kvnumdays(flags);
+    numdays = squishy_kvnumdays(flags);
     if ( (fee= (numdays*(opretlen * opretlen / k))) < 100000 )
         fee = 100000;
     return(fee);
@@ -152,25 +152,25 @@ uint64_t komodo_kvfee(uint32_t flags,int32_t opretlen,int32_t keylen)
  * @param keylen the length of the key
  * @return -1 on error, otherwise size of value
  */
-int32_t komodo_kvsearch(uint256 *pubkeyp, int32_t current_height, uint32_t *flagsp,
+int32_t squishy_kvsearch(uint256 *pubkeyp, int32_t current_height, uint32_t *flagsp,
         int32_t *heightp, uint8_t value[IGUANA_MAXSCRIPTSIZE], uint8_t *key, int32_t keylen)
 {
     *heightp = -1;
     *flagsp = 0;
 
-    komodo_kv *ptr; 
+    squishy_kv *ptr; 
     int32_t retval = -1;
     memset(pubkeyp,0,sizeof(*pubkeyp));
     std::lock_guard<std::mutex> lock(kv_mutex);
     // look in hashtable for key
-    HASH_FIND(hh,KOMODO_KV,key,keylen,ptr);
+    HASH_FIND(hh,SQUISHY_KV,key,keylen,ptr);
     if ( ptr != nullptr )
     {
-        int32_t duration = komodo_kvduration(ptr->flags);
+        int32_t duration = squishy_kvduration(ptr->flags);
         if ( current_height > (ptr->height + duration) )
         {
             // entry has expired, remove it
-            HASH_DELETE(hh,KOMODO_KV,ptr);
+            HASH_DELETE(hh,SQUISHY_KV,ptr);
             if ( ptr->value != 0 )
                 free(ptr->value);
             if ( ptr->key != 0 )
@@ -204,7 +204,7 @@ int32_t komodo_kvsearch(uint256 *pubkeyp, int32_t current_height, uint32_t *flag
  * @param opretlen length of opretbuf
  * @param value the value to be related to the key
  */
-void komodo_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value)
+void squishy_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value)
 {
     static uint256 zeroes;
 
@@ -225,11 +225,11 @@ void komodo_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value)
     {
         static uint32_t counter;
         if ( ++counter < 1 )
-            LogPrintf("komodo_kvupdate: keylen.%d + 13 > opretlen.%d, this can be ignored\n",keylen,opretlen);
+            LogPrintf("squishy_kvupdate: keylen.%d + 13 > opretlen.%d, this can be ignored\n",keylen,opretlen);
         return;
     }
     uint8_t *valueptr = &key[keylen];
-    uint64_t fee = komodo_kvfee(flags,opretlen,keylen);
+    uint64_t fee = squishy_kvfee(flags,opretlen,keylen);
     if ( value >= fee )
     {
         // we have enough for the fee
@@ -260,14 +260,14 @@ void komodo_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value)
             memcpy(keyvalue,key,keylen);
             uint256 refpubkey;
             int32_t kvheight;
-            int32_t refvaluesize = komodo_kvsearch(&refpubkey,height,
+            int32_t refvaluesize = squishy_kvsearch(&refpubkey,height,
                     &flags,&kvheight,&keyvalue[keylen],key,keylen);
             if ( refvaluesize  >= 0 )
             {
                 if ( zeroes != refpubkey )
                 {
                     // validate signature
-                    if ( komodo_kvsigverify(keyvalue,keylen+refvaluesize,refpubkey,sig) < 0 )
+                    if ( squishy_kvsigverify(keyvalue,keylen+refvaluesize,refpubkey,sig) < 0 )
                     {
                         return;
                     }
@@ -275,9 +275,9 @@ void komodo_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value)
             }
             // with validation complete, update internal storage
             std::lock_guard<std::mutex> lock(kv_mutex);
-            komodo_kv *ptr;
+            squishy_kv *ptr;
             bool newflag = false;
-            HASH_FIND(hh,KOMODO_KV,key,keylen,ptr);
+            HASH_FIND(hh,SQUISHY_KV,key,keylen,ptr);
             if ( ptr != 0 )
             {
                 // We are updating an existing entry
@@ -294,14 +294,14 @@ void komodo_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value)
             else if ( ptr == 0 )
             {
                 // add a new entry to the hashtable
-                ptr = (komodo_kv *)calloc(1,sizeof(*ptr));
+                ptr = (squishy_kv *)calloc(1,sizeof(*ptr));
                 ptr->key = (uint8_t *)calloc(1,keylen);
                 ptr->keylen = keylen;
                 memcpy(ptr->key,key,keylen);
                 newflag = true;
-                HASH_ADD_KEYPTR(hh,KOMODO_KV,ptr->key,ptr->keylen,ptr);
+                HASH_ADD_KEYPTR(hh,SQUISHY_KV,ptr->key,ptr->keylen,ptr);
             }
-            if ( newflag || (ptr->flags & KOMODO_KVPROTECTED) == 0 ) // can we edit the value?
+            if ( newflag || (ptr->flags & SQUISHY_KVPROTECTED) == 0 ) // can we edit the value?
             {
                 if ( ptr->value != nullptr )
                 {
@@ -318,7 +318,7 @@ void komodo_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value)
             } 
             else 
                 LogPrintf("newflag.%d zero or protected %d\n",(uint16_t)newflag,
-                        (ptr->flags & KOMODO_KVPROTECTED));
+                        (ptr->flags & SQUISHY_KVPROTECTED));
             memcpy(&ptr->pubkey,&pubkey,sizeof(ptr->pubkey));
             ptr->height = height;
             ptr->flags = flags; // jl777 used to or in KVPROTECTED

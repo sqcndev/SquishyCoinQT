@@ -819,7 +819,7 @@ int32_t issue_games_events(struct games_state *rs,char *gametxidstr,uint32_t eve
             sprintf(params,"[\"events\",\"17\",\"[%%22%08x%%22,%%22%s%%22,%u]\"]",(uint32_t)c&0xffffffff,gametxidstr,eventid);
         else if ( sizeof(c) == 8 )
             sprintf(params,"[\"events\",\"17\",\"[%%22%016llx%%22,%%22%s%%22,%u]\"]",(long long)c,gametxidstr,eventid);
-        if ( (retstr= komodo_issuemethod(USERPASS,(char *)"cclib",params,GAMES_PORT)) != 0 )
+        if ( (retstr= squishy_issuemethod(USERPASS,(char *)"cclib",params,GAMES_PORT)) != 0 )
         {
             if ( (retjson= cJSON_Parse(retstr)) != 0 )
             {

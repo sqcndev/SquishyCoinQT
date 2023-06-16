@@ -4,7 +4,7 @@
 
 #include "zaddresstablemodel.h"
 
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 
 #include "guiutil.h"
 #include "walletmodel.h"
@@ -438,7 +438,7 @@ QString ZAddressTableModel::addRow(const QString &type, const QString &label, co
     else if(type == Receive)
     {
         // Generate a new address to associate with given label
-        if ( GetTime() < KOMODO_SAPLING_ACTIVATION )
+        if ( GetTime() < SQUISHY_SAPLING_ACTIVATION )
         {
             strAddress = EncodePaymentAddress(wallet->GenerateNewSproutZKey());
             strLabel = "z-sprout";

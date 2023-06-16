@@ -20,11 +20,11 @@
 
 #include "pubkey.h"
 #include "miner.h"
-#include "komodo_utils.h"
-#include "komodo_globals.h"
-#include "komodo_bitcoind.h"
-#include "komodo_gateway.h"
-#include "komodo_defs.h"
+#include "squishy_utils.h"
+#include "squishy_globals.h"
+#include "squishy_bitcoind.h"
+#include "squishy_gateway.h"
+#include "squishy_defs.h"
 #include "cc/CCinclude.h"
 #ifdef ENABLE_MINING
 #include "pow/tromp/equi_miner.h"
@@ -64,9 +64,9 @@
 #include "sodium.h"
 
 #include "notaries_staked.h"
-#include "komodo_notary.h"
-#include "komodo_bitcoind.h"
-#include "komodo_extern_globals.h"
+#include "squishy_notary.h"
+#include "squishy_bitcoind.h"
+#include "squishy_extern_globals.h"
 
 #include <boost/thread.hpp>
 #include <boost/tuple/tuple.hpp>
@@ -150,7 +150,7 @@ extern CCriticalSection cs_metrics;
 uint32_t Mining_start,Mining_height;
 int32_t My_notaryid = -1;
 
-int32_t komodo_waituntilelegible(uint32_t blocktime, int32_t stakeHeight, uint32_t delay)
+int32_t squishy_waituntilelegible(uint32_t blocktime, int32_t stakeHeight, uint32_t delay)
 {
     int64_t adjustedtime = (int64_t)GetTime();
     while ( (int64_t)blocktime-ASSETCHAINS_STAKED_BLOCK_FUTURE_MAX > adjustedtime )
@@ -208,7 +208,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
 
     // Create new block
     if ( gpucount < 0 )
-        gpucount = KOMODO_MAXGPUCOUNT;
+        gpucount = SQUISHY_MAXGPUCOUNT;
     std::unique_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
     if(!pblocktemplate.get())
     {
@@ -283,7 +283,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
         if ( ASSETCHAINS_NOTARY_PAY[0] != 0 )
         {
             // Only use speical miner for notary pay chains.
-            numSN = komodo_notaries(notarypubkeys, nHeight, pblock->nTime);
+            numSN = squishy_notaries(notarypubkeys, nHeight, pblock->nTime);
         }
 
         CCoinsViewCache view(pcoinsTip);
@@ -318,7 +318,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
                 continue;
             }
             txvalue = tx.GetValueOut();
-            if ( KOMODO_VALUETOOBIG(txvalue) != 0 )
+            if ( SQUISHY_VALUETOOBIG(txvalue) != 0 )
                 continue;
 
             /* HF22 - check interest validation against pindexPrev->GetMedianTimePast() + 777 */
@@ -333,9 +333,9 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
                 LogPrint("hfnet","%s[%d]: ht.%ld\n", __func__, __LINE__, nHeight);
             }
 
-            if (chainName.isKMD() && !komodo_validate_interest(tx, nHeight, cmptime))
+            if (chainName.isKMD() && !squishy_validate_interest(tx, nHeight, cmptime))
             {
-                LogPrintf("%s: komodo_validate_interest failure txid.%s nHeight.%d nTime.%u vs locktime.%u (cmptime.%lu)\n", __func__, tx.GetHash().ToString(), nHeight, (uint32_t)pblock->nTime, (uint32_t)tx.nLockTime, cmptime);
+                LogPrintf("%s: squishy_validate_interest failure txid.%s nHeight.%d nTime.%u vs locktime.%u (cmptime.%lu)\n", __func__, tx.GetHash().ToString(), nHeight, (uint32_t)pblock->nTime, (uint32_t)tx.nLockTime, cmptime);
                 continue;
             }
 
@@ -353,7 +353,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
             } else {
                 TMP_NotarisationNotaries.clear();
                 bool fToCryptoAddress = false;
-                if ( numSN != 0 && notarypubkeys[0][0] != 0 && komodo_is_notarytx(tx) == 1 )
+                if ( numSN != 0 && notarypubkeys[0][0] != 0 && squishy_is_notarytx(tx) == 1 )
                     fToCryptoAddress = true;
 
                 BOOST_FOREACH(const CTxIn& txin, tx.vin)
@@ -451,7 +451,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
                             // Any attempted notarization needs to be in its own block!
                             continue;
                         }
-                        int32_t notarizedheight = komodo_getnotarizedheight(pblock->nTime, nHeight, script, scriptlen);
+                        int32_t notarizedheight = squishy_getnotarizedheight(pblock->nTime, nHeight, script, scriptlen);
                         if ( notarizedheight != 0 )
                         {
                             // this is the first one we see, add it to the block as TX1 
@@ -646,7 +646,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
             CMutableTransaction txStaked = CreateNewContextualCMutableTransaction(Params().GetConsensus(), stakeHeight);
 
             blocktime = GetTime();
-            uint256 merkleroot = komodo_calcmerkleroot(pblock, pindexPrev->GetBlockHash(), nHeight, true, scriptPubKeyIn);
+            uint256 merkleroot = squishy_calcmerkleroot(pblock, pindexPrev->GetBlockHash(), nHeight, true, scriptPubKeyIn);
             //LogPrintf( "MINER: merkleroot.%s\n", merkleroot.GetHex().c_str());
             /*
                 Instead of a split RPC and writing heaps of code, I added this.
@@ -665,12 +665,12 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
                     utxovalue = ASSETCHAINS_STAKED_SPLIT_PERCENTAGE;
             }
 
-            siglen = komodo_staked(txStaked, pblock->nBits, &blocktime, &txtime, &utxotxid, &utxovout, &utxovalue, utxosig, merkleroot);
-            if ( komodo_newStakerActive(nHeight, blocktime) != 0 )
+            siglen = squishy_staked(txStaked, pblock->nBits, &blocktime, &txtime, &utxotxid, &utxovout, &utxovalue, utxosig, merkleroot);
+            if ( squishy_newStakerActive(nHeight, blocktime) != 0 )
                 nFees += utxovalue;
             //LogPrintf( "added to coinbase.%llu staking tx valueout.%llu\n", (long long unsigned)utxovalue, (long long unsigned)txStaked.vout[0].nValue);
             uint32_t delay = ASSETCHAINS_ALGO != ASSETCHAINS_EQUIHASH ? ASSETCHAINS_STAKED_BLOCK_FUTURE_MAX : ASSETCHAINS_STAKED_BLOCK_FUTURE_HALF;
-            if ( komodo_waituntilelegible(blocktime, stakeHeight, delay) == 0 )
+            if ( squishy_waituntilelegible(blocktime, stakeHeight, delay) == 0 )
                 return(0);
 
             if ( siglen > 0 )
@@ -701,12 +701,12 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
             txNew.nLockTime = std::max(pindexPrev->GetMedianTimePast()+1, GetTime());
         else txNew.nLockTime = std::max((int64_t)(pindexPrev->nTime+1), GetTime());        
 
-        if ( chainName.isKMD() && IS_KOMODO_NOTARY && My_notaryid >= 0 )
+        if ( chainName.isKMD() && IS_SQUISHY_NOTARY && My_notaryid >= 0 )
             txNew.vout[0].nValue += 5000;
         pblock->vtx[0] = txNew;
 
         uint64_t commission;
-        if ( nHeight > 1 && !chainName.isKMD() && (ASSETCHAINS_OVERRIDE_PUBKEY33[0] != 0 || ASSETCHAINS_SCRIPTPUB.size() > 1) && (ASSETCHAINS_COMMISSION != 0 || ASSETCHAINS_FOUNDERS_REWARD != 0)  && (commission= komodo_commission((CBlock*)&pblocktemplate->block,(int32_t)nHeight)) != 0 )
+        if ( nHeight > 1 && !chainName.isKMD() && (ASSETCHAINS_OVERRIDE_PUBKEY33[0] != 0 || ASSETCHAINS_SCRIPTPUB.size() > 1) && (ASSETCHAINS_COMMISSION != 0 || ASSETCHAINS_FOUNDERS_REWARD != 0)  && (commission= squishy_commission((CBlock*)&pblocktemplate->block,(int32_t)nHeight)) != 0 )
         {
             uint8_t *ptr;
             txNew.vout.resize(2);
@@ -714,7 +714,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
             if ( ASSETCHAINS_SCRIPTPUB.size() > 1 )
             {
                 static bool didinit = false;
-                if ( !didinit && nHeight > KOMODO_EARLYTXID_HEIGHT && KOMODO_EARLYTXID != zeroid && komodo_appendACscriptpub() )
+                if ( !didinit && nHeight > SQUISHY_EARLYTXID_HEIGHT && SQUISHY_EARLYTXID != zeroid && squishy_appendACscriptpub() )
                 {
                     LogPrintf( "appended ccopreturn to ASSETCHAINS_SCRIPTPUB.%s\n", ASSETCHAINS_SCRIPTPUB.c_str());
                     didinit = true;
@@ -746,7 +746,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
             
             // prepend time lock to original script unless original script is P2SH, in which case, we will leave the coins
             // protected only by the time lock rather than 100% inaccessible
-            opretScript.AddCheckLockTimeVerify(komodo_block_unlocktime(nHeight));
+            opretScript.AddCheckLockTimeVerify(squishy_block_unlocktime(nHeight));
             if (scriptPubKeyIn.IsPayToScriptHash() || scriptPubKeyIn.IsPayToCryptoCondition())
             {
                 LogPrintf("CreateNewBlock: attempt to add timelock to pay2sh or pay2cc\n");
@@ -772,7 +772,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
             int32_t scriptlen = (int32_t)pblock->vtx[1].vout[1].scriptPubKey.size();
             if ( script[0] == OP_RETURN )
             {
-                uint64_t totalsats = komodo_notarypay(txNew, NotarisationNotaries, pblock->nTime, nHeight, script, scriptlen);
+                uint64_t totalsats = squishy_notarypay(txNew, NotarisationNotaries, pblock->nTime, nHeight, script, scriptlen);
                 if ( totalsats == 0 )
                 {
                     LogPrintf( "Could not create notary payment, trying again.\n");
@@ -803,14 +803,14 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
         pblock->hashFinalSaplingRoot   = sapling_tree.root();
 
         // all Verus PoS chains need this data in the block at all times
-        if ( chainName.isKMD() || ASSETCHAINS_STAKED == 0 || KOMODO_MININGTHREADS > 0 )
+        if ( chainName.isKMD() || ASSETCHAINS_STAKED == 0 || SQUISHY_MININGTHREADS > 0 )
         {
             UpdateTime(pblock, Params().GetConsensus(), pindexPrev);
             pblock->nBits = GetNextWorkRequired(pindexPrev, pblock, Params().GetConsensus());
         }
         pblock->nSolution.clear();
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
-        if ( chainName.isKMD() && IS_KOMODO_NOTARY && My_notaryid >= 0 )
+        if ( chainName.isKMD() && IS_SQUISHY_NOTARY && My_notaryid >= 0 )
         {
             uint32_t r; CScript opret;
             CMutableTransaction txNotary = CreateNewContextualCMutableTransaction(Params().GetConsensus(), chainActive.Height() + 1);
@@ -829,11 +829,11 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
             pblock->vtx[0] = txNew;
 
             if ( Mining_height > nDecemberHardforkHeight ) //December 2019 hardfork
-                opret = komodo_makeopret(pblock, true);
+                opret = squishy_makeopret(pblock, true);
             else
                 opret.clear();
 
-            if (komodo_notaryvin(txNotary, NOTARY_PUBKEY33, opret, pblock->nTime) > 0)
+            if (squishy_notaryvin(txNotary, NOTARY_PUBKEY33, opret, pblock->nTime) > 0)
             {
                 CAmount txfees = 5000;
                 pblock->vtx.push_back(txNotary);
@@ -854,7 +854,7 @@ CBlockTemplate* CreateNewBlock(const CPubKey _pk,const CScript& _scriptPubKeyIn,
                 return(0);
             }
         }
-        else if ( ASSETCHAINS_CC == 0 && pindexPrev != 0 && ASSETCHAINS_STAKED == 0 && (!chainName.isKMD() || !IS_KOMODO_NOTARY || My_notaryid < 0) )
+        else if ( ASSETCHAINS_CC == 0 && pindexPrev != 0 && ASSETCHAINS_STAKED == 0 && (!chainName.isKMD() || !IS_SQUISHY_NOTARY || My_notaryid < 0) )
         {
             CValidationState state;
             if ( !TestBlockValidity(state, *pblock, pindexPrev, false, false)) // invokes CC checks
@@ -963,7 +963,7 @@ CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey, int32_t nHeight, 
     return CreateNewBlock(pubkey, scriptPubKey, gpucount, isStake);
 }
 
-void komodo_sendmessage(int32_t minpeers,int32_t maxpeers,const char *message,std::vector<uint8_t> payload)
+void squishy_sendmessage(int32_t minpeers,int32_t maxpeers,const char *message,std::vector<uint8_t> payload)
 {
     int32_t numsent = 0;
     LOCK(cs_vNodes);
@@ -981,7 +981,7 @@ void komodo_sendmessage(int32_t minpeers,int32_t maxpeers,const char *message,st
     }
 }
 
-void komodo_broadcast(CBlock *pblock,int32_t limit)
+void squishy_broadcast(CBlock *pblock,int32_t limit)
 {
     if (IsInitialBlockDownload())
         return;
@@ -1032,7 +1032,7 @@ static bool ProcessBlockFound(CBlock* pblock)
 
 #ifdef ENABLE_WALLET
     // Remove key from key pool
-    if ( !IS_KOMODO_NOTARY )
+    if ( !IS_SQUISHY_NOTARY )
     {
         if (GetArg("-mineraddress", "").empty()) {
             // Remove key from key pool
@@ -1048,12 +1048,12 @@ static bool ProcessBlockFound(CBlock* pblock)
         return error("KomodoMiner: ProcessNewBlock, block not accepted");
 
     TrackMinedBlock(pblock->GetHash());
-    //komodo_broadcast(pblock,16);
+    //squishy_broadcast(pblock,16);
     return true;
 }
 
-int32_t FOUND_BLOCK,KOMODO_MAYBEMINED;
-extern int32_t KOMODO_LASTMINED,KOMODO_INSYNC;
+int32_t FOUND_BLOCK,SQUISHY_MAYBEMINED;
+extern int32_t SQUISHY_LASTMINED,SQUISHY_INSYNC;
 arith_uint256 HASHTarget,HASHTarget_POW;
 
 // wait for peers to connect
@@ -1150,7 +1150,7 @@ void static BitcoinMiner()
 {
     LogPrintf("KomodoMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("komodo-miner");
+    RenameThread("squishy-miner");
     const CChainParams& chainparams = Params();
 
 #ifdef ENABLE_WALLET
@@ -1163,13 +1163,13 @@ void static BitcoinMiner()
 
     unsigned int n = chainparams.EquihashN();
     unsigned int k = chainparams.EquihashK();
-    uint8_t *script; uint64_t total; int32_t i,j,gpucount=KOMODO_MAXGPUCOUNT,notaryid = -1;
-    while ( (ASSETCHAIN_INIT == 0 || KOMODO_INITDONE == 0) )
+    uint8_t *script; uint64_t total; int32_t i,j,gpucount=SQUISHY_MAXGPUCOUNT,notaryid = -1;
+    while ( (ASSETCHAIN_INIT == 0 || SQUISHY_INITDONE == 0) )
     {
         //sleep(1);
         boost::this_thread::sleep_for(boost::chrono::seconds(1)); // allow to interrupt
 
-        if ( komodo_baseid(chainName.symbol().c_str()) < 0 )
+        if ( squishy_baseid(chainName.symbol().c_str()) < 0 )
             break;
     }
     if ( chainName.isKMD() )
@@ -1181,7 +1181,7 @@ void static BitcoinMiner()
             newHeight = chainActive.Height() + 1;
             timePast = (uint32_t)chainActive.Tip()->GetMedianTimePast();
         }
-        komodo_chosennotary(&notaryid,newHeight,NOTARY_PUBKEY33,timePast);
+        squishy_chosennotary(&notaryid,newHeight,NOTARY_PUBKEY33,timePast);
     }
     if ( notaryid != My_notaryid )
         My_notaryid = notaryid;
@@ -1253,7 +1253,7 @@ void static BitcoinMiner()
 
 #ifdef ENABLE_WALLET
             // notaries always default to staking
-            CBlockTemplate *ptr = CreateNewBlockWithKey(reservekey, pindexPrev->nHeight+1, gpucount, ASSETCHAINS_STAKED != 0 && KOMODO_MININGTHREADS == 0);
+            CBlockTemplate *ptr = CreateNewBlockWithKey(reservekey, pindexPrev->nHeight+1, gpucount, ASSETCHAINS_STAKED != 0 && SQUISHY_MININGTHREADS == 0);
 #else
             CBlockTemplate *ptr = CreateNewBlockWithKey();
 #endif
@@ -1303,7 +1303,7 @@ void static BitcoinMiner()
                 }
             }
             // We cant increment nonce for proof transactions, as it modifes the coinbase, meaning CreateBlock must be called again to get a new valid proof to pass validation. 
-            if ( (chainName.isKMD() && notaryid >= 0 && Mining_height > nDecemberHardforkHeight ) || (ASSETCHAINS_STAKED != 0 && komodo_newStakerActive(Mining_height, pblock->nTime) != 0) ) //December 2019 hardfork
+            if ( (chainName.isKMD() && notaryid >= 0 && Mining_height > nDecemberHardforkHeight ) || (ASSETCHAINS_STAKED != 0 && squishy_newStakerActive(Mining_height, pblock->nTime) != 0) ) //December 2019 hardfork
                 nExtraNonce = 0;
             IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
             //LogPrintf("Running KomodoMiner.%s with %u transactions in block\n",solver.c_str(),(int32_t)pblock->vtx.size());
@@ -1318,12 +1318,12 @@ void static BitcoinMiner()
             if ( chainName.isKMD() && notaryid >= 0 )
             {
                 j = 65;
-                if ( (Mining_height >= 235300 && Mining_height < 236000) || (Mining_height % KOMODO_ELECTION_GAP) > 64 || (Mining_height % KOMODO_ELECTION_GAP) == 0 || Mining_height > 1000000 )
+                if ( (Mining_height >= 235300 && Mining_height < 236000) || (Mining_height % SQUISHY_ELECTION_GAP) > 64 || (Mining_height % SQUISHY_ELECTION_GAP) == 0 || Mining_height > 1000000 )
                 {
                     int32_t dispflag = 1; // TODO: set this back to 0 when finished testing.
                     if ( notaryid <= 3 || notaryid == 32 || (notaryid >= 43 && notaryid <= 45) || notaryid == 51 || notaryid == 52 || notaryid == 56 || notaryid == 57 )
                         dispflag = 1;
-                    komodo_eligiblenotary(pubkeys,mids,blocktimes,&nonzpkeys,Mining_height);
+                    squishy_eligiblenotary(pubkeys,mids,blocktimes,&nonzpkeys,Mining_height);
                     if ( nonzpkeys > 0 )
                     {
                         for (i=0; i<33; i++)
@@ -1332,7 +1332,7 @@ void static BitcoinMiner()
                         if ( i == 33 )
                             externalflag = 1;
                         else externalflag = 0;
-                        if ( IS_KOMODO_NOTARY )
+                        if ( IS_SQUISHY_NOTARY )
                         {
                             for (i=1; i<66; i++)
                                 if ( memcmp(pubkeys[i],pubkeys[0],33) == 0 )
@@ -1361,13 +1361,13 @@ void static BitcoinMiner()
                             if ( mids[j] == notaryid )
                                 break;
                         if ( j == 65 )
-                            KOMODO_LASTMINED = 0;
+                            SQUISHY_LASTMINED = 0;
                     } else LogPrintf("ht.%i all NN are elegible\n",Mining_height); //else LogPrintf("no nonz pubkeys\n");
 
                     if ((Mining_height >= 235300 && Mining_height < 236000) ||
-                        (j == 65 && Mining_height > KOMODO_MAYBEMINED + 1 && Mining_height > KOMODO_LASTMINED + 64))
+                        (j == 65 && Mining_height > SQUISHY_MAYBEMINED + 1 && Mining_height > SQUISHY_LASTMINED + 64))
                     {
-                        HASHTarget = arith_uint256().SetCompact(KOMODO_MINDIFF_NBITS);
+                        HASHTarget = arith_uint256().SetCompact(SQUISHY_MINDIFF_NBITS);
                         LogPrintf("I am the chosen one for %s ht.%d\n", chainName.symbol().c_str(), pindexPrev->nHeight + 1);
                     }
                     else
@@ -1410,7 +1410,7 @@ void static BitcoinMiner()
 
                                 if (isSecondBlockAllowed(notaryid, blocktime, tiptime + nMaxGAPAllowed, params.nHF22NotariesPriorityRotateDelta, vPriorityList))
                                 {
-                                    HASHTarget = arith_uint256().SetCompact(KOMODO_MINDIFF_NBITS);
+                                    HASHTarget = arith_uint256().SetCompact(SQUISHY_MINDIFF_NBITS);
                                     LogPrint("hfnet", "%s[%d]: notaryid.%ld, ht.%ld --> allowed to mine mindiff\n", __func__, __LINE__, notaryid, Mining_height);
                                 }
                             }
@@ -1424,8 +1424,8 @@ void static BitcoinMiner()
             if ( ASSETCHAINS_STAKED > 0 )
             {
                 int32_t percPoS,z; bool fNegative,fOverflow;
-                HASHTarget_POW = komodo_PoWtarget(&percPoS,HASHTarget,Mining_height,ASSETCHAINS_STAKED,komodo_newStakerActive(Mining_height, pblock->nTime));
-                HASHTarget.SetCompact(KOMODO_MINDIFF_NBITS,&fNegative,&fOverflow);
+                HASHTarget_POW = squishy_PoWtarget(&percPoS,HASHTarget,Mining_height,ASSETCHAINS_STAKED,squishy_newStakerActive(Mining_height, pblock->nTime));
+                HASHTarget.SetCompact(SQUISHY_MINDIFF_NBITS,&fNegative,&fOverflow);
                 if ( ASSETCHAINS_STAKED < 100 )
                     LogPrintf("Block %d : PoS %d%% vs target %d%% \n",Mining_height,percPoS,(int32_t)ASSETCHAINS_STAKED);
             }
@@ -1454,7 +1454,7 @@ void static BitcoinMiner()
                 // (x_1, x_2, ...) = A(I, V, n, k)
                 LogPrint("pow", "Running Equihash solver \"%s\" with nNonce = %s\n",solver, pblock->nNonce.ToString());
                 arith_uint256 hashTarget,hashTarget_POW = HASHTarget_POW;
-                if ( KOMODO_MININGTHREADS > 0 && ASSETCHAINS_STAKED > 0 && ASSETCHAINS_STAKED < 100 && Mining_height > 10 )
+                if ( SQUISHY_MININGTHREADS > 0 && ASSETCHAINS_STAKED > 0 && ASSETCHAINS_STAKED < 100 && Mining_height > 10 )
                     hashTarget = HASHTarget_POW;
                 //else if ( ASSETCHAINS_ADAPTIVEPOW > 0 )
                 //    hashTarget = HASHTarget_POW;
@@ -1477,7 +1477,7 @@ void static BitcoinMiner()
                     {
                         return false;
                     }
-                    if ( IS_KOMODO_NOTARY && B.nTime > GetTime() )
+                    if ( IS_SQUISHY_NOTARY && B.nTime > GetTime() )
                     {
                         while ( GetTime() < B.nTime-2 )
                         {
@@ -1497,7 +1497,7 @@ void static BitcoinMiner()
                     }
                     if ( ASSETCHAINS_STAKED == 0 )
                     {
-                        if ( IS_KOMODO_NOTARY )
+                        if ( IS_SQUISHY_NOTARY )
                         {
                             int32_t r;
                             if ( (r= ((Mining_height + NOTARY_PUBKEY33[16]) % 64) / 8) > 0 )
@@ -1506,15 +1506,15 @@ void static BitcoinMiner()
                     }
                     else
                     {
-                        if ( KOMODO_MININGTHREADS == 0 ) // we are staking 
+                        if ( SQUISHY_MININGTHREADS == 0 ) // we are staking 
                         {
                             // Need to rebuild block if the found solution for PoS, meets POW target, otherwise it will be rejected. 
-                            if ( ASSETCHAINS_STAKED < 100 && komodo_newStakerActive(Mining_height,pblock->nTime) != 0 && h < hashTarget_POW )
+                            if ( ASSETCHAINS_STAKED < 100 && squishy_newStakerActive(Mining_height,pblock->nTime) != 0 && h < hashTarget_POW )
                             {
                                 LogPrintf( "[%s:%d] PoS block.%u meets POW_Target.%u building new block\n", chainName.symbol().c_str(), Mining_height, h.GetCompact(), hashTarget_POW.GetCompact());
                                 return(false);
                             }
-                            if ( komodo_waituntilelegible(B.nTime, Mining_height, ASSETCHAINS_STAKED_BLOCK_FUTURE_MAX) == 0 )
+                            if ( squishy_waituntilelegible(B.nTime, Mining_height, ASSETCHAINS_STAKED_BLOCK_FUTURE_MAX) == 0 )
                                 return(false);
                         }
                         uint256 tmp = B.GetHash();
@@ -1594,7 +1594,7 @@ void static BitcoinMiner()
                                 //    LogPrintf("%02x",((uint8_t *)&hash)[i]);
                                 //LogPrintf(" <- %s Block found %d\n",ASSETCHAINS_SYMBOL,Mining_height);
                                 //FOUND_BLOCK = 1;
-                                //KOMODO_MAYBEMINED = Mining_height;
+                                //SQUISHY_MAYBEMINED = Mining_height;
                                 break;
                             }
                         } catch (EhSolverCancelledException&) {

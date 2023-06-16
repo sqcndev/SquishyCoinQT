@@ -38,12 +38,12 @@
 #include "script/interpreter.h"
 #include "zcash/zip32.h"
 #include "notaries_staked.h"
-#include "komodo.h"
-#include "komodo_bitcoind.h"
-#include "komodo_notary.h"
-#include "komodo_kv.h"
-#include "komodo_gateway.h"
-#include "komodo_globals.h"
+#include "squishy.h"
+#include "squishy_bitcoind.h"
+#include "squishy_notary.h"
+#include "squishy_kv.h"
+#include "squishy_gateway.h"
+#include "squishy_globals.h"
 
 #include "utiltime.h"
 #include "asyncrpcoperation.h"
@@ -67,8 +67,8 @@
 
 #include "main.h"
 #include "rpc/rawtransaction.h"
-#include "komodo_defs.h"
-#include "komodo_interest.h"
+#include "squishy_defs.h"
+#include "squishy_interest.h"
 #include "hex.h"
 #include <string.h>
 
@@ -142,10 +142,10 @@ void WalletTxToJSON(const CWalletTx& wtx, UniValue& entry)
         entry.push_back(Pair("generated", true));
     if (confirms > 0)
     {
-        entry.push_back(Pair("confirmations", komodo_dpowconfs((int32_t)komodo_blockheight(wtx.hashBlock),confirms)));
+        entry.push_back(Pair("confirmations", squishy_dpowconfs((int32_t)squishy_blockheight(wtx.hashBlock),confirms)));
         entry.push_back(Pair("blockhash", wtx.hashBlock.GetHex()));
         entry.push_back(Pair("blockindex", wtx.nIndex));
-        entry.push_back(Pair("blocktime", (uint64_t)komodo_blocktime(wtx.hashBlock)));
+        entry.push_back(Pair("blocktime", (uint64_t)squishy_blocktime(wtx.hashBlock)));
         entry.push_back(Pair("expiryheight", (int64_t)wtx.nExpiryHeight));
     } else entry.push_back(Pair("confirmations", confirms));
     uint256 hash = wtx.GetHash();
@@ -171,7 +171,7 @@ void OS_randombytes(unsigned char *x,long xlen);
 
 UniValue getnewaddress(const UniValue& params, bool fHelp, const CPubKey& mypk)
 {
-    if ( KOMODO_NSPV_FULLNODE && !EnsureWalletIsAvailable(fHelp) )
+    if ( SQUISHY_NSPV_FULLNODE && !EnsureWalletIsAvailable(fHelp) )
         return NullUniValue;
 
     if (fHelp || params.size() > 1)
@@ -187,7 +187,7 @@ UniValue getnewaddress(const UniValue& params, bool fHelp, const CPubKey& mypk)
             + HelpExampleRpc("getnewaddress", "")
         );
 
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         UniValue result(UniValue::VOBJ); uint8_t priv32[32];
 #ifndef WIN32
@@ -526,7 +526,7 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp, const CPubKey& mypk)
 
     if ( ASSETCHAINS_PRIVATE != 0 && AmountFromValue(params[1]) > 0 )
     {
-        if ( komodo_isnotaryvout((char *)params[0].get_str().c_str(),chainActive.Tip()->nTime) == 0 )
+        if ( squishy_isnotaryvout((char *)params[0].get_str().c_str(),chainActive.Tip()->nTime) == 0 )
         {
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid " + chainName.ToString() + " address");
         }
@@ -562,25 +562,25 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp, const CPubKey& mypk)
 }
 
 /* TODO: remove
-#define KOMODO_KVPROTECTED 1
-#define KOMODO_KVBINARY 2
-#define KOMODO_KVDURATION 1440
+#define SQUISHY_KVPROTECTED 1
+#define SQUISHY_KVBINARY 2
+#define SQUISHY_KVDURATION 1440
 #define IGUANA_MAXSCRIPTSIZE 10001
 #define CRYPTO777_KMDADDR "RXL3YXG2ceaB6C5hfJcN4fvmLH2C34knhA"
-#include "komodo_defs.h"*/
+#include "squishy_defs.h"*/
 
 /*
 #define IGUANA_MAXSCRIPTSIZE 10001
-int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen);
+int32_t squishy_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen);
 #define CRYPTO777_KMDADDR "RXL3YXG2ceaB6C5hfJcN4fvmLH2C34knhA"
-extern uint64_t KOMODO_INTERESTSUM,KOMODO_WALLETBALANCE;
+extern uint64_t SQUISHY_INTERESTSUM,SQUISHY_WALLETBALANCE;
 int32_t iguana_rwnum(int32_t rwflag,uint8_t *serialized,int32_t len,void *endianedp);
-int32_t komodo_kvsearch(uint256 *refpubkeyp,int32_t current_height,uint32_t *flagsp,int32_t *heightp,uint8_t value[IGUANA_MAXSCRIPTSIZE],uint8_t *key,int32_t keylen);
-uint64_t komodo_kvfee(uint32_t flags,int32_t opretlen,int32_t keylen);
-uint256 komodo_kvsig(uint8_t *buf,int32_t len,uint256 privkey);
-int32_t komodo_kvduration(uint32_t flags);
-uint256 komodo_kvprivkey(uint256 *pubkeyp,char *passphrase);
-int32_t komodo_kvsigverify(uint8_t *buf,int32_t len,uint256 _pubkey,uint256 sig);
+int32_t squishy_kvsearch(uint256 *refpubkeyp,int32_t current_height,uint32_t *flagsp,int32_t *heightp,uint8_t value[IGUANA_MAXSCRIPTSIZE],uint8_t *key,int32_t keylen);
+uint64_t squishy_kvfee(uint32_t flags,int32_t opretlen,int32_t keylen);
+uint256 squishy_kvsig(uint8_t *buf,int32_t len,uint256 privkey);
+int32_t squishy_kvduration(uint32_t flags);
+uint256 squishy_kvprivkey(uint256 *pubkeyp,char *passphrase);
+int32_t squishy_kvsigverify(uint8_t *buf,int32_t len,uint256 _pubkey,uint256 sig);
 */
 
 UniValue kvupdate(const UniValue& params, bool fHelp, const CPubKey& mypk)
@@ -635,7 +635,7 @@ UniValue kvupdate(const UniValue& params, bool fHelp, const CPubKey& mypk)
         //LogPrintf("flags.%d (%s) n.%d\n",flags,params[2].get_str().c_str(),n);
     } else flags = 0;
     if ( n >= 4 )
-        privkey = komodo_kvprivkey(&pubkey,(char *)(n >= 4 ? params[3].get_str().c_str() : "password"));
+        privkey = squishy_kvprivkey(&pubkey,(char *)(n >= 4 ? params[3].get_str().c_str() : "password"));
     haveprivkey = 1;
     flags |= 1;
     /*for (i=0; i<32; i++)
@@ -655,9 +655,9 @@ UniValue kvupdate(const UniValue& params, bool fHelp, const CPubKey& mypk)
             valuesize = (int32_t)strlen(params[1].get_str().c_str());
         }
         memcpy(keyvalue,key,keylen);
-        if ( (refvaluesize= komodo_kvsearch(&refpubkey,chainActive.Tip()->nHeight,&tmpflags,&height,&keyvalue[keylen],key,keylen)) >= 0 )
+        if ( (refvaluesize= squishy_kvsearch(&refpubkey,chainActive.Tip()->nHeight,&tmpflags,&height,&keyvalue[keylen],key,keylen)) >= 0 )
         {
-            if ( (tmpflags & KOMODO_KVPROTECTED) != 0 )
+            if ( (tmpflags & SQUISHY_KVPROTECTED) != 0 )
             {
                 if ( memcmp(&refpubkey,&pubkey,sizeof(refpubkey)) != 0 )
                 {
@@ -667,8 +667,8 @@ UniValue kvupdate(const UniValue& params, bool fHelp, const CPubKey& mypk)
             }
             if ( keylen+refvaluesize <= sizeof(keyvalue) )
             {
-                sig = komodo_kvsig(keyvalue,keylen+refvaluesize,privkey);
-                if ( komodo_kvsigverify(keyvalue,keylen+refvaluesize,refpubkey,sig) < 0 )
+                sig = squishy_kvsig(keyvalue,keylen+refvaluesize,privkey);
+                if ( squishy_kvsigverify(keyvalue,keylen+refvaluesize,refpubkey,sig) < 0 )
                 {
                     ret.push_back(Pair("error",(char *)"error verifying sig, passphrase is probably wrong"));
                     LogPrintf("VERIFY ERROR\n");
@@ -681,7 +681,7 @@ UniValue kvupdate(const UniValue& params, bool fHelp, const CPubKey& mypk)
         if ( memcmp(&zeroes,&refpubkey,sizeof(refpubkey)) != 0 )
             ret.push_back(Pair("owner",refpubkey.GetHex()));
         ret.push_back(Pair("height", (int64_t)height));
-        duration = komodo_kvduration(flags); //((flags >> 2) + 1) * KOMODO_KVDURATION;
+        duration = squishy_kvduration(flags); //((flags >> 2) + 1) * SQUISHY_KVDURATION;
         ret.push_back(Pair("expiration", (int64_t)(height+duration)));
         ret.push_back(Pair("flags",(int64_t)flags));
         ret.push_back(Pair("key",params[0].get_str()));
@@ -711,13 +711,13 @@ UniValue kvupdate(const UniValue& params, bool fHelp, const CPubKey& mypk)
                 coresize += 32;
             }
         }
-        if ( (opretlen= komodo_opreturnscript(opretbuf,'K',keyvalue,coresize)) == 40 )
+        if ( (opretlen= squishy_opreturnscript(opretbuf,'K',keyvalue,coresize)) == 40 )
             opretlen++;
         //for (i=0; i<opretlen; i++)
         //    LogPrintf("%02x",opretbuf[i]);
         //LogPrintf(" opretbuf keylen.%d valuesize.%d height.%d (%02x %02x %02x)\n",*(uint16_t *)&keyvalue[0],*(uint16_t *)&keyvalue[2],*(uint32_t *)&keyvalue[4],keyvalue[8],keyvalue[9],keyvalue[10]);
         EnsureWalletIsUnlocked();
-        fee = komodo_kvfee(flags,opretlen,keylen);
+        fee = squishy_kvfee(flags,opretlen,keylen);
         ret.push_back(Pair("fee",(double)fee/COIN));
         CBitcoinAddress destaddress(CRYPTO777_KMDADDR);
         if (!destaddress.IsValid())
@@ -893,13 +893,13 @@ UniValue getreceivedbyaddress(const UniValue& params, bool fHelp, const CPubKey&
                 int nDepth    = wtx.GetDepthInMainChain();
                 if( nMinDepth > 1 ) {
                     int nHeight    = tx_height(wtx.GetHash());
-                    int dpowconfs  = komodo_dpowconfs(nHeight, nDepth);
+                    int dpowconfs  = squishy_dpowconfs(nHeight, nDepth);
                     if (dpowconfs >= nMinDepth) {
-                        nAmount   += txout.nValue; // komodo_interest?
+                        nAmount   += txout.nValue; // squishy_interest?
                     }
                 } else {
                     if (nDepth  >= nMinDepth) {
-                        nAmount += txout.nValue; // komodo_interest?
+                        nAmount += txout.nValue; // squishy_interest?
                     }
                 }
             }
@@ -958,7 +958,7 @@ UniValue getreceivedbyaccount(const UniValue& params, bool fHelp, const CPubKey&
             CTxDestination address;
             if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*pwalletMain, address) && setAddress.count(address))
                 if (wtx.GetDepthInMainChain() >= nMinDepth)
-                    nAmount += txout.nValue; // komodo_interest?
+                    nAmount += txout.nValue; // squishy_interest?
         }
     }
 
@@ -983,7 +983,7 @@ CAmount GetAccountBalance(CWalletDB& walletdb, const string& strAccount, int nMi
         int nDepth    = wtx.GetDepthInMainChain();
         if( nMinDepth > 1 ) {
             int nHeight    = tx_height(wtx.GetHash());
-            int dpowconfs  = komodo_dpowconfs(nHeight, nDepth);
+            int dpowconfs  = squishy_dpowconfs(nHeight, nDepth);
             if (nReceived != 0 && dpowconfs >= nMinDepth) {
                 nBalance += nReceived;
             }
@@ -1167,7 +1167,7 @@ UniValue getbalance(const UniValue& params, bool fHelp, const CPubKey& mypk)
             int nDepth    = wtx.GetDepthInMainChain();
             if( nMinDepth > 1 ) {
                  int nHeight    = tx_height(wtx.GetHash());
-                 int dpowconfs  = komodo_dpowconfs(nHeight, nDepth);
+                 int dpowconfs  = squishy_dpowconfs(nHeight, nDepth);
                  if (dpowconfs >= nMinDepth) {
                     BOOST_FOREACH(const COutputEntry& r, listReceived)
                         nBalance += r.amount;
@@ -1564,7 +1564,7 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
         int nDepth    = wtx.GetDepthInMainChain();
         if( nMinDepth > 1 ) {
             int nHeight   = tx_height(wtx.GetHash());
-            int dpowconfs = komodo_dpowconfs(nHeight, nDepth);
+            int dpowconfs = squishy_dpowconfs(nHeight, nDepth);
             if (dpowconfs < nMinDepth)
                 continue;
         } else {
@@ -1583,9 +1583,9 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
                 continue;
 
             tallyitem& item = mapTally[address];
-            item.nAmount += txout.nValue; // komodo_interest?
+            item.nAmount += txout.nValue; // squishy_interest?
             item.nConf = min(item.nConf, nDepth);
-            item.nHeight = komodo_blockheight(wtx.hashBlock);
+            item.nHeight = squishy_blockheight(wtx.hashBlock);
             item.txids.push_back(wtx.GetHash());
             if (mine & ISMINE_WATCH_ONLY)
                 item.fIsWatchonly = true;
@@ -1630,7 +1630,7 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
             obj.push_back(Pair("account",       strAccount));
             obj.push_back(Pair("amount",        ValueFromAmount(nAmount)));
             obj.push_back(Pair("rawconfirmations", (nConf == std::numeric_limits<int>::max() ? 0 : nConf)));
-            obj.push_back(Pair("confirmations", (nConf == std::numeric_limits<int>::max() ? 0 : komodo_dpowconfs(nHeight, nConf))));
+            obj.push_back(Pair("confirmations", (nConf == std::numeric_limits<int>::max() ? 0 : squishy_dpowconfs(nHeight, nConf))));
             UniValue transactions(UniValue::VARR);
             if (it != mapTally.end())
             {
@@ -1657,7 +1657,7 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
             obj.push_back(Pair("account",       (*it).first));
             obj.push_back(Pair("amount",        ValueFromAmount(nAmount)));
             obj.push_back(Pair("rawconfirmations", (nConf == std::numeric_limits<int>::max() ? 0 : nConf)));
-            obj.push_back(Pair("confirmations", (nConf == std::numeric_limits<int>::max() ? 0 : komodo_dpowconfs(nHeight, nConf))));
+            obj.push_back(Pair("confirmations", (nConf == std::numeric_limits<int>::max() ? 0 : squishy_dpowconfs(nHeight, nConf))));
             ret.push_back(obj);
         }
     }
@@ -2467,7 +2467,7 @@ UniValue walletlock(const UniValue& params, bool fHelp, const CPubKey& mypk)
     return NullUniValue;
 }
 
-int32_t komodo_acpublic(uint32_t tiptime);
+int32_t squishy_acpublic(uint32_t tiptime);
 
 UniValue encryptwallet(const UniValue& params, bool fHelp, const CPubKey& mypk)
 {
@@ -2475,7 +2475,7 @@ UniValue encryptwallet(const UniValue& params, bool fHelp, const CPubKey& mypk)
         return NullUniValue;
 
     string enableArg = "developerencryptwallet";
-    int32_t flag = (komodo_acpublic(0) || chainName.isKMD() );
+    int32_t flag = (squishy_acpublic(0) || chainName.isKMD() );
     auto fEnableWalletEncryption = fExperimentalMode && GetBoolArg("-" + enableArg, flag);
 
     std::string strWalletEncryptionDisabledMsg = "";
@@ -2848,7 +2848,7 @@ UniValue listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
         int nDepth    = out.tx->GetDepthInMainChain();
         if( nMinDepth > 1 ) {
             int nHeight    = tx_height(out.tx->GetHash());
-            int dpowconfs  = komodo_dpowconfs(nHeight, nDepth);
+            int dpowconfs  = squishy_dpowconfs(nHeight, nDepth);
             if (dpowconfs < nMinDepth || dpowconfs > nMaxDepth)
                 continue;
         } else {
@@ -2872,7 +2872,7 @@ UniValue listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
 
         if (fValidAddress) {
             entry.push_back(Pair("address", EncodeDestination(address)));
-            entry.push_back(Pair("segid", (int)komodo_segid32((char*)EncodeDestination(address).c_str()) & 0x3f ));
+            entry.push_back(Pair("segid", (int)squishy_segid32((char*)EncodeDestination(address).c_str()) & 0x3f ));
 
             if (pwalletMain->mapAddressBook.count(address))
                 entry.push_back(Pair("account", pwalletMain->mapAddressBook[address].name));
@@ -2892,8 +2892,8 @@ UniValue listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
             uint64_t interest; uint32_t locktime;
             if ( pindex != 0 && (tipindex= chainActive.Tip()) != 0 )
             {
-                interest = komodo_accrued_interest(&txheight,&locktime,out.tx->GetHash(),out.i,0,nValue,(int32_t)tipindex->nHeight);
-                //interest = komodo_interest(txheight,nValue,out.tx->nLockTime,tipindex->nTime);
+                interest = squishy_accrued_interest(&txheight,&locktime,out.tx->GetHash(),out.i,0,nValue,(int32_t)tipindex->nHeight);
+                //interest = squishy_interest(txheight,nValue,out.tx->nLockTime,tipindex->nTime);
                 entry.push_back(Pair("interest",ValueFromAmount(interest)));
             }
         }
@@ -2901,7 +2901,7 @@ UniValue listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
             txheight = (chainActive.Tip()->nHeight - out.nDepth - 1);
         entry.push_back(Pair("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
         entry.push_back(Pair("rawconfirmations",out.nDepth));
-        entry.push_back(Pair("confirmations",komodo_dpowconfs(txheight,out.nDepth)));
+        entry.push_back(Pair("confirmations",squishy_dpowconfs(txheight,out.nDepth)));
         entry.push_back(Pair("spendable", out.fSpendable));
         results.push_back(entry);
     }
@@ -2909,13 +2909,13 @@ UniValue listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
 }
 
 /****
- * @note also sets globals KOMODO_INTERESTSUM and KOMODO_WALLETBALANCE used for the getinfo RPC call
+ * @note also sets globals SQUISHY_INTERESTSUM and SQUISHY_WALLETBALANCE used for the getinfo RPC call
  * @returns amount of accrued interest in this wallet
  */
-uint64_t komodo_interestsum()
+uint64_t squishy_interestsum()
 {
 #ifdef ENABLE_WALLET
-    if ( chainName.isKMD() && GetBoolArg("-disablewallet", false) == 0 && KOMODO_NSPV_FULLNODE )
+    if ( chainName.isKMD() && GetBoolArg("-disablewallet", false) == 0 && SQUISHY_NSPV_FULLNODE )
     {
         uint64_t interest,sum = 0; 
         int32_t txheight; 
@@ -2933,13 +2933,13 @@ uint64_t komodo_interestsum()
                 CBlockIndex *tipindex,*pindex = it->second;
                 if ( pindex != 0 && (tipindex= chainActive.Tip()) != 0 )
                 {
-                    interest = komodo_accrued_interest(&txheight,&locktime,out.tx->GetHash(),out.i,0,nValue,(int32_t)tipindex->nHeight);
+                    interest = squishy_accrued_interest(&txheight,&locktime,out.tx->GetHash(),out.i,0,nValue,(int32_t)tipindex->nHeight);
                     sum += interest;
                 }
             }
         }
-        KOMODO_INTERESTSUM = sum;
-        KOMODO_WALLETBALANCE = pwalletMain->GetBalance();
+        SQUISHY_INTERESTSUM = sum;
+        SQUISHY_WALLETBALANCE = pwalletMain->GetBalance();
         return(sum);
     }
 #endif
@@ -3076,7 +3076,7 @@ UniValue z_listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
             UniValue obj(UniValue::VOBJ);
 
             int nHeight   = tx_height(entry.jsop.hash);
-            int dpowconfs = komodo_dpowconfs(nHeight, entry.confirmations);
+            int dpowconfs = squishy_dpowconfs(nHeight, entry.confirmations);
             // Only return notarized results when minconf>1
             if (nMinDepth > 1 && dpowconfs == 1)
                 continue;
@@ -3102,7 +3102,7 @@ UniValue z_listunspent(const UniValue& params, bool fHelp, const CPubKey& mypk)
             UniValue obj(UniValue::VOBJ);
 
             int nHeight   = tx_height(entry.op.hash);
-            int dpowconfs = komodo_dpowconfs(nHeight, entry.confirmations);
+            int dpowconfs = squishy_dpowconfs(nHeight, entry.confirmations);
 
             // Only return notarized results when minconf>1
             if (nMinDepth > 1 && dpowconfs == 1)
@@ -3666,7 +3666,7 @@ UniValue z_getnewaddress(const UniValue& params, bool fHelp, const CPubKey& mypk
     bool allowSapling = (Params().GetConsensus().vUpgrades[Consensus::UPGRADE_SAPLING].nActivationHeight <= chainActive.Tip()->nHeight);
 
     std::string defaultType;
-    if ( GetTime() < KOMODO_SAPLING_ACTIVATION )
+    if ( GetTime() < SQUISHY_SAPLING_ACTIVATION )
         defaultType = ADDR_TYPE_SPROUT;
     else defaultType = ADDR_TYPE_SAPLING;
 
@@ -3699,7 +3699,7 @@ UniValue z_getnewaddress(const UniValue& params, bool fHelp, const CPubKey& mypk
     string strAccount;
 
     if (addrType == ADDR_TYPE_SPROUT) {
-        if ( GetTime() >= KOMODO_SAPLING_DEADLINE )
+        if ( GetTime() >= SQUISHY_SAPLING_DEADLINE )
             throw JSONRPCError(RPC_INVALID_PARAMETER, "sprout not valid anymore");
         result = EncodePaymentAddress(pwalletMain->GenerateNewSproutZKey());
         strAccount = "z-sprout";
@@ -3793,7 +3793,7 @@ CAmount getBalanceTaddr(std::string transparentAddress, int minDepth=1, bool ign
         int nDepth    = out.tx->GetDepthInMainChain();
         if( minDepth > 1 ) {
             int nHeight    = tx_height(out.tx->GetHash());
-            int dpowconfs  = komodo_dpowconfs(nHeight, nDepth);
+            int dpowconfs  = squishy_dpowconfs(nHeight, nDepth);
             if (dpowconfs < minDepth) {
                 continue;
             }
@@ -3818,7 +3818,7 @@ CAmount getBalanceTaddr(std::string transparentAddress, int minDepth=1, bool ign
             }
         }
 
-        CAmount nValue = out.tx->vout[out.i].nValue; // komodo_interest
+        CAmount nValue = out.tx->vout[out.i].nValue; // squishy_interest
         balance += nValue;
     }
     return balance;
@@ -3907,7 +3907,7 @@ UniValue z_listreceivedbyaddress(const UniValue& params, bool fHelp, const CPubK
         for (CSproutNotePlaintextEntry & entry : sproutEntries) {
             UniValue obj(UniValue::VOBJ);
             int nHeight   = tx_height(entry.jsop.hash);
-            int dpowconfs = komodo_dpowconfs(nHeight, entry.confirmations);
+            int dpowconfs = squishy_dpowconfs(nHeight, entry.confirmations);
             // Only return notarized results when minconf>1
             if (nMinDepth > 1 && dpowconfs == 1)
                 continue;
@@ -3930,7 +3930,7 @@ UniValue z_listreceivedbyaddress(const UniValue& params, bool fHelp, const CPubK
             UniValue obj(UniValue::VOBJ);
 
             int nHeight   = tx_height(entry.op.hash);
-            int dpowconfs = komodo_dpowconfs(nHeight, entry.confirmations);
+            int dpowconfs = squishy_dpowconfs(nHeight, entry.confirmations);
             // Only return notarized results when minconf>1
             if (nMinDepth > 1 && dpowconfs == 1)
                 continue;
@@ -4062,7 +4062,7 @@ UniValue z_gettotalbalance(const UniValue& params, bool fHelp, const CPubKey& my
     // so we use our own method to get balance of utxos.
     CAmount nBalance = getBalanceTaddr("", nMinDepth, !fIncludeWatchonly);
     CAmount nPrivateBalance = getBalanceZaddr("", nMinDepth, !fIncludeWatchonly);
-    uint64_t interest = komodo_interestsum();
+    uint64_t interest = squishy_interestsum();
     CAmount nTotalBalance = nBalance + nPrivateBalance;
     UniValue result(UniValue::VOBJ);
     result.push_back(Pair("transparent", FormatMoney(nBalance)));
@@ -4513,7 +4513,7 @@ UniValue z_sendmany(const UniValue& params, bool fHelp, const CPubKey& mypk)
                         RPC_INVALID_PARAMETER,
                         "Cannot send to both Sprout and Sapling addresses using z_sendmany");
                 }
-                if ( GetTime() > KOMODO_SAPLING_DEADLINE )
+                if ( GetTime() > SQUISHY_SAPLING_DEADLINE )
                 {
                     if ( fromSprout || toSprout )
                         throw JSONRPCError(RPC_INVALID_PARAMETER,"Sprout usage has expired");
@@ -4532,7 +4532,7 @@ UniValue z_sendmany(const UniValue& params, bool fHelp, const CPubKey& mypk)
                 throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, unknown address format: ")+address );
             }
         }
-        //else if ( ASSETCHAINS_PRIVATE != 0 && komodo_isnotaryvout((char *)address.c_str()) == 0 )
+        //else if ( ASSETCHAINS_PRIVATE != 0 && squishy_isnotaryvout((char *)address.c_str()) == 0 )
         //    throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "cant use transparent addresses in private chain");
 
         // Allowing duplicate receivers helps various HushList protocol operations
@@ -5423,7 +5423,7 @@ UniValue z_listoperationids(const UniValue& params, bool fHelp, const CPubKey& m
  * @param nLockTimeIn - nLockTime that will be set for notary proof tx in-case of after nDecemberHardforkHeight
  * @return int32_t - signature length of vin[0] in resulted notary proof tx, actually > 0 if txNew is correct, and 0 in-case of any error
  */
-int32_t komodo_notaryvin(CMutableTransaction &txNew, uint8_t *notarypub33, const CScript &opretIn, uint32_t nLockTimeIn)
+int32_t squishy_notaryvin(CMutableTransaction &txNew, uint8_t *notarypub33, const CScript &opretIn, uint32_t nLockTimeIn)
 {
     int32_t siglen = 0;
 
@@ -5511,8 +5511,8 @@ int32_t ensure_CCrequirements(uint8_t evalcode)
     if ( ASSETCHAINS_CCDISABLES[evalcode] != 0 )
     {
         // check if a height activation has been set. 
-        LogPrintf( "evalcode.%i activates at height. %i current height.%i\n", evalcode, mapHeightEvalActivate[evalcode], komodo_currentheight());
-        if ( mapHeightEvalActivate[evalcode] == 0 || komodo_currentheight() == 0 || mapHeightEvalActivate[evalcode] > komodo_currentheight() )
+        LogPrintf( "evalcode.%i activates at height. %i current height.%i\n", evalcode, mapHeightEvalActivate[evalcode], squishy_currentheight());
+        if ( mapHeightEvalActivate[evalcode] == 0 || squishy_currentheight() == 0 || mapHeightEvalActivate[evalcode] > squishy_currentheight() )
         {
             LogPrintf("evalcode %d disabled\n",evalcode);
             return(-1);
@@ -5651,7 +5651,7 @@ UniValue setpubkey(const UniValue& params, bool fHelp, const CPubKey& mypk)
                     if ( (STAKED_NOTARY_ID= StakedNotaryID(notaryname, Raddress)) > -1 ) 
                     {
                         result.push_back(Pair("IsNotary", notaryname));
-                        IS_KOMODO_NOTARY = false;
+                        IS_SQUISHY_NOTARY = false;
                     }
                 }
                 NOTARY_PUBKEY = params[0].get_str();
@@ -5701,7 +5701,7 @@ UniValue setstakingsplit(const UniValue& params, bool fHelp, const CPubKey& mypk
     );
     
     LOCK(cs_main);
-    if ( komodo_newStakerActive(chainActive.Height(),(uint32_t)time(NULL)) != 1 ) 
+    if ( squishy_newStakerActive(chainActive.Height(),(uint32_t)time(NULL)) != 1 ) 
     {
         throw runtime_error("New PoS64 staker not active yet\n");
     }
@@ -6885,7 +6885,7 @@ UniValue faucetfund(const UniValue& params, bool fHelp, const CPubKey& mypk)
     if ( fHelp || params.size() != 1 )
         throw runtime_error("faucetfund amount\n");
     funds = atof(params[0].get_str().c_str()) * COIN + 0.00000000499999;
-    if ( (0) && KOMODO_NSPV_SUPERLITE )
+    if ( (0) && SQUISHY_NSPV_SUPERLITE )
     {
         char coinaddr[64]; struct CCcontract_info *cp,C; CTxOut v;
         cp = CCinit(&C,EVAL_FAUCET);
@@ -7672,7 +7672,7 @@ UniValue getbalance64(const UniValue& params, bool fHelp, const CPubKey& mypk)
         nValue = out.tx->vout[out.i].nValue;
         if ( ExtractDestination(out.tx->vout[out.i].scriptPubKey, address) )
         {
-            segid = (komodo_segid32((char *)CBitcoinAddress(address).ToString().c_str()) & 0x3f);
+            segid = (squishy_segid32((char *)CBitcoinAddress(address).ToString().c_str()) & 0x3f);
             if ( out.nDepth < 100 )
                 nValues2[segid] += nValue, total2 += nValue;
             else nValues[segid] += nValue, total += nValue;
@@ -7970,7 +7970,7 @@ UniValue opreturn_burn(const UniValue& params, bool fHelp, const CPubKey& mypk)
         throw JSONRPCError(RPC_TYPE_ERROR, "keypool error.");
     }
 
-	CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+	CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
 
 	int64_t normalInputs = AddNormalinputs(mtx, myPubkey, nAmount+txfee, 60);
 	if (normalInputs < nAmount)

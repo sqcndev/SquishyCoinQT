@@ -15,8 +15,8 @@
 #pragma once
 #include <sys/time.h>
 
-#include "komodo_defs.h"
-#include "komodo_structs.h"
+#include "squishy_defs.h"
+#include "squishy_structs.h"
 #include "hex.h"
 #include "key_io.h"
 #include "cc/CCinclude.h"
@@ -41,7 +41,7 @@
 #define CRYPTO777_KMDADDR "RXL3YXG2ceaB6C5hfJcN4fvmLH2C34knhA"
 #define CRYPTO777_RMD160STR "f1dce4182fce875748c4986b240ff7d7bc3fffb0"
 
-#define KOMODO_PUBTYPE 60
+#define SQUISHY_PUBTYPE 60
 
 struct rmd160_vstate { uint64_t length; uint8_t buf[64]; uint32_t curlen, state[5]; };
 
@@ -72,16 +72,16 @@ int32_t iguana_rwnum(int32_t rwflag,uint8_t *serialized,int32_t len,void *endian
 
 int32_t iguana_rwbignum(int32_t rwflag,uint8_t *serialized,int32_t len,uint8_t *endianedp);
 
-int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen);
+int32_t squishy_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen);
 
 // get a pseudo random number that is the same for each block individually at all times and different
 // from all other blocks. the sequence is extremely likely, but not guaranteed to be unique for each block chain
-uint64_t komodo_block_prg(uint32_t nHeight);
+uint64_t squishy_block_prg(uint32_t nHeight);
 
 // given a block height, this returns the unlock time for that block height, derived from
 // the ASSETCHAINS_MAGIC number as well as the block height, providing different random numbers
 // for corresponding blocks across chains, but the same sequence in each chain
-int64_t komodo_block_unlocktime(uint32_t nHeight);
+int64_t squishy_block_unlocktime(uint32_t nHeight);
 
 long _stripwhite(char *buf,int accept);
 
@@ -94,13 +94,13 @@ char *parse_conf_line(char *line,char *field);
 double OS_milliseconds();
 
 #define MAX_STATEFNAME 512
-void komodo_statefname(char *fname, const char *symbol, const char *str);
+void squishy_statefname(char *fname, const char *symbol, const char *str);
 
-int32_t komodo_whoami(char *pubkeystr,int32_t height,uint32_t timestamp);
+int32_t squishy_whoami(char *pubkeystr,int32_t height,uint32_t timestamp);
 
-uint64_t komodo_ac_block_subsidy(int nHeight);
+uint64_t squishy_ac_block_subsidy(int nHeight);
 
-void komodo_args(char *argv0);
+void squishy_args(char *argv0);
 
 /***
  * @brief given a source, calculate the symbol and dest
@@ -109,19 +109,19 @@ void komodo_args(char *argv0);
  * @param[out] dest the destination (i.e. "BTC")
  * @param[in] source the source (i.e. "KMD")
  */
-void komodo_nameset(char *symbol,char *dest,const char *source);
+void squishy_nameset(char *symbol,char *dest,const char *source);
 
 /****
- * @brief get the right komodo_state
+ * @brief get the right squishy_state
  * @param[in] base what to search for (nullptr == "KMD")
- * @returns the correct komodo_state object
+ * @returns the correct squishy_state object
  */
-komodo_state *komodo_stateptrget(char *base);
+squishy_state *squishy_stateptrget(char *base);
 
-komodo_state *komodo_stateptr(char *symbol,char *dest);
+squishy_state *squishy_stateptr(char *symbol,char *dest);
 
 // check if block timestamp is more than S5 activation time
 // this function is to activate the ExtractDestination fix
-bool komodo_is_vSolutionsFixActive();
+bool squishy_is_vSolutionsFixActive();
 
 void set_kmd_user_password_port(const std::string& ltc_config_filename);

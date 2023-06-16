@@ -11,7 +11,7 @@
   </array>
 
   <key>CFBundleIconFile</key>
-  <string>komodo.icns</string>
+  <string>squishy.icns</string>
 
   <key>CFBundlePackageType</key>
   <string>APPL</string>
@@ -38,7 +38,7 @@
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.komodoplatform.Komodo-Qt</string>
+  <string>org.squishyplatform.Komodo-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -46,10 +46,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.komodoplatform.KomodoPayment</string>
+      <string>org.squishyplatform.KomodoPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>komodo</string>
+        <string>squishy</string>
       </array>
     </dict>
   </array>

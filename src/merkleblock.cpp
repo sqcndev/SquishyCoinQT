@@ -23,7 +23,7 @@
 #include "hash.h"
 #include "consensus/consensus.h"
 #include "utilstrencodings.h"
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 using namespace std;
 
 CMerkleBlock::CMerkleBlock(const CBlock& block, CBloomFilter& filter)

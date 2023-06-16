@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_SPLASHSCREEN_H
-#define KOMODO_QT_SPLASHSCREEN_H
+#ifndef SQUISHY_QT_SPLASHSCREEN_H
+#define SQUISHY_QT_SPLASHSCREEN_H
 
 #include <functional>
 #include <QSplashScreen>
@@ -55,4 +55,4 @@ private:
     QList<CWallet*> connectedWallets;
 };
 
-#endif // KOMODO_QT_SPLASHSCREEN_H
+#endif // SQUISHY_QT_SPLASHSCREEN_H

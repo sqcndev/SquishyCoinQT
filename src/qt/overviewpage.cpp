@@ -5,7 +5,7 @@
 #include "overviewpage.h"
 #include "ui_overviewpage.h"
 
-#include "komodounits.h"
+#include "squishyunits.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -14,7 +14,7 @@
 #include "transactionfilterproxy.h"
 #include "transactiontablemodel.h"
 #include "walletmodel.h"
-#include "util.h" // for KOMODO_ASSETCHAIN_MAXLEN
+#include "util.h" // for SQUISHY_ASSETCHAIN_MAXLEN
 
 #include <QAbstractItemDelegate>
 #include <QApplication>

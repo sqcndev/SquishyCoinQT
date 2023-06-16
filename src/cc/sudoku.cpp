@@ -201,7 +201,7 @@
 /*                                                                                  */
 /************************************************************************************/
 
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -2479,7 +2479,7 @@ void sudoku_gen(uint8_t key32[32],uint8_t unsolved[9][9],uint32_t srandi)
 }
 
 //////////////////////// start of CClib interface
-// ./komodod -ac_name=SUDOKU -ac_supply=1000000 -pubkey=<yourpubkey> -addnode=5.9.102.210 -gen -genproclimit=1 -ac_cclib=sudoku -ac_perc=10000000 -ac_reward=100000000 -ac_cc=60000 -ac_script=2ea22c80203d1579313abe7d8ea85f48c65ea66fc512c878c0d0e6f6d54036669de940febf8103120c008203000401cc &
+// ./squishyd -ac_name=SUDOKU -ac_supply=1000000 -pubkey=<yourpubkey> -addnode=5.9.102.210 -gen -genproclimit=1 -ac_cclib=sudoku -ac_perc=10000000 -ac_reward=100000000 -ac_cc=60000 -ac_script=2ea22c80203d1579313abe7d8ea85f48c65ea66fc512c878c0d0e6f6d54036669de940febf8103120c008203000401cc &
 /* cclib "gen" 17 \"10\"
  5d13c1ad80daf37215c74809a36720c2ada90bacadb2e10bf0866092ce558432
 */
@@ -2642,7 +2642,7 @@ uint8_t sudoku_genopreturndecode(char *unsolved,CScript scriptPubKey)
 
 UniValue sudoku_generate(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); CPubKey sudokupk,pk; uint8_t privkey[32],unsolved[9][9],pub33[33]; uint32_t srandi; int32_t i,score; uint256 hash; char coinaddr[64],str[82],*jsonstr; uint64_t inputsum,amount,change=0; std::string rawtx;
     amount = COIN;
     /*if ( params != 0 )
@@ -2737,7 +2737,7 @@ UniValue sudoku_txidinfo(uint64_t txfee,struct CCcontract_info *cp,cJSON *params
                 if ( sudoku_genopreturndecode(unsolved,tx.vout[numvouts-1].scriptPubKey) == 'G' )
                 {
                     result.push_back(Pair("result","success"));
-                    if ( (pindex= komodo_blockindex(hashBlock)) != 0 )
+                    if ( (pindex= squishy_blockindex(hashBlock)) != 0 )
                         result.push_back(Pair("height",pindex->nHeight));
                     Getscriptaddress(CCaddr,tx.vout[1].scriptPubKey);
                     result.push_back(Pair("sudokuaddr",CCaddr));
@@ -2789,7 +2789,7 @@ UniValue sudoku_pending(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
                 if ( sudoku_genopreturndecode(unsolved,tx.vout[numvouts-1].scriptPubKey) == 'G' )
                 {
                     UniValue obj(UniValue::VOBJ);
-                    if ( (pindex= komodo_blockindex(hashBlock)) != 0 )
+                    if ( (pindex= squishy_blockindex(hashBlock)) != 0 )
                         obj.push_back(Pair("height",pindex->nHeight));
                     obj.push_back(Pair("amount",ValueFromAmount(tx.vout[1].nValue)));
                     obj.push_back(Pair("txid",txid.GetHex()));
@@ -2810,7 +2810,7 @@ UniValue sudoku_pending(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 
 UniValue sudoku_solution(uint64_t txfee,struct CCcontract_info *cp,cJSON *params)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     UniValue result(UniValue::VOBJ); int32_t i,j,good,ind,n,numvouts; uint256 txid; char *jsonstr,*newstr,*txidstr,coinaddr[64],checkaddr[64],CCaddr[64],*solution=0,unsolved[82]; CPubKey pk,mypk; uint8_t vals9[9][9],priv32[32],pub33[33]; uint32_t timestamps[81]; uint64_t balance,inputsum; std::string rawtx; CTransaction tx; uint256 hashBlock;
     mypk = pubkey2pk(Mypubkey());
     memset(timestamps,0,sizeof(timestamps));
@@ -2848,7 +2848,7 @@ UniValue sudoku_solution(uint64_t txfee,struct CCcontract_info *cp,cJSON *params
                     result.push_back(Pair("sudokuaddr",CCaddr));
                     balance = CCaddress_balance(CCaddr,1);
                     result.push_back(Pair("amount",ValueFromAmount(balance)));
-                    if ( sudoku_captcha(1,timestamps,komodo_nextheight()) < 0 )
+                    if ( sudoku_captcha(1,timestamps,squishy_nextheight()) < 0 )
                     {
                         result.push_back(Pair("result","error"));
                         result.push_back(Pair("error","captcha failure"));

@@ -14,7 +14,7 @@
  ******************************************************************************/
 #pragma once
 #include "uint256.h"
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 #include <cstdint>
 
 /***
@@ -22,7 +22,7 @@
  * @param flags
  * @return the duration
  */
-int32_t komodo_kvduration(uint32_t flags);
+int32_t squishy_kvduration(uint32_t flags);
 
 /***
  * @brief calculate the required fee
@@ -31,7 +31,7 @@ int32_t komodo_kvduration(uint32_t flags);
  * @param keylen
  * @return the fee
  */
-uint64_t komodo_kvfee(uint32_t flags,int32_t opretlen,int32_t keylen);
+uint64_t squishy_kvfee(uint32_t flags,int32_t opretlen,int32_t keylen);
 
 /***
  * @brief find a value
@@ -44,7 +44,7 @@ uint64_t komodo_kvfee(uint32_t flags,int32_t opretlen,int32_t keylen);
  * @param keylen the length of the key
  * @return -1 on error, otherwise size of value
  */
-int32_t komodo_kvsearch(uint256 *pubkeyp,int32_t current_height,uint32_t *flagsp,
+int32_t squishy_kvsearch(uint256 *pubkeyp,int32_t current_height,uint32_t *flagsp,
         int32_t *heightp,uint8_t value[IGUANA_MAXSCRIPTSIZE],uint8_t *key,int32_t keylen);
 
 /****
@@ -53,7 +53,7 @@ int32_t komodo_kvsearch(uint256 *pubkeyp,int32_t current_height,uint32_t *flagsp
  * @param opretlen length of opretbuf
  * @param value the value to be related to the key
  */
-void komodo_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value);
+void squishy_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value);
 
 /****
  * @brief build a private key from the public key and passphrase
@@ -61,7 +61,7 @@ void komodo_kvupdate(uint8_t *opretbuf,int32_t opretlen,uint64_t value);
  * @param passphrase the passphrase
  * @return a private key
  */
-uint256 komodo_kvprivkey(uint256 *pubkeyp,char *passphrase);
+uint256 squishy_kvprivkey(uint256 *pubkeyp,char *passphrase);
 
 /****
  * @brief sign
@@ -69,7 +69,7 @@ uint256 komodo_kvprivkey(uint256 *pubkeyp,char *passphrase);
  * @param len the length of buf
  * @param _privkey the key to sign with
  */
-uint256 komodo_kvsig(uint8_t *buf,int32_t len,uint256 _privkey);
+uint256 squishy_kvsig(uint8_t *buf,int32_t len,uint256 _privkey);
 
 /****
  * @brief verify the signature
@@ -79,4 +79,4 @@ uint256 komodo_kvsig(uint8_t *buf,int32_t len,uint256 _privkey);
  * @param sig the signature
  * @return -1 on error, otherwise 0
  */
-int32_t komodo_kvsigverify(uint8_t *buf,int32_t len,uint256 _pubkey,uint256 sig);
+int32_t squishy_kvsigverify(uint8_t *buf,int32_t len,uint256 _pubkey,uint256 sig);

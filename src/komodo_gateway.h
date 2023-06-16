@@ -15,7 +15,7 @@
 #pragma once
 #include <cstdint>
 
-struct komodo_state;
+struct squishy_state;
 class CBlock;
 
 /****
@@ -25,7 +25,7 @@ class CBlock;
  * @param indallvouts the index at which all "n"s are banned
  * @returns true if vout is banned
  */
-bool komodo_checkvout(int32_t vout,int32_t k,int32_t indallvouts);
+bool squishy_checkvout(int32_t vout,int32_t k,int32_t indallvouts);
 
 /****
  * @brief retrieve list of banned txids
@@ -34,13 +34,13 @@ bool komodo_checkvout(int32_t vout,int32_t k,int32_t indallvouts);
  * @param[in] max the max size of the array
  * @returns the number of txids placed into the array
  */
-int32_t komodo_bannedset(int32_t *indallvoutsp,uint256 *array,int32_t max);
+int32_t squishy_bannedset(int32_t *indallvoutsp,uint256 *array,int32_t max);
 
 /***
  * @brief update wallet balance / interest
  * @note called only on KMD chain every 10 seconds ( see ThreadUpdateKomodoInternals() )
  */
-void komodo_update_interest();
+void squishy_update_interest();
 
 /***
  * @brief  verify block is valid pax pricing
@@ -48,14 +48,14 @@ void komodo_update_interest();
  * @param block the block to check
  * @returns <0 on error, 0 on success
  */
-int32_t komodo_check_deposit(int32_t height,const CBlock& block);
+int32_t squishy_check_deposit(int32_t height,const CBlock& block);
 
 /***
- * @brief read the komodostate file
- * @param sp the komodo_state struct
+ * @brief read the squishystate file
+ * @param sp the squishy_state struct
  * @param fname the filename
  * @param symbol the chain symbol
  * @param dest the "parent" chain
  * @return true on success
  */
-bool komodo_faststateinit(komodo_state *sp,const char *fname,char *symbol, const char *dest);
+bool squishy_faststateinit(squishy_state *sp,const char *fname,char *symbol, const char *dest);

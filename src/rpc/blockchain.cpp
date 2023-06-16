@@ -36,14 +36,14 @@
 #include "script/script_error.h"
 #include "script/sign.h"
 #include "script/standard.h"
-#include "komodo_defs.h"
-#include "komodo_structs.h"
-#include "komodo_globals.h"
-#include "komodo_notary.h"
-#include "komodo_bitcoind.h"
-#include "komodo_utils.h"
-#include "komodo_kv.h"
-#include "komodo_gateway.h"
+#include "squishy_defs.h"
+#include "squishy_structs.h"
+#include "squishy_globals.h"
+#include "squishy_notary.h"
+#include "squishy_bitcoind.h"
+#include "squishy_utils.h"
+#include "squishy_kv.h"
+#include "squishy_gateway.h"
 #include "rpc/rawtransaction.h"
 
 #include <stdint.h>
@@ -57,13 +57,13 @@
 using namespace std;
 
 // TODO: remove
-//extern int32_t KOMODO_INSYNC;
+//extern int32_t SQUISHY_INSYNC;
 //extern void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& entry);
 //void ScriptPubKeyToJSON(const CScript& scriptPubKey, UniValue& out, bool fIncludeHex);
-//int32_t komodo_notarized_height(int32_t *prevMoMheightp,uint256 *hashp,uint256 *txidp);
-//#include "komodo_defs.h"
-#include "komodo_structs.h"
-#include "komodo_interest.h"
+//int32_t squishy_notarized_height(int32_t *prevMoMheightp,uint256 *hashp,uint256 *txidp);
+//#include "squishy_defs.h"
+#include "squishy_structs.h"
+#include "squishy_interest.h"
 
 double GetDifficultyINTERNAL(const CBlockIndex* blockindex, bool networkDifficulty)
 {
@@ -150,14 +150,14 @@ UniValue blockheaderToJSON(const CBlockIndex* blockindex)
         return(result);
     }
     uint256 notarized_hash,notarized_desttxid; int32_t prevMoMheight,notarized_height;
-    notarized_height = komodo_notarized_height(&prevMoMheight,&notarized_hash,&notarized_desttxid);
+    notarized_height = squishy_notarized_height(&prevMoMheight,&notarized_hash,&notarized_desttxid);
     result.push_back(Pair("last_notarized_height", notarized_height));
     result.push_back(Pair("hash", blockindex->GetBlockHash().GetHex()));
     int confirmations = -1;
     // Only report confirmations if the block is on the main chain
     if (chainActive.Contains(blockindex))
         confirmations = chainActive.Height() - blockindex->nHeight + 1;
-    result.push_back(Pair("confirmations", komodo_dpowconfs(blockindex->nHeight,confirmations)));
+    result.push_back(Pair("confirmations", squishy_dpowconfs(blockindex->nHeight,confirmations)));
     result.push_back(Pair("rawconfirmations", confirmations));
     result.push_back(Pair("height", blockindex->nHeight));
     result.push_back(Pair("version", blockindex->nVersion));
@@ -169,7 +169,7 @@ UniValue blockheaderToJSON(const CBlockIndex* blockindex)
     result.push_back(Pair("bits", strprintf("%08x", blockindex->nBits)));
     result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
     result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
-    result.push_back(Pair("segid", (int)komodo_segid(0,blockindex->nHeight)));
+    result.push_back(Pair("segid", (int)squishy_segid(0,blockindex->nHeight)));
 
     if (blockindex->pprev)
         result.push_back(Pair("previousblockhash", blockindex->pprev->GetBlockHash().GetHex()));
@@ -190,13 +190,13 @@ UniValue blockToDeltasJSON(const CBlock& block, const CBlockIndex* blockindex)
     } else {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block is an orphan");
     }
-    result.push_back(Pair("confirmations", komodo_dpowconfs(blockindex->nHeight,confirmations)));
+    result.push_back(Pair("confirmations", squishy_dpowconfs(blockindex->nHeight,confirmations)));
     result.push_back(Pair("rawconfirmations", confirmations));
     result.push_back(Pair("size", (int)::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION)));
     result.push_back(Pair("height", blockindex->nHeight));
     result.push_back(Pair("version", block.nVersion));
     result.push_back(Pair("merkleroot", block.hashMerkleRoot.GetHex()));
-    result.push_back(Pair("segid", (int)komodo_segid(0,blockindex->nHeight)));
+    result.push_back(Pair("segid", (int)squishy_segid(0,blockindex->nHeight)));
 
     UniValue deltas(UniValue::VARR);
 
@@ -304,20 +304,20 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
 {
     UniValue result(UniValue::VOBJ);
     uint256 notarized_hash,notarized_desttxid; int32_t prevMoMheight,notarized_height;
-    notarized_height = komodo_notarized_height(&prevMoMheight,&notarized_hash,&notarized_desttxid);
+    notarized_height = squishy_notarized_height(&prevMoMheight,&notarized_hash,&notarized_desttxid);
     result.push_back(Pair("last_notarized_height", notarized_height));
     result.push_back(Pair("hash", block.GetHash().GetHex()));
     int confirmations = -1;
     // Only report confirmations if the block is on the main chain
     if (chainActive.Contains(blockindex))
         confirmations = chainActive.Height() - blockindex->nHeight + 1;
-    result.push_back(Pair("confirmations", komodo_dpowconfs(blockindex->nHeight,confirmations)));
+    result.push_back(Pair("confirmations", squishy_dpowconfs(blockindex->nHeight,confirmations)));
     result.push_back(Pair("rawconfirmations", confirmations));
     result.push_back(Pair("size", (int)::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION)));
     result.push_back(Pair("height", blockindex->nHeight));
     result.push_back(Pair("version", block.nVersion));
     result.push_back(Pair("merkleroot", block.hashMerkleRoot.GetHex()));
-    result.push_back(Pair("segid", (int)komodo_segid(0,blockindex->nHeight)));
+    result.push_back(Pair("segid", (int)squishy_segid(0,blockindex->nHeight)));
     result.push_back(Pair("finalsaplingroot", block.hashFinalSaplingRoot.GetHex()));
     UniValue txs(UniValue::VARR);
     BOOST_FOREACH(const CTransaction&tx, block.vtx)
@@ -411,7 +411,7 @@ bool NSPV_inmempool(uint256 txid);
 bool myIsutxo_spentinmempool(uint256 &spenttxid,int32_t &spentvini,uint256 txid,int32_t vout)
 {
     int32_t vini = 0;
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
         return(NSPV_spentinmempool(spenttxid,spentvini,txid,vout));
     BOOST_FOREACH(const CTxMemPoolEntry &e,mempool.mapTx)
     {
@@ -435,7 +435,7 @@ bool myIsutxo_spentinmempool(uint256 &spenttxid,int32_t &spentvini,uint256 txid,
 
 bool mytxid_inmempool(uint256 txid)
 {
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         
     }
@@ -723,7 +723,7 @@ UniValue getlastsegidstakes(const UniValue& params, bool fHelp, const CPubKey& m
 
     for (int64_t i = chainActive.Height(); i >  chainActive.Height()-depth; i--)
     {
-        int8_t segid = komodo_segid(0,i);
+        int8_t segid = squishy_segid(0,i);
         //CBlockIndex* pblockindex = chainActive[i];
         if ( segid >= 0 )
             segids[segid] += 1;
@@ -750,7 +750,7 @@ UniValue getlastsegidstakes(const UniValue& params, bool fHelp, const CPubKey& m
     return ret;
 }
 
-/*uint256 _komodo_getblockhash(int32_t nHeight)
+/*uint256 _squishy_getblockhash(int32_t nHeight)
 {
     uint256 hash;
     LOCK(cs_main);
@@ -1015,7 +1015,7 @@ UniValue kvsearch(const UniValue& params, bool fHelp, const CPubKey& mypk)
         if ( keylen < sizeof(key) )
         {
             memcpy(key,params[0].get_str().c_str(),keylen);
-            if ( (valuesize= komodo_kvsearch(&refpubkey,chainActive.Tip()->nHeight,&flags,&height,value,key,keylen)) >= 0 )
+            if ( (valuesize= squishy_kvsearch(&refpubkey,chainActive.Tip()->nHeight,&flags,&height,value,key,keylen)) >= 0 )
             {
                 std::string val; char *valuestr;
                 val.resize(valuesize);
@@ -1024,7 +1024,7 @@ UniValue kvsearch(const UniValue& params, bool fHelp, const CPubKey& mypk)
                 if ( memcmp(&zeroes,&refpubkey,sizeof(refpubkey)) != 0 )
                     ret.push_back(Pair("owner",refpubkey.GetHex()));
                 ret.push_back(Pair("height",height));
-                duration = ((flags >> 2) + 1) * KOMODO_KVDURATION;
+                duration = ((flags >> 2) + 1) * SQUISHY_KVDURATION;
                 ret.push_back(Pair("expiration", (int64_t)(height+duration)));
                 ret.push_back(Pair("flags",(int64_t)flags));
                 ret.push_back(Pair("value",val));
@@ -1050,10 +1050,10 @@ UniValue minerids(const UniValue& params, bool fHelp, const CPubKey& mypk)
         if ( pblockindex != 0 )
             timestamp = pblockindex->GetBlockTime();
     }
-    if ( (n= komodo_minerids(minerids,height,(int32_t)(sizeof(minerids)/sizeof(*minerids)))) > 0 )
+    if ( (n= squishy_minerids(minerids,height,(int32_t)(sizeof(minerids)/sizeof(*minerids)))) > 0 )
     {
         memset(tally,0,sizeof(tally));
-        numnotaries = komodo_notaries(pubkeys,height,timestamp);
+        numnotaries = squishy_notaries(pubkeys,height,timestamp);
         if ( numnotaries > 0 )
         {
             for (i=0; i<n; i++)
@@ -1114,7 +1114,7 @@ UniValue notaries(const UniValue& params, bool fHelp, const CPubKey& mypk)
         if ( pblockindex != 0 )
             timestamp = pblockindex->GetBlockTime();
     }
-    if ( (n= komodo_notaries(pubkeys,height,timestamp)) > 0 )
+    if ( (n= squishy_notaries(pubkeys,height,timestamp)) > 0 )
     {
         for (i=0; i<n; i++)
         {
@@ -1171,7 +1171,7 @@ UniValue gettxout(const UniValue& params, bool fHelp, const CPubKey& mypk)
             "     \"reqSigs\" : n,          (numeric) Number of required signatures\n"
             "     \"type\" : \"pubkeyhash\", (string) The type, eg pubkeyhash\n"
             "     \"addresses\" : [          (array of string) array of Komodo addresses\n"
-            "        \"komodoaddress\"        (string) Komodo address\n"
+            "        \"squishyaddress\"        (string) Komodo address\n"
             "        ,...\n"
             "     ]\n"
             "  },\n"
@@ -1220,12 +1220,12 @@ UniValue gettxout(const UniValue& params, bool fHelp, const CPubKey& mypk)
         ret.push_back(Pair("confirmations", 0));
         ret.push_back(Pair("rawconfirmations", 0));
     } else {
-        ret.push_back(Pair("confirmations", komodo_dpowconfs(coins.nHeight,pindex->nHeight - coins.nHeight + 1)));
+        ret.push_back(Pair("confirmations", squishy_dpowconfs(coins.nHeight,pindex->nHeight - coins.nHeight + 1)));
         ret.push_back(Pair("rawconfirmations", pindex->nHeight - coins.nHeight + 1));
     }
     ret.push_back(Pair("value", ValueFromAmount(coins.vout[n].nValue)));
     uint64_t interest; int32_t txheight; uint32_t locktime;
-    if ( (interest= komodo_accrued_interest(&txheight,&locktime,hash,n,coins.nHeight,coins.vout[n].nValue,(int32_t)pindex->nHeight)) != 0 )
+    if ( (interest= squishy_accrued_interest(&txheight,&locktime,hash,n,coins.nHeight,coins.vout[n].nValue,(int32_t)pindex->nHeight)) != 0 )
         ret.push_back(Pair("interest", ValueFromAmount(interest)));
     UniValue o(UniValue::VOBJ);
     ScriptPubKeyToJSON(coins.vout[n].scriptPubKey, o, true);
@@ -1380,13 +1380,13 @@ UniValue getblockchaininfo(const UniValue& params, bool fHelp, const CPubKey& my
     if ( chainName.isKMD() ) {
         progress = Checkpoints::GuessVerificationProgress(Params().Checkpoints(), chainActive.Tip());
     } else {
-        int32_t longestchain = KOMODO_LONGESTCHAIN;
+        int32_t longestchain = SQUISHY_LONGESTCHAIN;
 	    progress = (longestchain > 0 ) ? (double) chainActive.Height() / longestchain : 1.0;
     }
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("chain",                 Params().NetworkIDString()));
     obj.push_back(Pair("blocks",                (int)chainActive.Height()));
-    obj.push_back(Pair("synced",                KOMODO_INSYNC!=0));
+    obj.push_back(Pair("synced",                SQUISHY_INSYNC!=0));
     obj.push_back(Pair("headers",               pindexBestHeader ? pindexBestHeader->nHeight : -1));
     obj.push_back(Pair("bestblockhash",         chainActive.Tip()->GetBlockHash().GetHex()));
     obj.push_back(Pair("difficulty",            (double)GetNetworkDifficulty()));

@@ -12,19 +12,19 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo_events.h"
-#include "komodo_globals.h"
-#include "komodo_bitcoind.h" // komodo_verifynotarization
-#include "komodo_notary.h" // komodo_notarized_update
-#include "komodo_utils.h" // portable_mutex_lock / unlock
-#include "komodo_kv.h"
+#include "squishy_events.h"
+#include "squishy_globals.h"
+#include "squishy_bitcoind.h" // squishy_verifynotarization
+#include "squishy_notary.h" // squishy_notarized_update
+#include "squishy_utils.h" // portable_mutex_lock / unlock
+#include "squishy_kv.h"
 
-#define KOMODO_EVENT_RATIFY 'P'
-#define KOMODO_EVENT_NOTARIZED 'N'
-#define KOMODO_EVENT_KMDHEIGHT 'K'
-#define KOMODO_EVENT_REWIND 'B'
-#define KOMODO_EVENT_PRICEFEED 'V'
-#define KOMODO_EVENT_OPRETURN 'R'
+#define SQUISHY_EVENT_RATIFY 'P'
+#define SQUISHY_EVENT_NOTARIZED 'N'
+#define SQUISHY_EVENT_KMDHEIGHT 'K'
+#define SQUISHY_EVENT_REWIND 'B'
+#define SQUISHY_EVENT_PRICEFEED 'V'
+#define SQUISHY_EVENT_OPRETURN 'R'
 
 /*****
  * Add a notarized event to the collection
@@ -33,11 +33,11 @@
  * @param height
  * @param ntz the event
  */
-void komodo_eventadd_notarized( komodo_state *sp, const char *symbol, int32_t height, komodo::event_notarized& ntz)
+void squishy_eventadd_notarized( squishy_state *sp, const char *symbol, int32_t height, squishy::event_notarized& ntz)
 {
-    if (IS_KOMODO_NOTARY)   {
-        int32_t ntz_verify = komodo_verifynotarization(symbol, ntz.dest, height, ntz.notarizedheight, ntz.blockhash, ntz.desttxid);
-        LogPrint("notarisation", "komodo_verifynotarization result %d\n", ntz_verify);
+    if (IS_SQUISHY_NOTARY)   {
+        int32_t ntz_verify = squishy_verifynotarization(symbol, ntz.dest, height, ntz.notarizedheight, ntz.blockhash, ntz.desttxid);
+        LogPrint("notarisation", "squishy_verifynotarization result %d\n", ntz_verify);
 
         if (ntz_verify < 0)    {
             static uint32_t counter;
@@ -53,9 +53,9 @@ void komodo_eventadd_notarized( komodo_state *sp, const char *symbol, int32_t he
         if (sp != nullptr)
         {
             sp->add_event(symbol, height, ntz);
-            komodo_notarized_update(sp, height, ntz.notarizedheight, ntz.blockhash, ntz.desttxid, ntz.MoM, ntz.MoMdepth);
+            squishy_notarized_update(sp, height, ntz.notarizedheight, ntz.blockhash, ntz.desttxid, ntz.MoM, ntz.MoMdepth);
         } else {
-            LogPrintf("could not update notarisation event: komodo_state is null");
+            LogPrintf("could not update notarisation event: squishy_state is null");
         }
     } else {
         LogPrintf("could not update notarisation event: invalid symbol %s", symbol);
@@ -69,12 +69,12 @@ void komodo_eventadd_notarized( komodo_state *sp, const char *symbol, int32_t he
  * @param height
  * @param pk the event
  */
-void komodo_eventadd_pubkeys(komodo_state *sp, const char *symbol, int32_t height, komodo::event_pubkeys& pk)
+void squishy_eventadd_pubkeys(squishy_state *sp, const char *symbol, int32_t height, squishy::event_pubkeys& pk)
 {
     if (sp != nullptr)
     {
         sp->add_event(symbol, height, pk);
-        komodo_notarysinit(height, pk.pubkeys, pk.num);
+        squishy_notarysinit(height, pk.pubkeys, pk.num);
     }
 }
 
@@ -86,7 +86,7 @@ void komodo_eventadd_pubkeys(komodo_state *sp, const char *symbol, int32_t heigh
  * @param height
  * @param pf the event
  */
-void komodo_eventadd_pricefeed( komodo_state *sp, const char *symbol, int32_t height, komodo::event_pricefeed& pf)
+void squishy_eventadd_pricefeed( squishy_state *sp, const char *symbol, int32_t height, squishy::event_pricefeed& pf)
 {
     if (sp != nullptr)
     {
@@ -101,15 +101,15 @@ void komodo_eventadd_pricefeed( komodo_state *sp, const char *symbol, int32_t he
  * @param height
  * @param opret the event
  */
-void komodo_eventadd_opreturn( komodo_state *sp, const char *symbol, int32_t height, komodo::event_opreturn& opret)
+void squishy_eventadd_opreturn( squishy_state *sp, const char *symbol, int32_t height, squishy::event_opreturn& opret)
 {
     if ( sp != nullptr && !chainName.isKMD() )
     {
         sp->add_event(symbol, height, opret);
-        //komodo_opreturn(height, opret->value, opret->opret.data(), opret->opret.size(), opret->txid, opret->vout, symbol);
+        //squishy_opreturn(height, opret->value, opret->opret.data(), opret->opret.size(), opret->txid, opret->vout, symbol);
         if ( opret.opret.data()[0] == 'K' && opret.opret.size() != 40 )
         {
-            komodo_kvupdate(opret.opret.data(), opret.opret.size(), opret.value);
+            squishy_kvupdate(opret.opret.data(), opret.opret.size(), opret.value);
         }
     }
 }
@@ -121,12 +121,12 @@ void komodo_eventadd_opreturn( komodo_state *sp, const char *symbol, int32_t hei
  * @param ev the event to undo
  */
 template<class T>
-void komodo_event_undo(komodo_state *sp, T& ev)
+void squishy_event_undo(squishy_state *sp, T& ev)
 {
 }
 
 template<>
-void komodo_event_undo(komodo_state* sp, komodo::event_kmdheight& ev)
+void squishy_event_undo(squishy_state* sp, squishy::event_kmdheight& ev)
     {
     if ( ev.height <= sp->SAVEDHEIGHT )
         sp->SAVEDHEIGHT = ev.height;
@@ -134,28 +134,28 @@ void komodo_event_undo(komodo_state* sp, komodo::event_kmdheight& ev)
  
 
 
-void komodo_event_rewind(komodo_state *sp, const char *symbol, int32_t height)
+void squishy_event_rewind(squishy_state *sp, const char *symbol, int32_t height)
 {
     if ( sp != nullptr )
     {
-        if ( chainName.isKMD() && height <= KOMODO_LASTMINED && prevKOMODO_LASTMINED != 0 )
+        if ( chainName.isKMD() && height <= SQUISHY_LASTMINED && prevSQUISHY_LASTMINED != 0 )
         {
-            LogPrintf("undo KOMODO_LASTMINED %d <- %d\n",KOMODO_LASTMINED,prevKOMODO_LASTMINED);
-            KOMODO_LASTMINED = prevKOMODO_LASTMINED;
-            prevKOMODO_LASTMINED = 0;
+            LogPrintf("undo SQUISHY_LASTMINED %d <- %d\n",SQUISHY_LASTMINED,prevSQUISHY_LASTMINED);
+            SQUISHY_LASTMINED = prevSQUISHY_LASTMINED;
+            prevSQUISHY_LASTMINED = 0;
         }
         while ( sp->events.size() > 0)
         {
             auto ev = sp->events.back();
             if (ev-> height < height)
                     break;
-            komodo_event_undo(sp, *ev);
+            squishy_event_undo(sp, *ev);
             sp->events.pop_back();
         }
     }
 }
 
-void komodo_setkmdheight(struct komodo_state *sp,int32_t kmdheight,uint32_t timestamp)
+void squishy_setkmdheight(struct squishy_state *sp,int32_t kmdheight,uint32_t timestamp)
 {
     if ( sp != nullptr )
     {
@@ -176,8 +176,8 @@ void komodo_setkmdheight(struct komodo_state *sp,int32_t kmdheight,uint32_t time
  * @param height
  * @param kmdht the event
  */
-void komodo_eventadd_kmdheight(struct komodo_state *sp, const char *symbol,int32_t height,
-        komodo::event_kmdheight& kmdht)
+void squishy_eventadd_kmdheight(struct squishy_state *sp, const char *symbol,int32_t height,
+        squishy::event_kmdheight& kmdht)
 {
     if (sp != nullptr)
     {
@@ -185,13 +185,13 @@ void komodo_eventadd_kmdheight(struct komodo_state *sp, const char *symbol,int32
         {
 
             sp->add_event(symbol, height, kmdht);
-            komodo_setkmdheight(sp, kmdht.kheight, kmdht.timestamp);
+            squishy_setkmdheight(sp, kmdht.kheight, kmdht.timestamp);
         }
         else // rewinding
         {
-            komodo::event_rewind e(height);
+            squishy::event_rewind e(height);
             sp->add_event(symbol, height, e);
-            komodo_event_rewind(sp,symbol,height);
+            squishy_event_rewind(sp,symbol,height);
         }
     }
 }

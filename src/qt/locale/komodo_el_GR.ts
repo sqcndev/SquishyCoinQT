@@ -223,7 +223,7 @@
     </message>
     <message>
         <source>Send coins to a Komodo address</source>
-        <translation>Στείλε νομίσματα σε μια διεύθυνση komodo</translation>
+        <translation>Στείλε νομίσματα σε μια διεύθυνση squishy</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -298,8 +298,8 @@
         <translation>Εργαλειοθήκη καρτελών</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Αίτηση πληρωμών (δημιουργεί QR codes και διευθύνσεις komodo: )</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Αίτηση πληρωμών (δημιουργεί QR codes και διευθύνσεις squishy: )</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -310,8 +310,8 @@
         <translation>Προβολή της λίστας των χρησιμοποιημένων διευθύνσεων και ετικετών λήψεως</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Άνοιγμα komodo: URI αίτησης πληρωμής</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Άνοιγμα squishy: URI αίτησης πληρωμής</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1673,7 +1673,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Επιλογές:</translation>

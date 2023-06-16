@@ -23,7 +23,7 @@ LIBBITCOIN_COMMON=libbitcoin_common.a
 LIBBITCOIN_CLI=libbitcoin_cli.a
 LIBBITCOIN_UTIL=libbitcoin_util.a
 LIBBITCOIN_CRYPTO=crypto/libbitcoin_crypto.a
-LIBBITCOINQT=qt/libkomodoqt.a
+LIBBITCOINQT=qt/libsquishyqt.a
 if ENABLE_SSE41
 LIBBITCOIN_CRYPTO_SSE41 = crypto/libbitcoin_crypto_sse41.a
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SSE41)
@@ -69,13 +69,13 @@ $(LIBCRYPTOCONDITIONS): $(wildcard cryptoconditions/src/*) $(wildcard cryptocond
 # %.o: %.c
 # 	$(CC) -c -o $@ $<
 
-# $(LIBCJSON): cJSON.o komodo_cJSON.o
+# $(LIBCJSON): cJSON.o squishy_cJSON.o
 # 	$(AR) cr $(LIBCJSON) $^
 
 # libcjson build
 LIBCJSON=libcjson.a
 libcjson_a_SOURCES = cJSON.c \
-  komodo_cJSON.c
+  squishy_cJSON.c
 libcjson_a_CPPFLAGS=-fPIC
 EXTRA_LIBRARIES += $(LIBCJSON)
 
@@ -96,7 +96,7 @@ if ENABLE_ZMQ
 EXTRA_LIBRARIES += $(LIBBITCOIN_ZMQ)
 endif
 
-if BUILD_KOMODO_LIBS
+if BUILD_SQUISHY_LIBS
 lib_LTLIBRARIES = libzcashconsensus.la
 LIBZCASH_CONSENSUS=libzcashconsensus.la
 else
@@ -107,12 +107,12 @@ bin_PROGRAMS =
 noinst_PROGRAMS =
 TESTS =
 
-if BUILD_KOMODOD
-  bin_PROGRAMS += komodod
+if BUILD_SQUISHYD
+  bin_PROGRAMS += squishyd
 endif
 
-if BUILD_KOMODO_UTILS
-  bin_PROGRAMS += komodo-cli komodo-tx
+if BUILD_SQUISHY_UTILS
+  bin_PROGRAMS += squishy-cli squishy-tx
 endif
 if ENABLE_WALLET
   bin_PROGRAMS += wallet-utility
@@ -262,7 +262,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between komodod and komodo-qt
+# server: shared between squishyd and squishy-qt
 libbitcoin_server_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 # server: built-in cclib with custom cclib
 libbitcoin_server_a_CPPFLAGS += -DBUILD_CUSTOMCC
@@ -454,19 +454,19 @@ libbitcoin_common_a_SOURCES = \
   key.cpp \
   key_io.cpp \
   keystore.cpp \
-  komodo_structs.cpp \
-  komodo.cpp \
-  komodo_bitcoind.cpp \
-  komodo_ccdata.cpp \
-  komodo_curve25519.cpp \
-  komodo_events.cpp \
-  komodo_gateway.cpp \
-  komodo_globals.cpp \
-  komodo_hardfork.cpp \
-  komodo_interest.cpp \
-  komodo_kv.cpp \
-  komodo_notary.cpp \
-  komodo_utils.cpp \
+  squishy_structs.cpp \
+  squishy.cpp \
+  squishy_bitcoind.cpp \
+  squishy_ccdata.cpp \
+  squishy_curve25519.cpp \
+  squishy_events.cpp \
+  squishy_gateway.cpp \
+  squishy_globals.cpp \
+  squishy_hardfork.cpp \
+  squishy_interest.cpp \
+  squishy_kv.cpp \
+  squishy_notary.cpp \
+  squishy_utils.cpp \
   netbase.cpp \
   metrics.cpp \
   primitives/block.cpp \
@@ -526,15 +526,15 @@ nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-komodod_SOURCES = bitcoind.cpp
-komodod_CPPFLAGS = $(BITCOIN_INCLUDES)
-komodod_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+squishyd_SOURCES = bitcoind.cpp
+squishyd_CPPFLAGS = $(BITCOIN_INCLUDES)
+squishyd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-komodod_SOURCES += bitcoind-res.rc
+squishyd_SOURCES += bitcoind-res.rc
 endif
 
-komodod_LDADD = \
+squishyd_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBUNIVALUE) \
@@ -550,14 +550,14 @@ komodod_LDADD = \
   $(CURL_LIBS)
 
 if ENABLE_ZMQ
-komodod_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+squishyd_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
-komodod_LDADD += $(LIBBITCOIN_WALLET)
+squishyd_LDADD += $(LIBBITCOIN_WALLET)
 endif
 
-komodod_LDADD += \
+squishyd_LDADD += \
   $(LIBCJSON) \
   $(BOOST_LIBS) \
   $(BDB_LIBS) \
@@ -571,12 +571,12 @@ komodod_LDADD += \
   $(LIBSNARK) \
   $(LIBZCASH_LIBS)
 
-komodod_LDADD += $(LIBSECP256K1)
+squishyd_LDADD += $(LIBSECP256K1)
 
 # bitcoin-cli binary #
-komodo_cli_SOURCES = bitcoin-cli.cpp
-komodo_cli_CPPFLAGS = $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-komodo_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+squishy_cli_SOURCES = bitcoin-cli.cpp
+squishy_cli_CPPFLAGS = $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+squishy_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 # wallet-utility binary #
 if ENABLE_WALLET
@@ -591,10 +591,10 @@ endif
 endif
 
 if TARGET_WINDOWS
-komodo_cli_SOURCES += bitcoin-cli-res.rc
+squishy_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-komodo_cli_LDADD = \
+squishy_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL) \
@@ -624,16 +624,16 @@ wallet_utility_LDADD = \
 endif
 
 # zcash-tx binary #
-komodo_tx_SOURCES = komodo-tx.cpp
-komodo_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
-komodo_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+squishy_tx_SOURCES = squishy-tx.cpp
+squishy_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
+squishy_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-komodo_tx_SOURCES += bitcoin-tx-res.rc
+squishy_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
 # FIXME: Is libzcash needed for zcash_tx?
-komodo_tx_LDADD = \
+squishy_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -644,7 +644,7 @@ komodo_tx_LDADD = \
   $(LIBZCASH_LIBS) \
   $(LIBCRYPTOCONDITIONS)
 
-komodo_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+squishy_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # zcash protocol primitives #
@@ -677,7 +677,7 @@ libzcash_a_CXXFLAGS = $(HARDENED_CXXFLAGS) -fwrapv -fno-strict-aliasing
 libzcash_a_CPPFLAGS += -DMONTGOMERY_OUTPUT
 
 # zcashconsensus library #
-if BUILD_KOMODO_LIBS
+if BUILD_SQUISHY_LIBS
 include_HEADERS = script/zcashconsensus.h
 libzcashconsensus_la_SOURCES = \
   crypto/equihash.cpp \

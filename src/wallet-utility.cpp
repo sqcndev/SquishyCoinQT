@@ -8,7 +8,7 @@
 #include "wallet/crypter.h"
 #include <boost/foreach.hpp>
 
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 
 #include "assetchain.h"
 assetchain chainName;
@@ -23,7 +23,7 @@ uint32_t ASSETCHAINS_EQUIHASH = 0;
 uint32_t ASSETCHAINS_ALGO = 0;
 int32_t ASSETCHAINS_OVERWINTER = 227520;
 int32_t ASSETCHAINS_SAPLING = 227520;
-bool IS_KOMODO_TESTNODE = false;
+bool IS_SQUISHY_TESTNODE = false;
 
 unsigned int MAX_BLOCK_SIGOPS = 20000;
 
@@ -357,7 +357,7 @@ int main(int argc, char* argv[])
 }
 
 // function stub to allow build wallet-utility
-bool komodo_is_vSolutionsFixActive()
+bool squishy_is_vSolutionsFixActive()
 {
     return true;
 }

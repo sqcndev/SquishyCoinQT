@@ -152,10 +152,10 @@ bool TryCreateDirectory(const boost::filesystem::path& p);
  */
 boost::filesystem::path GetAppDir();
 /****
- * @brief get the OS-specific default komodod data directory
+ * @brief get the OS-specific default squishyd data directory
  * @note Windows: be "C:\Users\[username]\AppData\Roaming\Komodo"
  * @note Mac: ~/Library/Application Support/Komodo
- * @note Unix: ~/.komodo
+ * @note Unix: ~/.squishy
  * @returns the default path to the Komodo data directory
  */
 boost::filesystem::path GetDefaultDataDir();
@@ -168,7 +168,7 @@ void CreatePidFile(const boost::filesystem::path &path, pid_t pid);
 #endif
 class missing_zcash_conf : public std::runtime_error {
 public:
-    missing_zcash_conf() : std::runtime_error("Missing komodo.conf") { }
+    missing_zcash_conf() : std::runtime_error("Missing squishy.conf") { }
 };
 void ReadConfigFile(std::map<std::string, std::string>& mapSettingsRet, std::map<std::string, std::vector<std::string> >& mapMultiSettingsRet);
 #ifdef _WIN32
@@ -319,7 +319,7 @@ template <typename Callable> void TraceThread(const char* name,  Callable func)
 // split string using by space or comma as a delimiter char
 void SplitStr(const std::string& strVal, std::vector<std::string> &outVals);
 
-#define KOMODO_ASSETCHAIN_MAXLEN 65
+#define SQUISHY_ASSETCHAIN_MAXLEN 65
 
 
 #endif // BITCOIN_UTIL_H

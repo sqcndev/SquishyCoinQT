@@ -19,12 +19,12 @@
 uint256 BuildMerkleTree(bool* fMutated, const std::vector<uint256> leaves, std::vector<uint256> &vMerkleTree);
 uint256 ComputeMerkleRoot(std::vector<uint256> hashes, bool* mutated );
 
-uint256 komodo_calcMoM(int32_t height,int32_t MoMdepth);
+uint256 squishy_calcMoM(int32_t height,int32_t MoMdepth);
 
-struct komodo_ccdata_entry *komodo_allMoMs(int32_t *nump,uint256 *MoMoMp,int32_t kmdstarti,int32_t kmdendi);
+struct squishy_ccdata_entry *squishy_allMoMs(int32_t *nump,uint256 *MoMoMp,int32_t kmdstarti,int32_t kmdendi);
 
-int32_t komodo_addpair(struct komodo_ccdataMoMoM *mdata,int32_t notarized_height,int32_t offset,int32_t maxpairs);
+int32_t squishy_addpair(struct squishy_ccdataMoMoM *mdata,int32_t notarized_height,int32_t offset,int32_t maxpairs);
 
-int32_t komodo_MoMoMdata(char *hexstr,int32_t hexsize,struct komodo_ccdataMoMoM *mdata,char *symbol,int32_t kmdheight,int32_t notarized_height);
+int32_t squishy_MoMoMdata(char *hexstr,int32_t hexsize,struct squishy_ccdataMoMoM *mdata,char *symbol,int32_t kmdheight,int32_t notarized_height);
 
-void komodo_purge_ccdata(int32_t height);
+void squishy_purge_ccdata(int32_t height);

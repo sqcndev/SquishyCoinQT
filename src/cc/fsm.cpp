@@ -15,7 +15,7 @@
 
 #include "CCfsm.h"
 #include "../txmempool.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 /*
  FSM CC is a highlevel CC contract that mostly uses other CC contracts. A finite state machine is defined, which combines triggers, payments and whatever other events/actions into a state machine
@@ -158,7 +158,7 @@ std::string FSMList()
 
 std::string FSMCreate(uint64_t txfee,std::string name,std::string states)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk,fsmpk; CScript opret; int64_t inputs,CCchange=0,nValue=COIN; struct CCcontract_info *cp,C;
     cp = CCinit(&C,EVAL_FSM);
     if ( txfee == 0 )
@@ -179,7 +179,7 @@ std::string FSMCreate(uint64_t txfee,std::string name,std::string states)
 
 std::string FSMInfo(uint256 fsmtxid)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey mypk,fsmpk; int64_t funds = 0; CScript opret; struct CCcontract_info *cp,C;
     cp = CCinit(&C,EVAL_FSM);
     mypk = pubkey2pk(Mypubkey());

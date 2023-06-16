@@ -37,8 +37,8 @@ char whoami[MAXSTR];
 #define SMALLVAL 0.000000000000001
 #define SATOSHIDEN ((uint64_t)100000000L)
 #define dstr(x) ((double)(x) / SATOSHIDEN)
-#define KOMODO_ASSETCHAIN_MAXLEN 65
-char ASSETCHAINS_SYMBOL[KOMODO_ASSETCHAIN_MAXLEN];
+#define SQUISHY_ASSETCHAIN_MAXLEN 65
+char ASSETCHAINS_SYMBOL[SQUISHY_ASSETCHAIN_MAXLEN];
 char IPADDRESS[100];
 
 #ifdef _WIN32
@@ -133,9 +133,9 @@ int32_t safecopy(char *dest,char *src,long len)
 #define true 1
 #define false 0
 //#ifdef STANDALONE
-//#include "../komodo/src/komodo_cJSON.c"
+//#include "../squishy/src/squishy_cJSON.c"
 //#else
-#include "../komodo_cJSON.c"
+#include "../squishy_cJSON.c"
 //#endif
 
 int32_t games_replay(uint64_t seed,int32_t sleeptime);
@@ -499,7 +499,7 @@ char *curl_post(CURL **cHandlep,char *url,char *userpass,char *postfields,char *
     return(chunk.memory);
 }
 
-uint16_t _komodo_userpass(char *username, char *password, FILE *fp)
+uint16_t _squishy_userpass(char *username, char *password, FILE *fp)
 {
     char *rpcuser,*rpcpassword,*str,*ipaddress,line[8192]; uint16_t port = 0;
     rpcuser = rpcpassword = 0;
@@ -537,22 +537,22 @@ uint16_t _komodo_userpass(char *username, char *password, FILE *fp)
     return(port);
 }
 
-uint16_t komodo_userpass(char *userpass,const char *symbol)
+uint16_t squishy_userpass(char *userpass,const char *symbol)
 {
-    FILE *fp; uint16_t port = 0; char fname[512],username[512],password[512],confname[KOMODO_ASSETCHAIN_MAXLEN];
+    FILE *fp; uint16_t port = 0; char fname[512],username[512],password[512],confname[SQUISHY_ASSETCHAIN_MAXLEN];
     userpass[0] = 0;
     if ( strcmp("KMD",symbol) == 0 )
     {
 #ifdef __APPLE__
         sprintf(confname,"Komodo.conf");
 #else
-        sprintf(confname,"komodo.conf");
+        sprintf(confname,"squishy.conf");
 #endif
     }
     else sprintf(confname,"%s.conf",symbol);
     if ( (fp= fopen(confname,"rb")) != 0 )
     {
-        port = _komodo_userpass(username,password,fp);
+        port = _squishy_userpass(username,password,fp);
         sprintf(userpass,"%s:%s",username,password);
         if ( strcmp(symbol,ASSETCHAINS_SYMBOL) == 0 )
             strcpy(USERPASS,userpass);
@@ -563,7 +563,7 @@ uint16_t komodo_userpass(char *userpass,const char *symbol)
 
 #define is_cJSON_True(json) ((json) != 0 && ((json)->type & 0xff) == cJSON_True)
 
-char *komodo_issuemethod(char *userpass,char *method,char *params,uint16_t port)
+char *squishy_issuemethod(char *userpass,char *method,char *params,uint16_t port)
 {
     //static void *cHandle;
     char url[512],*retstr=0,*retstr2=0,postdata[8192];
@@ -583,7 +583,7 @@ int32_t games_sendrawtransaction(char *rawtx)
     char *params,*retstr,*hexstr; cJSON *retjson,*resobj; int32_t retval = -1;
     params = (char *)malloc(strlen(rawtx) + 16);
     sprintf(params,"[\"%s\"]",rawtx);
-    if ( (retstr= komodo_issuemethod(USERPASS,(char *)"sendrawtransaction",params,GAMES_PORT)) != 0 )
+    if ( (retstr= squishy_issuemethod(USERPASS,(char *)"sendrawtransaction",params,GAMES_PORT)) != 0 )
     {
         if ( 0 ) // causes 4th level crash
         {
@@ -660,7 +660,7 @@ int32_t games_progress(struct games_state *rs,int32_t waitflag,uint64_t seed,gam
         if ( fp == 0 )
             fp = fopen("keystrokes.log","a");
         sprintf(params,"[\"keystrokes\",\"17\",\"[%%22%s%%22,%%22%s%%22]\"]",Gametxidstr,hexstr);
-        if ( (retstr= komodo_issuemethod(USERPASS,(char *)"cclib",params,GAMES_PORT)) != 0 )
+        if ( (retstr= squishy_issuemethod(USERPASS,(char *)"cclib",params,GAMES_PORT)) != 0 )
         {
             if ( fp != 0 )
             {
@@ -862,7 +862,7 @@ int32_t games_setplayerdata(struct games_state *rs,char *gametxidstr)
     if ( 0 )
     {
         sprintf(fname,"%s.gameinfo",gametxidstr);
-        sprintf(cmd,"./komodo-cli -ac_name=%s cclib gameinfo 17 \\\"[%%22%s%%22]\\\" > %s",ASSETCHAINS_SYMBOL,gametxidstr,fname);
+        sprintf(cmd,"./squishy-cli -ac_name=%s cclib gameinfo 17 \\\"[%%22%s%%22]\\\" > %s",ASSETCHAINS_SYMBOL,gametxidstr,fname);
         if ( system(cmd) != 0 )
             fprintf(stderr,"error issuing (%s)\n",cmd);
         else filestr = (char *)OS_fileptr(&allocsize,fname);
@@ -870,7 +870,7 @@ int32_t games_setplayerdata(struct games_state *rs,char *gametxidstr)
     else
     {
         sprintf(params,"[\"gameinfo\",\"17\",\"[%%22%s%%22]\"]",gametxidstr);
-        filestr = komodo_issuemethod(USERPASS,(char *)"cclib",params,GAMES_PORT);
+        filestr = squishy_issuemethod(USERPASS,(char *)"cclib",params,GAMES_PORT);
     }
     if ( filestr != 0 )
     {
@@ -969,7 +969,7 @@ int main(int argc, char **argv)
 #endif
     strcpy(ASSETCHAINS_SYMBOL,CHAINNAME);
     
-    GAMES_PORT = komodo_userpass(userpass,ASSETCHAINS_SYMBOL);
+    GAMES_PORT = squishy_userpass(userpass,ASSETCHAINS_SYMBOL);
     if ( IPADDRESS[0] == 0 )
         strcpy(IPADDRESS,"127.0.0.1");
     printf("ASSETCHAINS_SYMBOL.(%s) port.%u (%s) IPADDRESS.%s \n",ASSETCHAINS_SYMBOL,GAMES_PORT,USERPASS,IPADDRESS); sleep(1);
@@ -997,7 +997,7 @@ int main(int argc, char **argv)
             fclose(fp);
         if ( GAMES_PORT == 0 )
         {
-            printf("you must copy %s.conf from ~/.komodo/%s/%s.conf (or equivalent location) to current dir\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_SYMBOL,ASSETCHAINS_SYMBOL);
+            printf("you must copy %s.conf from ~/.squishy/%s/%s.conf (or equivalent location) to current dir\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_SYMBOL,ASSETCHAINS_SYMBOL);
             return(-1);
         }
         return(GAMEMAIN(argc,argv));

@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_KOMODOADDRESSVALIDATOR_H
-#define KOMODO_QT_KOMODOADDRESSVALIDATOR_H
+#ifndef SQUISHY_QT_SQUISHYADDRESSVALIDATOR_H
+#define SQUISHY_QT_SQUISHYADDRESSVALIDATOR_H
 
 #include <QValidator>
 
@@ -22,7 +22,7 @@ private:
     bool _allowZAddresses;
 };
 
-/** Komodo address widget validator, checks for a valid komodo address.
+/** Komodo address widget validator, checks for a valid squishy address.
  */
 class KomodoAddressCheckValidator : public QValidator
 {
@@ -36,4 +36,4 @@ private:
     bool _allowZAddresses;
 };
 
-#endif // KOMODO_QT_KOMODOADDRESSVALIDATOR_H
+#endif // SQUISHY_QT_SQUISHYADDRESSVALIDATOR_H

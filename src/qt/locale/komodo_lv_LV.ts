@@ -218,12 +218,12 @@
         <translation>Ciļņu rīkjosla</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Pieprasīt maksājumus (izveido QR kodu un komodo: URIs)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Pieprasīt maksājumus (izveido QR kodu un squishy: URIs)</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Atvērt komodo URI vai maksājuma pieprasījumu</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Atvērt squishy URI vai maksājuma pieprasījumu</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -499,7 +499,7 @@
     </message>
     <message>
         <source>Enable coin &amp;control features</source>
-        <translation>Ieslēgt komodo &amp;kontroles funkcijas</translation>
+        <translation>Ieslēgt squishy &amp;kontroles funkcijas</translation>
     </message>
     <message>
         <source>&amp;Spend unconfirmed change</source>
@@ -1098,7 +1098,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Iespējas:</translation>

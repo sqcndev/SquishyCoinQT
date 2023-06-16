@@ -70,7 +70,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../komodo.qrc">
+         <iconset resource="../squishy.qrc">
           <normaloff>:/icons/address-book</normaloff>:/icons/address-book</iconset>
         </property>
         <property name="iconSize">
@@ -93,7 +93,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../komodo.qrc">
+         <iconset resource="../squishy.qrc">
           <normaloff>:/icons/editpaste</normaloff>:/icons/editpaste</iconset>
         </property>
         <property name="iconSize">
@@ -116,7 +116,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../komodo.qrc">
+         <iconset resource="../squishy.qrc">
           <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
         </property>
         <property name="iconSize">
@@ -206,7 +206,7 @@
     <item row="3" column="1">
      <widget class="QLabel" name="messageTextLabel">
       <property name="toolTip">
-       <string>A message that was attached to the komodo: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</string>
+       <string>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</string>
       </property>
       <property name="textFormat">
        <enum>Qt::PlainText</enum>
@@ -678,7 +678,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../komodo.qrc">
+         <iconset resource="../squishy.qrc">
           <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
         </property>
        </widget>
@@ -1211,7 +1211,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../komodo.qrc">
+         <iconset resource="../squishy.qrc">
           <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
         </property>
        </widget>
@@ -1267,7 +1267,7 @@
   <customwidget>
    <class>KomodoAmountField</class>
    <extends>QLineEdit</extends>
-   <header>komodoamountfield.h</header>
+   <header>squishyamountfield.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -1284,7 +1284,7 @@
   <tabstop>deleteButton_s</tabstop>
  </tabstops>
  <resources>
-  <include location="../komodo.qrc"/>
+  <include location="../squishy.qrc"/>
  </resources>
  <connections/>
 </ui>

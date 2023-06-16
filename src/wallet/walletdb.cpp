@@ -30,8 +30,8 @@
 #include "utiltime.h"
 #include "wallet/wallet.h"
 #include "zcash/Proof.hpp"
-#include "komodo_defs.h"
-#include "komodo_bitcoind.h"
+#include "squishy_defs.h"
+#include "squishy_bitcoind.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
@@ -998,7 +998,7 @@ DBErrors CWalletDB::LoadWallet(CWallet* pwallet)
             if (!EraseTx(hash))
                 fprintf(stderr, "could not delete tx.%s\n",hash.ToString().c_str());
             uint256 blockhash; CTransaction tx; CBlockIndex* pindex;
-            if ( GetTransaction(hash,tx,blockhash,false) && (pindex= komodo_blockindex(blockhash)) != 0 && chainActive.Contains(pindex) )
+            if ( GetTransaction(hash,tx,blockhash,false) && (pindex= squishy_blockindex(blockhash)) != 0 && chainActive.Contains(pindex) )
             {
                 CWalletTx wtx(pwallet,tx);
                 pwallet->AddToWallet(wtx, true, NULL);

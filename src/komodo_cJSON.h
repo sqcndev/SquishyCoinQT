@@ -63,7 +63,7 @@ extern "C"
 {
 #endif
 
-//#include "komodo_cutils.h"
+//#include "squishy_cutils.h"
 
     /* Macros for creating things quickly. */
 #define cJSON_AddNullToObject(object,name)		cJSON_AddItemToObject(object, name, cJSON_CreateNull())

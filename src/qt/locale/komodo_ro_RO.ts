@@ -230,8 +230,8 @@
         <translation>Bara de unelte</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Cereţi plăţi (generează coduri QR şi komodo-uri: URls)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Cereţi plăţi (generează coduri QR şi squishy-uri: URls)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -242,8 +242,8 @@
         <translation>Arată lista de adrese pentru primire şi etichetele</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Deschidere komodo: o adresa URI sau o cerere de plată</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Deschidere squishy: o adresa URI sau o cerere de plată</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -725,7 +725,7 @@
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Alegeţi subdiviziunea folosită la afişarea interfeţei şi la trimiterea de komodo.</translation>
+        <translation>Alegeţi subdiviziunea folosită la afişarea interfeţei şi la trimiterea de squishy.</translation>
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
@@ -765,7 +765,7 @@
     </message>
     <message>
         <source>The supplied proxy address is invalid.</source>
-        <translation>Adresa komodo pe care aţi specificat-o nu este validă.</translation>
+        <translation>Adresa squishy pe care aţi specificat-o nu este validă.</translation>
     </message>
 </context>
 <context>
@@ -1385,7 +1385,7 @@
     </message>
     <message>
         <source>The Komodo address to send the payment to</source>
-        <translation>Adresa komodo către care se face plata</translation>
+        <translation>Adresa squishy către care se face plata</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1412,8 +1412,8 @@
         <translation>Introduceţi eticheta pentru ca această adresa să fie introdusă în lista de adrese folosite</translation>
     </message>
     <message>
-        <source>A message that was attached to the komodo: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
-        <translation>un mesaj a fost ataşat la komodo: URI care va fi stocat cu tranzacţia pentru referinţa dvs. Notă: Acest mesaj nu va fi trimis către reţeaua komodo.</translation>
+        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
+        <translation>un mesaj a fost ataşat la squishy: URI care va fi stocat cu tranzacţia pentru referinţa dvs. Notă: Acest mesaj nu va fi trimis către reţeaua squishy.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -1568,7 +1568,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Opţiuni:</translation>

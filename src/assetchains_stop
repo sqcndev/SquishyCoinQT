@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
-komodo_cli='./komodo-cli'
+squishy_cli='./squishy-cli'
 
 ./listassetchains | while read chain; do
-  $komodo_cli --ac_name=$chain stop
+  $squishy_cli --ac_name=$chain stop
 done

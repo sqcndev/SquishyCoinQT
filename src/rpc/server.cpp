@@ -848,9 +848,9 @@ std::vector<std::string> CRPCTable::listCommands() const
 std::string HelpExampleCli(const std::string& methodname, const std::string& args)
 {
     if ( chainName.isKMD() ) {
-        return "> komodo-cli " + methodname + " " + args + "\n";
+        return "> squishy-cli " + methodname + " " + args + "\n";
     } else {
-        return "> komodo-cli -ac_name=" + strprintf("%s", chainName.symbol().c_str()) + " " + methodname + " " + args + "\n";
+        return "> squishy-cli -ac_name=" + strprintf("%s", chainName.symbol().c_str()) + " " + methodname + " " + args + "\n";
     }
 }
 
@@ -862,8 +862,8 @@ std::string HelpExampleRpc(const std::string& methodname, const std::string& arg
 
 string experimentalDisabledHelpMsg(const string& rpc, const string& enableArg)
 {
-    string daemon = "komodod";
-    string ticker = chainName.isKMD() ? "komodo" : chainName.symbol();
+    string daemon = "squishyd";
+    string ticker = chainName.isKMD() ? "squishy" : chainName.symbol();
 
     return "\nWARNING: " + rpc + " is disabled.\n"
         "To enable it, restart " + daemon + " with the -experimentalfeatures and\n"

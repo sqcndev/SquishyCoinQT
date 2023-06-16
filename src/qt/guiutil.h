@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_GUIUTIL_H
-#define KOMODO_QT_GUIUTIL_H
+#ifndef SQUISHY_QT_GUIUTIL_H
+#define SQUISHY_QT_GUIUTIL_H
 
 #include "amount.h"
 #include "fs.h"
@@ -44,7 +44,7 @@ namespace GUIUtil
     void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent, bool allowZAddresses = false);
     void setupAmountWidget(QLineEdit *widget, QWidget *parent);
 
-    // Parse "komodo:" URI into recipient object, return true on successful parsing
+    // Parse "squishy:" URI into recipient object, return true on successful parsing
     bool parseKomodoURI(const QUrl &uri, SendCoinsRecipient *out);
     bool parseKomodoURI(QString uri, SendCoinsRecipient *out);
     QString formatKomodoURI(const SendCoinsRecipient &info);
@@ -246,4 +246,4 @@ namespace GUIUtil
 
 } // namespace GUIUtil
 
-#endif // KOMODO_QT_GUIUTIL_H
+#endif // SQUISHY_QT_GUIUTIL_H

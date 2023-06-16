@@ -12,18 +12,18 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo_ccdata.h"
-#include "komodo_globals.h"
-#include "komodo_bitcoind.h"
-#include "komodo_extern_globals.h"
-#include "komodo_utils.h" // portable_mutex_lock
-#include "komodo_notary.h" // komodo_npptr
+#include "squishy_ccdata.h"
+#include "squishy_globals.h"
+#include "squishy_bitcoind.h"
+#include "squishy_extern_globals.h"
+#include "squishy_utils.h" // portable_mutex_lock
+#include "squishy_notary.h" // squishy_npptr
 
-struct komodo_ccdata *CC_data;
+struct squishy_ccdata *CC_data;
 // int32_t CC_firstheight;
-pthread_mutex_t KOMODO_CC_mutex; 
+pthread_mutex_t SQUISHY_CC_mutex; 
 
-uint256 komodo_calcMoM(int32_t height,int32_t MoMdepth)
+uint256 squishy_calcMoM(int32_t height,int32_t MoMdepth)
 {
     static uint256 zero; CBlockIndex *pindex; int32_t i; std::vector<uint256> tree, leaves;
     bool fMutated;
@@ -32,7 +32,7 @@ uint256 komodo_calcMoM(int32_t height,int32_t MoMdepth)
         return(zero);
     for (i=0; i<MoMdepth; i++)
     {
-        if ( (pindex= komodo_chainactive(height - i)) != 0 )
+        if ( (pindex= squishy_chainactive(height - i)) != 0 )
             leaves.push_back(pindex->hashMerkleRoot);
         else
             return(zero);
@@ -41,12 +41,12 @@ uint256 komodo_calcMoM(int32_t height,int32_t MoMdepth)
     return ComputeMerkleRoot(leaves, &fMutated);
 }
 
-struct komodo_ccdata_entry *komodo_allMoMs(int32_t *nump,uint256 *MoMoMp,int32_t kmdstarti,int32_t kmdendi)
+struct squishy_ccdata_entry *squishy_allMoMs(int32_t *nump,uint256 *MoMoMp,int32_t kmdstarti,int32_t kmdendi)
 {
-    struct komodo_ccdata_entry *allMoMs=0; struct komodo_ccdata *ccdata,*tmpptr; int32_t i,num,max;
+    struct squishy_ccdata_entry *allMoMs=0; struct squishy_ccdata *ccdata,*tmpptr; int32_t i,num,max;
     bool fMutated; std::vector<uint256> tree, leaves;
     num = max = 0;
-    portable_mutex_lock(&KOMODO_CC_mutex);
+    portable_mutex_lock(&SQUISHY_CC_mutex);
     DL_FOREACH_SAFE(CC_data,ccdata,tmpptr)
     {
         if ( ccdata->MoMdata.height <= kmdendi && ccdata->MoMdata.height >= kmdstarti )
@@ -54,7 +54,7 @@ struct komodo_ccdata_entry *komodo_allMoMs(int32_t *nump,uint256 *MoMoMp,int32_t
             if ( num >= max )
             {
                 max += 100;
-                allMoMs = (struct komodo_ccdata_entry *)realloc(allMoMs,max * sizeof(*allMoMs));
+                allMoMs = (struct squishy_ccdata_entry *)realloc(allMoMs,max * sizeof(*allMoMs));
             }
             allMoMs[num].MoM = ccdata->MoMdata.MoM;
             allMoMs[num].notarized_height = ccdata->MoMdata.notarized_height;
@@ -66,7 +66,7 @@ struct komodo_ccdata_entry *komodo_allMoMs(int32_t *nump,uint256 *MoMoMp,int32_t
         if ( ccdata->MoMdata.height < kmdstarti )
             break;
     }
-    portable_mutex_unlock(&KOMODO_CC_mutex);
+    portable_mutex_unlock(&SQUISHY_CC_mutex);
     if ( (*nump= num) > 0 )
     {
         for (i=0; i<num; i++)
@@ -82,17 +82,17 @@ struct komodo_ccdata_entry *komodo_allMoMs(int32_t *nump,uint256 *MoMoMp,int32_t
     return(allMoMs);
 }
 
-int32_t komodo_addpair(struct komodo_ccdataMoMoM *mdata,int32_t notarized_height,int32_t offset,int32_t maxpairs)
+int32_t squishy_addpair(struct squishy_ccdataMoMoM *mdata,int32_t notarized_height,int32_t offset,int32_t maxpairs)
 {
     if ( maxpairs >= 0) {
         if ( mdata->numpairs >= maxpairs )
         {
             maxpairs += 100;
-            mdata->pairs = (struct komodo_ccdatapair *)realloc(mdata->pairs,sizeof(*mdata->pairs)*maxpairs);
+            mdata->pairs = (struct squishy_ccdatapair *)realloc(mdata->pairs,sizeof(*mdata->pairs)*maxpairs);
             //LogPrintf("pairs reallocated to %p num.%d\n",mdata->pairs,mdata->numpairs);
         }
     } else {
-        LogPrintf("komodo_addpair.maxpairs %d must be >= 0\n",(int32_t)maxpairs);
+        LogPrintf("squishy_addpair.maxpairs %d must be >= 0\n",(int32_t)maxpairs);
         return(-1);
     }
     mdata->pairs[mdata->numpairs].notarized_height = notarized_height;
@@ -101,9 +101,9 @@ int32_t komodo_addpair(struct komodo_ccdataMoMoM *mdata,int32_t notarized_height
     return(maxpairs);
 }
 
-int32_t komodo_MoMoMdata(char *hexstr,int32_t hexsize,struct komodo_ccdataMoMoM *mdata,char *symbol,int32_t kmdheight,int32_t notarized_height)
+int32_t squishy_MoMoMdata(char *hexstr,int32_t hexsize,struct squishy_ccdataMoMoM *mdata,char *symbol,int32_t kmdheight,int32_t notarized_height)
 {
-    uint8_t hexdata[8192]; struct komodo_ccdata *ccdata,*tmpptr; int32_t len,maxpairs,i,retval=-1,depth,starti,endi,CCid=0; struct komodo_ccdata_entry *allMoMs;
+    uint8_t hexdata[8192]; struct squishy_ccdata *ccdata,*tmpptr; int32_t len,maxpairs,i,retval=-1,depth,starti,endi,CCid=0; struct squishy_ccdata_entry *allMoMs;
     starti = endi = depth = len = maxpairs = 0;
     hexstr[0] = 0;
     if ( sizeof(hexdata)*2+1 > hexsize )
@@ -112,7 +112,7 @@ int32_t komodo_MoMoMdata(char *hexstr,int32_t hexsize,struct komodo_ccdataMoMoM 
         return(-1);
     }
     memset(mdata,0,sizeof(*mdata));
-    portable_mutex_lock(&KOMODO_CC_mutex);
+    portable_mutex_lock(&SQUISHY_CC_mutex);
     DL_FOREACH_SAFE(CC_data,ccdata,tmpptr)
     {
         if ( ccdata->MoMdata.height < kmdheight )
@@ -136,18 +136,18 @@ int32_t komodo_MoMoMdata(char *hexstr,int32_t hexsize,struct komodo_ccdataMoMoM 
             starti = ccdata->MoMdata.height;
         }
     }
-    portable_mutex_unlock(&KOMODO_CC_mutex);
+    portable_mutex_unlock(&SQUISHY_CC_mutex);
     mdata->kmdstarti = starti;
     mdata->kmdendi = endi;
     if ( starti != 0 && endi != 0 && endi >= starti )
     {
-        if ( (allMoMs= komodo_allMoMs(&depth,&mdata->MoMoM,starti,endi)) != 0 )
+        if ( (allMoMs= squishy_allMoMs(&depth,&mdata->MoMoM,starti,endi)) != 0 )
         {
             mdata->MoMoMdepth = depth;
             for (i=0; i<depth; i++)
             {
                 if ( strcmp(symbol,allMoMs[i].symbol) == 0 )
-                    maxpairs = komodo_addpair(mdata,allMoMs[i].notarized_height,i,maxpairs);
+                    maxpairs = squishy_addpair(mdata,allMoMs[i].notarized_height,i,maxpairs);
             }
             if ( mdata->numpairs > 0 )
             {
@@ -180,12 +180,12 @@ int32_t komodo_MoMoMdata(char *hexstr,int32_t hexsize,struct komodo_ccdataMoMoM 
     return(retval);
 }
 
-void komodo_purge_ccdata(int32_t height)
+void squishy_purge_ccdata(int32_t height)
 {
-    struct komodo_ccdata *ccdata,*tmpptr;
+    struct squishy_ccdata *ccdata,*tmpptr;
     if ( chainName.isKMD() )
     {
-        portable_mutex_lock(&KOMODO_CC_mutex);
+        portable_mutex_lock(&SQUISHY_CC_mutex);
         DL_FOREACH_SAFE(CC_data,ccdata,tmpptr)
         {
             if ( ccdata->MoMdata.height >= height )
@@ -195,7 +195,7 @@ void komodo_purge_ccdata(int32_t height)
                 free(ccdata);
             } else break;
         }
-        portable_mutex_unlock(&KOMODO_CC_mutex);
+        portable_mutex_unlock(&SQUISHY_CC_mutex);
     }
     else
     {

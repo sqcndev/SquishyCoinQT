@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "komodounits.h"
-#include "komodo_defs.h"
+#include "squishyunits.h"
+#include "squishy_defs.h"
 
 #include "primitives/transaction.h"
 

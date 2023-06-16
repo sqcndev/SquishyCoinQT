@@ -418,7 +418,7 @@
     </message>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Komodo Core</source>
         <translation>Komodo ядро</translation>

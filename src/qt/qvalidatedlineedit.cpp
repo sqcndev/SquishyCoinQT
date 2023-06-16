@@ -4,7 +4,7 @@
 
 #include "qvalidatedlineedit.h"
 
-#include "komodoaddressvalidator.h"
+#include "squishyaddressvalidator.h"
 #include "guiconstants.h"
 
 QValidatedLineEdit::QValidatedLineEdit(QWidget *parent) :

@@ -21,7 +21,7 @@
 #include "key_io.h"
 #include "main.h"
 #include "crypto/equihash.h"
-#include "komodo_globals.h"
+#include "squishy_globals.h"
 #include "util.h"
 #include "utilstrencodings.h"
 
@@ -90,7 +90,7 @@ static CBlock CreateGenesisBlock(uint32_t nTime, const uint256& nNonce, const st
  * + Contains no strange transactions
  */
 void *chainparams_commandline();
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 int32_t ASSETCHAINS_BLOCKTIME = 60;
 uint64_t ASSETCHAINS_NK[2];
 
@@ -166,7 +166,7 @@ public:
         genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
         genesis.nVersion = 1;
         genesis.nTime    = 1231006505;
-        genesis.nBits    = KOMODO_MINDIFF_NBITS;
+        genesis.nBits    = SQUISHY_MINDIFF_NBITS;
         genesis.nNonce   = uint256S("0x000000000000000000000000000000000000000000000000000000000000000b");
         genesis.nSolution = ParseHex("000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2");
 
@@ -182,14 +182,14 @@ public:
         assert(genesis.hashMerkleRoot == uint256S("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("komodoseeds.org", "kmd.komodoseeds.org")); // decker
+        vSeeds.push_back(CDNSSeedData("squishyseeds.org", "kmd.squishyseeds.org")); // decker
         vSeeds.push_back(CDNSSeedData("kmd.sh", "seeds1.kmd.sh")); // decker
         vSeeds.push_back(CDNSSeedData("cipig.net", "kmdseed.cipig.net")); // cipig
         vSeeds.push_back(CDNSSeedData("lordofthechains.com", "kmdseeds.lordofthechains.com")); // gcharang
 
         /*
-        vSeeds.push_back(CDNSSeedData("komodoseeds.com", "kmd.komodoseeds.com"));
-        vSeeds.push_back(CDNSSeedData("komodoseeds.com", "dynamic.komodoseeds.com"));
+        vSeeds.push_back(CDNSSeedData("squishyseeds.com", "kmd.squishyseeds.com"));
+        vSeeds.push_back(CDNSSeedData("squishyseeds.com", "dynamic.squishyseeds.com"));
         */
 
         // TODO: we need more seed crawlers from other community members
@@ -404,7 +404,7 @@ public:
         genesis = CreateGenesisBlock(1296688602, 
                 uint256S("0x000000000000000000000000000000000000000000000000000000000000000a"),
                 ParseHex("008b6bd48ca3ef23bfa3d34885483158e089ad887539fd33950f2d78d5720e39769165aa7b2c679b65060e209249f54e3279e8bf31ec13781184b109aaee6e3db57260b466ce8182122b564ce43ca77b011ea1fa038f0139e98e923b0eb1929a80b622cdb72cd5505f275b7cf0e89892ff37f53b010f5ba1fb78bedead4a0c4d39f8319605d358e36a0a0e5e5cdb25a2ffff9320f57569f7270857e2d87287fa71c24d36611b2ac502ffffdbbe425ca71b09b1f0255a66f26356fae7f210227d79e3ea9fe99f7d5e5b05febdf3a54dfec02507bdb85ff409773ce56441191734059a11d9d4c481554fbe6c93b1a93be2cfc707d146e4c28966de5ced066fc85f548fd146c9cd086fafdbf982c3c099394e0a25a5e4670dea2673e84886f5fa765a8a5f1ff3a307680a20e520b1f3d21714eb3efca769f182106a6d193aae881461a64b55d98668eb7f7b92c3527eb75b044d01ffff427d9157c301e5b69fa09776009f53c30551484020fabbb3d664c106d72844b540c133bc67048ad4ca0082ad42848e146dac76b55e3ba51937c412c817034e1e67fb3d909347d42d198599f28df8ee0fa9bd9c180beb0fad03f265a8bbbfb6ce1bff1d8223c9ea28748983393fbf1b8364e449d331b8ffb8363dfab5728c5f34b1e4cd03e3a758c3e5280994a44a47fed5f84b13bc67df9074dac4b7288d927e1b8ef50a7afc01ea4b798d6025415f26d15dc506c96896b530af775fb3648ddf983f59bb10536e1e74a6bee4640ed3275bbdceb79520ec81618ac7087e06baba12432671e185b6e1706523edd26d07435bf5289c5f703f0b6703fbfc56e46b421ca9ca325e281387353daa33274925b44ea4a7c939ef13ec6f38941ed13c7a9ae5253dba2119a0b8b1401f73d503e2c7252dd9507d305cf9dcb5f3db29214bb6c7be8b5654421baefbdc7701408f5ab4d652879d54e4e4ad6dc3c1b49835ae7e2ca806e302d33657ada2c8b86b716a239d409fafdb05a547952f6aafd5d9dd60f76070b0ee12605815ad36fca1c3bc231b15428ce6412fd37d2f27255eb19b060aadf47e0c1b67b0911459505bc9fdfd1875fdac31362dd434ab4e297b9478b74f5efdaac35e7b3deb07b2125aaf07483dd104d6e43161506a0e1b14fd7a13b729f771ca5e2a5e53c2d6eb96f66a66a4581c87018fa98856630ab1dead01afbe62c280c697d96e6d056afb94a4cca2e6d63bc866f5dceb9a5d2a38b3bb11e109de75d17e6116aad2514b5ababe09f99ddf2c130cdd7866129fa103cdb2ec9d2a44853c8bf9c31201ec1b89cca7f31542da558f57645c4e897e9e9d1038be3a796eaf1cafa8f6d69897426c5e7b8f3933c004eb3113898ac5295fb31245494b63fdf5227ece5714a13469fd86ec944b8b9924cc67ab86561f73fdb3060c8acf9a255ca96834038ef1383f69733876bc7f2524ebe92eb01049bc6863835220a555e496bb17e7067d3427f209fb00a46e48082a549af2fdd23cc7cc0b96923fd695642389a1db1a457ac5874f7c5c62e407ba7a7248f04807c516c0ba5c08194d3f1b1fa78f0841f062529d5d9354091d8fb9fecb777df7bd3508174f66a13f1d7d272cd4145762b25841ae9c3e9351209ac43d2dcb542d4ccd64b19367b56d7772fed9b00630fe9567036fd4bb1d67d2665c12c2547fd4a112128512ea4bf1d9d1f68d421c3bde90d8c22cde1aa40a257a8a0089b9b4e8aff50fb2d41cf152be7ecc892ffaa22d162a50e1f24be74207756c46370531cf9f07094d789c8758f9260214cbe6463376cc6f5fb26211740a59a68a97d27bb7e152f91d0ff8f431d3569e08420d79e957df36d4e2c601406046df386abf944f19730acd2b4bbd715cd321c7f54c8e61bf2cf73019"),
-                KOMODO_MINDIFF_NBITS, 1, COIN);
+                SQUISHY_MINDIFF_NBITS, 1, COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
 
         vFixedSeeds.clear();
@@ -498,7 +498,7 @@ public:
             1296688602,
             uint256S("0x0000000000000000000000000000000000000000000000000000000000000009"),
             ParseHex("01936b7db1eb4ac39f151b8704642d0a8bda13ec547d54cd5e43ba142fc6d8877cab07b3"),
-            KOMODO_MINDIFF_NBITS, 4, 0);
+            SQUISHY_MINDIFF_NBITS, 4, 0);
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x029f11d80ef9765602235e1bc9727e3eb6ba20839319f761fee920d63401e327"));
         assert(genesis.hashMerkleRoot == uint256S("0xc4eaa58879081de3c24a7b117ed2b28300e7ec4c4c1dff1d3f1268b7857a4ddb"));
@@ -643,7 +643,7 @@ int32_t MAX_BLOCK_SIZE(int32_t height)
     else return(2000000);
 }
 
-void komodo_setactivation(int32_t height)
+void squishy_setactivation(int32_t height)
 {
     pCurrentParams->consensus.vUpgrades[Consensus::UPGRADE_SAPLING].nActivationHeight = height;
     pCurrentParams->consensus.vUpgrades[Consensus::UPGRADE_OVERWINTER].nActivationHeight = height;
@@ -667,7 +667,7 @@ void *chainparams_commandline()
             pCurrentParams->SetNValue(ASSETCHAINS_NK[0]);
             pCurrentParams->SetKValue(ASSETCHAINS_NK[1]);
         }
-        if ( IS_KOMODO_TESTNODE )
+        if ( IS_SQUISHY_TESTNODE )
             pCurrentParams->SetMiningRequiresPeers(false);
         if ( ASSETCHAINS_RPCPORT == 0 )
             ASSETCHAINS_RPCPORT = ASSETCHAINS_P2PPORT + 1;

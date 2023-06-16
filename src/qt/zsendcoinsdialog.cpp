@@ -7,7 +7,7 @@
 #include "ui_zsendcoinsdialog.h"
 
 #include "addresstablemodel.h"
-#include "komodounits.h"
+#include "squishyunits.h"
 #include "clientmodel.h"
 #include "coincontroldialog.h"
 #include "guiutil.h"

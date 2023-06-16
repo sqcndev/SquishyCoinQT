@@ -9,10 +9,10 @@
 #include "chain.h"
 #include "main.h"
 
-#include "komodo_utils.h"
-#include "komodo_extern_globals.h"
+#include "squishy_utils.h"
+#include "squishy_extern_globals.h"
 
-// ./komodo-test --gtest_filter=TestHarakaRemoval.*
+// ./squishy-test --gtest_filter=TestHarakaRemoval.*
 namespace TestHarakaRemoval {
 
     BlockMap mapBlockIndex;
@@ -92,8 +92,8 @@ namespace TestHarakaRemoval {
         CVerusHash::init();
         for (size_t i = 0; i < sizeof(blockHeights)/sizeof(blockHeights[0]); i++) {
 
-            EXPECT_EQ(komodo_block_prg(blockHeights[i]), prgs_before[i]);
-            EXPECT_EQ(komodo_block_unlocktime(blockHeights[i]), unlocktimes_before[i]);
+            EXPECT_EQ(squishy_block_prg(blockHeights[i]), prgs_before[i]);
+            EXPECT_EQ(squishy_block_unlocktime(blockHeights[i]), unlocktimes_before[i]);
 
         }
         #else
@@ -104,8 +104,8 @@ namespace TestHarakaRemoval {
         */
         for (size_t i = 0; i < sizeof(blockHeights)/sizeof(blockHeights[0]); i++) {
 
-            EXPECT_EQ(komodo_block_prg(blockHeights[i]), prgs_after[i]);
-            EXPECT_EQ(komodo_block_unlocktime(blockHeights[i]), unlocktimes_after[i]);
+            EXPECT_EQ(squishy_block_prg(blockHeights[i]), prgs_after[i]);
+            EXPECT_EQ(squishy_block_unlocktime(blockHeights[i]), unlocktimes_after[i]);
 
         }
         #endif

@@ -18,11 +18,11 @@
  */
 
 #include "CCinclude.h"
-#include "komodo_structs.h"
-#include "komodo_bitcoind.h"
-#include "komodo_utils.h"
+#include "squishy_structs.h"
+#include "squishy_bitcoind.h"
+#include "squishy_utils.h"
 #include "key_io.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 #ifdef TESTMODE
     #define MIN_NON_NOTARIZED_CONFIRMS 2
@@ -172,8 +172,8 @@ bool CheckTxFee(const CTransaction &tx, uint64_t txfee, uint32_t height, uint64_
 
 uint32_t GetLatestTimestamp(int32_t height)
 {
-    if ( KOMODO_NSPV_SUPERLITE ) return ((uint32_t)NSPV_blocktime(height));
-    return(komodo_heightstamp(height));
+    if ( SQUISHY_NSPV_SUPERLITE ) return ((uint32_t)NSPV_blocktime(height));
+    return(squishy_heightstamp(height));
 }
 
 void CCaddr2set(struct CCcontract_info *cp,uint8_t evalcode,CPubKey pk,uint8_t *priv,char *coinaddr)
@@ -448,7 +448,7 @@ std::vector<uint8_t> Mypubkey()
 bool Myprivkey(uint8_t myprivkey[])
 {
     char coinaddr[64],checkaddr[64]; std::string strAddress; char *dest; int32_t i,n; CBitcoinAddress address; CKeyID keyID; CKey vchSecret; uint8_t buf33[33];
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         extern uint32_t NSPV_logintime;
         if ( NSPV_logintime == 0 || time(NULL) > NSPV_logintime+NSPV_AUTOLOGOUT )
@@ -525,7 +525,7 @@ int64_t CCduration(int32_t &numblocks,uint256 txid)
         //LogPrintf("CCduration no hashBlock for txid %s\n",uint256_str(str,txid));
         return(0);
     }
-    else if ( (pindex= komodo_getblockindex(hashBlock)) == 0 || (txtime= pindex->nTime) == 0 || (txheight= pindex->nHeight) <= 0 )
+    else if ( (pindex= squishy_getblockindex(hashBlock)) == 0 || (txtime= pindex->nTime) == 0 || (txheight= pindex->nHeight) <= 0 )
     {
         LogPrintf("CCduration no txtime %u or txheight.%d %p for txid %s\n",txtime,txheight,pindex,uint256_str(str,txid));
         return(0);
@@ -587,7 +587,7 @@ int32_t NSPV_coinaddr_inmempool(char const *logcategory,char *coinaddr,uint8_t C
 int32_t myIs_coinaddr_inmempoolvout(char const *logcategory,char *coinaddr)
 {
     int32_t i,n; char destaddr[64];
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
         return(NSPV_coinaddr_inmempool(logcategory,coinaddr,1));
     BOOST_FOREACH(const CTxMemPoolEntry &e,mempool.mapTx)
     {
@@ -616,7 +616,7 @@ int32_t myGet_mempool_txs(std::vector<CTransaction> &txs,uint8_t evalcode,uint8_
 {
     int i=0;
 
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         CTransaction tx; uint256 hashBlock;
 
@@ -662,39 +662,39 @@ uint256 BitcoinGetProofMerkleRoot(const std::vector<uint8_t> &proofData, std::ve
 }
 
 extern struct NSPV_inforesp NSPV_inforesult;
-int32_t komodo_get_current_height()
+int32_t squishy_get_current_height()
 {
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         return (NSPV_inforesult.height);
     }
     else return chainActive.Tip()->nHeight;
 }
 
-bool komodo_txnotarizedconfirmed(uint256 txid)
+bool squishy_txnotarizedconfirmed(uint256 txid)
 {
     char str[65];
     int32_t confirms,notarized=0,txheight=0,currentheight=0;;
     CTransaction tx;
     uint256 hashBlock;
     CBlockIndex *pindex;    
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN],dest[KOMODO_ASSETCHAIN_MAXLEN]; struct komodo_state *sp;
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN],dest[SQUISHY_ASSETCHAIN_MAXLEN]; struct squishy_state *sp;
 
-    if ( KOMODO_NSPV_SUPERLITE )
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         if ( NSPV_myGetTransaction(txid,tx,hashBlock,txheight,currentheight) == 0 )
         {
-            LogPrintf("komodo_txnotarizedconfirmed cant find txid %s\n",txid.ToString().c_str());
+            LogPrintf("squishy_txnotarizedconfirmed cant find txid %s\n",txid.ToString().c_str());
             return(0);
         }
         else if (txheight<=0)
         {
-            LogPrintf("komodo_txnotarizedconfirmed no txheight.%d for txid %s\n",txheight,txid.ToString().c_str());
+            LogPrintf("squishy_txnotarizedconfirmed no txheight.%d for txid %s\n",txheight,txid.ToString().c_str());
             return(0);
         }
         else if (txheight>currentheight)
         {
-            LogPrintf("komodo_txnotarizedconfirmed backwards heights for txid %s hts.(%d %d)\n",txid.ToString().c_str(),txheight,currentheight);
+            LogPrintf("squishy_txnotarizedconfirmed backwards heights for txid %s hts.(%d %d)\n",txid.ToString().c_str(),txheight,currentheight);
             return(0);
         }
         confirms=1 + currentheight - txheight;
@@ -703,28 +703,28 @@ bool komodo_txnotarizedconfirmed(uint256 txid)
     {
         if ( myGetTransaction(txid,tx,hashBlock) == 0 )
         {
-            LogPrintf("komodo_txnotarizedconfirmed cant find txid %s\n",txid.ToString().c_str());
+            LogPrintf("squishy_txnotarizedconfirmed cant find txid %s\n",txid.ToString().c_str());
             return(0);
         }
         else if ( hashBlock == zeroid )
         {
-            LogPrintf("komodo_txnotarizedconfirmed no hashBlock for txid %s\n",txid.ToString().c_str());
+            LogPrintf("squishy_txnotarizedconfirmed no hashBlock for txid %s\n",txid.ToString().c_str());
             return(0);
         }
-        else if ( (pindex= komodo_blockindex(hashBlock)) == 0 || (txheight= pindex->nHeight) <= 0 )
+        else if ( (pindex= squishy_blockindex(hashBlock)) == 0 || (txheight= pindex->nHeight) <= 0 )
         {
-            LogPrintf("komodo_txnotarizedconfirmed no txheight.%d %p for txid %s\n",txheight,pindex,txid.ToString().c_str());
+            LogPrintf("squishy_txnotarizedconfirmed no txheight.%d %p for txid %s\n",txheight,pindex,txid.ToString().c_str());
             return(0);
         }
         else if ( (pindex= chainActive.Tip()) == 0 || pindex->nHeight < txheight )
         {
-            LogPrintf("komodo_txnotarizedconfirmed backwards heights for txid %s hts.(%d %d)\n",txid.ToString().c_str(),txheight,(int32_t)pindex->nHeight);
+            LogPrintf("squishy_txnotarizedconfirmed backwards heights for txid %s hts.(%d %d)\n",txid.ToString().c_str(),txheight,(int32_t)pindex->nHeight);
             return(0);
         }    
         confirms=1 + pindex->nHeight - txheight;
     }
 
-    if ((sp= komodo_stateptr(symbol,dest)) != 0 && (notarized=sp->LastNotarizedHeight()) > 0 && txheight > sp->LastNotarizedHeight())  notarized=0;            
+    if ((sp= squishy_stateptr(symbol,dest)) != 0 && (notarized=sp->LastNotarizedHeight()) > 0 && txheight > sp->LastNotarizedHeight())  notarized=0;            
 #ifdef TESTMODE           
     notarized=0;
 #endif //TESTMODE
@@ -818,10 +818,10 @@ int64_t TotalPubkeyCCInputs(const CTransaction &tx, const CPubKey &pubkey)
 
 bool ProcessCC(struct CCcontract_info *cp,Eval* eval, std::vector<uint8_t> paramsNull,const CTransaction &ctx, unsigned int nIn)
 {
-    if ( KOMODO_CONNECTING < 0 ) // always comes back with > 0 for final confirmation
+    if ( SQUISHY_CONNECTING < 0 ) // always comes back with > 0 for final confirmation
         return true;
 
-    if ( ASSETCHAINS_CC == 0 || (KOMODO_CONNECTING & ~(1<<30)) < KOMODO_CCACTIVATE )
+    if ( ASSETCHAINS_CC == 0 || (SQUISHY_CONNECTING & ~(1<<30)) < SQUISHY_CCACTIVATE )
         return eval->Invalid("CC are disabled or not active yet");
 
     if (cp->validate == NULL)
@@ -853,14 +853,14 @@ bool CClib_Dispatch(const CC *cond,Eval *eval,std::vector<uint8_t> paramsNull,co
         return eval->Invalid("-ac_cclib name mismatches myname");
     }
 
-    if ( KOMODO_CONNECTING < 0 ) // always comes back with > 0 for final confirmation
+    if ( SQUISHY_CONNECTING < 0 ) // always comes back with > 0 for final confirmation
         return true;
 
     // chain height calc and check
-    int32_t height = KOMODO_CONNECTING;
-    if ( ASSETCHAINS_CC == 0 || (height & ~(1<<30)) < KOMODO_CCACTIVATE )
+    int32_t height = SQUISHY_CONNECTING;
+    if ( ASSETCHAINS_CC == 0 || (height & ~(1<<30)) < SQUISHY_CCACTIVATE )
         return eval->Invalid("CC are disabled or not active yet");
-    if ( (KOMODO_CONNECTING & (1<<30)) != 0 )
+    if ( (SQUISHY_CONNECTING & (1<<30)) != 0 )
     {
         height &= ((1<<30) - 1);
     }

@@ -3,10 +3,10 @@ Target x86-unicode
 
 ; Settings 
 Name "KomodoOcean (Komodo-Qt)"
-OutFile "komodo-qt-install.exe"
+OutFile "squishy-qt-install.exe"
 RequestExecutionLevel admin
 InstallDir "$PROGRAMFILES64\KomodoOcean"
-Icon "komodo.ico"
+Icon "squishy.ico"
 CRCCheck on
 
 ; Includes
@@ -21,8 +21,8 @@ Page instfiles
 
 Section "Install Komodo-Qt (GUI)" Section1
   SetOutPath $INSTDIR
-  File "content\komodo-qt-win.exe"
-  CreateShortCut "$DESKTOP\Komodo-Qt.lnk" "$INSTDIR\komodo-qt-win.exe"
+  File "content\squishy-qt-win.exe"
+  CreateShortCut "$DESKTOP\Komodo-Qt.lnk" "$INSTDIR\squishy-qt-win.exe"
 SectionEnd
 
 Section "Download ZCash Params" Section3
@@ -90,11 +90,11 @@ Abort
 next_5:
 SectionEnd
 
-Section "Create komodo.conf" Section2
+Section "Create squishy.conf" Section2
   SetOverwrite on
   CreateDirectory "$APPDATA\Komodo"  
   SetOutPath $APPDATA\Komodo
-  File "content\komodo.conf"
+  File "content\squishy.conf"
 SectionEnd
 
 # Installer functions

@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_PEERTABLEMODEL_H
-#define KOMODO_QT_PEERTABLEMODEL_H
+#ifndef SQUISHY_QT_PEERTABLEMODEL_H
+#define SQUISHY_QT_PEERTABLEMODEL_H
 
 #include "net.h"
 #include "main.h"
@@ -80,4 +80,4 @@ private:
     QTimer *timer;
 };
 
-#endif // KOMODO_QT_PEERTABLEMODEL_H
+#endif // SQUISHY_QT_PEERTABLEMODEL_H

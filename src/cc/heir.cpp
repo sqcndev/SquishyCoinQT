@@ -15,7 +15,7 @@
 
 #include "CCHeir.h"
 #include "heir_validate.h"
-#include "komodo_bitcoind.h"
+#include "squishy_bitcoind.h"
 
 #include <iomanip>
 
@@ -617,7 +617,7 @@ template <class Helper> int64_t LifetimeHeirContractFunds(struct CCcontract_info
 template <typename Helper> UniValue _HeirFund(int64_t txfee, int64_t amount, std::string heirName, CPubKey heirPubkey, int64_t inactivityTimeSec, std::string memo, uint256 tokenid)
 {
     UniValue result(UniValue::VOBJ);
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     struct CCcontract_info *cp, C;
     
     cp = CCinit(&C, Helper::getMyEval());
@@ -724,7 +724,7 @@ UniValue HeirFundTokenCaller(int64_t txfee, int64_t satoshis, std::string heirNa
 template <class Helper> UniValue _HeirAdd(uint256 fundingtxid, int64_t txfee, int64_t amount, uint256 latesttxid, uint8_t funcId, uint256 tokenid, CPubKey ownerPubkey, CPubKey heirPubkey, int64_t inactivityTimeSec, uint8_t hasHeirSpendingBegun)
 {
     UniValue result(UniValue::VOBJ);
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     struct CCcontract_info *cp, C;
     std::string rawhex;
     
@@ -889,7 +889,7 @@ UniValue HeirAddCaller(uint256 fundingtxid, int64_t txfee, std::string strAmount
 template <typename Helper>UniValue _HeirClaim(uint256 fundingtxid, int64_t txfee, int64_t amount, uint256 latesttxid, uint8_t funcId, uint256 tokenid, CPubKey ownerPubkey, CPubKey heirPubkey, int64_t inactivityTimeSec, uint8_t hasHeirSpendingBegun)
 {
     UniValue result(UniValue::VOBJ);
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CPubKey myPubkey;
     int64_t inputs, change = 0;
     struct CCcontract_info *cp, C;
@@ -1065,7 +1065,7 @@ UniValue HeirInfo(uint256 fundingtxid)
 {
     UniValue result(UniValue::VOBJ);
     
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
     CTransaction fundingtx;
     uint256 hashBlock;
     const bool allowSlow = false;

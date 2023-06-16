@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_CONSENSUS_PARAMS_H
-#define KOMODO_CONSENSUS_PARAMS_H
+#ifndef SQUISHY_CONSENSUS_PARAMS_H
+#define SQUISHY_CONSENSUS_PARAMS_H
 
 #include "uint256.h"
 
@@ -155,4 +155,4 @@ struct Params {
 };
 } // namespace Consensus
 
-#endif // KOMODO_CONSENSUS_PARAMS_H
+#endif // SQUISHY_CONSENSUS_PARAMS_H

@@ -23,11 +23,11 @@
 #include "random.h"
 #include "version.h"
 #include "policy/fees.h"
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 #include "importcoin.h"
-#include "komodo_utils.h"
-#include "komodo_bitcoind.h"
-#include "komodo_interest.h"
+#include "squishy_utils.h"
+#include "squishy_bitcoind.h"
+#include "squishy_interest.h"
 
 #include <assert.h>
 
@@ -601,7 +601,7 @@ CAmount CCoinsViewCache::GetValueIn(int32_t nHeight,int64_t &interestp,const CTr
     {
         value = GetOutputFor(tx.vin[i]).nValue;
         nResult += value;
-#ifdef KOMODO_ENABLE_INTEREST
+#ifdef SQUISHY_ENABLE_INTEREST
         if ( chainName.isKMD() && nHeight >= 60000 )
         {
             if ( value >= 10*COIN )
@@ -609,7 +609,7 @@ CAmount CCoinsViewCache::GetValueIn(int32_t nHeight,int64_t &interestp,const CTr
                 int64_t interest; 
                 int32_t txheight; 
                 uint32_t locktime;
-                interest = komodo_accrued_interest(&txheight,&locktime,tx.vin[i].prevout.hash,
+                interest = squishy_accrued_interest(&txheight,&locktime,tx.vin[i].prevout.hash,
                         tx.vin[i].prevout.n,0,value,nHeight);
                 nResult += interest;
                 interestp += interest;

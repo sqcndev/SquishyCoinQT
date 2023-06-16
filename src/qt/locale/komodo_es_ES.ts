@@ -339,7 +339,7 @@
     </message>
     <message>
         <source>Send coins to a Komodo address</source>
-        <translation>Enviar komodos a una dirección Komodo</translation>
+        <translation>Enviar squishys a una dirección Komodo</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -414,8 +414,8 @@
         <translation>Barra de pestañas</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Solicitar pagos (generando códigos QR e identificadores URI "komodo:")</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Solicitar pagos (generando códigos QR e identificadores URI "squishy:")</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -426,8 +426,8 @@
         <translation>Muestra la lista de direcciones de recepción y etiquetas</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Abrir un identificador URI "komodo:" o una petición de pago</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Abrir un identificador URI "squishy:" o una petición de pago</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1129,7 +1129,7 @@
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Elegir la subdivisión predeterminada para mostrar cantidades en la interfaz y cuando se envían komodos.</translation>
+        <translation>Elegir la subdivisión predeterminada para mostrar cantidades en la interfaz y cuando se envían squishys.</translation>
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
@@ -1254,8 +1254,8 @@
         <translation>Fallo en la solicitud de pago</translation>
     </message>
     <message>
-        <source>Cannot start komodo: click-to-pay handler</source>
-        <translation>No se puede iniciar komodo: encargado click-para-pagar</translation>
+        <source>Cannot start squishy: click-to-pay handler</source>
+        <translation>No se puede iniciar squishy: encargado click-para-pagar</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1886,7 +1886,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Enviar komodos</translation>
+        <translation>Enviar squishys</translation>
     </message>
     <message>
         <source>Coin Control Features</source>
@@ -1965,7 +1965,7 @@
         <translation>total por lo menos</translation>
     </message>
     <message>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for komodo transactions than the network can process.</source>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for squishy transactions than the network can process.</source>
         <translation>Pagando solamente la cuota mínima es correcto, siempre y cuando haya menos volumen de transacciones que el espacio en los bloques. Pero tenga en cuenta que esto puede terminar en una transacción nunca confirmada, una vez que haya más demanda para transacciones Komodo que la red pueda procesar.</translation>
     </message>
     <message>
@@ -2173,7 +2173,7 @@
     </message>
     <message>
         <source>The fee will be deducted from the amount being sent. The recipient will receive less coins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>La cuota será deducida de la cantidad que sea mandada. El destinatario recibirá menos komodos de los que entres en el  </translation>
+        <translation>La cuota será deducida de la cantidad que sea mandada. El destinatario recibirá menos squishys de los que entres en el  </translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2196,8 +2196,8 @@
         <translation>Introduce una etiqueta para esta dirección para añadirla a la lista de direcciones utilizadas</translation>
     </message>
     <message>
-        <source>A message that was attached to the komodo: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
-        <translation>Un mensaje que se adjuntó a la komodo: URL que será almacenada con la transacción para su referencia. Nota: Este mensaje no se envía a través de la red Komodo.</translation>
+        <source>A message that was attached to the squishy: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Komodo network.</source>
+        <translation>Un mensaje que se adjuntó a la squishy: URL que será almacenada con la transacción para su referencia. Nota: Este mensaje no se envía a través de la red Komodo.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2515,7 +2515,7 @@
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Los komodos generados deben madurar %1 bloques antes de que puedan gastarse. Cuando generó este bloque, se transmitió a la red para que se añadiera a la cadena de bloques. Si no consigue entrar en la cadena, su estado cambiará a "no aceptado" y ya no se podrá gastar. Esto puede ocurrir ocasionalmente si otro nodo genera un bloque a pocos segundos del suyo.</translation>
+        <translation>Los squishys generados deben madurar %1 bloques antes de que puedan gastarse. Cuando generó este bloque, se transmitió a la red para que se añadiera a la cadena de bloques. Si no consigue entrar en la cadena, su estado cambiará a "no aceptado" y ya no se podrá gastar. Esto puede ocurrir ocasionalmente si otro nodo genera un bloque a pocos segundos del suyo.</translation>
     </message>
     <message>
         <source>Debug information</source>
@@ -2876,7 +2876,7 @@
     </message>
 </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Opciones:

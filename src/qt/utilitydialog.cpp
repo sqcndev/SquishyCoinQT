@@ -10,7 +10,7 @@
 
 #include "ui_helpmessagedialog.h"
 
-#include "komodooceangui.h"
+#include "squishyoceangui.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "intro.h"

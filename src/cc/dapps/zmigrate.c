@@ -209,7 +209,7 @@ cJSON *get_urljson(char *url,char *fname)
 
 char *REFCOIN_CLI;
 
-cJSON *get_komodocli(char *refcoin,char **retstrp,char *acname,char *method,char *arg0,char *arg1,char *arg2,char *arg3)
+cJSON *get_squishycli(char *refcoin,char **retstrp,char *acname,char *method,char *arg0,char *arg1,char *arg2,char *arg3)
 {
     long fsize; cJSON *retjson = 0; char cmdstr[32768],*jsonstr,fname[256];
     sprintf(fname,"/tmp/zmigrate.%s",method);
@@ -219,10 +219,10 @@ cJSON *get_komodocli(char *refcoin,char **retstrp,char *acname,char *method,char
     {
         if ( refcoin[0] != 0 && strcmp(refcoin,"KMD") != 0 )
             printf("unexpected: refcoin.(%s) acname.(%s)\n",refcoin,acname);
-        sprintf(cmdstr,"./komodo-cli -ac_name=%s %s %s %s %s %s > %s\n",acname,method,arg0,arg1,arg2,arg3,fname);
+        sprintf(cmdstr,"./squishy-cli -ac_name=%s %s %s %s %s %s > %s\n",acname,method,arg0,arg1,arg2,arg3,fname);
     }
     else if ( strcmp(refcoin,"KMD") == 0 )
-        sprintf(cmdstr,"./komodo-cli %s %s %s %s %s > %s\n",method,arg0,arg1,arg2,arg3,fname);
+        sprintf(cmdstr,"./squishy-cli %s %s %s %s %s > %s\n",method,arg0,arg1,arg2,arg3,fname);
     else if ( REFCOIN_CLI != 0 && REFCOIN_CLI[0] != 0 )
     {
         sprintf(cmdstr,"%s %s %s %s %s %s > %s\n",REFCOIN_CLI,method,arg0,arg1,arg2,arg3,fname);
@@ -241,13 +241,13 @@ cJSON *get_komodocli(char *refcoin,char **retstrp,char *acname,char *method,char
     return(retjson);
 }
 
-bits256 komodobroadcast(char *refcoin,char *acname,cJSON *hexjson)
+bits256 squishybroadcast(char *refcoin,char *acname,cJSON *hexjson)
 {
     char *hexstr,*retstr,str[65]; cJSON *retjson; bits256 txid;
     memset(txid.bytes,0,sizeof(txid));
     if ( (hexstr= jstr(hexjson,"hex")) != 0 )
     {
-        if ( (retjson= get_komodocli(refcoin,&retstr,acname,"sendrawtransaction",hexstr,"","","")) != 0 )
+        if ( (retjson= get_squishycli(refcoin,&retstr,acname,"sendrawtransaction",hexstr,"","","")) != 0 )
         {
             //fprintf(stderr,"broadcast.(%s)\n",jprint(retjson,0));
             free_json(retjson);
@@ -271,7 +271,7 @@ bits256 sendtoaddress(char *refcoin,char *acname,char *destaddr,int64_t satoshis
     char numstr[32],*retstr,str[65]; cJSON *retjson; bits256 txid;
     memset(txid.bytes,0,sizeof(txid));
     sprintf(numstr,"%.8f",(double)satoshis/SATOSHIDEN);
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"sendtoaddress",destaddr,numstr,"","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"sendtoaddress",destaddr,numstr,"","")) != 0 )
     {
         fprintf(stderr,"unexpected sendrawtransaction json.(%s)\n",jprint(retjson,0));
         free_json(retjson);
@@ -292,7 +292,7 @@ bits256 sendtoaddress(char *refcoin,char *acname,char *destaddr,int64_t satoshis
 int32_t get_coinheight(char *refcoin,char *acname)
 {
     cJSON *retjson; char *retstr; int32_t height=0;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"getblockchaininfo","","","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"getblockchaininfo","","","","")) != 0 )
     {
         height = jint(retjson,"blocks");
         free_json(retjson);
@@ -310,7 +310,7 @@ bits256 get_coinblockhash(char *refcoin,char *acname,int32_t height)
     cJSON *retjson; char *retstr,heightstr[32]; bits256 hash;
     memset(hash.bytes,0,sizeof(hash));
     sprintf(heightstr,"%d",height);
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"getblockhash",heightstr,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"getblockhash",heightstr,"","","")) != 0 )
     {
         fprintf(stderr,"unexpected blockhash json.(%s)\n",jprint(retjson,0));
         free_json(retjson);
@@ -331,7 +331,7 @@ bits256 get_coinmerkleroot(char *refcoin,char *acname,bits256 blockhash)
 {
     cJSON *retjson; char *retstr,str[65]; bits256 merkleroot;
     memset(merkleroot.bytes,0,sizeof(merkleroot));
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"getblockheader",bits256_str(str,blockhash),"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"getblockheader",bits256_str(str,blockhash),"","","")) != 0 )
     {
         merkleroot = jbits256(retjson,"merkleroot");
         //fprintf(stderr,"got merkleroot.(%s)\n",bits256_str(str,merkleroot));
@@ -369,7 +369,7 @@ int32_t get_coinheader(char *refcoin,char *acname,bits256 *blockhashp,bits256 *m
 cJSON *get_rawmempool(char *refcoin,char *acname)
 {
     cJSON *retjson; char *retstr;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"getrawmempool","","","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"getrawmempool","","","","")) != 0 )
     {
         //printf("mempool.(%s)\n",jprint(retjson,0));
         return(retjson);
@@ -388,7 +388,7 @@ cJSON *get_addressutxos(char *refcoin,char *acname,char *coinaddr)
     if ( refcoin[0] != 0 && strcmp(refcoin,"KMD") != 0 )
         printf("warning: assumes %s has addressindex enabled\n",refcoin);
     sprintf(jsonbuf,"{\\\"addresses\\\":[\\\"%s\\\"]}",coinaddr);
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"getaddressutxos",jsonbuf,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"getaddressutxos",jsonbuf,"","","")) != 0 )
     {
         //printf("addressutxos.(%s)\n",jprint(retjson,0));
         return(retjson);
@@ -404,7 +404,7 @@ cJSON *get_addressutxos(char *refcoin,char *acname,char *coinaddr)
 cJSON *get_rawtransaction(char *refcoin,char *acname,bits256 txid)
 {
     cJSON *retjson; char *retstr,str[65];
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"getrawtransaction",bits256_str(str,txid),"1","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"getrawtransaction",bits256_str(str,txid),"1","","")) != 0 )
     {
         return(retjson);
     }
@@ -419,7 +419,7 @@ cJSON *get_rawtransaction(char *refcoin,char *acname,bits256 txid)
 cJSON *get_listunspent(char *refcoin,char *acname)
 {
     cJSON *retjson; char *retstr,str[65];
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"listunspent","","","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"listunspent","","","","")) != 0 )
     {
         return(retjson);
     }
@@ -434,7 +434,7 @@ cJSON *get_listunspent(char *refcoin,char *acname)
 cJSON *z_listunspent(char *refcoin,char *acname)
 {
     cJSON *retjson; char *retstr,str[65];
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"z_listunspent","","","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"z_listunspent","","","","")) != 0 )
     {
         return(retjson);
     }
@@ -449,7 +449,7 @@ cJSON *z_listunspent(char *refcoin,char *acname)
 cJSON *z_listoperationids(char *refcoin,char *acname)
 {
     cJSON *retjson; char *retstr,str[65];
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"z_listoperationids","","","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"z_listoperationids","","","","")) != 0 )
     {
         return(retjson);
     }
@@ -465,7 +465,7 @@ cJSON *z_getoperationstatus(char *refcoin,char *acname,char *opid)
 {
     cJSON *retjson; char *retstr,str[65],params[512];
     sprintf(params,"'[\"%s\"]'",opid);
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"z_getoperationstatus",params,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"z_getoperationstatus",params,"","","")) != 0 )
     {
         //printf("got status (%s)\n",jprint(retjson,0));
         return(retjson);
@@ -482,7 +482,7 @@ cJSON *z_getoperationresult(char *refcoin,char *acname,char *opid)
 {
     cJSON *retjson; char *retstr,str[65],params[512];
     sprintf(params,"'[\"%s\"]'",opid);
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"z_getoperationresult",params,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"z_getoperationresult",params,"","","")) != 0 )
     {
         return(retjson);
     }
@@ -497,7 +497,7 @@ cJSON *z_getoperationresult(char *refcoin,char *acname,char *opid)
 int32_t validateaddress(char *refcoin,char *acname,char *depositaddr, char* compare)
 {
     cJSON *retjson; char *retstr; int32_t res=0;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"validateaddress",depositaddr,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"validateaddress",depositaddr,"","","")) != 0 )
     {
         if (is_cJSON_True(jobj(retjson,compare)) != 0 ) res=1;
         free_json(retjson);
@@ -513,7 +513,7 @@ int32_t validateaddress(char *refcoin,char *acname,char *depositaddr, char* comp
 int32_t z_validateaddress(char *refcoin,char *acname,char *depositaddr, char *compare)
 {
     cJSON *retjson; char *retstr; int32_t res=0;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"z_validateaddress",depositaddr,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"z_validateaddress",depositaddr,"","","")) != 0 )
     {
         if (is_cJSON_True(jobj(retjson,compare)) != 0 )
             res=1;
@@ -530,7 +530,7 @@ int32_t z_validateaddress(char *refcoin,char *acname,char *depositaddr, char *co
 int64_t z_getbalance(char *refcoin,char *acname,char *coinaddr)
 {
     cJSON *retjson; char *retstr,cmpstr[64]; int64_t amount=0;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"z_getbalance",coinaddr,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"z_getbalance",coinaddr,"","","")) != 0 )
     {
         fprintf(stderr,"z_getbalance.(%s) %s returned json!\n",refcoin,acname);
         free_json(retjson);
@@ -551,7 +551,7 @@ int32_t z_exportkey(char *privkey,char *refcoin,char *acname,char *zaddr)
 {
     cJSON *retjson; char *retstr,cmpstr[64]; int64_t amount=0;
     privkey[0] = 0;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"z_exportkey",zaddr,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"z_exportkey",zaddr,"","","")) != 0 )
     {
         fprintf(stderr,"z_exportkey.(%s) %s returned json!\n",refcoin,acname);
         free_json(retjson);
@@ -570,7 +570,7 @@ int32_t z_exportkey(char *privkey,char *refcoin,char *acname,char *zaddr)
 int32_t getnewaddress(char *coinaddr,char *refcoin,char *acname)
 {
     cJSON *retjson; char *retstr; int64_t amount=0; int32_t retval = -1;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"getnewaddress","","","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"getnewaddress","","","","")) != 0 )
     {
         fprintf(stderr,"getnewaddress.(%s) %s returned json!\n",refcoin,acname);
         free_json(retjson);
@@ -587,7 +587,7 @@ int32_t getnewaddress(char *coinaddr,char *refcoin,char *acname)
 int32_t z_getnewaddress(char *coinaddr,char *refcoin,char *acname,char *typestr)
 {
     cJSON *retjson; char *retstr; int64_t amount=0; int32_t retval = -1;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"z_getnewaddress",typestr,"","","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"z_getnewaddress",typestr,"","","")) != 0 )
     {
         fprintf(stderr,"z_getnewaddress.(%s) %s returned json!\n",refcoin,acname);
         free_json(retjson);
@@ -659,7 +659,7 @@ int64_t find_sprout_amount(char *coinstr,char *zcaddr)
 void importaddress(char *refcoin,char *acname,char *depositaddr)
 {
     cJSON *retjson; char *retstr;
-    if ( (retjson= get_komodocli(refcoin,&retstr,acname,"importaddress",depositaddr,"","true","")) != 0 )
+    if ( (retjson= get_squishycli(refcoin,&retstr,acname,"importaddress",depositaddr,"","true","")) != 0 )
     {
         printf("importaddress.(%s)\n",jprint(retjson,0));
         free_json(retjson);
@@ -677,7 +677,7 @@ int32_t z_sendmany(char *opidstr,char *coinstr,char *acname,char *srcaddr,char *
     sprintf(params,"'[{\"address\":\"%s\",\"amount\":%.8f}]'",destaddr,dstr(amount));
     sprintf(addr,"\"%s\"",srcaddr);
     printf("z_sendmany from.(%s) -> %s\n",srcaddr,params);
-    if ( (retjson= get_komodocli(coinstr,&retstr,acname,"z_sendmany",addr,params,"","")) != 0 )
+    if ( (retjson= get_squishycli(coinstr,&retstr,acname,"z_sendmany",addr,params,"","")) != 0 )
     {
         printf("unexpected json z_sendmany.(%s)\n",jprint(retjson,0));
         free_json(retjson);
@@ -696,7 +696,7 @@ int32_t z_mergetoaddress(char *opidstr,char *coinstr,char *acname,char *destaddr
 {
     cJSON *retjson; char *retstr,addr[128],*opstr; int32_t retval = -1;
     sprintf(addr,"[\\\"ANY_SPROUT\\\"]");
-    if ( (retjson= get_komodocli(coinstr,&retstr,acname,"z_mergetoaddress",addr,destaddr,"","")) != 0 )
+    if ( (retjson= get_squishycli(coinstr,&retstr,acname,"z_mergetoaddress",addr,destaddr,"","")) != 0 )
     {
         if ( (opstr= jstr(retjson,"opid")) != 0 )
             strcpy(opidstr,opstr);
@@ -940,7 +940,7 @@ int32_t itemvalid(char *refcoin,int64_t *refundedp,int64_t *waitingp,struct clai
     if ( item->refundvalue < 0 )
         return(-1);
     // change "kmd" -> %s, tolowerstr(refcoin)
-    sprintf(url,"https://kmd.explorer.dexstats.info/insight-api-komodo/addr/%s",item->destaddr);
+    sprintf(url,"https://kmd.explorer.dexstats.info/insight-api-squishy/addr/%s",item->destaddr);
     if ( (retstr= send_curl(url,"/tmp/itemvalid")) != 0 )
     {
         if ( (curljson= cJSON_Parse(retstr)) != 0 )
@@ -1207,7 +1207,7 @@ int32_t main(int32_t argc,char **argv)
     }
     if ( strcmp(argv[1],"KMD") == 0 )
     {
-        REFCOIN_CLI = "./komodo-cli";
+        REFCOIN_CLI = "./squishy-cli";
         coinstr = clonestr("KMD");
         acstr = "";
     }
@@ -1219,7 +1219,7 @@ int32_t main(int32_t argc,char **argv)
     }
     else
     {
-        sprintf(buf,"./komodo-cli -ac_name=%s",argv[1]);
+        sprintf(buf,"./squishy-cli -ac_name=%s",argv[1]);
         REFCOIN_CLI = clonestr(buf);
         coinstr = clonestr(argv[1]);
         acstr = coinstr;
@@ -1349,12 +1349,12 @@ int32_t zmigratemain(int32_t argc,char **argv)
     }
     if ( strcmp(argv[1],"KMD") == 0 )
     {
-        REFCOIN_CLI = "./komodo-cli";
+        REFCOIN_CLI = "./squishy-cli";
         coinstr = clonestr("KMD");
     }
     else
     {
-        sprintf(buf,"./komodo-cli -ac_name=%s",argv[1]);
+        sprintf(buf,"./squishy-cli -ac_name=%s",argv[1]);
         REFCOIN_CLI = clonestr(buf);
         coinstr = clonestr(argv[1]);
     }

@@ -27,8 +27,8 @@
 #include "utiltime.h"
 #include "utilmoneystr.h"
 #include "utilstrencodings.h"
-#include "komodo_utils.h"
-#include "komodo_globals.h"
+#include "squishy_utils.h"
+#include "squishy_globals.h"
 
 #include <boost/thread.hpp>
 #include <boost/thread/synchronized_value.hpp>
@@ -41,7 +41,7 @@
 #endif
 #include <unistd.h>
 
-#include "komodo_defs.h"
+#include "squishy_defs.h"
 
 void AtomicTimer::start()
 {
@@ -367,7 +367,7 @@ int printMetrics(size_t cols, bool mining)
                     }
 
                     if ((std::max( 0U, Params().CoinbaseMaturity() - (tipHeight - height)) > 0) ||
-                        (tipHeight < komodo_block_unlocktime(height) && subsidy >= ASSETCHAINS_TIMELOCKGTE)) {
+                        (tipHeight < squishy_block_unlocktime(height) && subsidy >= ASSETCHAINS_TIMELOCKGTE)) {
                         immature += subsidy;
                     } else {
                         mature += subsidy;

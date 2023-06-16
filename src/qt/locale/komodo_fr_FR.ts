@@ -43,11 +43,11 @@
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Choisissez une adresse où envoyer les komodos</translation>
+        <translation>Choisissez une adresse où envoyer les squishys</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Choisissez une adresse où recevoir les komodos</translation>
+        <translation>Choisissez une adresse où recevoir les squishys</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -310,16 +310,16 @@
         <translation>Barre d'outils des onglets</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Demander des paiements (générer QR codes et komodo: URIs)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Demander des paiements (générer QR codes et squishy: URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
         <translation>Montrer la liste des adresses d'envois utilisées et les étiquettes</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Ouvrir un komodo: URI ou demande de paiement</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Ouvrir un squishy: URI ou demande de paiement</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1708,7 +1708,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Options :</translation>

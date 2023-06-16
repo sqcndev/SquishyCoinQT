@@ -406,7 +406,7 @@
         <translation>شريط أدوات علامات التبويب</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
         <translation>أطلب دفعات (يولد كودات الرمز المربع وبيت كوين: العناوين المعطاة)</translation>
     </message>
     <message>
@@ -418,7 +418,7 @@
         <translation>عرض قائمة عناوين الإستقبال المستخدمة والملصقات</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
+        <source>Open a squishy: URI or payment request</source>
         <translation>فتح URI : Komodo أو طلب دفع</translation>
     </message>
     <message>
@@ -1950,7 +1950,7 @@
     </message>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>خيارات: </translation>

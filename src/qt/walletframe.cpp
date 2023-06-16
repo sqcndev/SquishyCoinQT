@@ -4,7 +4,7 @@
 
 #include "walletframe.h"
 
-#include "komodooceangui.h"
+#include "squishyoceangui.h"
 #include "walletview.h"
 
 #include <cassert>

@@ -32,7 +32,7 @@ sudo apt-get install build-essential pkg-config libc6-dev m4 g++-multilib autoco
 
 ```shell
 git clone https://github.com/sqcndev/SquishyCoinQT-V0.8.git
-cd komodo
+cd squishy
 ./zcutil/fetch-params.sh
 # -j8 = using 8 threads for the compilation - replace 8 with number of threads you want to use
 ./zcutil/build-linux.sh -j8
@@ -73,7 +73,7 @@ brew install wget
 # Clone the Komodo repo
 git clone https://github.com/sqcndev/SquishyCoinQT-V0.8.git
 # Change master branch to other branch you wish to compile
-cd komodo
+cd squishy
 ./zcutil/fetch-params.sh
 # -j8 = using 8 threads for the compilation - replace 8 with number of threads you want to use
 ./zcutil/build-mac.sh -j8
@@ -107,42 +107,42 @@ sudo update-alternatives --config x86_64-w64-mingw32-g++
 # (configure to use POSIX variant)
 
 git clone https://github.com/sqcndev/SquishyCoinQT-V0.8.git
-cd komodo
+cd squishy
 ./zcutil/fetch-params.sh
 # -j8 = using 8 threads for the compilation - replace 8 with number of threads you want to use
 ./zcutil/build-win.sh -j8
 #This can take some time.
 ```
-**komodo is experimental and a work-in-progress.** Use at your own risk.
+**squishy is experimental and a work-in-progress.** Use at your own risk.
 
 *p.s.* Currently only `x86_64` arch supported for MacOS, build for `Apple M1` processors unfortunately not yet supported.
 
-## Create komodo.conf ##
+## Create squishy.conf ##
 
-Before start the wallet you should [create config file](https://github.com/DeckerSU/KomodoOcean/wiki/F.A.Q.#q-after-i-start-komodo-qt-i-receive-the-following-error-error-cannot-parse-configuration-file-missing-komodoconf-only-use-keyvalue-syntax-what-should-i-do) `komodo.conf` at one of the following locations:
+Before start the wallet you should [create config file](https://github.com/DeckerSU/KomodoOcean/wiki/F.A.Q.#q-after-i-start-squishy-qt-i-receive-the-following-error-error-cannot-parse-configuration-file-missing-squishyconf-only-use-keyvalue-syntax-what-should-i-do) `squishy.conf` at one of the following locations:
 
-- Linux - `~/.komodo/komodo.conf`
-- Windows - `%APPDATA%\Komodo\komodo.conf`
-- MacOS - `~/Library/Application Support/Komodo/komodo.conf`
+- Linux - `~/.squishy/squishy.conf`
+- Windows - `%APPDATA%\Komodo\squishy.conf`
+- MacOS - `~/Library/Application Support/Komodo/squishy.conf`
 
 With the following content:
 
 ```
 txindex=1
-rpcuser=komodo
+rpcuser=squishy
 rpcpassword=local321 # don't forget to change password
 rpcallowip=127.0.0.1
 rpcbind=127.0.0.1
 server=1
 ```
 
-Bash one-liner for Linux to create `komodo.conf` with random RPC password:
+Bash one-liner for Linux to create `squishy.conf` with random RPC password:
 
 ```
 RANDPASS=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w16 | head -n1) && \
-tee -a ~/.komodo/komodo.conf << END
+tee -a ~/.squishy/squishy.conf << END
 txindex=1
-rpcuser=komodo
+rpcuser=squishy
 rpcpassword=${RANDPASS}
 rpcallowip=127.0.0.1
 rpcbind=127.0.0.1

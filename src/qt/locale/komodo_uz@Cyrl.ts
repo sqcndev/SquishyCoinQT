@@ -222,8 +222,8 @@
         <translation>Ички ойналар асбоблар панели</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Тўловлар (QR кодлари ва komodo ёрдамида яратишлар: URI’лар) сўраш</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Тўловлар (QR кодлари ва squishy ёрдамида яратишлар: URI’лар) сўраш</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -234,7 +234,7 @@
         <translation>Фойдаланилган қабул қилинган манзиллар ва ёрлиқлар рўйхатини кўрсатиш</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
+        <source>Open a squishy: URI or payment request</source>
         <translation>Komodo’ни очиш: URI ёки тўлов сўрови</translation>
     </message>
     <message>
@@ -1190,7 +1190,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Танламалар:</translation>

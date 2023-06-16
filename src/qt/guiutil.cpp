@@ -4,8 +4,8 @@
 
 #include "guiutil.h"
 
-#include "komodoaddressvalidator.h"
-#include "komodounits.h"
+#include "squishyaddressvalidator.h"
+#include "squishyunits.h"
 #include "qvalidatedlineedit.h"
 #include "walletmodel.h"
 
@@ -151,8 +151,8 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
 
 bool parseKomodoURI(const QUrl &uri, SendCoinsRecipient *out)
 {
-    // return if URI is not valid or is no komodo: URI
-    if(!uri.isValid() || uri.scheme() != QString("komodo"))
+    // return if URI is not valid or is no squishy: URI
+    if(!uri.isValid() || uri.scheme() != QString("squishy"))
         return false;
 
     SendCoinsRecipient rv;
@@ -212,13 +212,13 @@ bool parseKomodoURI(const QUrl &uri, SendCoinsRecipient *out)
 
 bool parseKomodoURI(QString uri, SendCoinsRecipient *out)
 {
-    // Convert komodo:// to komodo:
+    // Convert squishy:// to squishy:
     //
-    //    Cannot handle this later, because komodo:// will cause Qt to see the part after // as host,
+    //    Cannot handle this later, because squishy:// will cause Qt to see the part after // as host,
     //    which will lower-case it (and thus invalidate the address).
-    if(uri.startsWith("komodo://", Qt::CaseInsensitive))
+    if(uri.startsWith("squishy://", Qt::CaseInsensitive))
     {
-        uri.replace(0, 10, "komodo:");
+        uri.replace(0, 10, "squishy:");
     }
     QUrl uriInstance(uri);
     return parseKomodoURI(uriInstance, out);
@@ -226,7 +226,7 @@ bool parseKomodoURI(QString uri, SendCoinsRecipient *out)
 
 QString formatKomodoURI(const SendCoinsRecipient &info)
 {
-    QString ret = QString("komodo:%1").arg(info.address);
+    QString ret = QString("squishy:%1").arg(info.address);
     int paramCount = 0;
 
     if (info.amount)
@@ -433,7 +433,7 @@ bool openKomodoConf()
     
     configFile.close();
     
-    /* Open komodo.conf with the associated application */
+    /* Open squishy.conf with the associated application */
     return QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 }
 
@@ -721,8 +721,8 @@ fs::path static GetAutostartFilePath()
     //std::string chain = ChainNameFromCommandLine();
     CBaseChainParams::Network chain = NetworkIdFromCommandLine();
     if (chain == CBaseChainParams::MAIN)
-        return GetAutostartDir() / "komodo.desktop";
-    return GetAutostartDir() / strprintf("komodo-%s.lnk", chain);
+        return GetAutostartDir() / "squishy.desktop";
+    return GetAutostartDir() / strprintf("squishy-%s.lnk", chain);
 }
 
 bool GetStartOnSystemStartup()
@@ -763,7 +763,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
             return false;
         //std::string chain = ChainNameFromCommandLine();
         CBaseChainParams::Network chain = NetworkIdFromCommandLine();
-        // Write a komodo.desktop file to the autostart directory:
+        // Write a squishy.desktop file to the autostart directory:
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
         if (chain == CBaseChainParams::MAIN)
@@ -797,7 +797,7 @@ LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef
         return nullptr;
     }
     
-    // loop through the list of startup items and try to find the komodo app
+    // loop through the list of startup items and try to find the squishy app
     for(int i = 0; i < CFArrayGetCount(listSnapshot); i++) {
         LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(listSnapshot, i);
         UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
@@ -830,38 +830,38 @@ LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef
 
 bool GetStartOnSystemStartup()
 {
-    CFURLRef komodoAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-    if (komodoAppUrl == nullptr) {
+    CFURLRef squishyAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    if (squishyAppUrl == nullptr) {
         return false;
     }
     
     LSSharedFileListRef loginItems = LSSharedFileListCreate(nullptr, kLSSharedFileListSessionLoginItems, nullptr);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, komodoAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, squishyAppUrl);
 
-    CFRelease(komodoAppUrl);
+    CFRelease(squishyAppUrl);
     return !!foundItem; // return boolified object
 }
 
 bool SetStartOnSystemStartup(bool fAutoStart)
 {
-    CFURLRef komodoAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-    if (komodoAppUrl == nullptr) {
+    CFURLRef squishyAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    if (squishyAppUrl == nullptr) {
         return false;
     }
     
     LSSharedFileListRef loginItems = LSSharedFileListCreate(nullptr, kLSSharedFileListSessionLoginItems, nullptr);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, komodoAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, squishyAppUrl);
 
     if(fAutoStart && !foundItem) {
-        // add komodo app to startup item list
-        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, nullptr, nullptr, komodoAppUrl, nullptr, nullptr);
+        // add squishy app to startup item list
+        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, nullptr, nullptr, squishyAppUrl, nullptr, nullptr);
     }
     else if(!fAutoStart && foundItem) {
         // remove item
         LSSharedFileListItemRemove(loginItems, foundItem);
     }
     
-    CFRelease(komodoAppUrl);
+    CFRelease(squishyAppUrl);
     return true;
 }
 #pragma GCC diagnostic pop

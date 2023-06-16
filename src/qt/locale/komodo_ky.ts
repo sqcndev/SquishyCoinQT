@@ -334,7 +334,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Information</source>
         <translation>Маалымат</translation>

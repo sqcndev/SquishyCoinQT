@@ -12,14 +12,14 @@
 #include "util.h"
 #include "univalue.h"
 
-#include "komodo_defs.h"
-#include "komodo_globals.h"
-#include "komodo_interest.h"
+#include "squishy_defs.h"
+#include "squishy_globals.h"
+#include "squishy_interest.h"
 #include "cc/CCinclude.h"
-#include "komodo_hardfork.h"
+#include "squishy_hardfork.h"
 
 
-const int komodo_interest_height = 247205+1;
+const int squishy_interest_height = 247205+1;
 const std::string testwif("Usr24VoC3h4cSfSrFiGJkWLYwmkM1VnsBiMyWZvrF6QR5ZQ6Fbuu");
 const std::string testpk("034b082c5819b5bf8798a387630ad236a8e800dbce4c4e24a46f36dfddab3cbff5");
 const std::string testaddr("RXTUtWXgkepi8f2ohWLL9KhtGKRjBV48hT");
@@ -43,7 +43,7 @@ public:
             CCoins newCoins;
             newCoins.vout.resize(1);
             newCoins.vout[0] = txOut;
-            newCoins.nHeight = komodo_interest_height-1; /* TODO: return correct nHeight depends on txid */
+            newCoins.nHeight = squishy_interest_height-1; /* TODO: return correct nHeight depends on txid */
             coins.swap(newCoins);
             return true;
         }
@@ -106,7 +106,7 @@ protected:
 
         UpdateNetworkUpgradeParameters(Consensus::UPGRADE_OVERWINTER, Consensus::NetworkUpgrade::ALWAYS_ACTIVE);
         UpdateNetworkUpgradeParameters(Consensus::UPGRADE_SAPLING, Consensus::NetworkUpgrade::ALWAYS_ACTIVE);
-        KOMODO_REWIND = 0;
+        SQUISHY_REWIND = 0;
         chainActive.SetTip(nullptr);
     }
 
@@ -119,11 +119,11 @@ protected:
     bool fPrintToConsoleOld;
 };
 
-// some komodo consensus extensions
-TEST_F(KomodoFeatures, komodo_interest_validate) {
+// some squishy consensus extensions
+TEST_F(KomodoFeatures, squishy_interest_validate) {
 
     // Add a fake transaction to the wallet
-    CMutableTransaction mtx0 = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_interest_height-1);
+    CMutableTransaction mtx0 = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_interest_height-1);
     CScript scriptPubKey = GetScriptForDestination(DecodeDestination(testaddr));
     mtx0.vout.push_back(CTxOut(10 * COIN, scriptPubKey));
     mtx0.nLockTime = 1663755146;
@@ -137,12 +137,12 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
     auto blockHash = block.GetHash();
     CBlockIndex *pfakeIndex = new CBlockIndex(block);  // TODO: change back to auto if index is not cleaned
     pfakeIndex->pprev = nullptr;
-    pfakeIndex->nHeight = komodo_interest_height-1;
+    pfakeIndex->nHeight = squishy_interest_height-1;
     pfakeIndex->nTime = 1663755146;
     mapBlockIndex.insert(std::make_pair(blockHash, pfakeIndex));
     chainActive.SetTip(pfakeIndex);
     EXPECT_TRUE(chainActive.Contains(pfakeIndex));
-    EXPECT_EQ(komodo_interest_height-1, chainActive.Height());
+    EXPECT_EQ(squishy_interest_height-1, chainActive.Height());
 
     FakeCoinsViewDB2 fakedb;
     fakedb.bestBlockHash = blockHash;
@@ -154,7 +154,7 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
 
     CTxMemPool pool(::minRelayTxFee);
     bool missingInputs;
-    CMutableTransaction mtxSpend = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_interest_height);
+    CMutableTransaction mtxSpend = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_interest_height);
     mtxSpend.vin.push_back(CTxIn(mtx0.GetHash(), 0));
     CScript scriptPubKey1 = GetScriptForDestination(DecodeDestination(testaddr));
     mtxSpend.vout.push_back(CTxOut(10 * COIN, scriptPubKey1));
@@ -164,13 +164,13 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
     tempKeystore.AddKey(key);
 
     // create coinbase
-    CMutableTransaction txcb = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_interest_height);
+    CMutableTransaction txcb = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_interest_height);
     txcb.vin.resize(1);
     txcb.vin[0].prevout.SetNull();
-    txcb.vin[0].scriptSig = (CScript() << komodo_interest_height << CScriptNum(1)) + COINBASE_FLAGS;
+    txcb.vin[0].scriptSig = (CScript() << squishy_interest_height << CScriptNum(1)) + COINBASE_FLAGS;
     txcb.vout.resize(1);
     txcb.vout[0].scriptPubKey = GetScriptForDestination(DecodeDestination(testaddr));;
-    txcb.vout[0].nValue = GetBlockSubsidy(komodo_interest_height, Params().GetConsensus()) + 0;
+    txcb.vout[0].nValue = GetBlockSubsidy(squishy_interest_height, Params().GetConsensus()) + 0;
     txcb.nExpiryHeight = 0;
     txcb.nLockTime = pfakeIndex->GetMedianTimePast()+1;
 
@@ -185,7 +185,7 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
 
         LOCK( cs_main );
         EXPECT_FALSE(AcceptToMemoryPool(pool, state1, tx1, false, &missingInputs));
-        EXPECT_EQ(state1.GetRejectReason(), "komodo-interest-invalid");
+        EXPECT_EQ(state1.GetRejectReason(), "squishy-interest-invalid");
     }
     {
         // check invalid interest in block
@@ -203,7 +203,7 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
 
         CValidationState state1;
         EXPECT_FALSE(ContextualCheckBlock(false, block, state1, pfakeIndex));
-        EXPECT_EQ(state1.GetRejectReason(), "komodo-interest-invalid");
+        EXPECT_EQ(state1.GetRejectReason(), "squishy-interest-invalid");
     }
     {
         // check valid interest in mempool
@@ -246,13 +246,13 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
             1663762346 + 365 * 24 * 60 * 60,     /* year (365 days) */
         };
 
-        /* komodo_interest_height = 247205+1 */
+        /* squishy_interest_height = 247205+1 */
         const CAmount interestCollectedBefore250k[] = {0, 11415, 4545454, 25000000, 50000000, 50000000};
-        /* komodo_interest_height = 333332 */
+        /* squishy_interest_height = 333332 */
         const CAmount interestCollectedBefore1M[] = {0, 5802, 4252378, 24663337, 49320871, 49994387};
-        /* komodo_interest_height = 3000000 */
+        /* squishy_interest_height = 3000000 */
         const CAmount interestCollected[] = {0, 5795, 4235195, 4235195, 4235195, 4235195};
-        /* komodo_interest_height = 7113400 */
+        /* squishy_interest_height = 7113400 */
         const CAmount interestCollectedAfterS7[] = {0, 5795 / 500, 4235195 / 500, 4235195 / 500, 4235195 / 500, 4235195 / 500};
 
         /* check collected interest */
@@ -294,8 +294,8 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
                 mapBlockIndex.clear();
 
                 // put tx which we trying to spend into mempool,
-                // bcz CCoinsViewCache::GetValueIn will call komodo_accrued_interest
-                // -> komodo_interest_args -> GetTransaction
+                // bcz CCoinsViewCache::GetValueIn will call squishy_accrued_interest
+                // -> squishy_interest_args -> GetTransaction
 
                 auto consensusBranchId = CurrentEpochBranchId(chainActive.Height() + 1, Params().GetConsensus());
                 SetMockTime(mtxSpend.nLockTime);
@@ -304,7 +304,7 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
 
                 EXPECT_TRUE(mempool.exists(mtx0.GetHash()));
 
-                // force komodo_getblockindex in komodo_interest_args return a value
+                // force squishy_getblockindex in squishy_interest_args return a value
                 uint256 zero;
                 zero.SetNull();
                 mapBlockIndex.insert(std::make_pair(zero, pfakeIndex));
@@ -336,81 +336,81 @@ TEST_F(KomodoFeatures, komodo_interest_validate) {
     }
 }
 
-// check komodo_interestnew calculations
-TEST_F(KomodoFeatures, komodo_interestnew) {
+// check squishy_interestnew calculations
+TEST_F(KomodoFeatures, squishy_interestnew) {
 
     // some not working values
-    EXPECT_EQ(komodo_interestnew(1, 1000LL, 1, 1), 0LL); 
+    EXPECT_EQ(squishy_interestnew(1, 1000LL, 1, 1), 0LL); 
     // time lower than cut off month time limit
-    EXPECT_EQ(komodo_interestnew(1000000, 10LL*COIN, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600 /*KOMODO_MAXMEMPOOLTIME*/), 10LL*COIN/10512000 * (31*24*60 - 59)); 
+    EXPECT_EQ(squishy_interestnew(1000000, 10LL*COIN, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600 /*SQUISHY_MAXMEMPOOLTIME*/), 10LL*COIN/10512000 * (31*24*60 - 59)); 
 
     // since 7th season, according to KIP0001 AUR should be reduced from 5% to 0.01%, i.e. div by 500
-    EXPECT_EQ(komodo_interestnew(7777777-1, 10LL*COIN, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 10LL*COIN/10512000 * (31*24*60 - 59) / 500);
+    EXPECT_EQ(squishy_interestnew(7777777-1, 10LL*COIN, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 10LL*COIN/10512000 * (31*24*60 - 59) / 500);
     // end of interest era
-    EXPECT_EQ(komodo_interestnew(7777777, 10LL*COIN, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 0LL); 
+    EXPECT_EQ(squishy_interestnew(7777777, 10LL*COIN, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 0LL); 
 
     // value less than limit
-    EXPECT_EQ(komodo_interestnew(1000000, 10LL*COIN-1, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 0); 
+    EXPECT_EQ(squishy_interestnew(1000000, 10LL*COIN-1, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 0); 
     // tip less than nLockTime
-    EXPECT_EQ(komodo_interestnew(1000000, 10LL*COIN-1, 1663839248, 1663839248 - 1), 0); 
+    EXPECT_EQ(squishy_interestnew(1000000, 10LL*COIN-1, 1663839248, 1663839248 - 1), 0); 
     // not timestamp value
-    EXPECT_EQ(komodo_interestnew(1000000, 10LL*COIN-1, 400000000U, 400000000U + 30 * 24 * 60 * 60 + 3600), 0); 
+    EXPECT_EQ(squishy_interestnew(1000000, 10LL*COIN-1, 400000000U, 400000000U + 30 * 24 * 60 * 60 + 3600), 0); 
 
     // too small period
-    EXPECT_EQ(komodo_interestnew(1000000, 10LL*COIN, 1663839248, 1663839248 + 3600 - 1), 0); 
+    EXPECT_EQ(squishy_interestnew(1000000, 10LL*COIN, 1663839248, 1663839248 + 3600 - 1), 0); 
     // time over cut off month time limit
-    EXPECT_EQ(komodo_interestnew(1000000, 10LL*COIN, 1663839248, 1663839248 + 31 * 24 * 60 * 60 + 3600+1), 10LL*COIN/10512000 * (31*24*60 - 59)); 
-    EXPECT_EQ(komodo_interestnew(1000000, 10LL*COIN, 1663839248, 1663839248 + 32 * 24 * 60 * 60 + 3600), 10LL*COIN/10512000 * (31*24*60 - 59)); 
+    EXPECT_EQ(squishy_interestnew(1000000, 10LL*COIN, 1663839248, 1663839248 + 31 * 24 * 60 * 60 + 3600+1), 10LL*COIN/10512000 * (31*24*60 - 59)); 
+    EXPECT_EQ(squishy_interestnew(1000000, 10LL*COIN, 1663839248, 1663839248 + 32 * 24 * 60 * 60 + 3600), 10LL*COIN/10512000 * (31*24*60 - 59)); 
 
     // time close to cut off year time limit 
-    EXPECT_EQ(komodo_interestnew(1000000-1, 10LL*COIN, 1663839248, 1663839248 + (365 * 24 * 60 - 1) * 60 + 3600), 10LL*COIN/10512000 * (365*24*60 - 59)); 
+    EXPECT_EQ(squishy_interestnew(1000000-1, 10LL*COIN, 1663839248, 1663839248 + (365 * 24 * 60 - 1) * 60 + 3600), 10LL*COIN/10512000 * (365*24*60 - 59)); 
     // time over cut off year time limit 
-    EXPECT_EQ(komodo_interestnew(1000000-1, 10LL*COIN, 1663839248, 1663839248 + (365 * 24 * 60 - 1) * 60 + 3600 + 60), 10LL*COIN/10512000 * (365*24*60 - 59)); 
-    EXPECT_EQ(komodo_interestnew(1000000-1, 10LL*COIN, 1663839248, 1663839248 + (365 * 24 * 60 - 1) * 60 + 3600 + 30 * 24 * 60), 10LL*COIN/10512000 * (365*24*60 - 59)); 
+    EXPECT_EQ(squishy_interestnew(1000000-1, 10LL*COIN, 1663839248, 1663839248 + (365 * 24 * 60 - 1) * 60 + 3600 + 60), 10LL*COIN/10512000 * (365*24*60 - 59)); 
+    EXPECT_EQ(squishy_interestnew(1000000-1, 10LL*COIN, 1663839248, 1663839248 + (365 * 24 * 60 - 1) * 60 + 3600 + 30 * 24 * 60), 10LL*COIN/10512000 * (365*24*60 - 59)); 
 }
 
-// check komodo_interest calculations
-TEST_F(KomodoFeatures, komodo_interest) {
+// check squishy_interest calculations
+TEST_F(KomodoFeatures, squishy_interest) {
 
     const uint32_t activation = 1491350400;  // 1491350400 5th April
 
     {
         // some not working values should produce 0LL
-        EXPECT_EQ(komodo_interest(1, 1000LL, 1, 1), 0LL); 
+        EXPECT_EQ(squishy_interest(1, 1000LL, 1, 1), 0LL); 
     }
     {
         // nValue <= 25000LL*COIN and nValue >= 25000LL*COIN
         // txheight >= 1000000 
-        // should be routed to komodo_interestnew
+        // should be routed to squishy_interestnew
 
         for (CAmount nValue : { 10LL*COIN, 25001LL*COIN })
         {
             // time lower than cut off month time limit
-            EXPECT_EQ(komodo_interest(1000000, nValue, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), nValue/10512000 * (31*24*60 - 59)); 
+            EXPECT_EQ(squishy_interest(1000000, nValue, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), nValue/10512000 * (31*24*60 - 59)); 
 
             // since 7th season, according to KIP0001 AUR should be reduced from 5% to 0.01%, i.e. div by 500
-            EXPECT_EQ(komodo_interest(7777777-1, nValue, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), nValue/10512000 * (31*24*60 - 59) / 500);
+            EXPECT_EQ(squishy_interest(7777777-1, nValue, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), nValue/10512000 * (31*24*60 - 59) / 500);
             // end of interest era
-            EXPECT_EQ(komodo_interest(7777777 /*KOMODO_ENDOFERA*/, nValue, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 0LL); 
+            EXPECT_EQ(squishy_interest(7777777 /*SQUISHY_ENDOFERA*/, nValue, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 0LL); 
 
             // tip less than nLockTime
-            EXPECT_EQ(komodo_interest(1000000, nValue-1, 1663839248, 1663839248 - 1), 0); 
+            EXPECT_EQ(squishy_interest(1000000, nValue-1, 1663839248, 1663839248 - 1), 0); 
             // not timestamp value
-            EXPECT_EQ(komodo_interest(1000000, nValue-1, 400000000U, 400000000U + 30 * 24 * 60 * 60 + 3600), 0); 
+            EXPECT_EQ(squishy_interest(1000000, nValue-1, 400000000U, 400000000U + 30 * 24 * 60 * 60 + 3600), 0); 
 
             // too small period
-            EXPECT_EQ(komodo_interest(1000000, nValue, 1663839248, 1663839248 + 3600 - 1), 0); 
+            EXPECT_EQ(squishy_interest(1000000, nValue, 1663839248, 1663839248 + 3600 - 1), 0); 
             // time over cut off month time limit
-            EXPECT_EQ(komodo_interest(1000000, nValue, 1663839248, 1663839248 + 31 * 24 * 60 * 60 + 3600+1), nValue/10512000 * (31*24*60 - 59)); 
-            EXPECT_EQ(komodo_interest(1000000, nValue, 1663839248, 1663839248 + 32 * 24 * 60 * 60 + 3600), nValue/10512000 * (31*24*60 - 59)); 
+            EXPECT_EQ(squishy_interest(1000000, nValue, 1663839248, 1663839248 + 31 * 24 * 60 * 60 + 3600+1), nValue/10512000 * (31*24*60 - 59)); 
+            EXPECT_EQ(squishy_interest(1000000, nValue, 1663839248, 1663839248 + 32 * 24 * 60 * 60 + 3600), nValue/10512000 * (31*24*60 - 59)); 
         }
         // value less than limit
-        EXPECT_EQ(komodo_interest(1000000, 10LL*COIN-1, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 0); 
+        EXPECT_EQ(squishy_interest(1000000, 10LL*COIN-1, 1663839248, 1663839248 + (31 * 24 * 60 - 1) * 60 + 3600), 0); 
     }
 
     for (auto days : { 1, 10, 365, 365*2, 365*3 })
     {
-        std::cerr << "running komodo_interest test for days=" << days << "..." << std::endl;
+        std::cerr << "running squishy_interest test for days=" << days << "..." << std::endl;
         int32_t minutes = days * 24 * 60;
         if (minutes > 365 * 24 * 60)
             minutes = 365 * 24 * 60;
@@ -419,19 +419,19 @@ TEST_F(KomodoFeatures, komodo_interest) {
             // txheight < 1000000 
 
             uint64_t numerator = (10LL*COIN / 20); // assumes 5%!
-            EXPECT_EQ(komodo_interest(1000000-1, 10LL*COIN, 1663839248, 1663839248 + minutes * 60), numerator * (minutes - 59) / (365ULL * 24 * 60)); 
+            EXPECT_EQ(squishy_interest(1000000-1, 10LL*COIN, 1663839248, 1663839248 + minutes * 60), numerator * (minutes - 59) / (365ULL * 24 * 60)); 
         }
         {
             // nValue <= 25000LL*COIN
             // txheight < 250000 
 
-            uint64_t numerator = (10LL*COIN * 5000000 /*KOMODO_INTEREST*/);
+            uint64_t numerator = (10LL*COIN * 5000000 /*SQUISHY_INTEREST*/);
             uint32_t locktime = activation - 2 * days * 24 * 60 * 60;
             uint32_t tiptime = locktime + minutes * 60;
             ASSERT_TRUE(tiptime < activation);
             uint64_t denominator = (365LL * 24 * 60) / minutes;
             denominator = (denominator == 0LL) ? 1LL : denominator;
-            EXPECT_EQ(komodo_interest(250000-1, 10LL*COIN, locktime, tiptime), numerator / denominator / COIN); 
+            EXPECT_EQ(squishy_interest(250000-1, 10LL*COIN, locktime, tiptime), numerator / denominator / COIN); 
         }
         {
             // !exception
@@ -441,7 +441,7 @@ TEST_F(KomodoFeatures, komodo_interest) {
             uint64_t numerator = (25000LL*COIN+1) / 20; // assumes 5%!
             uint64_t denominator = (365LL * 24 * 60) / minutes; // no minutes-59 adjustment
             denominator = (denominator == 0LL) ? 1LL : denominator;
-            EXPECT_EQ(komodo_interest(250000-1, 25000LL*COIN+1, 1663839248, 1663839248 + minutes * 60), numerator / denominator); 
+            EXPECT_EQ(squishy_interest(250000-1, 25000LL*COIN+1, 1663839248, 1663839248 + minutes * 60), numerator / denominator); 
         }
         {
             // !exception
@@ -450,7 +450,7 @@ TEST_F(KomodoFeatures, komodo_interest) {
 
             uint64_t numerator = (25000LL*COIN+1) / 20; // assumes 5%!
             int32_t minutes_adj = minutes - 59; // adjusted since ht=250000
-            EXPECT_EQ(komodo_interest(1000000-1, 25000LL*COIN+1, 1663839248, 1663839248 + minutes * 60), numerator * minutes_adj / (365LL * 24 * 60)); 
+            EXPECT_EQ(squishy_interest(1000000-1, 25000LL*COIN+1, 1663839248, 1663839248 + minutes * 60), numerator * minutes_adj / (365LL * 24 * 60)); 
         }
         {
             // exception
@@ -461,7 +461,7 @@ TEST_F(KomodoFeatures, komodo_interest) {
             {
                 int32_t txheight = htval.first;
                 CAmount nValue = htval.second;
-                uint64_t numerator = (static_cast<uint64_t>(nValue) * 5000000 /*KOMODO_INTEREST*/);  // NOTE: uint64_t (for CAmount it is an overflow here for some exceptions)
+                uint64_t numerator = (static_cast<uint64_t>(nValue) * 5000000 /*SQUISHY_INTEREST*/);  // NOTE: uint64_t (for CAmount it is an overflow here for some exceptions)
                 uint32_t locktime = 1484490069; // close to real tx locktime
                 // uint32_t locktime = 1663839248;
                 uint32_t tiptime = locktime + minutes * 60;
@@ -470,7 +470,7 @@ TEST_F(KomodoFeatures, komodo_interest) {
                 uint64_t denominator = (365LL * 24 * 60) / minutes;
                 denominator = (denominator == 0LL) ? 1LL : denominator;
                 if (txheight < 155949)
-                    EXPECT_EQ(komodo_interest(txheight, nValue, locktime, tiptime), numerator / denominator / COIN); 
+                    EXPECT_EQ(squishy_interest(txheight, nValue, locktime, tiptime), numerator / denominator / COIN); 
             }
         }
     }

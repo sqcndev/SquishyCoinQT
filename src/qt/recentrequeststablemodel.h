@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_RECENTREQUESTSTABLEMODEL_H
-#define KOMODO_QT_RECENTREQUESTSTABLEMODEL_H
+#ifndef SQUISHY_QT_RECENTREQUESTSTABLEMODEL_H
+#define SQUISHY_QT_RECENTREQUESTSTABLEMODEL_H
 
 #include "walletmodel.h"
 
@@ -52,7 +52,7 @@ private:
     Qt::SortOrder order;
 };
 
-/** Model for list of recently generated payment requests / komodo: URIs.
+/** Model for list of recently generated payment requests / squishy: URIs.
  * Part of wallet model.
  */
 class RecentRequestsTableModel: public QAbstractTableModel
@@ -104,4 +104,4 @@ private:
     QString getAmountTitle();
 };
 
-#endif // KOMODO_QT_RECENTREQUESTSTABLEMODEL_H
+#endif // SQUISHY_QT_RECENTREQUESTSTABLEMODEL_H

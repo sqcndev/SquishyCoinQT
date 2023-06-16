@@ -24,11 +24,11 @@ def def_credentials(chain):
     if operating_system == 'Darwin':
         ac_dir = os.environ['HOME'] + '/Library/Application Support/Komodo'
     elif operating_system == 'Linux':
-        ac_dir = os.environ['HOME'] + '/.komodo'
+        ac_dir = os.environ['HOME'] + '/.squishy'
     elif operating_system == 'Windows':
-        ac_dir = '%s/komodo/' % os.environ['APPDATA']
+        ac_dir = '%s/squishy/' % os.environ['APPDATA']
     if chain == 'KMD':
-        coin_config_file = str(ac_dir + '/komodo.conf')
+        coin_config_file = str(ac_dir + '/squishy.conf')
     else:
         coin_config_file = str(ac_dir + '/' + chain + '/' + chain + '.conf')
     with open(coin_config_file, 'r') as f:
@@ -53,7 +53,7 @@ def def_credentials(chain):
 rpc = def_credentials('KMD')
 pp = pprint.PrettyPrinter(indent=2)
 
-notarynames = [ "0dev1_jl777", "0dev2_kolo", "0dev3_kolo", "0dev4_decker_AR", "a-team_SH", "artik_AR", "artik_EU", "artik_NA", "artik_SH", "badass_EU", "badass_NA", "batman_AR", "batman_SH", "ca333", "chainmakers_EU", "chainmakers_NA", "chainstrike_SH", "cipi_AR", "cipi_NA", "crackers_EU", "crackers_NA", "dwy_EU", "emmanux_SH", "etszombi_EU", "fullmoon_AR", "fullmoon_NA", "fullmoon_SH", "goldenman_EU", "indenodes_AR", "indenodes_EU", "indenodes_NA", "indenodes_SH", "jackson_AR", "jeezy_EU", "karasugoi_NA", "komodoninja_EU", "komodoninja_SH", "komodopioneers_SH", "libscott_SH", "lukechilds_AR", "madmax_AR", "meshbits_AR", "meshbits_SH", "metaphilibert_AR", "metaphilibert_SH", "patchkez_SH", "pbca26_NA", "peer2cloud_AR", "peer2cloud_SH", "polycryptoblog_NA", "hyper_AR", "hyper_EU", "hyper_SH", "hyper_NA", "popcornbag_AR", "popcornbag_NA", "alien_AR", "alien_EU", "thegaltmines_NA", "titomane_AR", "titomane_EU", "titomane_SH", "webworker01_NA", "xrobesx_NA" ]
+notarynames = [ "0dev1_jl777", "0dev2_kolo", "0dev3_kolo", "0dev4_decker_AR", "a-team_SH", "artik_AR", "artik_EU", "artik_NA", "artik_SH", "badass_EU", "badass_NA", "batman_AR", "batman_SH", "ca333", "chainmakers_EU", "chainmakers_NA", "chainstrike_SH", "cipi_AR", "cipi_NA", "crackers_EU", "crackers_NA", "dwy_EU", "emmanux_SH", "etszombi_EU", "fullmoon_AR", "fullmoon_NA", "fullmoon_SH", "goldenman_EU", "indenodes_AR", "indenodes_EU", "indenodes_NA", "indenodes_SH", "jackson_AR", "jeezy_EU", "karasugoi_NA", "squishyninja_EU", "squishyninja_SH", "squishypioneers_SH", "libscott_SH", "lukechilds_AR", "madmax_AR", "meshbits_AR", "meshbits_SH", "metaphilibert_AR", "metaphilibert_SH", "patchkez_SH", "pbca26_NA", "peer2cloud_AR", "peer2cloud_SH", "polycryptoblog_NA", "hyper_AR", "hyper_EU", "hyper_SH", "hyper_NA", "popcornbag_AR", "popcornbag_NA", "alien_AR", "alien_EU", "thegaltmines_NA", "titomane_AR", "titomane_EU", "titomane_SH", "webworker01_NA", "xrobesx_NA" ]
 notaries = 64 * [0]
 
 startheight =  821657 #Second time filter for assetchains (block 821657) for KMD its 814000

@@ -7,7 +7,7 @@
  
  3. write the actual custom_func0, custom_func1 and custom_validate in customcc.cpp
  
- 4. ./makecustom, which builds cclib.cpp with -DBUILD_CUSTOMCC and puts the libcc.so in ~/komodo/src and rebuilds komodod
+ 4. ./makecustom, which builds cclib.cpp with -DBUILD_CUSTOMCC and puts the libcc.so in ~/squishy/src and rebuilds squishyd
  
  5. launch your chain with -ac_cclib=customcc -ac_cc=2
  

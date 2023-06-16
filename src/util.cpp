@@ -30,7 +30,7 @@
 #include "sync.h"
 #include "utilstrencodings.h"
 #include "utiltime.h"
-#include "komodo_globals.h"
+#include "squishy_globals.h"
 
 #include <stdarg.h>
 #include <sstream>
@@ -576,10 +576,10 @@ boost::filesystem::path GetAppDir()
 }
 
 /****
- * @brief get the OS-specific default komodod data directory
+ * @brief get the OS-specific default squishyd data directory
  * @note Windows: be "C:\Users\[username]\AppData\Roaming\Komodo"
  * @note Mac: ~/Library/Application Support/Komodo
- * @note Unix: ~/.komodo
+ * @note Unix: ~/.squishy
  * @returns the default path to the Komodo data directory
  */
 boost::filesystem::path GetDefaultDataDir()
@@ -601,9 +601,9 @@ boost::filesystem::path GetDefaultDataDir()
 #else
     // Unix
     if (chainName.isKMD())
-        return pathRet / ".komodo";
+        return pathRet / ".squishy";
     else 
-        return pathRet / ".komodo" / chainName.symbol();
+        return pathRet / ".squishy" / chainName.symbol();
 #endif
 }
 
@@ -684,7 +684,7 @@ const boost::filesystem::path GetExportDir()
  * @note looks at the -datadir command-line parameter or OS-specific defaults
  * @note creates the directory if it does not already exist
  * @param fNetSpecific if true, adds network-specific subdirectory (i.e. "regtest" or "testnet3")
- * @returns the full OS-specific data directory including Komodo (i.e. "~/.komodo")
+ * @returns the full OS-specific data directory including Komodo (i.e. "~/.squishy")
  */
 const boost::filesystem::path &GetDataDir(bool fNetSpecific)
 {
@@ -733,7 +733,7 @@ boost::filesystem::path GetConfigFile()
 #ifdef __APPLE__
         strcpy(confname,"Komodo.conf");
 #else
-        strcpy(confname,"komodo.conf");
+        strcpy(confname,"squishy.conf");
 #endif
     }
     boost::filesystem::path pathConfigFile(GetArg("-conf",confname));
@@ -756,7 +756,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 
     for (boost::program_options::detail::config_file_iterator it(streamConfig, setOptions), end; it != end; ++it)
     {
-        // Don't overwrite existing settings so command line settings override komodo.conf
+        // Don't overwrite existing settings so command line settings override squishy.conf
         string strKey = string("-") + it->string_key;
         if (mapSettingsRet.count(strKey) == 0)
         {
@@ -774,7 +774,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 #ifndef _WIN32
 boost::filesystem::path GetPidFile()
 {
-    boost::filesystem::path pathPidFile(GetArg("-pid", "komodod.pid"));
+    boost::filesystem::path pathPidFile(GetArg("-pid", "squishyd.pid"));
     if (!pathPidFile.is_complete()) pathPidFile = GetDataDir() / pathPidFile;
     return pathPidFile;
 }

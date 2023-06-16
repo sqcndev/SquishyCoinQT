@@ -13,19 +13,19 @@
  *                                                                            *
  ******************************************************************************/
 #pragma once
-#include "komodo_defs.h"
-#include "komodo_structs.h"
+#include "squishy_defs.h"
+#include "squishy_structs.h"
 
-void komodo_eventadd_notarized(komodo_state *sp, const char *symbol,int32_t height, komodo::event_notarized& ntz);
+void squishy_eventadd_notarized(squishy_state *sp, const char *symbol,int32_t height, squishy::event_notarized& ntz);
 
-void komodo_eventadd_pubkeys(komodo_state *sp, const char *symbol,int32_t height, komodo::event_pubkeys& pk);
+void squishy_eventadd_pubkeys(squishy_state *sp, const char *symbol,int32_t height, squishy::event_pubkeys& pk);
 
-void komodo_eventadd_pricefeed(komodo_state *sp, const char *symbol,int32_t height, komodo::event_pricefeed& pf);
+void squishy_eventadd_pricefeed(squishy_state *sp, const char *symbol,int32_t height, squishy::event_pricefeed& pf);
 
-void komodo_eventadd_opreturn(komodo_state *sp, const char *symbol,int32_t height, komodo::event_opreturn& opret);
+void squishy_eventadd_opreturn(squishy_state *sp, const char *symbol,int32_t height, squishy::event_opreturn& opret);
 
-void komodo_eventadd_kmdheight(komodo_state *sp, const char *symbol,int32_t height, komodo::event_kmdheight& kmd_ht);
+void squishy_eventadd_kmdheight(squishy_state *sp, const char *symbol,int32_t height, squishy::event_kmdheight& kmd_ht);
 
-void komodo_event_rewind(komodo_state *sp, const char *symbol,int32_t height);
+void squishy_event_rewind(squishy_state *sp, const char *symbol,int32_t height);
 
-void komodo_setkmdheight(komodo_state *sp,int32_t kmdheight,uint32_t timestamp);
+void squishy_setkmdheight(squishy_state *sp,int32_t kmdheight,uint32_t timestamp);

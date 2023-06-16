@@ -175,7 +175,7 @@
     </message>
     <message>
         <source>Send coins to a Komodo address</source>
-        <translation>Slanje novca na komodo adresu</translation>
+        <translation>Slanje novca na squishy adresu</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -227,11 +227,11 @@
     </message>
     <message>
         <source>Sign messages with your Komodo addresses to prove you own them</source>
-        <translation>Poruku potpišemo s komodo adresom, kako bi dokazali vlasništvo nad tom adresom</translation>
+        <translation>Poruku potpišemo s squishy adresom, kako bi dokazali vlasništvo nad tom adresom</translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Komodo addresses</source>
-        <translation>Provjeravanje poruke, kao dokaz, da je potpisana navedenom komodo adresom</translation>
+        <translation>Provjeravanje poruke, kao dokaz, da je potpisana navedenom squishy adresom</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -250,8 +250,8 @@
         <translation>Traka kartica</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Zatraži uplatu (stvara QR kod i komodo: URI adresu)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Zatraži uplatu (stvara QR kod i squishy: URI adresu)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -262,8 +262,8 @@
         <translation>Prikaži popis korištenih adresa i oznaka za primanje novca</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Otvori komodo: URI adresu ili zahtjev za uplatu</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Otvori squishy: URI adresu ili zahtjev za uplatu</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -423,7 +423,7 @@
     </message>
     <message>
         <source>The label associated with this address list entry</source>
-        <translation>Oznaka komodo adrese</translation>
+        <translation>Oznaka squishy adrese</translation>
     </message>
     <message>
         <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
@@ -617,7 +617,7 @@
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Izaberite željeni najmanji dio komodoa koji će biti prikazan u sučelju i koji će se koristiti za plaćanje.</translation>
+        <translation>Izaberite željeni najmanji dio squishya koji će biti prikazan u sučelju i koji će se koristiti za plaćanje.</translation>
     </message>
     <message>
         <source>&amp;OK</source>
@@ -1012,7 +1012,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Options:</source>
         <translation>Postavke:</translation>

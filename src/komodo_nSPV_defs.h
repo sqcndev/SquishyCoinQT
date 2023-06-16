@@ -14,8 +14,8 @@
  *                                                                            *
  ******************************************************************************/
 
-#ifndef KOMODO_NSPV_DEFSH
-#define KOMODO_NSPV_DEFSH
+#ifndef SQUISHY_NSPV_DEFSH
+#define SQUISHY_NSPV_DEFSH
 
 #define NSPV_PROTOCOL_VERSION 0x00000004
 #define NSPV_POLLITERS 200
@@ -54,14 +54,14 @@
 #define NSPV_REMOTERPC 0x14
 #define NSPV_REMOTERPCRESP 0x15
 
-extern int32_t KOMODO_NSPV;
+extern int32_t SQUISHY_NSPV;
 
-#ifndef KOMODO_NSPV_FULLNODE
-#define KOMODO_NSPV_FULLNODE (KOMODO_NSPV <= 0)
+#ifndef SQUISHY_NSPV_FULLNODE
+#define SQUISHY_NSPV_FULLNODE (SQUISHY_NSPV <= 0)
 #endif
 
-#ifndef KOMODO_NSPV_SUPERLITE
-#define KOMODO_NSPV_SUPERLITE (KOMODO_NSPV > 0)
+#ifndef SQUISHY_NSPV_SUPERLITE
+#define SQUISHY_NSPV_SUPERLITE (SQUISHY_NSPV > 0)
 #endif
 
 int32_t NSPV_gettransaction(int32_t skipvalidation,int32_t vout,uint256 txid,int32_t height,CTransaction &tx,uint256 &hashblock,int32_t &txheight,int32_t &currentheight,int64_t extradata,uint32_t tiptime,int64_t &rewardsum);
@@ -199,4 +199,4 @@ struct NSPV_remoterpcresp
     char *json;
 };
 
-#endif // KOMODO_NSPV_DEFSH
+#endif // SQUISHY_NSPV_DEFSH

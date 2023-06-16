@@ -4,11 +4,11 @@
 #include <cstdlib>
 #include <iterator>
 #include <boost/filesystem.hpp>
-#include "komodo.h"
-#include "komodo_structs.h"
-#include "komodo_gateway.h"
-#include "komodo_notary.h"
-#include "komodo_extern_globals.h"
+#include "squishy.h"
+#include "squishy_structs.h"
+#include "squishy_gateway.h"
+#include "squishy_notary.h"
+#include "squishy_extern_globals.h"
 
 namespace test_events {
 
@@ -31,7 +31,7 @@ void write_p_record(std::FILE* fp)
 
 void write_p_record_new(std::FILE* fp)
 {
-    komodo::event_pubkeys evt;
+    squishy::event_pubkeys evt;
     evt.height = 10;
     evt.num = 2;
     memset(&evt.pubkeys[0], 1, 33);
@@ -53,7 +53,7 @@ void write_n_record(std::FILE* fp)
 }
 void write_n_record_new(std::FILE* fp)
 {
-    komodo::event_notarized evt;
+    squishy::event_notarized evt;
     evt.height = 10;
     evt.notarizedheight = 2;
     evt.blockhash = fill_hash(1);
@@ -79,7 +79,7 @@ void write_m_record(std::FILE* fp)
 }
 void write_m_record_new(std::FILE* fp)
 {
-    komodo::event_notarized evt;
+    squishy::event_notarized evt;
     evt.height = 10;
     evt.notarizedheight = 3;
     std::vector<unsigned char> bin(32);
@@ -104,7 +104,7 @@ void write_u_record(std::FILE* fp)
 }
 void write_u_record_new(std::FILE* fp)
 {
-    komodo::event_u evt(10);
+    squishy::event_u evt(10);
     evt.n = 'N';
     evt.nid = 'I';
     memset(&evt.mask[0], 1, 8);
@@ -123,7 +123,7 @@ void write_k_record(std::FILE* fp)
 }
 void write_k_record_new(std::FILE* fp)
 {
-    komodo::event_kmdheight evt(10);
+    squishy::event_kmdheight evt(10);
     evt.kheight = 0x01010101;
     write_event(evt, fp);
 }
@@ -141,7 +141,7 @@ void write_t_record(std::FILE* fp)
 }
 void write_t_record_new(std::FILE* fp)
 {
-    komodo::event_kmdheight evt(10);
+    squishy::event_kmdheight evt(10);
     evt.kheight = 0x01010101;
     evt.timestamp = 0x02020202;
     write_event(evt, fp);
@@ -167,7 +167,7 @@ void write_r_record(std::FILE* fp)
 }
 void write_r_record_new(std::FILE* fp)
 {
-    komodo::event_opreturn evt(10);
+    squishy::event_opreturn evt(10);
     evt.txid = fill_hash(1);
     evt.vout = 0x0202; 
     evt.value = 0x0303030303030303;
@@ -188,7 +188,7 @@ void write_v_record(std::FILE* fp)
 }
 void write_v_record_new(std::FILE* fp)
 {
-    komodo::event_pricefeed evt(10);
+    squishy::event_pricefeed evt(10);
     evt.num = 35;
     memset(&evt.prices[0], 1, 140);
     write_event(evt, fp);
@@ -201,7 +201,7 @@ void write_b_record(std::FILE* fp)
 }
 void write_b_record_new(std::FILE* fp)
 {
-    komodo::event_rewind evt(10);
+    squishy::event_rewind evt(10);
     write_event(evt, fp);
 }
 
@@ -274,7 +274,7 @@ bool compare_files(const std::string& file1, const std::string& file2)
 
 void clear_state(const char* symbol)
 {
-    komodo_state* state = komodo_stateptrget((char*)symbol);
+    squishy_state* state = squishy_stateptrget((char*)symbol);
     ASSERT_TRUE(state != nullptr);
     state->events.clear();
 }
@@ -285,12 +285,12 @@ void clear_state(const char* symbol)
  * changes. Files need to be readable. The record format should 
  * not change without hardfork protection
  */
-TEST(test_events, komodo_faststateinit_test)
+TEST(test_events, squishy_faststateinit_test)
 {
     char symbol[] = "TST";
     chainName = assetchain("TST");
-    KOMODO_EXTERNAL_NOTARIES = 1;
-    IS_KOMODO_NOTARY = false;   // avoid calling komodo_verifynotarization
+    SQUISHY_EXTERNAL_NOTARIES = 1;
+    IS_SQUISHY_NOTARY = false;   // avoid calling squishy_verifynotarization
 
     clear_state(symbol);
 
@@ -303,7 +303,7 @@ TEST(test_events, komodo_faststateinit_test)
         // plus a 32 bit height. Everything else is record specific
         // pubkey record
         {
-            // create a binary file that should be readable by komodo
+            // create a binary file that should be readable by squishy
             const std::string full_filename = (temp / "kstate.tmp").string();
             std::FILE* fp = std::fopen(full_filename.c_str(), "wb+");
             ASSERT_TRUE(fp != nullptr);
@@ -311,29 +311,29 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = nullptr;   // not used for 'P'
             // attempt to read the file
-            int32_t result = komodo_faststateinit( state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit( state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             // The first and second event should be pub keys
             EXPECT_EQ(state->Komodo_numevents, 1);
-            komodo_event* ev1 = state->Komodo_events[0];
+            squishy_event* ev1 = state->Komodo_events[0];
             EXPECT_EQ(ev1->height, 1);
             EXPECT_EQ(ev1->type, 'P');
             */
             ASSERT_TRUE(state->events.size() != 0); // prevent test crash
             // check that the new way is the same
             EXPECT_EQ(state->events.size(), 1);
-            komodo::event_pubkeys& ev2 = 
-                    static_cast<komodo::event_pubkeys&>( *state->events.front() );
+            squishy::event_pubkeys& ev2 = 
+                    static_cast<squishy::event_pubkeys&>( *state->events.front() );
             EXPECT_EQ(ev2.height, 10);
-            EXPECT_EQ(ev2.type, komodo::komodo_event_type::EVENT_PUBKEYS);
+            EXPECT_EQ(ev2.type, squishy::squishy_event_type::EVENT_PUBKEYS);
             // the serialized version should match the input
             EXPECT_TRUE(compare_serialization(full_filename, ev2));
         }
@@ -346,32 +346,32 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit( state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit( state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             EXPECT_EQ(state->Komodo_numevents, 2);
-            komodo_event* ev = state->Komodo_events[1];
+            squishy_event* ev = state->Komodo_events[1];
             EXPECT_EQ(ev->height, 1);
             EXPECT_EQ(ev->type, 'N');
             */
             ASSERT_TRUE(state->events.size() != 0); // prevent test crash
             // check that the new way is the same
             ASSERT_EQ(state->events.size(), 1);
-            komodo::event_notarized& ev2 = 
-                    static_cast<komodo::event_notarized&>( *state->events.front() );
+            squishy::event_notarized& ev2 = 
+                    static_cast<squishy::event_notarized&>( *state->events.front() );
             EXPECT_EQ(ev2.height, 10);
-            EXPECT_EQ(ev2.type, komodo::komodo_event_type::EVENT_NOTARIZED);
+            EXPECT_EQ(ev2.type, squishy::squishy_event_type::EVENT_NOTARIZED);
             // the serialized version should match the input
             EXPECT_TRUE(compare_serialization(full_filename, ev2));
 
-            // check last nota read from komodo state:
+            // check last nota read from squishy state:
             EXPECT_EQ(state->LastNotarizedHeight(), 2);
             EXPECT_EQ(state->LastNotarizedHash(), uint256S("0101010101010101010101010101010101010101010101010101010101010101"));
         }
@@ -384,18 +384,18 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             EXPECT_EQ(state->Komodo_numevents, 3);
-            komodo_event* ev = state->Komodo_events[2];
+            squishy_event* ev = state->Komodo_events[2];
             EXPECT_EQ(ev->height, 1);
             EXPECT_EQ(ev->type, 'N'); // code converts "M" to "N"
             */
@@ -405,13 +405,13 @@ TEST(test_events, komodo_faststateinit_test)
 
             //auto itr = state->events.begin();
             //std::advance(itr, 2);
-            komodo::event_notarized& ev2 = static_cast<komodo::event_notarized&>( *state->events.front() );
+            squishy::event_notarized& ev2 = static_cast<squishy::event_notarized&>( *state->events.front() );
             EXPECT_EQ(ev2.height, 10);
-            EXPECT_EQ(ev2.type, komodo::komodo_event_type::EVENT_NOTARIZED);
+            EXPECT_EQ(ev2.type, squishy::squishy_event_type::EVENT_NOTARIZED);
             // the serialized version should match the input
             EXPECT_TRUE(compare_serialization(full_filename, ev2));
 
-            // check last nota read from komodo state:
+            // check last nota read from squishy state:
             EXPECT_EQ(state->LastNotarizedHeight(), 3);
             EXPECT_EQ(state->LastNotarizedHash(), uint256S("0101010101010101010101010101010101010101010101010101010101010101"));
         }
@@ -424,13 +424,13 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
@@ -447,18 +447,18 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             EXPECT_EQ(state->Komodo_numevents, 4);
-            komodo_event* ev = state->Komodo_events[3];
+            squishy_event* ev = state->Komodo_events[3];
             EXPECT_EQ(ev->height, 1);
             EXPECT_EQ(ev->type, 'K');            
             */
@@ -467,9 +467,9 @@ TEST(test_events, komodo_faststateinit_test)
             EXPECT_EQ(state->events.size(), 1);
             //auto itr = state->events.begin();
             //std::advance(itr, 3);
-            komodo::event_kmdheight& ev2 = static_cast<komodo::event_kmdheight&>( *state->events.front() );
+            squishy::event_kmdheight& ev2 = static_cast<squishy::event_kmdheight&>( *state->events.front() );
             EXPECT_EQ(ev2.height, 10);
-            EXPECT_EQ(ev2.type, komodo::komodo_event_type::EVENT_KMDHEIGHT);
+            EXPECT_EQ(ev2.type, squishy::squishy_event_type::EVENT_KMDHEIGHT);
             // the serialized version should match the input
             EXPECT_TRUE(compare_serialization(full_filename, ev2));
         }
@@ -482,18 +482,18 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             EXPECT_EQ(state->Komodo_numevents, 5);
-            komodo_event* ev = state->Komodo_events[4];
+            squishy_event* ev = state->Komodo_events[4];
             EXPECT_EQ(ev->height, 1);
             EXPECT_EQ(ev->type, 'K'); // changed from T to K
             */
@@ -502,9 +502,9 @@ TEST(test_events, komodo_faststateinit_test)
             EXPECT_EQ(state->events.size(), 1);
             auto itr = state->events.begin();
             std::advance(itr, 4);
-            komodo::event_kmdheight& ev2 = static_cast<komodo::event_kmdheight&>( *state->events.front() );
+            squishy::event_kmdheight& ev2 = static_cast<squishy::event_kmdheight&>( *state->events.front() );
             EXPECT_EQ(ev2.height, 10);
-            EXPECT_EQ(ev2.type, komodo::komodo_event_type::EVENT_KMDHEIGHT);
+            EXPECT_EQ(ev2.type, squishy::squishy_event_type::EVENT_KMDHEIGHT);
             // the serialized version should match the input
             EXPECT_TRUE(compare_serialization(full_filename, ev2));
         }
@@ -517,18 +517,18 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state !=nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             EXPECT_EQ(state->Komodo_numevents, 6);
-            komodo_event* ev = state->Komodo_events[5];
+            squishy_event* ev = state->Komodo_events[5];
             EXPECT_EQ(ev->height, 1);
             EXPECT_EQ(ev->type, 'R');
             */
@@ -537,9 +537,9 @@ TEST(test_events, komodo_faststateinit_test)
             EXPECT_EQ(state->events.size(), 1);
             auto itr = state->events.begin();
             std::advance(itr, 5);
-            komodo::event_opreturn& ev2 = static_cast<komodo::event_opreturn&>( *state->events.front() );
+            squishy::event_opreturn& ev2 = static_cast<squishy::event_opreturn&>( *state->events.front() );
             EXPECT_EQ(ev2.height, 10);
-            EXPECT_EQ(ev2.type, komodo::komodo_event_type::EVENT_OPRETURN);
+            EXPECT_EQ(ev2.type, squishy::squishy_event_type::EVENT_OPRETURN);
             // the serialized version should match the input
             EXPECT_TRUE(compare_serialization(full_filename, ev2));
         }
@@ -552,18 +552,18 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             EXPECT_EQ(state->Komodo_numevents, 7);
-            komodo_event* ev = state->Komodo_events[6];
+            squishy_event* ev = state->Komodo_events[6];
             EXPECT_EQ(ev->height, 1);
             EXPECT_EQ(ev->type, 'V');
             */
@@ -572,9 +572,9 @@ TEST(test_events, komodo_faststateinit_test)
             EXPECT_EQ(state->events.size(), 1);
             //auto itr = state->events.begin();
             // std::advance(itr, 6);
-            komodo::event_pricefeed& ev2 = static_cast<komodo::event_pricefeed&>( *state->events.front() );
+            squishy::event_pricefeed& ev2 = static_cast<squishy::event_pricefeed&>( *state->events.front() );
             EXPECT_EQ(ev2.height, 10);
-            EXPECT_EQ(ev2.type, komodo::komodo_event_type::EVENT_PRICEFEED);
+            EXPECT_EQ(ev2.type, squishy::squishy_event_type::EVENT_PRICEFEED);
             // the serialized version should match the input
             EXPECT_TRUE(compare_serialization(full_filename, ev2));
         }
@@ -587,19 +587,19 @@ TEST(test_events, komodo_faststateinit_test)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
             // NOTE: B records are not read in. Unsure if this is on purpose or an oversight
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             EXPECT_EQ(state->Komodo_numevents, 7);
-            komodo_event* ev = state->Komodo_events[6];
+            squishy_event* ev = state->Komodo_events[6];
             EXPECT_EQ(ev->height, 1);
             EXPECT_EQ(ev->type, 'B');
             */
@@ -620,18 +620,18 @@ TEST(test_events, komodo_faststateinit_test)
             write_r_record(fp);
             write_v_record(fp);
             std::fclose(fp);
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit( state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit( state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             /* old way
             EXPECT_EQ(state->Komodo_numevents, 14);
-            komodo_event* ev1 = state->Komodo_events[7];
+            squishy_event* ev1 = state->Komodo_events[7];
             EXPECT_EQ(ev1->height, 1);
             EXPECT_EQ(ev1->type, 'P');
             */
@@ -643,37 +643,37 @@ TEST(test_events, komodo_faststateinit_test)
             std::advance(itr, 0);
             {
                 EXPECT_EQ( (**itr).height, 10);
-                EXPECT_EQ( (**itr).type, komodo::komodo_event_type::EVENT_PUBKEYS);
+                EXPECT_EQ( (**itr).type, squishy::squishy_event_type::EVENT_PUBKEYS);
                 itr++;
             }
             {
                 EXPECT_EQ( (**itr).height, 10);
-                EXPECT_EQ( (**itr).type, komodo::komodo_event_type::EVENT_NOTARIZED);
+                EXPECT_EQ( (**itr).type, squishy::squishy_event_type::EVENT_NOTARIZED);
                 itr++;
             }
             {
                 EXPECT_EQ( (**itr).height, 10);
-                EXPECT_EQ( (**itr).type, komodo::komodo_event_type::EVENT_NOTARIZED);
+                EXPECT_EQ( (**itr).type, squishy::squishy_event_type::EVENT_NOTARIZED);
                 itr++;
             }
             {
                 EXPECT_EQ( (**itr).height, 10);
-                EXPECT_EQ( (**itr).type, komodo::komodo_event_type::EVENT_KMDHEIGHT);
+                EXPECT_EQ( (**itr).type, squishy::squishy_event_type::EVENT_KMDHEIGHT);
                 itr++;
             }
             {
                 EXPECT_EQ( (**itr).height, 10);
-                EXPECT_EQ( (**itr).type, komodo::komodo_event_type::EVENT_KMDHEIGHT);
+                EXPECT_EQ( (**itr).type, squishy::squishy_event_type::EVENT_KMDHEIGHT);
                 itr++;
             }
             {
                 EXPECT_EQ( (**itr).height, 10);
-                EXPECT_EQ( (**itr).type, komodo::komodo_event_type::EVENT_OPRETURN);
+                EXPECT_EQ( (**itr).type, squishy::squishy_event_type::EVENT_OPRETURN);
                 itr++;
             }
             {
                 EXPECT_EQ( (**itr).height, 10);
-                EXPECT_EQ( (**itr).type, komodo::komodo_event_type::EVENT_PRICEFEED);
+                EXPECT_EQ( (**itr).type, squishy::squishy_event_type::EVENT_PRICEFEED);
                 itr++;
             }
         }
@@ -686,14 +686,14 @@ TEST(test_events, komodo_faststateinit_test)
 }
 
 // same test for KMD
-TEST(test_events, komodo_faststateinit_test_kmd)
+TEST(test_events, squishy_faststateinit_test_kmd)
 {
-    // Nothing should be added to events if this is the komodo chain
+    // Nothing should be added to events if this is the squishy chain
 
     char symbol[] = "KMD";
     chainName = assetchain();
-    KOMODO_EXTERNAL_NOTARIES = 0;
-    IS_KOMODO_NOTARY = false;   // avoid calling komodo_verifynotarization
+    SQUISHY_EXTERNAL_NOTARIES = 0;
+    IS_SQUISHY_NOTARY = false;   // avoid calling squishy_verifynotarization
 
     clear_state(symbol);
 
@@ -706,7 +706,7 @@ TEST(test_events, komodo_faststateinit_test_kmd)
         // plus a 32 bit height. Everything else is record specific
         // pubkey record
         {
-            // create a binary file that should be readable by komodo
+            // create a binary file that should be readable by squishy
             const std::string full_filename = (temp / "kstate.tmp").string();
             std::FILE* fp = std::fopen(full_filename.c_str(), "wb+");
             ASSERT_TRUE(fp != nullptr);
@@ -714,13 +714,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = nullptr;   // not used for 'P'
             // attempt to read the file
-            int32_t result = komodo_faststateinit( state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit( state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -734,13 +734,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit( state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit( state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0); // events is empty for KMD
@@ -756,13 +756,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -780,13 +780,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -800,13 +800,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -820,13 +820,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -840,13 +840,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -860,13 +860,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -880,14 +880,14 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             std::fclose(fp);
             // verify file still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
             // NOTE: B records are not read in. Unsure if this is on purpose or an oversight
-            int32_t result = komodo_faststateinit(state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit(state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -906,13 +906,13 @@ TEST(test_events, komodo_faststateinit_test_kmd)
             write_r_record(fp);
             write_v_record(fp);
             std::fclose(fp);
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = (char*)"123456789012345";
             // attempt to read the file
-            int32_t result = komodo_faststateinit( state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit( state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             EXPECT_EQ(state->events.size(), 0);
@@ -929,7 +929,7 @@ TEST(test_events, DISABLED_write_test) // test from dev branch from S6 season
 {
     char symbol[] = "TST";
     chainName = assetchain(symbol);
-    KOMODO_EXTERNAL_NOTARIES = 1;
+    SQUISHY_EXTERNAL_NOTARIES = 1;
 
     clear_state(symbol);
 
@@ -948,20 +948,20 @@ TEST(test_events, DISABLED_write_test) // test from dev branch from S6 season
             std::fclose(fp);
             // verify files still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
-            clear_state(symbol); // clear komodo_state*
+            clear_state(symbol); // clear squishy_state*
             // attempt to read the file
-            komodo_state* state = komodo_stateptrget((char*)symbol);
+            squishy_state* state = squishy_stateptrget((char*)symbol);
             ASSERT_TRUE(state != nullptr);
             char* dest = nullptr;
-            int32_t result = komodo_faststateinit( state, full_filename.c_str(), symbol, dest);
+            int32_t result = squishy_faststateinit( state, full_filename.c_str(), symbol, dest);
             // compare results
             EXPECT_EQ(result, 1);
             ASSERT_TRUE(state->events.size() != 0); // prevent test crash
             // check that the new way is the same
             EXPECT_EQ(state->events.size(), 1);
-            komodo::event_pubkeys& ev = static_cast<komodo::event_pubkeys&>( *state->events.front() );
+            squishy::event_pubkeys& ev = static_cast<squishy::event_pubkeys&>( *state->events.front() );
             EXPECT_EQ(ev.height, 10);
-            EXPECT_EQ(ev.type, komodo::komodo_event_type::EVENT_PUBKEYS);
+            EXPECT_EQ(ev.type, squishy::squishy_event_type::EVENT_PUBKEYS);
             std::fclose(fp);
             // verify files still exists
             EXPECT_TRUE(boost::filesystem::exists(full_filename));
@@ -979,7 +979,7 @@ TEST(test_events, write_test_event_fix3)  // same test from jmj_event_fix3
     // test serialization of the different event records
     char symbol[] = "TST";
     chainName = assetchain(symbol);
-    KOMODO_EXTERNAL_NOTARIES = 1;
+    SQUISHY_EXTERNAL_NOTARIES = 1;
 
     clear_state(symbol);
 
@@ -1038,14 +1038,14 @@ TEST(test_events, write_test_event_fix3)  // same test from jmj_event_fix3
 TEST(test_events, event_copy)
 {
     // make an object
-    komodo::event_pubkeys pk1(1);
+    squishy::event_pubkeys pk1(1);
     pk1.num = 2;
     memset(pk1.pubkeys[0], 1, 33);
     memset(pk1.pubkeys[1], 2, 33);
     // make a copy
-    std::vector<std::shared_ptr<komodo::event>> events;
-    events.push_back( std::make_shared<komodo::event_pubkeys>(pk1) );
-    komodo::event_pubkeys& pk2 = static_cast<komodo::event_pubkeys&>(*events.front());
+    std::vector<std::shared_ptr<squishy::event>> events;
+    events.push_back( std::make_shared<squishy::event_pubkeys>(pk1) );
+    squishy::event_pubkeys& pk2 = static_cast<squishy::event_pubkeys&>(*events.front());
     // are they equal?
     EXPECT_EQ(pk1.height, pk2.height);
     EXPECT_EQ(pk1.num, pk2.num);

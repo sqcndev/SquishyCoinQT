@@ -17,4 +17,4 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-int32_t komodo_longestchain();
+int32_t squishy_longestchain();

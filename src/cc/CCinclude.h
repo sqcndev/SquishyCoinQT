@@ -46,12 +46,12 @@ Details.
 /// However, it is a CC output, so in addition to the signature, whatever constraints a CC contract implements must also be satistifed. 
 /// This allows funds to be locked and yet anybody is able to spend it, assuming they satisfy the CC's rules.
 ///
-/// One other technical note is that komodod has the insight-explorer extensions built in 
+/// One other technical note is that squishyd has the insight-explorer extensions built in 
 /// so it can lookup directly all transactions to any address. 
 /// This is a key performance boosting thing as if it wasnt there, trying to get all the utxo for an address not in the wallet is quite time consuming.
 ///
 /// More information about Antara framework:
-/// https://developers.komodoplatform.com/basic-docs/start-here/about-komodo-platform/product-introductions.html#smart-chains-antara
+/// https://developers.squishyplatform.com/basic-docs/start-here/about-squishy-platform/product-introductions.html#smart-chains-antara
 
 #include <cc/eval.h>
 #include <script/cc.h>
@@ -65,19 +65,19 @@ Details.
 #include "../wallet/wallet.h"
 #include <univalue.h>
 #include <exception>
-#include "../komodo_defs.h"
+#include "../squishy_defs.h"
 #include "../utlist.h"
 #include "../uthash.h"
 #include "merkleblock.h"
-#include "../komodo_nSPV_defs.h"
-#include "../komodo_cJSON.h"
+#include "../squishy_nSPV_defs.h"
+#include "../squishy_cJSON.h"
 #include "../init.h"
 #include "rpc/server.h"
 
 #define CC_BURNPUBKEY "02deaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddead" //!< 'dead' pubkey in hex for burning tokens (if tokens are sent to it, they become 'burned')
 /// \cond INTERNAL
 #define CC_MAXVINS 1024
-#define CC_REQUIREMENTS_MSG (KOMODO_NSPV_SUPERLITE?"to use CC contracts you need to nspv_login first\n":"to use CC contracts, you need to launch daemon with valid -pubkey= for an address in your wallet\n")
+#define CC_REQUIREMENTS_MSG (SQUISHY_NSPV_SUPERLITE?"to use CC contracts you need to nspv_login first\n":"to use CC contracts, you need to launch daemon with valid -pubkey= for an address in your wallet\n")
 
 //#define SMALLVAL 0.000000000000001
 //#define SATOSHIDEN ((uint64_t)100000000L)
@@ -757,7 +757,7 @@ bool Getscriptaddress(char *destaddr,const CScript &scriptPubKey);
 /// @returns true if success
 bool GetCustomscriptaddress(char *destaddr,const CScript &scriptPubKey,uint8_t taddr,uint8_t prefix,uint8_t prefix2);
 
-/// Returns my pubkey, that is set by -pubkey komodod parameter
+/// Returns my pubkey, that is set by -pubkey squishyd parameter
 /// @returns public key as byte array
 std::vector<uint8_t> Mypubkey();
 
@@ -806,7 +806,7 @@ std::string FinalizeCCTx(uint64_t skipmask,struct CCcontract_info *cp,CMutableTr
 
 /// FinalizeCCTx is a very useful function that will properly sign both CC and normal inputs, adds normal change and might add an opreturn output.
 /// This allows for Antara module transaction creation rpc functions to create an CMutableTransaction object, add the appropriate vins and vouts to it and use FinalizeCCTx to properly sign the transaction.
-/// By using -addressindex=1 of komodod daemon, it allows tracking of all the CC addresses.
+/// By using -addressindex=1 of squishyd daemon, it allows tracking of all the CC addresses.
 ///
 /// For signing the vins the function builds several default probe scriptPubKeys and checks them against the referred previous transactions (vintx) vouts.
 /// For cryptocondition vins the function creates a basic set of probe cryptconditions with mypk and module global pubkey, both for coins and tokens cases.
@@ -874,7 +874,7 @@ int64_t AddNormalinputs(CMutableTransaction &mtx,CPubKey mypk,int64_t total,int3
 int64_t AddNormalinputsLocal(CMutableTransaction &mtx,CPubKey mypk,int64_t total,int32_t maxinputs);
 
 /// AddNormalinputs2 adds normal (not cc) inputs to the transaction object vin array for the specified total amount using utxos on my pubkey's TX_PUBKEY address (my pubkey is set by -pubkey command line parameter), to fund the transaction.
-/// 'My pubkey' is the -pubkey parameter of komodod.
+/// 'My pubkey' is the -pubkey parameter of squishyd.
 /// @param mtx mutable transaction object
 /// @param total amount of inputs to add. If total equals to 0 the function does not add inputs but returns amount of all available normal inputs in the wallet
 /// @param maxinputs maximum number of inputs to add
@@ -953,7 +953,7 @@ void CCLogPrintStream(const char *category, int level, const char *functionName,
 }
 /// Macro for logging messages using bitcoin LogAcceptCategory and LogPrintStr functions.
 /// Supports error, info and three levels of debug messages.
-/// Logging category is set by -debug=category komodod param.
+/// Logging category is set by -debug=category squishyd param.
 /// To set debug level pass -debug=category-1, -debug=category-2 or -debug=category-3 param. If some level is enabled lower level messages also will be printed.
 /// To print info-level messages pass just -debug=category parameter, with no level.
 /// Error-level messages will always be printed, even if -debug parameter is not set
@@ -984,7 +984,7 @@ UniValue report_ccerror(const char *category, int level, T print_to_stream)
     return err;
 }
 
-bool komodo_txnotarizedconfirmed(uint256 txid);
+bool squishy_txnotarizedconfirmed(uint256 txid);
 uint32_t GetLatestTimestamp(int32_t height);
 
 /// @private

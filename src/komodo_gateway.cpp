@@ -12,11 +12,11 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo.h"
-#include "komodo_globals.h"
-#include "komodo_utils.h" // komodo_stateptrget
-#include "komodo_bitcoind.h" // komodo_checkcommission
-#include "komodo_notary.h"
+#include "squishy.h"
+#include "squishy_globals.h"
+#include "squishy_utils.h" // squishy_stateptrget
+#include "squishy_bitcoind.h" // squishy_checkcommission
+#include "squishy_notary.h"
 
 const char *banned_txids[] =
 {
@@ -57,7 +57,7 @@ const char *banned_txids[] =
  * @param indallvouts the index at which all "n"s are banned
  * @returns true if vout is banned
  */
-bool komodo_checkvout(int32_t vout,int32_t k,int32_t indallvouts)
+bool squishy_checkvout(int32_t vout,int32_t k,int32_t indallvouts)
 {
     if ( k < indallvouts ) // most banned txids are vout 1
         return vout == 1;
@@ -73,11 +73,11 @@ bool komodo_checkvout(int32_t vout,int32_t k,int32_t indallvouts)
  * @param[in] max the max size of the array
  * @returns the number of txids placed into the array
  */
-int32_t komodo_bannedset(int32_t *indallvoutsp,uint256 *array,int32_t max)
+int32_t squishy_bannedset(int32_t *indallvoutsp,uint256 *array,int32_t max)
 {
     if ( sizeof(banned_txids)/sizeof(*banned_txids) > max )
     {
-        LogPrintf("komodo_bannedset: buffer too small %d vs %d\n",(int32_t)(sizeof(banned_txids)/sizeof(*banned_txids)),max);
+        LogPrintf("squishy_bannedset: buffer too small %d vs %d\n",(int32_t)(sizeof(banned_txids)/sizeof(*banned_txids)),max);
         StartShutdown();
     }
     int32_t i;
@@ -93,7 +93,7 @@ int32_t komodo_bannedset(int32_t *indallvoutsp,uint256 *array,int32_t max)
  * @param block the block to check
  * @returns <0 on error, 0 on success
  */
-int32_t komodo_check_deposit(int32_t height,const CBlock& block)
+int32_t squishy_check_deposit(int32_t height,const CBlock& block)
 {
     int32_t notmatched=0; 
     int32_t activation = 235300;
@@ -103,7 +103,7 @@ int32_t komodo_check_deposit(int32_t height,const CBlock& block)
         static uint256 array[64];
         static int32_t numbanned,indallvouts;
         if ( *(int32_t *)&array[0] == 0 )
-            numbanned = komodo_bannedset(&indallvouts,array,(int32_t)(sizeof(array)/sizeof(*array)));
+            numbanned = squishy_bannedset(&indallvouts,array,(int32_t)(sizeof(array)/sizeof(*array)));
 
         int32_t txn_count = block.vtx.size();
         for (int32_t i=0; i<txn_count; i++)
@@ -140,7 +140,7 @@ int32_t komodo_check_deposit(int32_t height,const CBlock& block)
                 for (int32_t k=0; k<numbanned; k++) // for each banned txid
                 {
                     if ( block.vtx[i].vin[j].prevout.hash == array[k] 
-                            && komodo_checkvout(block.vtx[i].vin[j].prevout.n,k,indallvouts) )
+                            && squishy_checkvout(block.vtx[i].vin[j].prevout.n,k,indallvouts) )
                     {
                         LogPrintf("banned tx.%d being used at ht.%d txi.%d vini.%d\n",k,height,i,j);
                         return(-1);
@@ -186,10 +186,10 @@ int32_t komodo_check_deposit(int32_t height,const CBlock& block)
                     return(-1);
                 }
             }
-            else if ( block.nBits == KOMODO_MINDIFF_NBITS && total > 0 ) // to deal with fee stealing
+            else if ( block.nBits == SQUISHY_MINDIFF_NBITS && total > 0 ) // to deal with fee stealing
             {
                 LogPrintf("notary mined ht.%d with extra %.8f\n",height,dstr(total));
-                if ( height > KOMODO_NOTARIES_HEIGHT1 )
+                if ( height > SQUISHY_NOTARIES_HEIGHT1 )
                     return(-1);
             }
             if ( strangeout != 0 || notmatched != 0 )
@@ -203,7 +203,7 @@ int32_t komodo_check_deposit(int32_t height,const CBlock& block)
             {
                 uint8_t *script = (uint8_t *)&block.vtx[0].vout[0].scriptPubKey[0];
                 int32_t num;
-                return(-1 * (komodo_electednotary(&num,script+1,height,0) >= 0) * (height > 1000000));
+                return(-1 * (squishy_electednotary(&num,script+1,height,0) >= 0) * (height > 1000000));
             }
         }
         else
@@ -211,7 +211,7 @@ int32_t komodo_check_deposit(int32_t height,const CBlock& block)
             int64_t checktoshis = 0;
             if ( (ASSETCHAINS_COMMISSION != 0 || ASSETCHAINS_FOUNDERS_REWARD) && height > 1 )
             {
-                if ( (checktoshis= komodo_checkcommission((CBlock *)&block,height)) < 0 )
+                if ( (checktoshis= squishy_checkcommission((CBlock *)&block,height)) < 0 )
                 {
                     LogPrintf("ht.%d checktoshis %.8f overflow.%d total %.8f strangeout.%d\n",height,dstr(checktoshis),overflow,dstr(total),strangeout);
                     return(-1);
@@ -235,7 +235,7 @@ int32_t komodo_check_deposit(int32_t height,const CBlock& block)
     return(0);
 }
 
-void komodo_stateind_set(struct komodo_state *sp,uint32_t *inds,int32_t n,uint8_t *filedata,long datalen,const char *symbol,const char *dest)
+void squishy_stateind_set(struct squishy_state *sp,uint32_t *inds,int32_t n,uint8_t *filedata,long datalen,const char *symbol,const char *dest)
 {
     uint8_t func; long lastK,lastT,lastN,lastV,fpos,lastfpos; int32_t i,count,doissue,iter,numn,numv,numN,numV,numR; uint32_t tmp,prevpos100,offset;
     count = numR = numN = numV = numn = numv = 0;
@@ -309,7 +309,7 @@ void komodo_stateind_set(struct komodo_state *sp,uint32_t *inds,int32_t n,uint8_
                         doissue = 1;
                     if ( doissue != 0 )
                     {
-                        komodo_parsestatefiledata(sp,filedata,&lastfpos,datalen,symbol,dest);
+                        squishy_parsestatefiledata(sp,filedata,&lastfpos,datalen,symbol,dest);
                         count++;
                     }
                 }
@@ -367,9 +367,9 @@ uint8_t *OS_fileptr(long *allocsizep,const char *fname)
 }
 
 /**
- * @brief Validate the index of the komodostate file
+ * @brief Validate the index of the squishystate file
  * 
- * @param[in] sp the komodo_state struct
+ * @param[in] sp the squishy_state struct
  * @param[in] indfname the index filename
  * @param filedata bytes of data
  * @param datalen length of filedata
@@ -379,7 +379,7 @@ uint8_t *OS_fileptr(long *allocsizep,const char *fname)
  * @param dest 
  * @return -1 on error
  */
-long komodo_stateind_validate(struct komodo_state *sp,const std::string& indfname,uint8_t *filedata,long datalen,
+long squishy_stateind_validate(struct squishy_state *sp,const std::string& indfname,uint8_t *filedata,long datalen,
         uint32_t *prevpos100p,uint32_t *indcounterp,const char *symbol,const char *dest)
 {
     *indcounterp = *prevpos100p = 0;
@@ -416,7 +416,7 @@ long komodo_stateind_validate(struct komodo_state *sp,const std::string& indfnam
             *indcounterp = n;
             *prevpos100p = prevpos100;
             if ( sp != 0 )
-                komodo_stateind_set(sp,(uint32_t *)inds,n,filedata,fpos,symbol,dest);
+                squishy_stateind_set(sp,(uint32_t *)inds,n,filedata,fpos,symbol,dest);
             free(inds);
             return fpos;
         } 
@@ -428,7 +428,7 @@ long komodo_stateind_validate(struct komodo_state *sp,const std::string& indfnam
     return -1;
 }
 
-long komodo_indfile_update(FILE *indfp,uint32_t *prevpos100p,long lastfpos,long newfpos,uint8_t func,uint32_t *indcounterp)
+long squishy_indfile_update(FILE *indfp,uint32_t *prevpos100p,long lastfpos,long newfpos,uint8_t func,uint32_t *indcounterp)
 {
     if ( indfp != 0 )
     {
@@ -446,14 +446,14 @@ long komodo_indfile_update(FILE *indfp,uint32_t *prevpos100p,long lastfpos,long 
 }
 
 /***
- * @brief read the komodostate file
- * @param sp the komodo_state struct
+ * @brief read the squishystate file
+ * @param sp the squishy_state struct
  * @param fname the filename
  * @param symbol the chain symbol
  * @param dest the "parent" chain
  * @return true on success
  */
-bool komodo_faststateinit(komodo_state *sp,const char *fname,char *symbol, const char *dest)
+bool squishy_faststateinit(squishy_state *sp,const char *fname,char *symbol, const char *dest)
 {
     uint32_t starttime = (uint32_t)time(NULL);
 
@@ -474,16 +474,16 @@ bool komodo_faststateinit(komodo_state *sp,const char *fname,char *symbol, const
 
         LogPrintf("processing %s %ldKB, validated.%d\n",fname,datalen/1024,-1);
         int32_t func;
-        while (!ShutdownRequested() && (func= komodo_parsestatefiledata(sp,filedata,&fpos,datalen,symbol,dest)) >= 0)
+        while (!ShutdownRequested() && (func= squishy_parsestatefiledata(sp,filedata,&fpos,datalen,symbol,dest)) >= 0)
         {
-            lastfpos = komodo_indfile_update(indfp,&prevpos100,lastfpos,fpos,func,&indcounter);
+            lastfpos = squishy_indfile_update(indfp,&prevpos100,lastfpos,fpos,func,&indcounter);
         }
         if (ShutdownRequested()) { fclose(indfp); return false; }
         if ( indfp != nullptr )
         {
             fclose(indfp);
-            if ( (fpos= komodo_stateind_validate(0,indfname,filedata,datalen,&prevpos100,&indcounter,symbol,dest)) < 0 )
-                LogPrintf("unexpected komodostate.ind validate failure %s datalen.%ld\n",indfname.c_str(),datalen);
+            if ( (fpos= squishy_stateind_validate(0,indfname,filedata,datalen,&prevpos100,&indcounter,symbol,dest)) < 0 )
+                LogPrintf("unexpected squishystate.ind validate failure %s datalen.%ld\n",indfname.c_str(),datalen);
             else 
                 LogPrintf("%s validated fpos.%ld\n",indfname.c_str(),fpos);
         }
@@ -494,19 +494,19 @@ bool komodo_faststateinit(komodo_state *sp,const char *fname,char *symbol, const
     return false;
 }
 
-//uint64_t komodo_interestsum(); // in wallet/rpcwallet.cpp
+//uint64_t squishy_interestsum(); // in wallet/rpcwallet.cpp
 
 /***
  * @brief update wallet balance / interest
  * @note called only on KMD chain every 10 seconds ( see ThreadUpdateKomodoInternals() )
  */
-void komodo_update_interest()
+void squishy_update_interest()
 {
-    static uint32_t lastinterest; // prevent needless komodo_interestsum calls
-    if (komodo_chainactive_timestamp() > lastinterest)
+    static uint32_t lastinterest; // prevent needless squishy_interestsum calls
+    if (squishy_chainactive_timestamp() > lastinterest)
     {
-        komodo_interestsum();
-        lastinterest = komodo_chainactive_timestamp();
+        squishy_interestsum();
+        lastinterest = squishy_chainactive_timestamp();
     }
 
     static bool first_call = true;

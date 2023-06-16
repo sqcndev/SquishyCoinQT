@@ -7,97 +7,97 @@ CXXFLAGS+=-fPIC
 
 #PROTOC=/usr/bin/protoc # this is already fixed in configure.ac, PROTOC should be set till here
 
-bin_PROGRAMS += qt/komodo-qt
-EXTRA_LIBRARIES += qt/libkomodoqt.a
+bin_PROGRAMS += qt/squishy-qt
+EXTRA_LIBRARIES += qt/libsquishyqt.a
 
-# komodo qt core #
+# squishy qt core #
 QT_TS = \
-  qt/locale/komodo_af.ts \
-  qt/locale/komodo_af_ZA.ts \
-  qt/locale/komodo_ar.ts \
-  qt/locale/komodo_be_BY.ts \
-  qt/locale/komodo_bg_BG.ts \
-  qt/locale/komodo_bg.ts \
-  qt/locale/komodo_ca_ES.ts \
-  qt/locale/komodo_ca.ts \
-  qt/locale/komodo_ca@valencia.ts \
-  qt/locale/komodo_cs.ts \
-  qt/locale/komodo_cy.ts \
-  qt/locale/komodo_da.ts \
-  qt/locale/komodo_de.ts \
-  qt/locale/komodo_el_GR.ts \
-  qt/locale/komodo_el.ts \
-  qt/locale/komodo_en_GB.ts \
-  qt/locale/komodo_en.ts \
-  qt/locale/komodo_eo.ts \
-  qt/locale/komodo_es_AR.ts \
-  qt/locale/komodo_es_CL.ts \
-  qt/locale/komodo_es_CO.ts \
-  qt/locale/komodo_es_DO.ts \
-  qt/locale/komodo_es_ES.ts \
-  qt/locale/komodo_es_MX.ts \
-  qt/locale/komodo_es.ts \
-  qt/locale/komodo_es_UY.ts \
-  qt/locale/komodo_es_VE.ts \
-  qt/locale/komodo_et_EE.ts \
-  qt/locale/komodo_et.ts \
-  qt/locale/komodo_eu_ES.ts \
-  qt/locale/komodo_fa_IR.ts \
-  qt/locale/komodo_fa.ts \
-  qt/locale/komodo_fi.ts \
-  qt/locale/komodo_fr_CA.ts \
-  qt/locale/komodo_fr_FR.ts \
-  qt/locale/komodo_fr.ts \
-  qt/locale/komodo_gl.ts \
-  qt/locale/komodo_he.ts \
-  qt/locale/komodo_hi_IN.ts \
-  qt/locale/komodo_hr.ts \
-  qt/locale/komodo_hu.ts \
-  qt/locale/komodo_id_ID.ts \
-  qt/locale/komodo_it_IT.ts \
-  qt/locale/komodo_it.ts \
-  qt/locale/komodo_ja.ts \
-  qt/locale/komodo_ka.ts \
-  qt/locale/komodo_kk_KZ.ts \
-  qt/locale/komodo_ko_KR.ts \
-  qt/locale/komodo_ku_IQ.ts \
-  qt/locale/komodo_ky.ts \
-  qt/locale/komodo_la.ts \
-  qt/locale/komodo_lt.ts \
-  qt/locale/komodo_lv_LV.ts \
-  qt/locale/komodo_mk_MK.ts \
-  qt/locale/komodo_mn.ts \
-  qt/locale/komodo_ms_MY.ts \
-  qt/locale/komodo_nb.ts \
-  qt/locale/komodo_ne.ts \
-  qt/locale/komodo_nl.ts \
-  qt/locale/komodo_pam.ts \
-  qt/locale/komodo_pl.ts \
-  qt/locale/komodo_pt_BR.ts \
-  qt/locale/komodo_pt_PT.ts \
-  qt/locale/komodo_ro_RO.ts \
-  qt/locale/komodo_ro.ts \
-  qt/locale/komodo_ru_RU.ts \
-  qt/locale/komodo_ru.ts \
-  qt/locale/komodo_sk.ts \
-  qt/locale/komodo_sl_SI.ts \
-  qt/locale/komodo_sq.ts \
-  qt/locale/komodo_sr@latin.ts \
-  qt/locale/komodo_sr.ts \
-  qt/locale/komodo_sv.ts \
-  qt/locale/komodo_ta.ts \
-  qt/locale/komodo_th_TH.ts \
-  qt/locale/komodo_tr_TR.ts \
-  qt/locale/komodo_tr.ts \
-  qt/locale/komodo_uk.ts \
-  qt/locale/komodo_ur_PK.ts \
-  qt/locale/komodo_uz@Cyrl.ts \
-  qt/locale/komodo_vi.ts \
-  qt/locale/komodo_vi_VN.ts \
-  qt/locale/komodo_zh_CN.ts \
-  qt/locale/komodo_zh_HK.ts \
-  qt/locale/komodo_zh.ts \
-  qt/locale/komodo_zh_TW.ts
+  qt/locale/squishy_af.ts \
+  qt/locale/squishy_af_ZA.ts \
+  qt/locale/squishy_ar.ts \
+  qt/locale/squishy_be_BY.ts \
+  qt/locale/squishy_bg_BG.ts \
+  qt/locale/squishy_bg.ts \
+  qt/locale/squishy_ca_ES.ts \
+  qt/locale/squishy_ca.ts \
+  qt/locale/squishy_ca@valencia.ts \
+  qt/locale/squishy_cs.ts \
+  qt/locale/squishy_cy.ts \
+  qt/locale/squishy_da.ts \
+  qt/locale/squishy_de.ts \
+  qt/locale/squishy_el_GR.ts \
+  qt/locale/squishy_el.ts \
+  qt/locale/squishy_en_GB.ts \
+  qt/locale/squishy_en.ts \
+  qt/locale/squishy_eo.ts \
+  qt/locale/squishy_es_AR.ts \
+  qt/locale/squishy_es_CL.ts \
+  qt/locale/squishy_es_CO.ts \
+  qt/locale/squishy_es_DO.ts \
+  qt/locale/squishy_es_ES.ts \
+  qt/locale/squishy_es_MX.ts \
+  qt/locale/squishy_es.ts \
+  qt/locale/squishy_es_UY.ts \
+  qt/locale/squishy_es_VE.ts \
+  qt/locale/squishy_et_EE.ts \
+  qt/locale/squishy_et.ts \
+  qt/locale/squishy_eu_ES.ts \
+  qt/locale/squishy_fa_IR.ts \
+  qt/locale/squishy_fa.ts \
+  qt/locale/squishy_fi.ts \
+  qt/locale/squishy_fr_CA.ts \
+  qt/locale/squishy_fr_FR.ts \
+  qt/locale/squishy_fr.ts \
+  qt/locale/squishy_gl.ts \
+  qt/locale/squishy_he.ts \
+  qt/locale/squishy_hi_IN.ts \
+  qt/locale/squishy_hr.ts \
+  qt/locale/squishy_hu.ts \
+  qt/locale/squishy_id_ID.ts \
+  qt/locale/squishy_it_IT.ts \
+  qt/locale/squishy_it.ts \
+  qt/locale/squishy_ja.ts \
+  qt/locale/squishy_ka.ts \
+  qt/locale/squishy_kk_KZ.ts \
+  qt/locale/squishy_ko_KR.ts \
+  qt/locale/squishy_ku_IQ.ts \
+  qt/locale/squishy_ky.ts \
+  qt/locale/squishy_la.ts \
+  qt/locale/squishy_lt.ts \
+  qt/locale/squishy_lv_LV.ts \
+  qt/locale/squishy_mk_MK.ts \
+  qt/locale/squishy_mn.ts \
+  qt/locale/squishy_ms_MY.ts \
+  qt/locale/squishy_nb.ts \
+  qt/locale/squishy_ne.ts \
+  qt/locale/squishy_nl.ts \
+  qt/locale/squishy_pam.ts \
+  qt/locale/squishy_pl.ts \
+  qt/locale/squishy_pt_BR.ts \
+  qt/locale/squishy_pt_PT.ts \
+  qt/locale/squishy_ro_RO.ts \
+  qt/locale/squishy_ro.ts \
+  qt/locale/squishy_ru_RU.ts \
+  qt/locale/squishy_ru.ts \
+  qt/locale/squishy_sk.ts \
+  qt/locale/squishy_sl_SI.ts \
+  qt/locale/squishy_sq.ts \
+  qt/locale/squishy_sr@latin.ts \
+  qt/locale/squishy_sr.ts \
+  qt/locale/squishy_sv.ts \
+  qt/locale/squishy_ta.ts \
+  qt/locale/squishy_th_TH.ts \
+  qt/locale/squishy_tr_TR.ts \
+  qt/locale/squishy_tr.ts \
+  qt/locale/squishy_uk.ts \
+  qt/locale/squishy_ur_PK.ts \
+  qt/locale/squishy_uz@Cyrl.ts \
+  qt/locale/squishy_vi.ts \
+  qt/locale/squishy_vi_VN.ts \
+  qt/locale/squishy_zh_CN.ts \
+  qt/locale/squishy_zh_HK.ts \
+  qt/locale/squishy_zh.ts \
+  qt/locale/squishy_zh_TW.ts
 
 QT_FORMS_UI = \
   qt/forms/addressbookpage.ui \
@@ -128,10 +128,10 @@ QT_MOC_CPP = \
   qt/moc_zaddresstablemodel.cpp \
   qt/moc_askpassphrasedialog.cpp \
   qt/moc_bantablemodel.cpp \
-  qt/moc_komodoaddressvalidator.cpp \
-  qt/moc_komodoamountfield.cpp \
-  qt/moc_komodooceangui.cpp \
-  qt/moc_komodounits.cpp \
+  qt/moc_squishyaddressvalidator.cpp \
+  qt/moc_squishyamountfield.cpp \
+  qt/moc_squishyoceangui.cpp \
+  qt/moc_squishyunits.cpp \
   qt/moc_callback.cpp \
   qt/moc_clientmodel.cpp \
   qt/moc_coincontroldialog.cpp \
@@ -173,23 +173,23 @@ QT_MOC_CPP = \
   qt/moc_walletmodel.cpp \
   qt/moc_walletview.cpp
 
-KOMODO_MM = qt/macdockiconhandler.mm
+SQUISHY_MM = qt/macdockiconhandler.mm
 #\
 #  qt/macdockiconhandler.mm \
 #  qt/macnotificationhandler.mm
 
 QT_MOC = \
-  qt/komodoapp.moc \
-  qt/komodoamountfield.moc \
+  qt/squishyapp.moc \
+  qt/squishyamountfield.moc \
   qt/callback.moc \
   qt/intro.moc \
   qt/overviewpage.moc \
   qt/rpcconsole.moc
 
-QT_QRC_CPP = qt/qrc_komodo.cpp
-QT_QRC = qt/komodo.qrc
-QT_QRC_LOCALE_CPP = qt/qrc_komodo_locale.cpp
-QT_QRC_LOCALE = qt/komodo_locale.qrc
+QT_QRC_CPP = qt/qrc_squishy.cpp
+QT_QRC = qt/squishy.qrc
+QT_QRC_LOCALE_CPP = qt/qrc_squishy_locale.cpp
+QT_QRC_LOCALE = qt/squishy_locale.qrc
 
 if ENABLE_BIP70
   PROTOBUF_CC = qt/paymentrequest.pb.cc
@@ -201,17 +201,17 @@ else
   PROTOBUF_PROTO =
 endif
 
-KOMODO_QT_H = \
+SQUISHY_QT_H = \
   qt/addressbookpage.h \
   qt/zaddressbookpage.h \
   qt/addresstablemodel.h \
   qt/zaddresstablemodel.h \
   qt/askpassphrasedialog.h \
   qt/bantablemodel.h \
-  qt/komodoaddressvalidator.h \
-  qt/komodoamountfield.h \
-  qt/komodooceangui.h \
-  qt/komodounits.h \
+  qt/squishyaddressvalidator.h \
+  qt/squishyamountfield.h \
+  qt/squishyoceangui.h \
+  qt/squishyunits.h \
   qt/callback.h \
   qt/clientmodel.h \
   qt/coincontroldialog.h \
@@ -265,9 +265,9 @@ RES_ICONS = \
   qt/res/icons/address-book.png \
   qt/res/icons/about.png \
   qt/res/icons/about_qt.png \
-  qt/res/icons/komodo.ico \
-  qt/res/icons/komodo_testnet.ico \
-  qt/res/icons/komodo.png \
+  qt/res/icons/squishy.ico \
+  qt/res/icons/squishy_testnet.ico \
+  qt/res/icons/squishy.png \
   qt/res/icons/chevron.png \
   qt/res/icons/clock1.png \
   qt/res/icons/clock2.png \
@@ -317,12 +317,12 @@ RES_ICONS = \
   qt/res/icons/warning.png \
   qt/res/icons/verify.png
 
-KOMODO_QT_BASE_CPP = \
+SQUISHY_QT_BASE_CPP = \
   qt/bantablemodel.cpp \
-  qt/komodoaddressvalidator.cpp \
-  qt/komodoamountfield.cpp \
-  qt/komodooceangui.cpp \
-  qt/komodounits.cpp \
+  qt/squishyaddressvalidator.cpp \
+  qt/squishyamountfield.cpp \
+  qt/squishyoceangui.cpp \
+  qt/squishyunits.cpp \
   qt/clientmodel.cpp \
   qt/csvmodelwriter.cpp \
   qt/guiutil.cpp \
@@ -341,9 +341,9 @@ KOMODO_QT_BASE_CPP = \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp
 
-KOMODO_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
+SQUISHY_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
 
-KOMODO_QT_WALLET_CPP = \
+SQUISHY_QT_WALLET_CPP = \
   qt/addressbookpage.cpp \
   qt/zaddressbookpage.cpp \
   qt/addresstablemodel.cpp \
@@ -376,26 +376,26 @@ KOMODO_QT_WALLET_CPP = \
   qt/walletview.cpp
 
 
-KOMODO_QT_WALLET_BIP70_CPP = \
+SQUISHY_QT_WALLET_BIP70_CPP = \
   qt/paymentrequestplus.cpp 
 
 red:=$(shell tput setaf 11)
 reset:=$(shell tput sgr0)
 
-KOMODO_QT_CPP = $(KOMODO_QT_BASE_CPP)
+SQUISHY_QT_CPP = $(SQUISHY_QT_BASE_CPP)
 if TARGET_WINDOWS
-KOMODO_QT_CPP += $(KOMODO_QT_WINDOWS_CPP)
+SQUISHY_QT_CPP += $(SQUISHY_QT_WINDOWS_CPP)
 endif
 if ENABLE_WALLET
-KOMODO_QT_CPP += $(KOMODO_QT_WALLET_CPP)
+SQUISHY_QT_CPP += $(SQUISHY_QT_WALLET_CPP)
 if ENABLE_BIP70
-KOMODO_QT_CPP += $(KOMODO_QT_WALLET_BIP70_CPP)
+SQUISHY_QT_CPP += $(SQUISHY_QT_WALLET_BIP70_CPP)
 endif # ENABLE_BIP70
 endif # ENABLE_WALLET
 
-KOMODO_QT_H += \
+SQUISHY_QT_H += \
 	policy/policy.h 
-KOMODO_QT_CPP += \
+SQUISHY_QT_CPP += \
 	policy/policy.cpp \
 	wallet/rpcwallet.cpp \
 	rpc/server.cpp
@@ -405,19 +405,19 @@ RES_IMAGES =
 
 RES_MOVIES = $(wildcard $(srcdir)/qt/res/movies/spinner-*.png)
 
-KOMODO_RC = qt/res/komodo-qt-res.rc
+SQUISHY_RC = qt/res/squishy-qt-res.rc
 
-KOMODO_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+SQUISHY_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
   -I$(builddir)/qt/forms -DQT_NO_KEYWORDS 
 
-qt_libkomodoqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(KOMODO_QT_INCLUDES) \
+qt_libsquishyqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(SQUISHY_QT_INCLUDES) \
   $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
-qt_libkomodoqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+qt_libsquishyqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
-qt_libkomodoqt_a_SOURCES = $(KOMODO_QT_CPP) $(KOMODO_QT_H) $(QT_FORMS_UI) \
+qt_libsquishyqt_a_SOURCES = $(SQUISHY_QT_CPP) $(SQUISHY_QT_H) $(QT_FORMS_UI) \
   $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES)
 
-nodist_qt_libkomodoqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
+nodist_qt_libsquishyqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
   $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
 
 # forms/foo.h -> forms/ui_foo.h
@@ -426,39 +426,39 @@ QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:
 # Most files will depend on the forms and moc files as includes. Generate them
 # before anything else.
 $(QT_MOC): $(QT_FORMS_H)
-$(qt_libkomodoqt_a_OBJECTS) $(qt_komodo_qt_OBJECTS) : | $(QT_MOC)
+$(qt_libsquishyqt_a_OBJECTS) $(qt_squishy_qt_OBJECTS) : | $(QT_MOC)
 
 #Generating these with a half-written protobuf header leads to wacky results.
 #This makes sure it's done.
 $(QT_MOC): $(PROTOBUF_H)
 $(QT_MOC_CPP): $(PROTOBUF_H)
 
-# komodo-qt binary #
-qt_komodo_qt_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(KOMODO_QT_INCLUDES) \
+# squishy-qt binary #
+qt_squishy_qt_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(SQUISHY_QT_INCLUDES) \
   $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS) 
-qt_komodo_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+qt_squishy_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
-qt_komodo_qt_SOURCES = qt/komodoapp.cpp
+qt_squishy_qt_SOURCES = qt/squishyapp.cpp
 if TARGET_DARWIN
-  qt_komodo_qt_SOURCES += $(KOMODO_MM)
+  qt_squishy_qt_SOURCES += $(SQUISHY_MM)
 endif
 if TARGET_WINDOWS
-  qt_komodo_qt_SOURCES += $(KOMODO_RC)
+  qt_squishy_qt_SOURCES += $(SQUISHY_RC)
 endif
 
-qt_komodo_qt_LDADD = $(LIBBITCOIN_SERVER) qt/libkomodoqt.a
+qt_squishy_qt_LDADD = $(LIBBITCOIN_SERVER) qt/libsquishyqt.a
 if ENABLE_ZMQ
-qt_komodo_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+qt_squishy_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
 $(info $(red)[ Decker ]$(reset) ENABLE_WALLET)
 $(info $$EXTRA_LIBRARIES is [${EXTRA_LIBRARIES}])
 # LIBBITCOIN_CLI should be first?
-qt_komodo_qt_LDADD += libbitcoin_wallet.a 
+qt_squishy_qt_LDADD += libbitcoin_wallet.a 
 endif
 
-qt_komodo_qt_LDADD += \
+qt_squishy_qt_LDADD += \
   $(LIBCJSON) \
   $(LIBBITCOIN_CLI) \
   $(LIBBITCOIN_COMMON) \
@@ -484,33 +484,33 @@ qt_komodo_qt_LDADD += \
   $(EVENT_LIBS) \
   $(CURL_LIBS)
 
-qt_komodo_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_squishy_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if HAVE_OPENMP
-qt_komodo_qt_LDFLAGS += -fopenmp
+qt_squishy_qt_LDFLAGS += -fopenmp
 endif
 
-qt_komodo_qt_LIBTOOLFLAGS = --tag CXX
+qt_squishy_qt_LIBTOOLFLAGS = --tag CXX
 
-qt_komodo_qt_LDADD += \
+qt_squishy_qt_LDADD += \
   $(LIBZCASH) \
   $(LIBSNARK) \
   $(LIBZCASH_LIBS) \
   $(LIBCRYPTOCONDITIONS)
 
 if TARGET_DARWIN
-  qt_komodo_qt_LDADD += -lc++
+  qt_squishy_qt_LDADD += -lc++
 endif
 
-$(info $(red)[ Decker ]$(reset) Check the komodo-qt dependencies ...)
-#$(info $$qt_komodo_qt_CXXFLAGS is [${qt_komodo_qt_CXXFLAGS}])
-$(info $$qt_komodo_qt_CPPFLAGS is [${qt_komodo_qt_CPPFLAGS}])
-$(info $$qt_komodo_qt_LDADD is [${qt_komodo_qt_LDADD}])
-$(info $$qt_komodo_qt_LDFLAGS is [${qt_komodo_qt_LDFLAGS}])
-$(info $(red)[ Decker ]$(reset) Check the komodod dependencies ...)
-$(info $$komodod_CPPFLAGS is [${komodod_CPPFLAGS}])
-$(info $$komodod_LDADD is [${komodod_LDADD}])
-$(info $$komodod_LDFLAGS is [${komodod_LDFLAGS}])
+$(info $(red)[ Decker ]$(reset) Check the squishy-qt dependencies ...)
+#$(info $$qt_squishy_qt_CXXFLAGS is [${qt_squishy_qt_CXXFLAGS}])
+$(info $$qt_squishy_qt_CPPFLAGS is [${qt_squishy_qt_CPPFLAGS}])
+$(info $$qt_squishy_qt_LDADD is [${qt_squishy_qt_LDADD}])
+$(info $$qt_squishy_qt_LDFLAGS is [${qt_squishy_qt_LDFLAGS}])
+$(info $(red)[ Decker ]$(reset) Check the squishyd dependencies ...)
+$(info $$squishyd_CPPFLAGS is [${squishyd_CPPFLAGS}])
+$(info $$squishyd_LDADD is [${squishyd_LDADD}])
+$(info $$squishyd_LDFLAGS is [${squishyd_LDFLAGS}])
 
 # $(info $(red)$$QT_LIBS$(reset) is [${QT_LIBS}])
 # $(info $(red)$$QT_DBUS_LIBS$(reset) is [${QT_DBUS_LIBS}])
@@ -522,34 +522,34 @@ QT_QM=$(QT_TS:.ts=.qm)
 
 SECONDARY: $(QT_QM)
 
-$(srcdir)/qt/komodostrings.cpp: $(libkomodo_server_a_SOURCES) $(libkomodo_wallet_a_SOURCES) $(libkomodo_common_a_SOURCES) $(libkomodo_zmq_a_SOURCES) $(libkomodo_consensus_a_SOURCES) $(libkomodo_util_a_SOURCES)
+$(srcdir)/qt/squishystrings.cpp: $(libsquishy_server_a_SOURCES) $(libsquishy_wallet_a_SOURCES) $(libsquishy_common_a_SOURCES) $(libsquishy_zmq_a_SOURCES) $(libsquishy_consensus_a_SOURCES) $(libsquishy_util_a_SOURCES)
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
 	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) PACKAGE_NAME="$(PACKAGE_NAME)" COPYRIGHT_HOLDERS="$(COPYRIGHT_HOLDERS)" COPYRIGHT_HOLDERS_SUBSTITUTION="$(COPYRIGHT_HOLDERS_SUBSTITUTION)" $(PYTHON) ../share/qt/extract_strings_qt.py $^
 
-translate: $(srcdir)/qt/komodostrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(KOMODO_QT_BASE_CPP) qt/komodoapp.cpp $(KOMODO_QT_WINDOWS_CPP) $(KOMODO_QT_WALLET_CPP) $(KOMODO_QT_H) $(KOMODO_MM)
+translate: $(srcdir)/qt/squishystrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(SQUISHY_QT_BASE_CPP) qt/squishyapp.cpp $(SQUISHY_QT_WINDOWS_CPP) $(SQUISHY_QT_WALLET_CPP) $(SQUISHY_QT_H) $(SQUISHY_MM)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/komodo_en.ts
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/squishy_en.ts
 
 $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 	@test -f $(RCC)
 	@cp -f $< $(@D)/temp_$(<F)
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name komodo_locale $(@D)/temp_$(<F) | \
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name squishy_locale $(@D)/temp_$(<F) | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 	@rm $(@D)/temp_$(<F)
 
 $(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(PROTOBUF_H)
 	@test -f $(RCC)
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name komodo $< | \
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name squishy $< | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
-CLEAN_QT = $(nodist_qt_libkomodoqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno
+CLEAN_QT = $(nodist_qt_libsquishyqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno
 
 CLEANFILES += $(CLEAN_QT)
 
-komodo_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libkomodoqt_a_OBJECTS) $(qt_komodo_qt_OBJECTS) qt/komodo-qt$(EXEEXT) $(LIBBITCOINQT)
+squishy_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libsquishyqt_a_OBJECTS) $(qt_squishy_qt_OBJECTS) qt/squishy-qt$(EXEEXT) $(LIBBITCOINQT)
 
-komodo_qt : qt/komodo-qt$(EXEEXT)
+squishy_qt : qt/squishy-qt$(EXEEXT)
 
 ui_%.h: %.ui
 	@test -f $(UIC)

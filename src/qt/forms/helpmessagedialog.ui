@@ -52,7 +52,7 @@
         </size>
        </property>
        <property name="pixmap">
-        <pixmap resource="../komodo.qrc">:/icons/komodo</pixmap>
+        <pixmap resource="../squishy.qrc">:/icons/squishy</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -150,7 +150,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../komodo.qrc"/>
+  <include location="../squishy.qrc"/>
  </resources>
  <connections>
   <connection>

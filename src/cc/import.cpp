@@ -22,8 +22,8 @@
 #include <openssl/sha.h>
 #include "cc/CCtokens.h"
 #include "cc/CCImportGateway.h"
-#include "komodo_bitcoind.h"
-#include "komodo_gateway.h"
+#include "squishy_bitcoind.h"
+#include "squishy_gateway.h"
 #include "notaries_staked.h"
 
 #include "key_io.h"
@@ -40,7 +40,7 @@
 /*extern std::string ASSETCHAINS_SELFIMPORT;
 extern uint16_t ASSETCHAINS_CODAPORT,ASSETCHAINS_BEAMPORT;
 extern uint8_t ASSETCHAINS_OVERRIDE_PUBKEY33[33];
-extern uint256 KOMODO_EARLYTXID;
+extern uint256 SQUISHY_EARLYTXID;
 
 // utilities from gateways.cpp
 uint256 BitcoinGetProofMerkleRoot(const std::vector<uint8_t> &proofData, std::vector<uint256> &txids);
@@ -131,9 +131,9 @@ std::string MakeCodaImportTx(uint64_t txfee, const std::string& receipt, const s
         const std::vector<CTxOut>& vouts)
 {
     CMutableTransaction mtx = CreateNewContextualCMutableTransaction(
-            Params().GetConsensus(), komodo_nextheight());
+            Params().GetConsensus(), squishy_nextheight());
     CMutableTransaction burntx = CreateNewContextualCMutableTransaction(
-            Params().GetConsensus(), komodo_nextheight());
+            Params().GetConsensus(), squishy_nextheight());
 
     CCcontract_info *cp;
     CCcontract_info C;
@@ -316,9 +316,9 @@ int32_t CheckGATEWAYimport(CTransaction importTx,CTransaction burnTx,std::string
     std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > unspentOutputs;
 
     // ASSETCHAINS_SELFIMPORT is coin
-    if (KOMODO_EARLYTXID!=zeroid && bindtxid!=KOMODO_EARLYTXID)
+    if (SQUISHY_EARLYTXID!=zeroid && bindtxid!=SQUISHY_EARLYTXID)
     { 
-        LOGSTREAM("importgateway", CCLOG_INFO, stream << "CheckGATEWAYimport invalid import gateway. On this chain only valid import gateway is " << KOMODO_EARLYTXID.GetHex() << std::endl);
+        LOGSTREAM("importgateway", CCLOG_INFO, stream << "CheckGATEWAYimport invalid import gateway. On this chain only valid import gateway is " << SQUISHY_EARLYTXID.GetHex() << std::endl);
         return(-1);
     }
     // check for valid burn from external coin blockchain and if valid return(0);
@@ -347,7 +347,7 @@ int32_t CheckGATEWAYimport(CTransaction importTx,CTransaction burnTx,std::string
         LOGSTREAM("importgateway", CCLOG_INFO, stream << "CheckGATEWAYimport not enough pubkeys for given N " << std::endl);
         return(-1);
     }
-    else if (komodo_txnotarizedconfirmed(bindtxid) == false)
+    else if (squishy_txnotarizedconfirmed(bindtxid) == false)
     {
         LOGSTREAM("importgateway", CCLOG_INFO, stream << "CheckGATEWAYimport bindtx not yet confirmed/notarized" << std::endl);
         return(-1);
@@ -656,7 +656,7 @@ bool Eval::ImportCoin(const std::vector<uint8_t> params, const CTransaction &imp
     // Check burntx shows correct outputs hash
     if (payoutsHash != SerializeHash(payouts))
         return Invalid("wrong-payouts");
-    if (targetCcid < KOMODO_FIRSTFUNGIBLEID)
+    if (targetCcid < SQUISHY_FIRSTFUNGIBLEID)
         return Invalid("chain-not-fungible");
     if (targetSymbol.empty())
         return Invalid("target-chain-not-specified");
@@ -720,7 +720,7 @@ bool Eval::ImportCoin(const std::vector<uint8_t> params, const CTransaction &imp
  */
 CMutableTransaction MakeSelfImportSourceTx(const CTxDestination &dest, int64_t amount)
 {
-    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), komodo_nextheight());
+    CMutableTransaction mtx = CreateNewContextualCMutableTransaction(Params().GetConsensus(), squishy_nextheight());
 
     const int64_t txfee = 10000;
     CPubKey myPubKey = Mypubkey();
@@ -787,7 +787,7 @@ bool GetSelfimportProof(const CMutableTransaction sourceMtx, CMutableTransaction
 {
 
     CMutableTransaction tmpmtx = CreateNewContextualCMutableTransaction(
-            Params().GetConsensus(), komodo_nextheight());
+            Params().GetConsensus(), squishy_nextheight());
 
     CScript scriptPubKey = sourceMtx.vout[0].scriptPubKey;
 

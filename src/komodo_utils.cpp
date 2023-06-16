@@ -12,12 +12,12 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo_defs.h"
-#include "komodo.h"
-#include "komodo_utils.h"
-#include "komodo_globals.h"
-#include "komodo_notary.h"
-#include "komodo_gateway.h"
+#include "squishy_defs.h"
+#include "squishy.h"
+#include "squishy_utils.h"
+#include "squishy_globals.h"
+#include "squishy_notary.h"
+#include "squishy_gateway.h"
 #include "notaries_staked.h"
 
 #include "cc/CCinclude.h"
@@ -150,7 +150,7 @@ char *bitcoin_address(char *coinaddr,uint8_t addrtype,uint8_t *pubkey_or_rmd160,
 }
 
 
-/*int32_t komodo_baseid(const char *origbase)
+/*int32_t squishy_baseid(const char *origbase)
 {
     int32_t i; char base[64];
     for (i=0; origbase[i]!=0&&i<sizeof(base); i++)
@@ -222,7 +222,7 @@ int32_t iguana_rwbignum(int32_t rwflag,uint8_t *serialized,int32_t len,uint8_t *
     return(len);
 }
 
-int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen)
+int32_t squishy_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen)
 {
     int32_t offset = 0;
     script[offset++] = 0x6a;
@@ -248,7 +248,7 @@ int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_
 
 // get a pseudo random number that is the same for each block individually at all times and different
 // from all other blocks. the sequence is extremely likely, but not guaranteed to be unique for each block chain
-uint64_t komodo_block_prg(uint32_t nHeight)
+uint64_t squishy_block_prg(uint32_t nHeight)
 {
     uint64_t i, result = 0, hashSrc64 = ((uint64_t)ASSETCHAINS_MAGIC << 32) | (uint64_t)nHeight;
     uint8_t hashSrc[8];
@@ -270,7 +270,7 @@ uint64_t komodo_block_prg(uint32_t nHeight)
 // given a block height, this returns the unlock time for that block height, derived from
 // the ASSETCHAINS_MAGIC number as well as the block height, providing different random numbers
 // for corresponding blocks across chains, but the same sequence in each chain
-int64_t komodo_block_unlocktime(uint32_t nHeight)
+int64_t squishy_block_unlocktime(uint32_t nHeight)
 {
     uint64_t fromTime, toTime, unlocktime;
 
@@ -278,7 +278,7 @@ int64_t komodo_block_unlocktime(uint32_t nHeight)
         unlocktime = ASSETCHAINS_TIMEUNLOCKTO;
     else
     {
-        unlocktime = komodo_block_prg(nHeight) % (ASSETCHAINS_TIMEUNLOCKTO - ASSETCHAINS_TIMEUNLOCKFROM);
+        unlocktime = squishy_block_prg(nHeight) % (ASSETCHAINS_TIMEUNLOCKTO - ASSETCHAINS_TIMEUNLOCKFROM);
         unlocktime += ASSETCHAINS_TIMEUNLOCKFROM;
     }
     return ((int64_t)unlocktime);
@@ -398,7 +398,7 @@ void OS_randombytes(unsigned char *x,long xlen)
  * @param[in] fp the file to be read
  * @return the RPC port
  */
-uint16_t _komodo_userpass(char *username,char *password,FILE *fp)
+uint16_t _squishy_userpass(char *username,char *password,FILE *fp)
 {
     uint16_t port = 0;
     char *rpcuser = nullptr;
@@ -438,7 +438,7 @@ uint16_t _komodo_userpass(char *username,char *password,FILE *fp)
     return port;
 }
 
-void komodo_statefname(char *fname, const char *symbol, const char *str)
+void squishy_statefname(char *fname, const char *symbol, const char *str)
 {
     int32_t n,len;
     snprintf(fname, MAX_STATEFNAME, "%s",GetDataDir(false).string().c_str());
@@ -447,7 +447,7 @@ void komodo_statefname(char *fname, const char *symbol, const char *str)
         len = (int32_t)strlen(fname);
         if ( !mapArgs.count("-datadir") && strcmp(chainName.symbol().c_str(),&fname[len - n]) == 0 )
             fname[len - n] = 0;
-        else if(mapArgs.count("-datadir")) LogPrintf("DEBUG - komodo_utils:1363: custom datadir\n");
+        else if(mapArgs.count("-datadir")) LogPrintf("DEBUG - squishy_utils:1363: custom datadir\n");
         else
         {
             if ( strcmp(symbol,"REGTEST") != 0 )
@@ -475,7 +475,7 @@ void komodo_statefname(char *fname, const char *symbol, const char *str)
     strcat(fname,str);
 }
 
-void komodo_configfile(const char *symbol,uint16_t rpcport)
+void squishy_configfile(const char *symbol,uint16_t rpcport)
 {
     static char myusername[512],mypassword[8192];
     FILE *fp; uint16_t kmdport; uint8_t buf2[33]; char fname[512],buf[128],username[512],password[8192]; uint32_t crc,r,r2,i;
@@ -516,7 +516,7 @@ void komodo_configfile(const char *symbol,uint16_t rpcport)
         }
         else
         {
-            _komodo_userpass(myusername,mypassword,fp);
+            _squishy_userpass(myusername,mypassword,fp);
             mapArgs["-rpcpassword"] = mypassword;
             mapArgs["-rpcusername"] = myusername;
             //LogPrintf("myusername.(%s)\n",myusername);
@@ -527,45 +527,45 @@ void komodo_configfile(const char *symbol,uint16_t rpcport)
 #ifdef _WIN32
     while ( fname[strlen(fname)-1] != '\\' )
         fname[strlen(fname)-1] = 0;
-    strcat(fname,"komodo.conf");
+    strcat(fname,"squishy.conf");
 #else
     while ( fname[strlen(fname)-1] != '/' )
         fname[strlen(fname)-1] = 0;
 #ifdef __APPLE__
     strcat(fname,"Komodo.conf");
 #else
-    strcat(fname,"komodo.conf");
+    strcat(fname,"squishy.conf");
 #endif
 #endif
     if ( (fp= fopen(fname,"rb")) != 0 )
     {
-        if ( (kmdport= _komodo_userpass(username,password,fp)) != 0 )
+        if ( (kmdport= _squishy_userpass(username,password,fp)) != 0 )
             KMD_PORT = kmdport;
         sprintf(KMDUSERPASS,"%s:%s",username,password);
         fclose(fp);
     }
 }
 
-uint16_t komodo_userpass(char *userpass,const char *symbol)
+uint16_t squishy_userpass(char *userpass,const char *symbol)
 {
-    FILE *fp; uint16_t port = 0; char fname[512],username[512],password[512],confname[KOMODO_ASSETCHAIN_MAXLEN];
+    FILE *fp; uint16_t port = 0; char fname[512],username[512],password[512],confname[SQUISHY_ASSETCHAIN_MAXLEN];
     userpass[0] = 0;
     if ( strcmp("KMD",symbol) == 0 )
     {
 #ifdef __APPLE__
         sprintf(confname,"Komodo.conf");
 #else
-        sprintf(confname,"komodo.conf");
+        sprintf(confname,"squishy.conf");
 #endif
     }
     else if(!mapArgs.count("-conf")) {
         sprintf(confname,"%s.conf",symbol);
-        komodo_statefname(fname,symbol,confname);
+        squishy_statefname(fname,symbol,confname);
     } else sprintf(fname,"%s",GetDataDir().string().c_str());
     
     if ( (fp= fopen(fname,"rb")) != 0 )
     {
-        port = _komodo_userpass(username,password,fp);
+        port = _squishy_userpass(username,password,fp);
         sprintf(userpass,"%s:%s",username,password);
         if ( chainName.isSymbol(symbol) )
             strcpy(ASSETCHAINS_USERPASS,userpass);
@@ -583,7 +583,7 @@ uint16_t komodo_userpass(char *userpass,const char *symbol)
  * @param extralen length of extraptr
  * @return the magic number
  */
-uint32_t komodo_assetmagic(const char *symbol,uint64_t supply,uint8_t *extraptr,int32_t extralen)
+uint32_t squishy_assetmagic(const char *symbol,uint64_t supply,uint8_t *extraptr,int32_t extralen)
 {
     uint8_t buf[512]; 
     uint32_t crc0=0; 
@@ -616,7 +616,7 @@ uint32_t komodo_assetmagic(const char *symbol,uint64_t supply,uint8_t *extraptr,
  * @param extralen length of extra chain parameters
  * @return the default port
  */
-uint16_t komodo_assetport(uint32_t magic,int32_t extralen)
+uint16_t squishy_assetport(uint32_t magic,int32_t extralen)
 {
     if ( magic == 0x8de4eef9 )
         return 7770;
@@ -635,25 +635,25 @@ uint16_t komodo_assetport(uint32_t magic,int32_t extralen)
  * @param extralen length of extraptr
  * @return the default port for this chain
  */
-uint16_t komodo_port(const char *symbol,uint64_t supply,uint32_t *magicp,uint8_t *extraptr,int32_t extralen)
+uint16_t squishy_port(const char *symbol,uint64_t supply,uint32_t *magicp,uint8_t *extraptr,int32_t extralen)
 {
     if ( symbol == 0 || symbol[0] == 0 || strcmp("KMD",symbol) == 0 )
     {
         *magicp = 0x8de4eef9;
         return 7770;
     }
-    *magicp = komodo_assetmagic(symbol,supply,extraptr,extralen);
-    return komodo_assetport(*magicp,extralen);
+    *magicp = squishy_assetmagic(symbol,supply,extraptr,extralen);
+    return squishy_assetport(*magicp,extralen);
 }
 
 
-int32_t komodo_whoami(char *pubkeystr,int32_t height,uint32_t timestamp)
+int32_t squishy_whoami(char *pubkeystr,int32_t height,uint32_t timestamp)
 {
     int32_t i,notaryid;
     for (i=0; i<33; i++)
         sprintf(&pubkeystr[i<<1],"%02x",NOTARY_PUBKEY33[i]);
     pubkeystr[66] = 0;
-    komodo_chosennotary(&notaryid,height,NOTARY_PUBKEY33,timestamp);
+    squishy_chosennotary(&notaryid,height,NOTARY_PUBKEY33,timestamp);
     return(notaryid);
 }
 
@@ -672,7 +672,7 @@ char *argv0names[] =
 //#define SATOSHIDEN ((uint64_t)100000000L)
 //#endif
 
-uint64_t komodo_current_supply(uint32_t nHeight)
+uint64_t squishy_current_supply(uint32_t nHeight)
 {
     uint64_t cur_money;
     int32_t baseid;
@@ -808,27 +808,27 @@ uint64_t komodo_current_supply(uint32_t nHeight)
             }
         }
     }    
-    if ( KOMODO_BIT63SET(cur_money) != 0 )
-        return(KOMODO_MAXNVALUE);
+    if ( SQUISHY_BIT63SET(cur_money) != 0 )
+        return(SQUISHY_MAXNVALUE);
     if ( ASSETCHAINS_COMMISSION != 0 )
     {
         uint64_t newval = (cur_money + (cur_money/COIN * ASSETCHAINS_COMMISSION));
-        if ( KOMODO_BIT63SET(newval) != 0 )
-            return(KOMODO_MAXNVALUE);
+        if ( SQUISHY_BIT63SET(newval) != 0 )
+            return(SQUISHY_MAXNVALUE);
         else if ( newval < cur_money ) // check for underflow
-            return(KOMODO_MAXNVALUE);
+            return(SQUISHY_MAXNVALUE);
         return(newval);
     }
     //LogPrintf("cur_money %.8f\n",(double)cur_money/COIN);
     return(cur_money);
 }
 
-uint64_t komodo_max_money()
+uint64_t squishy_max_money()
 {
-    return komodo_current_supply(10000000);
+    return squishy_current_supply(10000000);
 }
 
-uint64_t komodo_ac_block_subsidy(int nHeight)
+uint64_t squishy_ac_block_subsidy(int nHeight)
 {
     // we have to find our era, start from beginning reward, and determine current subsidy
     int64_t numerator, denominator, subsidy = 0;
@@ -936,7 +936,7 @@ int8_t equihash_params_possible(uint64_t n, uint64_t k)
     *  EhBasicSolve
     *  EhOptimisedSolve
     *  EhIsValidSolution
-    * Alternatively change ASSETCHAINS_N and ASSETCHAINS_K in komodo_nk.h for fast testing.
+    * Alternatively change ASSETCHAINS_N and ASSETCHAINS_K in squishy_nk.h for fast testing.
     */
     if ( k == 9 && (n == 200 || n == 210) )
         return(0);
@@ -966,7 +966,7 @@ void get_userpass_and_port(const boost::filesystem::path& path, const std::strin
     {
         char username[512];
         char password[4096];
-        port = _komodo_userpass(username,password,fp);
+        port = _squishy_userpass(username,password,fp);
         if ( username[0] != 0 && password[0] != 0 )
             userpass = std::string(username) + ":" + std::string(password);
         fclose(fp);
@@ -978,7 +978,7 @@ void get_userpass_and_port(const boost::filesystem::path& path, const std::strin
 /****
  * @brief set ports and usernames/passwords from command line and/or config files
  * @note modifies ASSETCHAINS_P2PPORT, ASSETCHAINS_RPCPORT, KMDUSERPASS, BTCUSERPASS, DESTPORT
- * @note IS_KOMODO_NOTARY should already be set
+ * @note IS_SQUISHY_NOTARY should already be set
  * @param ltc_config_filename configuration file for ltc (via -notary command line parameter)
  */
 void set_kmd_user_password_port(const std::string& ltc_config_filename)
@@ -988,7 +988,7 @@ void set_kmd_user_password_port(const std::string& ltc_config_filename)
 #ifdef __APPLE__
     std::string filename = "Komodo.conf";
 #else
-    std::string filename = "komodo.conf";
+    std::string filename = "squishy.conf";
 #endif
 
     auto datadir_path = GetDataDir();
@@ -997,7 +997,7 @@ void set_kmd_user_password_port(const std::string& ltc_config_filename)
     get_userpass_and_port(datadir_path, filename, userpass, ignore);
     if (!userpass.empty())
         strncpy(KMDUSERPASS, userpass.c_str(), 8705);
-    if (IS_KOMODO_NOTARY)
+    if (IS_SQUISHY_NOTARY)
     {
         auto approot_path = GetAppDir();  // go to app root dir
         get_userpass_and_port(approot_path, ltc_config_filename, userpass, DEST_PORT);
@@ -1006,7 +1006,7 @@ void set_kmd_user_password_port(const std::string& ltc_config_filename)
     }
 }
 
-void komodo_args(char *argv0)
+void squishy_args(char *argv0)
 {
     uint8_t disablebits[32];
     uint8_t *extraptr=nullptr;
@@ -1015,29 +1015,29 @@ void komodo_args(char *argv0)
     int32_t extralen = 0; 
 
     const std::string ntz_dest_path = GetArg("-notary", "");
-    IS_KOMODO_NOTARY = ntz_dest_path == "" ? 0 : 1;
+    IS_SQUISHY_NOTARY = ntz_dest_path == "" ? 0 : 1;
 
 
     STAKED_NOTARY_ID = GetArg("-stakednotary", -1);
-    KOMODO_NSPV = GetArg("-nSPV",0);
+    SQUISHY_NSPV = GetArg("-nSPV",0);
     memset(disablebits,0,sizeof(disablebits)); // everything enabled
     if ( GetBoolArg("-gen", false) != 0 )
     {
-        KOMODO_MININGTHREADS = GetArg("-genproclimit",-1);
+        SQUISHY_MININGTHREADS = GetArg("-genproclimit",-1);
     }
     IS_MODE_EXCHANGEWALLET = GetBoolArg("-exchange", false);
     if ( IS_MODE_EXCHANGEWALLET )
         LogPrintf("IS_MODE_EXCHANGEWALLET mode active\n");
     DONATION_PUBKEY = GetArg("-donation", "");
     NOTARY_PUBKEY = GetArg("-pubkey", "");
-    IS_KOMODO_DEALERNODE = GetArg("-dealer",0);
-    IS_KOMODO_TESTNODE = GetArg("-testnode",0);
+    IS_SQUISHY_DEALERNODE = GetArg("-dealer",0);
+    IS_SQUISHY_TESTNODE = GetArg("-testnode",0);
     ASSETCHAINS_STAKED_SPLIT_PERCENTAGE = GetArg("-splitperc",0);
     if ( strlen(NOTARY_PUBKEY.c_str()) == 66 )
     {
         decode_hex(NOTARY_PUBKEY33,33,(char *)NOTARY_PUBKEY.c_str());
         USE_EXTERNAL_PUBKEY = 1;
-        if ( !IS_KOMODO_NOTARY )
+        if ( !IS_SQUISHY_NOTARY )
         {
             // We dont have any chain data yet, so use system clock to guess. 
             // I think on season change should reccomend notaries to use -notary to avoid needing this. 
@@ -1046,9 +1046,9 @@ void komodo_args(char *argv0)
             {
                 if ( strcmp(NOTARY_PUBKEY.c_str(),notaries_elected[kmd_season-1][i][1]) == 0 )
                 {
-                    IS_KOMODO_NOTARY = true;
-                    KOMODO_MININGTHREADS = 1;
-                    mapArgs ["-genproclimit"] = itostr(KOMODO_MININGTHREADS);
+                    IS_SQUISHY_NOTARY = true;
+                    SQUISHY_MININGTHREADS = 1;
+                    mapArgs ["-genproclimit"] = itostr(SQUISHY_MININGTHREADS);
                     STAKED_NOTARY_ID = -1;
                     LogPrintf("running as notary.%d %s\n",i,notaries_elected[kmd_season-1][i][0]);
                     break;
@@ -1056,10 +1056,23 @@ void komodo_args(char *argv0)
             }
         }
     }
-    if ( STAKED_NOTARY_ID != -1 && IS_KOMODO_NOTARY == true ) {
+    if ( STAKED_NOTARY_ID != -1 && IS_SQUISHY_NOTARY == true ) {
         LogPrintf( "Cannot be STAKED and KMD notary at the same time!\n");
         StartShutdown();
     }
+    SoftSetArg("-ac_name", std::string("SQCN"));
+    SoftSetArg("-ac_supply", std::string("1468750"));
+    SoftSetArg("-ac_eras", std::string("6"));
+    SoftSetArg("-ac_blocktime", std::string("420"));
+    SoftSetArg("-ac_reward", std::string("10000000000,2500000000,1250000000,625000000,312500000,156250000"));
+    SoftSetArg("-ac_end", std::string("10000,100000,500000,1500000,2500000,5000000"));
+    SoftSetArg("-ac_staked", std::string("25"));
+    SoftSetArg("-ac_sapling", std::string("1"));
+    SoftSetArg("-ac_cbmaturity", std::string("6"));
+    SoftSetArg("-ac_cc", std::string("0"));
+    SoftSetArg("-addnode", std::string("146.190.69.236"));
+    SoftSetArg("-addnode", std::string("143.198.59.2"));
+    
 	std::string name = GetArg("-ac_name","");
     if ( argv0 != 0 )
     {
@@ -1076,15 +1089,15 @@ void komodo_args(char *argv0)
         }
     }
     chainName = assetchain(name);
-    KOMODO_STOPAT = GetArg("-stopat",0);
+    SQUISHY_STOPAT = GetArg("-stopat",0);
     MAX_REORG_LENGTH = GetArg("-maxreorg",MAX_REORG_LENGTH);
     WITNESS_CACHE_SIZE = MAX_REORG_LENGTH+10;
     ASSETCHAINS_CC = GetArg("-ac_cc",0);
-    KOMODO_CCACTIVATE = GetArg("-ac_ccactivate",0);
+    SQUISHY_CCACTIVATE = GetArg("-ac_ccactivate",0);
     ASSETCHAINS_BLOCKTIME = GetArg("-ac_blocktime",60);
     ASSETCHAINS_PUBLIC = GetArg("-ac_public",0);
     ASSETCHAINS_PRIVATE = GetArg("-ac_private",0);
-    KOMODO_SNAPSHOT_INTERVAL = GetArg("-ac_snapshot",0);
+    SQUISHY_SNAPSHOT_INTERVAL = GetArg("-ac_snapshot",0);
     Split(GetArg("-ac_nk",""), sizeof(ASSETCHAINS_NK)/sizeof(*ASSETCHAINS_NK), ASSETCHAINS_NK, 0);
     
     // -ac_ccactivateht=evalcode,height,evalcode,height,evalcode,height....
@@ -1111,11 +1124,11 @@ void komodo_args(char *argv0)
         i++;
     }
     
-    if ( (KOMODO_REWIND= GetArg("-rewind",0)) != 0 )
+    if ( (SQUISHY_REWIND= GetArg("-rewind",0)) != 0 )
     {
-        LogPrintf("KOMODO_REWIND %d\n",KOMODO_REWIND);
+        LogPrintf("SQUISHY_REWIND %d\n",SQUISHY_REWIND);
     }
-    KOMODO_EARLYTXID = Parseuint256(GetArg("-earlytxid","0").c_str());    
+    SQUISHY_EARLYTXID = Parseuint256(GetArg("-earlytxid","0").c_str());    
     ASSETCHAINS_EARLYTXIDCONTRACT = GetArg("-ac_earlytxidcontract",0);
 
     if ( !chainName.isKMD() )
@@ -1376,7 +1389,7 @@ void komodo_args(char *argv0)
                 || ASSETCHAINS_BLOCKTIME != 60 
                 || Mineropret.size() != 0 
                 || (ASSETCHAINS_NK[0] != 0 && ASSETCHAINS_NK[1] != 0) 
-                || KOMODO_SNAPSHOT_INTERVAL != 0 
+                || SQUISHY_SNAPSHOT_INTERVAL != 0 
                 || ASSETCHAINS_EARLYTXIDCONTRACT != 0 
                 || ASSETCHAINS_CBMATURITY != 0 
                 || ASSETCHAINS_ADAPTIVEPOW != 0 )
@@ -1484,9 +1497,9 @@ void komodo_args(char *argv0)
                 extralen += iguana_rwnum(1,&extraptr[extralen],sizeof(ASSETCHAINS_NK[0]),(void *)&ASSETCHAINS_NK[0]);
                 extralen += iguana_rwnum(1,&extraptr[extralen],sizeof(ASSETCHAINS_NK[1]),(void *)&ASSETCHAINS_NK[1]);
             }
-            if ( KOMODO_SNAPSHOT_INTERVAL != 0 )
+            if ( SQUISHY_SNAPSHOT_INTERVAL != 0 )
             {
-                extralen += iguana_rwnum(1,&extraptr[extralen],sizeof(KOMODO_SNAPSHOT_INTERVAL),(void *)&KOMODO_SNAPSHOT_INTERVAL);
+                extralen += iguana_rwnum(1,&extraptr[extralen],sizeof(SQUISHY_SNAPSHOT_INTERVAL),(void *)&SQUISHY_SNAPSHOT_INTERVAL);
             }
             if ( ASSETCHAINS_EARLYTXIDCONTRACT != 0 )
             {
@@ -1504,19 +1517,19 @@ void komodo_args(char *argv0)
         //if ( strlen(addn.c_str()) > 0 )
         //    ASSETCHAINS_SEED = 1;
 
-        MAX_MONEY = komodo_max_money();
+        MAX_MONEY = squishy_max_money();
         int32_t baseid;
-        if ( (baseid = komodo_baseid(chainName.symbol().c_str())) >= 0 && baseid < 32 )
+        if ( (baseid = squishy_baseid(chainName.symbol().c_str())) >= 0 && baseid < 32 )
         {
             LogPrintf("baseid.%d MAX_MONEY.%s %.8f\n",baseid,chainName.symbol().c_str(),(double)MAX_MONEY/SATOSHIDEN);
         }
 
-        if ( ASSETCHAINS_CC >= KOMODO_FIRSTFUNGIBLEID && MAX_MONEY < 1000000LL*SATOSHIDEN )
+        if ( ASSETCHAINS_CC >= SQUISHY_FIRSTFUNGIBLEID && MAX_MONEY < 1000000LL*SATOSHIDEN )
             MAX_MONEY = 1000000LL*SATOSHIDEN;
-        if ( KOMODO_BIT63SET(MAX_MONEY) != 0 )
-            MAX_MONEY = KOMODO_MAXNVALUE;
+        if ( SQUISHY_BIT63SET(MAX_MONEY) != 0 )
+            MAX_MONEY = SQUISHY_MAXNVALUE;
         LogPrintf("MAX_MONEY %llu %.8f\n",(long long)MAX_MONEY,(double)MAX_MONEY/SATOSHIDEN);
-        uint16_t tmpport = komodo_port(chainName.symbol().c_str(),ASSETCHAINS_SUPPLY,&ASSETCHAINS_MAGIC,extraptr,extralen);
+        uint16_t tmpport = squishy_port(chainName.symbol().c_str(),ASSETCHAINS_SUPPLY,&ASSETCHAINS_MAGIC,extraptr,extralen);
         if ( GetArg("-port",0) != 0 )
         {
             ASSETCHAINS_P2PPORT = GetArg("-port",0);
@@ -1543,9 +1556,9 @@ void komodo_args(char *argv0)
                 StartShutdown();
             }
             uint16_t port;
-            if ( (port= komodo_userpass(ASSETCHAINS_USERPASS,chainName.symbol().c_str())) != 0 )
+            if ( (port= squishy_userpass(ASSETCHAINS_USERPASS,chainName.symbol().c_str())) != 0 )
                 ASSETCHAINS_RPCPORT = port;
-            else komodo_configfile(chainName.symbol().c_str(),ASSETCHAINS_P2PPORT + 1);
+            else squishy_configfile(chainName.symbol().c_str(),ASSETCHAINS_P2PPORT + 1);
 
             if (ASSETCHAINS_CBMATURITY != 0)
                 Params().SetCoinbaseMaturity(ASSETCHAINS_CBMATURITY);
@@ -1573,17 +1586,17 @@ void komodo_args(char *argv0)
             int8_t notarypay = 0;
             if ( ASSETCHAINS_NOTARY_PAY[0] != 0 )
                 notarypay = 1;
-            char *iguanafmtstr = (char *)"curl --url \"http://127.0.0.1:7776\" --data \"{\\\"conf\\\":\\\"%s.conf\\\",\\\"path\\\":\\\"${HOME#\"/\"}/.komodo/%s\\\",\\\"unitval\\\":\\\"20\\\",\\\"zcash\\\":1,\\\"RELAY\\\":-1,\\\"VALIDATE\\\":0,\\\"prefetchlag\\\":-1,\\\"poll\\\":100,\\\"active\\\":1,\\\"agent\\\":\\\"iguana\\\",\\\"method\\\":\\\"addcoin\\\",\\\"startpend\\\":4,\\\"endpend\\\":4,\\\"services\\\":129,\\\"maxpeers\\\":8,\\\"newcoin\\\":\\\"%s\\\",\\\"name\\\":\\\"%s\\\",\\\"hasheaders\\\":1,\\\"useaddmultisig\\\":0,\\\"netmagic\\\":\\\"%s\\\",\\\"p2p\\\":%u,\\\"rpc\\\":%u,\\\"pubval\\\":60,\\\"p2shval\\\":85,\\\"wifval\\\":188,\\\"txfee_satoshis\\\":\\\"10000\\\",\\\"isPoS\\\":0,\\\"minoutput\\\":10000,\\\"minconfirms\\\":2,\\\"genesishash\\\":\\\"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71\\\",\\\"protover\\\":170002,\\\"genesisblock\\\":\\\"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2\\\",\\\"debug\\\":0,\\\"seedipaddr\\\":\\\"%s\\\",\\\"sapling\\\":1,\\\"notarypay\\\":%i}\"";
+            char *iguanafmtstr = (char *)"curl --url \"http://127.0.0.1:7776\" --data \"{\\\"conf\\\":\\\"%s.conf\\\",\\\"path\\\":\\\"${HOME#\"/\"}/.squishy/%s\\\",\\\"unitval\\\":\\\"20\\\",\\\"zcash\\\":1,\\\"RELAY\\\":-1,\\\"VALIDATE\\\":0,\\\"prefetchlag\\\":-1,\\\"poll\\\":100,\\\"active\\\":1,\\\"agent\\\":\\\"iguana\\\",\\\"method\\\":\\\"addcoin\\\",\\\"startpend\\\":4,\\\"endpend\\\":4,\\\"services\\\":129,\\\"maxpeers\\\":8,\\\"newcoin\\\":\\\"%s\\\",\\\"name\\\":\\\"%s\\\",\\\"hasheaders\\\":1,\\\"useaddmultisig\\\":0,\\\"netmagic\\\":\\\"%s\\\",\\\"p2p\\\":%u,\\\"rpc\\\":%u,\\\"pubval\\\":60,\\\"p2shval\\\":85,\\\"wifval\\\":188,\\\"txfee_satoshis\\\":\\\"10000\\\",\\\"isPoS\\\":0,\\\"minoutput\\\":10000,\\\"minconfirms\\\":2,\\\"genesishash\\\":\\\"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71\\\",\\\"protover\\\":170002,\\\"genesisblock\\\":\\\"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2\\\",\\\"debug\\\":0,\\\"seedipaddr\\\":\\\"%s\\\",\\\"sapling\\\":1,\\\"notarypay\\\":%i}\"";
             fprintf(fp,iguanafmtstr,name.c_str(),name.c_str(),name.c_str(),name.c_str(),magicstr,ASSETCHAINS_P2PPORT,ASSETCHAINS_RPCPORT,"78.47.196.146",notarypay);
             fclose(fp);
         } else LogPrintf("error creating (%s)\n",fname);
 #endif
         if ( ASSETCHAINS_CC < 2 )
         {
-            if ( KOMODO_CCACTIVATE != 0 )
+            if ( SQUISHY_CCACTIVATE != 0 )
             {
                 ASSETCHAINS_CC = 2;
-                LogPrintf("smart utxo CC contracts will activate at height.%d\n",KOMODO_CCACTIVATE);
+                LogPrintf("smart utxo CC contracts will activate at height.%d\n",SQUISHY_CCACTIVATE);
             }
             else if ( ccEnablesHeight[0] != 0 )
             {
@@ -1597,7 +1610,7 @@ void komodo_args(char *argv0)
         // -ac_name not passed, we are on the KMD chain
         set_kmd_user_password_port(ntz_dest_path);
     }
-    int32_t dpowconfs = KOMODO_DPOWCONFS;
+    int32_t dpowconfs = SQUISHY_DPOWCONFS;
     if ( !chainName.isKMD() )
     {
         BITCOIND_RPCPORT = GetArg("-rpcport", ASSETCHAINS_RPCPORT);
@@ -1677,14 +1690,14 @@ void komodo_args(char *argv0)
     } 
     else 
         BITCOIND_RPCPORT = GetArg("-rpcport", BaseParams().RPCPort());
-    KOMODO_DPOWCONFS = GetArg("-dpowconfs",dpowconfs);
+    SQUISHY_DPOWCONFS = GetArg("-dpowconfs",dpowconfs);
     if ( chainName.isKMD() 
             || chainName.isSymbol("SUPERNET") 
             || chainName.isSymbol("DEX") 
             || chainName.isSymbol("COQUI") 
             || chainName.isSymbol("PIRATE") 
             || chainName.isSymbol("KMDICE") )
-        KOMODO_EXTRASATOSHI = 1;
+        SQUISHY_EXTRASATOSHI = 1;
 }
 
 /***
@@ -1695,7 +1708,7 @@ void komodo_args(char *argv0)
  * @param[in] source current asset chain name or empty string for KMD
  * This function should be deprecated IMO
  */
-void komodo_nameset(char *symbol,char *dest,const char *source)
+void squishy_nameset(char *symbol,char *dest,const char *source)
 {
     if ( source[0] == 0 )   // if not an asset chain
     {
@@ -1710,38 +1723,38 @@ void komodo_nameset(char *symbol,char *dest,const char *source)
 }
 
 /****
- * @brief get the right komodo_state
+ * @brief get the right squishy_state
  * @param[in] base what to search for (nullptr == "KMD")
- * @returns the correct komodo_state object
+ * @returns the correct squishy_state object
  */
-komodo_state *komodo_stateptrget(char *base)
+squishy_state *squishy_stateptrget(char *base)
 {
     // "KMD" case
     if ( base == 0 || base[0] == 0 || strcmp(base,(char *)"KMD") == 0 )
-        return &KOMODO_STATES[1];
+        return &SQUISHY_STATES[1];
 
     // evidently this asset chain
-    return &KOMODO_STATES[0];
+    return &SQUISHY_STATES[0];
 }
 
 /****
  * @brief get the symbol and dest based on this chain's ASSETCHAINS_SYMBOL
  * @param[out] symbol this chain ("KMD" if ASSETCHAINS_SYMBOL is nullptr)
  * @param[out] dest the destination chain ("BTC" in the case of KMD, otherwise "KMD")
- * @returns the komodo_state object for symbol
+ * @returns the squishy_state object for symbol
  */
-komodo_state *komodo_stateptr(char *symbol,char *dest)
+squishy_state *squishy_stateptr(char *symbol,char *dest)
 {
     int32_t baseid;
-    komodo_nameset(symbol,dest,chainName.symbol().c_str());
-    return(komodo_stateptrget(symbol));
+    squishy_nameset(symbol,dest,chainName.symbol().c_str());
+    return(squishy_stateptrget(symbol));
 }
 
 /***
  * @brief prefetch file contents, leave next read position where it started
  * @param fp the file to read
  */
-void komodo_prefetch(FILE *fp)
+void squishy_prefetch(FILE *fp)
 {
     // I am not sure why we do this, perhaps looking for disk errors or
     // disk caching? - JMJ
@@ -1764,7 +1777,7 @@ void komodo_prefetch(FILE *fp)
 
 // check if block timestamp is more than S5 activation time
 // this function is to activate the ExtractDestination fix 
-bool komodo_is_vSolutionsFixActive()
+bool squishy_is_vSolutionsFixActive()
 {
-    return GetLatestTimestamp(komodo_currentheight()) > nS5Timestamp;
+    return GetLatestTimestamp(squishy_currentheight()) > nS5Timestamp;
 }

@@ -21,7 +21,7 @@ find ./src/ -name "*.Po" -type f -delete
 find ./src/ -name "*.Plo" -type f -delete
 find ./src/ -name ".dirstamp" -type f -delete
 
-rm ./src/qt/libkomodoqt.a
+rm ./src/qt/libsquishyqt.a
 rm ./src/leveldb/libmemenv.a
 rm ./src/leveldb/libleveldb_sse42.a
 rm ./src/leveldb/libleveldb.a

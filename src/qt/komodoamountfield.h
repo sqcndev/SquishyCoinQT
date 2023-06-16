@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_KOMODOAMOUNTFIELD_H
-#define KOMODO_QT_KOMODOAMOUNTFIELD_H
+#ifndef SQUISHY_QT_SQUISHYAMOUNTFIELD_H
+#define SQUISHY_QT_SQUISHYAMOUNTFIELD_H
 
 #include "amount.h"
 
@@ -15,14 +15,14 @@ QT_BEGIN_NAMESPACE
 class QValueComboBox;
 QT_END_NAMESPACE
 
-/** Widget for entering komodo amounts.
+/** Widget for entering squishy amounts.
   */
 class KomodoAmountField: public QWidget
 {
     Q_OBJECT
 
     // ugly hack: for some unknown reason CAmount (instead of qint64) does not work here as expected
-    // discussion: https://github.com/komodo/komodo/pull/5117
+    // discussion: https://github.com/squishy/squishy/pull/5117
     Q_PROPERTY(qint64 value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:
@@ -72,4 +72,4 @@ private Q_SLOTS:
 
 };
 
-#endif // KOMODO_QT_KOMODOAMOUNTFIELD_H
+#endif // SQUISHY_QT_SQUISHYAMOUNTFIELD_H

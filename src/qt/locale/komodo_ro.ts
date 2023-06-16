@@ -214,12 +214,12 @@
         <translation>&amp;Ajutor</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and komodo: URIs)</source>
-        <translation>Cerere plată (generează coduri QR și komodo: URIs)</translation>
+        <source>Request payments (generates QR codes and squishy: URIs)</source>
+        <translation>Cerere plată (generează coduri QR și squishy: URIs)</translation>
     </message>
     <message>
-        <source>Open a komodo: URI or payment request</source>
-        <translation>Deschide un komodo: URI sau cerere de plată</translation>
+        <source>Open a squishy: URI or payment request</source>
+        <translation>Deschide un squishy: URI sau cerere de plată</translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -746,7 +746,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>komodo-core</name>
+    <name>squishy-core</name>
     <message>
         <source>Komodo Core</source>
         <translation>Komodo Core</translation>

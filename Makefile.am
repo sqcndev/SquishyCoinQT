@@ -5,17 +5,17 @@ SUBDIRS += doc/man
 endif
 .PHONY: deploy FORCE
 
-if BUILD_KOMODO_LIBS
+if BUILD_SQUISHY_LIBS
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libzcashconsensus.pc
 endif
 
-KOMODOD_BIN=$(top_builddir)/src/$(BITCOIN_DAEMON_NAME)$(EXEEXT)
-KOMODO_QT_BIN=$(top_builddir)/src/qt/$(BITCOIN_GUI_NAME)$(EXEEXT)
-KOMODO_CLI_BIN=$(top_builddir)/src/$(BITCOIN_CLI_NAME)$(EXEEXT)
-KOMODO_TX_BIN=$(top_builddir)/src/$(BITCOIN_TX_NAME)$(EXEEXT)
-KOMODO_WALLET_BIN=$(top_builddir)/src/$(BITCOIN_WALLET_TOOL_NAME)$(EXEEXT)
-KOMODO_WIN_INSTALLER=$(PACKAGE_NAME)-$(PACKAGE_VERSION)-win$(WINDOWS_BITS)-setup$(EXEEXT)
+SQUISHYD_BIN=$(top_builddir)/src/$(BITCOIN_DAEMON_NAME)$(EXEEXT)
+SQUISHY_QT_BIN=$(top_builddir)/src/qt/$(BITCOIN_GUI_NAME)$(EXEEXT)
+SQUISHY_CLI_BIN=$(top_builddir)/src/$(BITCOIN_CLI_NAME)$(EXEEXT)
+SQUISHY_TX_BIN=$(top_builddir)/src/$(BITCOIN_TX_NAME)$(EXEEXT)
+SQUISHY_WALLET_BIN=$(top_builddir)/src/$(BITCOIN_WALLET_TOOL_NAME)$(EXEEXT)
+SQUISHY_WIN_INSTALLER=$(PACKAGE_NAME)-$(PACKAGE_VERSION)-win$(WINDOWS_BITS)-setup$(EXEEXT)
 
 empty :=
 space := $(empty) $(empty)
@@ -32,7 +32,7 @@ OSX_DSSTORE_GEN=$(top_srcdir)/contrib/macdeploy/custom_dsstore.py
 OSX_DEPLOY_SCRIPT=$(top_srcdir)/contrib/macdeploy/macdeployqtplus
 OSX_FANCY_PLIST=$(top_srcdir)/contrib/macdeploy/fancy.plist
 # OSX_BASE_LPROJ_DIR=$(top_srcdir)/contrib/macdeploy/Base.lproj/InfoPlist.strings
-OSX_INSTALLER_ICONS=$(top_srcdir)/src/qt/res/icons/komodo.icns
+OSX_INSTALLER_ICONS=$(top_srcdir)/src/qt/res/icons/squishy.icns
 OSX_PLIST=$(top_srcdir)/share/qt/Info.plist #not installed
 OSX_QT_TRANSLATIONS = da,de,es,hu,ru,uk,zh_CN,zh_TW
 endif
@@ -42,7 +42,7 @@ DIST_DOCS = $(wildcard doc/*.md) $(wildcard doc/release-notes/*.md)
 BIN_CHECKS=$(top_srcdir)/contrib/devtools/symbol-check.py \
            $(top_srcdir)/contrib/devtools/security-check.py
 
-WINDOWS_PACKAGING = $(top_srcdir)/share/pixmaps/komodo.ico \
+WINDOWS_PACKAGING = $(top_srcdir)/share/pixmaps/squishy.ico \
 	$(top_srcdir)/share/pixmaps/nsis-header.bmp \
 	$(top_srcdir)/share/pixmaps/nsis-wizard.bmp
 
@@ -62,28 +62,28 @@ endif
 
 if TARGET_DARWIN
 COVERAGE_INFO = baseline_filtered_combined.info baseline.info block_test.info \
-  leveldb_baseline.info test_komodo_filtered.info total_coverage.info \
+  leveldb_baseline.info test_squishy_filtered.info total_coverage.info \
   baseline_filtered.info block_test_filtered.info \
-  leveldb_baseline_filtered.info test_komodo_coverage.info test_komodo.info
+  leveldb_baseline_filtered.info test_squishy_coverage.info test_squishy.info
 #  zcash-gtest.info zcash-gtest_filtered.info zcash-gtest_coverage.info
 else
 COVERAGE_INFO = baseline_filtered_combined.info baseline.info block_test.info \
-  leveldb_baseline.info test_komodo_filtered.info total_coverage.info \
+  leveldb_baseline.info test_squishy_filtered.info total_coverage.info \
   baseline_filtered.info block_test_filtered.info \
-  leveldb_baseline_filtered.info test_komodo_coverage.info test_komodo.info \
+  leveldb_baseline_filtered.info test_squishy_coverage.info test_squishy.info \
   #zcash-gtest.info zcash-gtest_filtered.info zcash-gtest_coverage.info
 endif
 
 dist-hook:
 	-$(GIT) archive --format=tar HEAD -- src/clientversion.cpp | $(AMTAR) -C $(top_distdir) -xf -
 
-$(KOMODO_WIN_INSTALLER): all-recursive
+$(SQUISHY_WIN_INSTALLER): all-recursive
 	$(MKDIR_P) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(KOMODOD_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(KOMODO_QT_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(KOMODO_CLI_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(KOMODO_TX_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(KOMODO_WALLET_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(SQUISHYD_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(SQUISHY_QT_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(SQUISHY_CLI_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(SQUISHY_TX_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(SQUISHY_WALLET_BIN) $(top_builddir)/release
 
 	@test -f $(MAKENSIS) && $(MAKENSIS) -V2 $(top_builddir)/share/setup.nsi || \
 	  echo error: could not build $@
@@ -106,15 +106,15 @@ $(OSX_APP)/Contents/Info.plist: $(OSX_PLIST)
 	$(MKDIR_P) $(@D)
 	$(INSTALL_DATA) $< $@
 
-$(OSX_APP)/Contents/Resources/komodo.icns: $(OSX_INSTALLER_ICONS)
+$(OSX_APP)/Contents/Resources/squishy.icns: $(OSX_INSTALLER_ICONS)
 	$(MKDIR_P) $(@D)
 	$(INSTALL_DATA) $< $@
 
-# $(OSX_APP)/Contents/MacOS/Komodo-Qt: $(KOMODO_QT_BIN)
+# $(OSX_APP)/Contents/MacOS/Komodo-Qt: $(SQUISHY_QT_BIN)
 # 	$(MKDIR_P) $(@D)
 # 	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM)  $< $@
 
-$(OSX_APP)/Contents/MacOS/Komodo-Qt: $(KOMODO_QT_BIN)
+$(OSX_APP)/Contents/MacOS/Komodo-Qt: $(SQUISHY_QT_BIN)
 	$(MKDIR_P) $(@D)
 	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $< $@
 
@@ -126,7 +126,7 @@ $(OSX_APP)/Contents/Resources/Base.lproj/InfoPlist.strings:
 	echo '{	CFBundleDisplayName = "$(PACKAGE_NAME)"; CFBundleName = "$(PACKAGE_NAME)"; }' > $@
 
 OSX_APP_BUILT=$(OSX_APP)/Contents/PkgInfo $(OSX_APP)/Contents/Resources/empty.lproj \
-	$(OSX_APP)/Contents/Resources/komodo.icns $(OSX_APP)/Contents/Info.plist \
+	$(OSX_APP)/Contents/Resources/squishy.icns $(OSX_APP)/Contents/Info.plist \
 	$(OSX_APP)/Contents/MacOS/Komodo-Qt $(OSX_APP)/Contents/Resources/Base.lproj/InfoPlist.strings
 
 endif
@@ -189,13 +189,13 @@ deploy: $(OSX_DMG)
 endif
 
 if TARGET_WINDOWS
-deploy: $(KOMODO_WIN_INSTALLER)
+deploy: $(SQUISHY_WIN_INSTALLER)
 endif
 
-$(KOMODOD_BIN): FORCE
+$(SQUISHYD_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
-$(KOMODO_CLI_BIN): FORCE
+$(SQUISHY_CLI_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
 if USE_LCOV
@@ -261,14 +261,14 @@ endif
 baseline_filtered_combined.info: leveldb_baseline_filtered.info baseline_filtered.info
 	$(LCOV) -a leveldb_baseline_filtered.info -a baseline_filtered.info -o $@
 
-test_komodo.info: baseline_filtered_combined.info
-	$(MAKE) -C src/ komodo_test_check
-	$(LCOV) -c -d $(abs_builddir)/src -t test_komodo -o $@
+test_squishy.info: baseline_filtered_combined.info
+	$(MAKE) -C src/ squishy_test_check
+	$(LCOV) -c -d $(abs_builddir)/src -t test_squishy -o $@
 	$(LCOV) -z -d $(abs_builddir)/src
 	$(LCOV) -z -d $(abs_builddir)/src/leveldb
 
 if BUILD_DARWIN
-test_komodo_filtered.info: test_komodo.info
+test_squishy_filtered.info: test_squishy.info
 	$(LCOV) -r $< "/usr/include/*" \
                       "$(abs_builddir)/depends/$(BUILD)/include/*.h" \
                       "$(abs_builddir)/depends/$(BUILD)/include/boost/*" \
@@ -280,7 +280,7 @@ test_komodo_filtered.info: test_komodo.info
                       "$(abs_builddir)/src/wallet/test/*" \
                       -o $@
 else
-test_komodo_filtered.info: test_komodo.info
+test_squishy_filtered.info: test_squishy.info
 	$(LCOV) -r $< "/usr/include/*" \
                       "$(abs_builddir)/depends/x86_64-unknown-linux-gnu/include/*.h" \
                       "$(abs_builddir)/depends/x86_64-unknown-linux-gnu/include/boost/*" \
@@ -293,9 +293,9 @@ test_komodo_filtered.info: test_komodo.info
                       -o $@
 endif
 
-block_test.info: test_komodo_filtered.info
+block_test.info: test_squishy_filtered.info
 	$(MKDIR_P) qa/tmp
-	-@TIMEOUT=15 qa/pull-tester/run-komodod-for-test.sh $(JAVA) -jar $(JAVA_COMPARISON_TOOL) qa/tmp/compTool 0
+	-@TIMEOUT=15 qa/pull-tester/run-squishyd-for-test.sh $(JAVA) -jar $(JAVA_COMPARISON_TOOL) qa/tmp/compTool 0
 	$(LCOV) -c -d $(abs_builddir)/src --t KomodoJBlockTest -o $@
 	$(LCOV) -z -d $(abs_builddir)/src
 	$(LCOV) -z -d $(abs_builddir)/src/leveldb
@@ -326,8 +326,8 @@ block_test_filtered.info: block_test.info
                       -o $@
 endif
 
-test_komodo_coverage.info: baseline_filtered_combined.info test_komodo_filtered.info
-       $(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_komodo_filtered.info -o $@
+test_squishy_coverage.info: baseline_filtered_combined.info test_squishy_filtered.info
+       $(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_squishy_filtered.info -o $@
 
 if ! BUILD_DARWIN
 zcash-gtest_coverage.info: baseline_filtered_combined.info zcash-gtest_filtered.info
@@ -335,15 +335,15 @@ zcash-gtest_coverage.info: baseline_filtered_combined.info zcash-gtest_filtered.
 endif
 
 if BUILD_DARWIN
-total_coverage.info:  baseline_filtered_combined.info test_komodo_filtered.info zcash-gtest_filtered.info block_test_filtered.info
-  $(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_komodo_filtered.info -a zcash-gtest_filtered.info -a block_test_filtered.info -o $@ | $(GREP) "\%" | $(AWK) '{ print substr($$3,2,50) "/" $$5 }' > coverage_percent.txt
+total_coverage.info:  baseline_filtered_combined.info test_squishy_filtered.info zcash-gtest_filtered.info block_test_filtered.info
+  $(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_squishy_filtered.info -a zcash-gtest_filtered.info -a block_test_filtered.info -o $@ | $(GREP) "\%" | $(AWK) '{ print substr($$3,2,50) "/" $$5 }' > coverage_percent.txt
 else
-total_coverage.info:  baseline_filtered_combined.info test_komodo_filtered.info zcash-gtest_filtered.info block_test_filtered.info
-	$(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_komodo_filtered.info -a zcash-gtest_filtered.info -a block_test_filtered.info -o $@ | $(GREP) "\%" | $(AWK) '{ print substr($$3,2,50) "/" $$5 }' > coverage_percent.txt
+total_coverage.info:  baseline_filtered_combined.info test_squishy_filtered.info zcash-gtest_filtered.info block_test_filtered.info
+	$(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_squishy_filtered.info -a zcash-gtest_filtered.info -a block_test_filtered.info -o $@ | $(GREP) "\%" | $(AWK) '{ print substr($$3,2,50) "/" $$5 }' > coverage_percent.txt
 endif
 
 
-test_komodo.coverage/.dirstamp:  test_komodo_coverage.info
+test_squishy.coverage/.dirstamp:  test_squishy_coverage.info
        $(GENHTML) -s $< -o $(@D)
        @touch $@
 
@@ -359,9 +359,9 @@ total.coverage/.dirstamp: total_coverage.info
        @touch $@
 
 if BUILD_DARWIN
-cov: test_komodo.coverage/.dirstamp cov-zcash total.coverage/.dirstamp
+cov: test_squishy.coverage/.dirstamp cov-zcash total.coverage/.dirstamp
 else
-cov: test_komodo.coverage/.dirstamp cov-zcash total.coverage/.dirstamp
+cov: test_squishy.coverage/.dirstamp cov-zcash total.coverage/.dirstamp
 endif
 
 endif
@@ -369,23 +369,23 @@ endif
 if USE_COMPARISON_TOOL
 check-local:
 	$(MKDIR_P) qa/tmp
-	@qa/pull-tester/run-komodod-for-test.sh $(JAVA) -jar $(JAVA_COMPARISON_TOOL) qa/tmp/compTool $(COMPARISON_TOOL_REORG_TESTS) 2>&1
+	@qa/pull-tester/run-squishyd-for-test.sh $(JAVA) -jar $(JAVA_COMPARISON_TOOL) qa/tmp/compTool $(COMPARISON_TOOL_REORG_TESTS) 2>&1
 endif
 
 dist_bin_SCRIPTS = zcutil/fetch-params.sh
 dist_noinst_SCRIPTS = autogen.sh zcutil/build-debian-package.sh zcutil/build.sh
 
-EXTRA_DIST = $(top_srcdir)/share/genbuild.sh qa/pull-tester/rpc-tests.sh qa/pull-tester/run-komodo-cli qa/rpc-tests qa/zcash $(DIST_DOCS) $(BIN_CHECKS)
+EXTRA_DIST = $(top_srcdir)/share/genbuild.sh qa/pull-tester/rpc-tests.sh qa/pull-tester/run-squishy-cli qa/rpc-tests qa/zcash $(DIST_DOCS) $(BIN_CHECKS)
 
 install-exec-hook:
 	mv $(DESTDIR)$(bindir)/fetch-params.sh $(DESTDIR)$(bindir)/zcash-fetch-params
 
-CLEANFILES = $(OSX_DMG) $(KOMODO_WIN_INSTALLER)
+CLEANFILES = $(OSX_DMG) $(SQUISHY_WIN_INSTALLER)
 
 .INTERMEDIATE: $(COVERAGE_INFO)
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-man
 
 clean-local:
-	rm -rf test_komodo.coverage/ zcash-gtest.coverage/ total.coverage/ $(OSX_APP)
+	rm -rf test_squishy.coverage/ zcash-gtest.coverage/ total.coverage/ $(OSX_APP)
 	rm -rf dist/ dpi36.background.tiff dpi72.background.tiff

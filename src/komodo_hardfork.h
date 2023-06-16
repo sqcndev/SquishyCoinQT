@@ -10,8 +10,8 @@ extern const int32_t nDecemberHardforkHeight;   //December 2019 hardfork
 extern const uint32_t nS4Timestamp; //dPoW Season 4 2020 hardfork
 extern const int32_t nS4HardforkHeight;   //dPoW Season 4 2020 hardfork
 
-extern const uint32_t nS5Timestamp; //dPoW Season 5 June 14th, 2021 hardfork (03:00:00 PM UTC) (defined in komodo_globals.h)
-extern const int32_t nS5HardforkHeight;   //dPoW Season 5 June 14th, 2021 hardfork estimated block height (defined in komodo_globals.h)
+extern const uint32_t nS5Timestamp; //dPoW Season 5 June 14th, 2021 hardfork (03:00:00 PM UTC) (defined in squishy_globals.h)
+extern const int32_t nS5HardforkHeight;   //dPoW Season 5 June 14th, 2021 hardfork estimated block height (defined in squishy_globals.h)
 
 extern const uint32_t nS6Timestamp;       // dPoW Season 6, Fri Jun 24 2022 13:37:33 GMT+0000
 extern const int32_t nS6HardforkHeight;   // dPoW Season 6, Fri Jun 24 2022

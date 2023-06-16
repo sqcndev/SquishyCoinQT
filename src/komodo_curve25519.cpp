@@ -12,8 +12,8 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo_curve25519.h"
-#include "komodo_utils.h" // for vcalc_sha256
+#include "squishy_curve25519.h"
+#include "squishy_utils.h" // for vcalc_sha256
 
 void store_limb(uint8_t *out,uint64_t in)
 {

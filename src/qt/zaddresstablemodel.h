@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef KOMODO_QT_ZADDRESSTABLEMODEL_H
-#define KOMODO_QT_ZADDRESSTABLEMODEL_H
+#ifndef SQUISHY_QT_ZADDRESSTABLEMODEL_H
+#define SQUISHY_QT_ZADDRESSTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <QStringList>
@@ -97,4 +97,4 @@ public Q_SLOTS:
     friend class ZAddressTablePriv;
 };
 
-#endif // KOMODO_QT_ZADDRESSTABLEMODEL_H
+#endif // SQUISHY_QT_ZADDRESSTABLEMODEL_H

@@ -12,43 +12,43 @@
  * Removal or modification of this copyright notice is prohibited.            *
  *                                                                            *
  ******************************************************************************/
-#include "komodo.h"
-#include "komodo_globals.h"
-#include "komodo_extern_globals.h"
-#include "komodo_utils.h"
-#include "komodo_notary.h"
-#include "komodo_bitcoind.h"
+#include "squishy.h"
+#include "squishy_globals.h"
+#include "squishy_extern_globals.h"
+#include "squishy_utils.h"
+#include "squishy_notary.h"
+#include "squishy_bitcoind.h"
 #include "mem_read.h"
 #include "notaries_staked.h"
 
 static FILE *fp; // for stateupdate
-//int32_t KOMODO_EXTERNAL_NOTARIES = 0; //todo remove
-#include "komodo_gateway.h"
-#include "komodo_events.h"
-#include "komodo_ccdata.h"
+//int32_t SQUISHY_EXTERNAL_NOTARIES = 0; //todo remove
+#include "squishy_gateway.h"
+#include "squishy_events.h"
+#include "squishy_ccdata.h"
 
-void komodo_currentheight_set(int32_t height)
+void squishy_currentheight_set(int32_t height)
 {
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN],dest[KOMODO_ASSETCHAIN_MAXLEN]; struct komodo_state *sp;
-    if ( (sp= komodo_stateptr(symbol,dest)) != 0 )
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN],dest[SQUISHY_ASSETCHAIN_MAXLEN]; struct squishy_state *sp;
+    if ( (sp= squishy_stateptr(symbol,dest)) != 0 )
         sp->CURRENT_HEIGHT = height;
 }
 
 extern NSPV_inforesp NSPV_inforesult;
 
-int32_t komodo_currentheight()
+int32_t squishy_currentheight()
 {
-    char symbol[KOMODO_ASSETCHAIN_MAXLEN],dest[KOMODO_ASSETCHAIN_MAXLEN]; struct komodo_state *sp;
-    if ( KOMODO_NSPV_SUPERLITE )
+    char symbol[SQUISHY_ASSETCHAIN_MAXLEN],dest[SQUISHY_ASSETCHAIN_MAXLEN]; struct squishy_state *sp;
+    if ( SQUISHY_NSPV_SUPERLITE )
     {
         return (NSPV_inforesult.height);
     }
-    if ( (sp= komodo_stateptr(symbol,dest)) != 0 )
+    if ( (sp= squishy_stateptr(symbol,dest)) != 0 )
         return(sp->CURRENT_HEIGHT);
     else return(0);
 }
 
-int32_t komodo_parsestatefile(struct komodo_state *sp,FILE *fp,char *symbol, const char *dest)
+int32_t squishy_parsestatefile(struct squishy_state *sp,FILE *fp,char *symbol, const char *dest)
 {
     int32_t func;
 
@@ -64,35 +64,35 @@ int32_t komodo_parsestatefile(struct komodo_state *sp,FILE *fp,char *symbol, con
 
             int32_t ht;
             if ( fread(&ht,1,sizeof(ht),fp) != sizeof(ht) )
-                throw komodo::parse_error("Unable to read height from file");
+                throw squishy::parse_error("Unable to read height from file");
             if ( func == 'P' )
             {
-                komodo::event_pubkeys pk(fp, ht);
-                if ( (KOMODO_EXTERNAL_NOTARIES && matched ) || (strcmp(symbol,"KMD") == 0 && !KOMODO_EXTERNAL_NOTARIES) )
+                squishy::event_pubkeys pk(fp, ht);
+                if ( (SQUISHY_EXTERNAL_NOTARIES && matched ) || (strcmp(symbol,"KMD") == 0 && !SQUISHY_EXTERNAL_NOTARIES) )
                 {
-                    komodo_eventadd_pubkeys(sp, symbol, ht, pk);
+                    squishy_eventadd_pubkeys(sp, symbol, ht, pk);
                 }
             }
             else if ( func == 'N' || func == 'M' )
             {
-                komodo::event_notarized evt(fp, ht, dest, func == 'M');
-                komodo_eventadd_notarized(sp, symbol, ht, evt);
+                squishy::event_notarized evt(fp, ht, dest, func == 'M');
+                squishy_eventadd_notarized(sp, symbol, ht, evt);
             }
             else if ( func == 'U' ) // deprecated
             {
-                komodo::event_u evt(fp, ht);
+                squishy::event_u evt(fp, ht);
             }
             else if ( func == 'K' || func == 'T')
             {
-                komodo::event_kmdheight evt(fp, ht, func == 'T');
-                komodo_eventadd_kmdheight(sp, symbol, ht, evt);
+                squishy::event_kmdheight evt(fp, ht, func == 'T');
+                squishy_eventadd_kmdheight(sp, symbol, ht, evt);
             }
             else if ( func == 'R' )
             {
-                komodo::event_opreturn evt(fp, ht);
+                squishy::event_opreturn evt(fp, ht);
                 // check for oversized opret
                 if ( evt.opret.size() < 16384*4 )
-                    komodo_eventadd_opreturn(sp, symbol, ht, evt);
+                    squishy_eventadd_opreturn(sp, symbol, ht, evt);
             }
             else if ( func == 'D' )
             {
@@ -100,29 +100,29 @@ int32_t komodo_parsestatefile(struct komodo_state *sp,FILE *fp,char *symbol, con
             }
             else if ( func == 'V' )
             {
-                komodo::event_pricefeed evt(fp, ht);
-                komodo_eventadd_pricefeed(sp, symbol, ht, evt);
+                squishy::event_pricefeed evt(fp, ht);
+                squishy_eventadd_pricefeed(sp, symbol, ht, evt);
             }
             else if ( func == 'B' ) {
                 // can be written but not processed on read
             }
             else {
-                throw komodo::parse_error("Unable to parse state file: unknown event");
+                throw squishy::parse_error("Unable to parse state file: unknown event");
             }
         } // retrieved the func
     }
-    catch(const komodo::parse_error& pe)
+    catch(const squishy::parse_error& pe)
     {
         LogPrintf("Error occurred in parsestatefile: %s\n", pe.what());
-        LogPrintf("%s file is invalid. Komodod will be stopped. Please remove %s and %s.ind files and start the daemon\n", KOMODO_STATE_FILENAME, KOMODO_STATE_FILENAME, KOMODO_STATE_FILENAME);
-        uiInterface.ThreadSafeMessageBox(strprintf("Please remove %s and %s.ind files and restart", KOMODO_STATE_FILENAME, KOMODO_STATE_FILENAME), "", CClientUIInterface::MSG_ERROR);
+        LogPrintf("%s file is invalid. Komodod will be stopped. Please remove %s and %s.ind files and start the daemon\n", SQUISHY_STATE_FILENAME, SQUISHY_STATE_FILENAME, SQUISHY_STATE_FILENAME);
+        uiInterface.ThreadSafeMessageBox(strprintf("Please remove %s and %s.ind files and restart", SQUISHY_STATE_FILENAME, SQUISHY_STATE_FILENAME), "", CClientUIInterface::MSG_ERROR);
         StartShutdown();            
         func = -1;
     }
     return func;
 }
 
-int32_t komodo_parsestatefiledata(struct komodo_state *sp,uint8_t *filedata,long *fposp,long datalen,const char *symbol, const char *dest)
+int32_t squishy_parsestatefiledata(struct squishy_state *sp,uint8_t *filedata,long *fposp,long datalen,const char *symbol, const char *dest)
 {
     int32_t func = -1;
 
@@ -141,33 +141,33 @@ int32_t komodo_parsestatefiledata(struct komodo_state *sp,uint8_t *filedata,long
 
             int32_t ht;
             if ( mem_read(ht, filedata, fpos, datalen) != sizeof(ht) )
-                throw komodo::parse_error("Unable to parse height from file data");
+                throw squishy::parse_error("Unable to parse height from file data");
             if ( func == 'P' )
             {
-                komodo::event_pubkeys pk(filedata, fpos, datalen, ht);
-                if ( (KOMODO_EXTERNAL_NOTARIES && matched ) || (strcmp(symbol,"KMD") == 0 && !KOMODO_EXTERNAL_NOTARIES) )
+                squishy::event_pubkeys pk(filedata, fpos, datalen, ht);
+                if ( (SQUISHY_EXTERNAL_NOTARIES && matched ) || (strcmp(symbol,"KMD") == 0 && !SQUISHY_EXTERNAL_NOTARIES) )
                 {
-                    komodo_eventadd_pubkeys(sp, symbol, ht, pk);
+                    squishy_eventadd_pubkeys(sp, symbol, ht, pk);
                 }
             }
             else if ( func == 'N' || func == 'M' )
             {
-                komodo::event_notarized ntz(filedata, fpos, datalen, ht, dest, func == 'M');
-                komodo_eventadd_notarized(sp, symbol, ht, ntz);
+                squishy::event_notarized ntz(filedata, fpos, datalen, ht, dest, func == 'M');
+                squishy_eventadd_notarized(sp, symbol, ht, ntz);
             }
             else if ( func == 'U' ) // deprecated
             {
-                komodo::event_u u(filedata, fpos, datalen, ht);
+                squishy::event_u u(filedata, fpos, datalen, ht);
             }
             else if ( func == 'K' || func == 'T' )
             {
-                komodo::event_kmdheight kmd_ht(filedata, fpos, datalen, ht, func == 'T');
-                komodo_eventadd_kmdheight(sp, symbol, ht, kmd_ht);
+                squishy::event_kmdheight kmd_ht(filedata, fpos, datalen, ht, func == 'T');
+                squishy_eventadd_kmdheight(sp, symbol, ht, kmd_ht);
             }
             else if ( func == 'R' )
             {
-                komodo::event_opreturn opret(filedata, fpos, datalen, ht);
-                komodo_eventadd_opreturn(sp, symbol, ht, opret);
+                squishy::event_opreturn opret(filedata, fpos, datalen, ht);
+                squishy_eventadd_opreturn(sp, symbol, ht, opret);
             }
             else if ( func == 'D' )
             {
@@ -175,74 +175,74 @@ int32_t komodo_parsestatefiledata(struct komodo_state *sp,uint8_t *filedata,long
             }
             else if ( func == 'V' )
             {
-                komodo::event_pricefeed pf(filedata, fpos, datalen, ht);
-                komodo_eventadd_pricefeed(sp, symbol, ht, pf);
+                squishy::event_pricefeed pf(filedata, fpos, datalen, ht);
+                squishy_eventadd_pricefeed(sp, symbol, ht, pf);
             }
             else if ( func == 'B' ) {
                 // can be written but not processed on read
             }
             else {
-                throw komodo::parse_error("Unable to parse file data: unknown event");
+                throw squishy::parse_error("Unable to parse file data: unknown event");
             }
             *fposp = fpos;
         }
     }
-    catch( const komodo::parse_error& pe)
+    catch( const squishy::parse_error& pe)
     {
         LogPrintf("Unable to parse state file data. Error: %s\n", pe.what());
-        LogPrintf("%s file is invalid. Komodod will be stopped. Please remove %s and %s.ind files and start the daemon\n", KOMODO_STATE_FILENAME, KOMODO_STATE_FILENAME, KOMODO_STATE_FILENAME);
-        uiInterface.ThreadSafeMessageBox(strprintf("Please remove %s and %s.ind files and restart", KOMODO_STATE_FILENAME, KOMODO_STATE_FILENAME), "", CClientUIInterface::MSG_ERROR);
+        LogPrintf("%s file is invalid. Komodod will be stopped. Please remove %s and %s.ind files and start the daemon\n", SQUISHY_STATE_FILENAME, SQUISHY_STATE_FILENAME, SQUISHY_STATE_FILENAME);
+        uiInterface.ThreadSafeMessageBox(strprintf("Please remove %s and %s.ind files and restart", SQUISHY_STATE_FILENAME, SQUISHY_STATE_FILENAME), "", CClientUIInterface::MSG_ERROR);
         StartShutdown();
         func = -1;
     }
     return func;
 }
 
-void komodo_stateupdate(int32_t height,uint8_t notarypubs[][33],uint8_t numnotaries,
+void squishy_stateupdate(int32_t height,uint8_t notarypubs[][33],uint8_t numnotaries,
         uint8_t notaryid,uint256 txhash,uint32_t *pvals,
         uint8_t numpvals,int32_t KMDheight,uint32_t KMDtimestamp,uint64_t opretvalue,
         uint8_t *opretbuf,uint16_t opretlen,uint16_t vout,uint256 MoM,int32_t MoMdepth)
 {
     static int32_t errs,didinit; 
     static uint256 zero;
-    struct komodo_state *sp; 
-    char fname[MAX_STATEFNAME+1],symbol[KOMODO_ASSETCHAIN_MAXLEN],dest[KOMODO_ASSETCHAIN_MAXLEN]; 
+    struct squishy_state *sp; 
+    char fname[MAX_STATEFNAME+1],symbol[SQUISHY_ASSETCHAIN_MAXLEN],dest[SQUISHY_ASSETCHAIN_MAXLEN]; 
     int32_t ht,func;
     uint8_t num,pubkeys[64][33];
 
     if ( didinit == 0 )
     {
-        portable_mutex_init(&KOMODO_CC_mutex);
+        portable_mutex_init(&SQUISHY_CC_mutex);
         didinit = 1;
     }
-    if ( (sp= komodo_stateptr(symbol,dest)) == 0 )
+    if ( (sp= squishy_stateptr(symbol,dest)) == 0 )
     {
-        KOMODO_INITDONE = (uint32_t)time(NULL);
-        LogPrintf("[%s] no komodo_stateptr\n",chainName.symbol().c_str());
+        SQUISHY_INITDONE = (uint32_t)time(NULL);
+        LogPrintf("[%s] no squishy_stateptr\n",chainName.symbol().c_str());
         return;
     }
     if ( fp == 0 )
     {
-        komodo_statefname(fname, chainName.symbol().c_str(), KOMODO_STATE_FILENAME);
+        squishy_statefname(fname, chainName.symbol().c_str(), SQUISHY_STATE_FILENAME);
         if ( (fp= fopen(fname,"rb+")) != nullptr )
         {
-            if ( komodo_faststateinit(sp, fname, symbol, dest) )
+            if ( squishy_faststateinit(sp, fname, symbol, dest) )
                 fseek(fp,0,SEEK_END);
             else
             {
                 // unable to use faststateinit, so try again only slower
-                LogPrintf("komodo_faststateinit retval.-1\n");
-                while (!ShutdownRequested() && komodo_parsestatefile(sp,fp,symbol,dest) >= 0)
+                LogPrintf("squishy_faststateinit retval.-1\n");
+                while (!ShutdownRequested() && squishy_parsestatefile(sp,fp,symbol,dest) >= 0)
                     ;
             }
-            LogPrintf("komodo read last notarised height %d from %s\n", sp->LastNotarizedHeight(), KOMODO_STATE_FILENAME);
+            LogPrintf("squishy read last notarised height %d from %s\n", sp->LastNotarizedHeight(), SQUISHY_STATE_FILENAME);
         } 
         else 
             fp = fopen(fname,"wb+"); // the state file probably did not exist, create it.
 
         if (ShutdownRequested()) { fclose(fp); return; }
         
-        KOMODO_INITDONE = (uint32_t)time(NULL);
+        SQUISHY_INITDONE = (uint32_t)time(NULL);
     }
     if ( height <= 0 )
     {
@@ -252,35 +252,35 @@ void komodo_stateupdate(int32_t height,uint8_t notarypubs[][33],uint8_t numnotar
     {
         if ( KMDheight != 0 )
         {
-            komodo::event_kmdheight kmd_ht(height);
+            squishy::event_kmdheight kmd_ht(height);
             kmd_ht.kheight = KMDheight;
             kmd_ht.timestamp = KMDtimestamp;
             write_event(kmd_ht, fp);
-            komodo_eventadd_kmdheight(sp,symbol,height,kmd_ht);
+            squishy_eventadd_kmdheight(sp,symbol,height,kmd_ht);
         }
         else if ( opretbuf != 0 && opretlen > 0 )
         {
-            komodo::event_opreturn evt(height);
+            squishy::event_opreturn evt(height);
             evt.txid = txhash;
             evt.vout = vout;
             evt.value = opretvalue;
             for(uint16_t i = 0; i < opretlen; ++i)
                 evt.opret.push_back(opretbuf[i]);
             write_event(evt, fp);
-            komodo_eventadd_opreturn(sp,symbol,height,evt);
+            squishy_eventadd_opreturn(sp,symbol,height,evt);
         }
         else if ( notarypubs != 0 && numnotaries > 0 )
         {
-            komodo::event_pubkeys pk(height);
+            squishy::event_pubkeys pk(height);
             pk.num = numnotaries;
             memcpy(pk.pubkeys, notarypubs, 33 * 64);
             write_event(pk, fp);
-            komodo_eventadd_pubkeys(sp,symbol,height,pk);
+            squishy_eventadd_pubkeys(sp,symbol,height,pk);
         }
         /* TODO: why is this removed in jmj_event_fix3?
         else if ( voutmask != 0 && numvouts > 0 )
         {
-            komodo::event_u evt(height);
+            squishy::event_u evt(height);
             evt.n = numvouts;
             evt.nid = notaryid;
             memcpy(evt.mask, &voutmask, sizeof(voutmask));
@@ -295,45 +295,45 @@ void komodo_stateupdate(int32_t height,uint8_t notarypubs[][33],uint8_t numnotar
                     nonz++;
             if ( nonz >= 32 )
             {
-                komodo::event_pricefeed evt(height);
+                squishy::event_pricefeed evt(height);
                 evt.num = numpvals;
                 for( uint8_t i = 0; i < evt.num; ++i)
                     evt.prices[i] = pvals[i];
                 write_event(evt, fp);
-                komodo_eventadd_pricefeed(sp,symbol,height,evt);
+                squishy_eventadd_pricefeed(sp,symbol,height,evt);
             }
         }
         else if ( height != 0 )
         {
             if ( sp != nullptr )
             {
-                komodo::event_notarized evt(height, dest);
+                squishy::event_notarized evt(height, dest);
                 evt.blockhash = sp->LastNotarizedHash();
                 evt.desttxid = sp->LastNotarizedDestTxId();
                 evt.notarizedheight = sp->LastNotarizedHeight();
                 evt.MoM = sp->LastNotarizedMoM();
                 evt.MoMdepth = sp->LastNotarizedMoMDepth();
                 write_event(evt, fp);
-                komodo_eventadd_notarized(sp,symbol,height,evt);
+                squishy_eventadd_notarized(sp,symbol,height,evt);
             }
         }
         fflush(fp);
     }
 }
 
-int32_t komodo_validate_chain(uint256 srchash,int32_t notarized_height)
+int32_t squishy_validate_chain(uint256 srchash,int32_t notarized_height)
 {
-    static int32_t last_rewind; int32_t rewindtarget; CBlockIndex *pindex; struct komodo_state *sp; char symbol[KOMODO_ASSETCHAIN_MAXLEN],dest[KOMODO_ASSETCHAIN_MAXLEN];
-    if ( (sp= komodo_stateptr(symbol,dest)) == 0 )
+    static int32_t last_rewind; int32_t rewindtarget; CBlockIndex *pindex; struct squishy_state *sp; char symbol[SQUISHY_ASSETCHAIN_MAXLEN],dest[SQUISHY_ASSETCHAIN_MAXLEN];
+    if ( (sp= squishy_stateptr(symbol,dest)) == 0 )
         return(0);
-    if ( IsInitialBlockDownload() == 0 && ((pindex= komodo_getblockindex(srchash)) == 0 || pindex->nHeight != notarized_height) )
+    if ( IsInitialBlockDownload() == 0 && ((pindex= squishy_getblockindex(srchash)) == 0 || pindex->nHeight != notarized_height) )
     {
         if ( sp->LastNotarizedHeight() > 0 && sp->LastNotarizedHeight() < notarized_height )
             rewindtarget = sp->LastNotarizedHeight() - 1;
         else if ( notarized_height > 101 )
             rewindtarget = notarized_height - 101;
         else rewindtarget = 0;
-        if ( rewindtarget != 0 && rewindtarget > KOMODO_REWIND && rewindtarget > last_rewind )
+        if ( rewindtarget != 0 && rewindtarget > SQUISHY_REWIND && rewindtarget > last_rewind )
         {
             if ( last_rewind != 0 )
             {
@@ -347,22 +347,22 @@ int32_t komodo_validate_chain(uint256 srchash,int32_t notarized_height)
     } else return(1);
 }
 
-int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notaryid,uint8_t *scriptbuf,
+int32_t squishy_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notaryid,uint8_t *scriptbuf,
         int32_t scriptlen,int32_t height,uint256 txhash,int32_t i,int32_t j,uint64_t *voutmaskp,
         int32_t *specialtxp,int32_t *notarizedheightp,uint64_t value,int32_t notarized,
         uint64_t signedmask,uint32_t timestamp)
 {
     static uint256 zero; static FILE *signedfp;
-    int32_t opretlen,nid,offset,k,MoMdepth,matched,len = 0; uint256 MoM,srchash,desttxid; uint8_t crypto777[33]; struct komodo_state *sp; char symbol[KOMODO_ASSETCHAIN_MAXLEN],dest[KOMODO_ASSETCHAIN_MAXLEN];
-    if ( (sp= komodo_stateptr(symbol,dest)) == 0 )
+    int32_t opretlen,nid,offset,k,MoMdepth,matched,len = 0; uint256 MoM,srchash,desttxid; uint8_t crypto777[33]; struct squishy_state *sp; char symbol[SQUISHY_ASSETCHAIN_MAXLEN],dest[SQUISHY_ASSETCHAIN_MAXLEN];
+    if ( (sp= squishy_stateptr(symbol,dest)) == 0 )
         return(-1);
     if ( scriptlen == 35 && scriptbuf[0] == 33 && scriptbuf[34] == 0xac )
     {
-        if ( i == 0 && j == 0 && memcmp(NOTARY_PUBKEY33,scriptbuf+1,33) == 0 && IS_KOMODO_NOTARY )
+        if ( i == 0 && j == 0 && memcmp(NOTARY_PUBKEY33,scriptbuf+1,33) == 0 && IS_SQUISHY_NOTARY )
         {
-            LogPrintf("%s KOMODO_LASTMINED.%d -> %d\n",chainName.symbol().c_str(),KOMODO_LASTMINED,height);
-            prevKOMODO_LASTMINED = KOMODO_LASTMINED;
-            KOMODO_LASTMINED = height;
+            LogPrintf("%s SQUISHY_LASTMINED.%d -> %d\n",chainName.symbol().c_str(),SQUISHY_LASTMINED,height);
+            prevSQUISHY_LASTMINED = SQUISHY_LASTMINED;
+            SQUISHY_LASTMINED = height;
         }
         decode_hex(crypto777,33,CRYPTO777_PUBSECPSTR);
         /*for (k=0; k<33; k++)
@@ -375,7 +375,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
             *specialtxp = 1;
             //LogPrintf(">>>>>>>> ");
         }
-        else if ( komodo_chosennotary(&nid,height,scriptbuf + 1,timestamp) >= 0 )
+        else if ( squishy_chosennotary(&nid,height,scriptbuf + 1,timestamp) >= 0 )
         {
             //LogPrintf("found notary.k%d\n",k);
             if ( notaryid < 64 )
@@ -396,7 +396,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
     }
     if ( scriptbuf[len++] == 0x6a )
     {
-        struct komodo_ccdata ccdata; struct komodo_ccdataMoMoM MoMoMdata;
+        struct squishy_ccdata ccdata; struct squishy_ccdataMoMoM MoMoMdata;
         int32_t validated = 0,nameoffset,opoffset = 0;
         if ( (opretlen= scriptbuf[len++]) == 0x4c )
             opretlen = scriptbuf[len++];
@@ -417,7 +417,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
             if ( scriptbuf[len] == 'K' )
             {
                 //LogPrintf("i.%d j.%d KV OPRET len.%d %.8f\n",i,j,opretlen,dstr(value));
-                komodo_stateupdate(height,0,0,0,txhash,0,0,0,0,value,&scriptbuf[len],opretlen,j,zero,0);
+                squishy_stateupdate(height,0,0,0,txhash,0,0,0,0,value,&scriptbuf[len],opretlen,j,zero,0);
                 return(-1);
             }
             if ( strcmp(chainName.symbol().c_str(),(char *)&scriptbuf[len+32*2+4]) == 0 )
@@ -431,7 +431,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
         if ( j == 1 && opretlen >= len+offset-opoffset )
         {
             memset(&MoMoMdata,0,sizeof(MoMoMdata));
-            if ( matched == 0 && signedmask != 0 && bitweight(signedmask) >= KOMODO_MINRATIFY )
+            if ( matched == 0 && signedmask != 0 && bitweight(signedmask) >= SQUISHY_MINRATIFY )
                 notarized = 1;
             if ( strcmp("PIZZA",ccdata.symbol) == 0 || strncmp("TXSCL",ccdata.symbol,5) == 0 || strcmp("BEER",ccdata.symbol) == 0)
                 notarized = 1;
@@ -440,7 +440,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
             if ( matched != 0 )
                 len += iguana_rwbignum(0,&scriptbuf[len],32,(uint8_t *)&desttxid);
             if ( matched != 0 )
-                validated = komodo_validate_chain(srchash,*notarizedheightp);
+                validated = squishy_validate_chain(srchash,*notarizedheightp);
             else validated = 1;
             // Any notarization that is matched and has a decodable op_return is enough to pay notaries. Otherwise bugs! 
             if ( fJustCheck && matched != 0 )
@@ -480,7 +480,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
                                 MoMoMdata.len += sizeof(MoMoMdata.MoMoM) + sizeof(uint32_t)*4;
                                 if ( len+MoMoMdata.numpairs*8-opoffset == opretlen )
                                 {
-                                    MoMoMdata.pairs = (struct komodo_ccdatapair *)calloc(MoMoMdata.numpairs,sizeof(*MoMoMdata.pairs));
+                                    MoMoMdata.pairs = (struct squishy_ccdatapair *)calloc(MoMoMdata.numpairs,sizeof(*MoMoMdata.pairs));
                                     for (k=0; k<MoMoMdata.numpairs; k++)
                                     {
                                         len += iguana_rwnum(0,&scriptbuf[len],sizeof(int32_t),(uint8_t *)&MoMoMdata.pairs[k].notarized_height);
@@ -517,7 +517,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
                         sp->SetLastNotarizedMoM(MoM);
                         sp->SetLastNotarizedMoMDepth(MoMdepth);
                     }
-                    komodo_stateupdate(height,0,0,0,zero,0,0,0,0,0,0,0,0,sp->LastNotarizedMoM(),sp->LastNotarizedMoMDepth());
+                    squishy_stateupdate(height,0,0,0,zero,0,0,0,0,0,0,0,0,sp->LastNotarizedMoM(),sp->LastNotarizedMoMDepth());
                     LogPrintf("[%s] ht.%d NOTARIZED.%d %s.%s %sTXID.%s lens.(%d %d) MoM.%s %d\n",
                             chainName.symbol().c_str(),height,sp->LastNotarizedHeight(),
                             chainName.ToString().c_str(),srchash.ToString().c_str(),
@@ -529,7 +529,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
                         if ( signedfp == 0 )
                         {
                             char fname[MAX_STATEFNAME+1];
-                            komodo_statefname(fname,chainName.symbol().c_str(),(char *)"signedmasks");
+                            squishy_statefname(fname,chainName.symbol().c_str(),(char *)"signedmasks");
                             if ( (signedfp= fopen(fname,"rb+")) == 0 )
                                 signedfp = fopen(fname,"wb");
                             else fseek(signedfp,0,SEEK_END);
@@ -545,7 +545,7 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
                             //for (i=0; i<opretlen-len; i++)
                             //    LogPrintf("%02x",scriptbuf[len+i]);
                             //LogPrintf(" Found extradata.[%d] %d - %d\n",opretlen-len,opretlen,len);
-                            komodo_stateupdate(height,0,0,0,txhash,0,0,0,0,value,&scriptbuf[len],opretlen-len+4+3+(scriptbuf[1] == 0x4d),j,zero,0);
+                            squishy_stateupdate(height,0,0,0,txhash,0,0,0,0,value,&scriptbuf[len],opretlen-len+4+3+(scriptbuf[1] == 0x4d),j,zero,0);
                         }
                     }
                 }
@@ -574,14 +574,14 @@ int32_t komodo_voutupdate(bool fJustCheck,int32_t *isratificationp,int32_t notar
             }
 
             if ( *isratificationp == 0 && (signedmask != 0 || (scriptbuf[len] != 'X' && scriptbuf[len] != 'A')) ) // && scriptbuf[len] != 'I')
-                komodo_stateupdate(height,0,0,0,txhash,0,0,0,0,value,&scriptbuf[len],opretlen,j,zero,0);
+                squishy_stateupdate(height,0,0,0,txhash,0,0,0,0,value,&scriptbuf[len],opretlen,j,zero,0);
         }
     }
     return(notaryid);
 }
 
 // Special tx have vout[0] -> CRYPTO777
-// with more than KOMODO_MINRATIFY pay2pubkey outputs -> ratify
+// with more than SQUISHY_MINRATIFY pay2pubkey outputs -> ratify
 // if all outputs to notary -> notary utxo
 // if txi == 0 && 2 outputs and 2nd OP_RETURN, len == 32*2+4 -> notarized, 1st byte 'P' -> pricefeed
 // OP_RETURN: 'D' -> deposit, 'W' -> withdraw
@@ -605,7 +605,7 @@ int32_t gettxout_scriptPubKey(uint8_t *scriptPubKey,int32_t maxsize,uint256 txid
     return(-1);
 }
 
-int32_t komodo_notarycmp(uint8_t *scriptPubKey,int32_t scriptlen,uint8_t pubkeys[64][33],int32_t numnotaries,uint8_t rmd160[20])
+int32_t squishy_notarycmp(uint8_t *scriptPubKey,int32_t scriptlen,uint8_t pubkeys[64][33],int32_t numnotaries,uint8_t rmd160[20])
 {
     int32_t i;
     if ( scriptlen == 25 && memcmp(&scriptPubKey[3],rmd160,20) == 0 )
@@ -624,32 +624,32 @@ int32_t komodo_notarycmp(uint8_t *scriptPubKey,int32_t scriptlen,uint8_t pubkeys
     read blackjok3rtt comments in main.cpp 
 */
 /* 
-    JMJ: Moved hwmheight out of komodo_connectblock to allow testing. 
-    Adjusting this should only be done by komodo_connectblock or a unit test
+    JMJ: Moved hwmheight out of squishy_connectblock to allow testing. 
+    Adjusting this should only be done by squishy_connectblock or a unit test
 */
 static int32_t hwmheight;
 
 void adjust_hwmheight(int32_t newHeight) { hwmheight = newHeight; }
 
-int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
+int32_t squishy_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
 {
     static int32_t hwmheight;
     int32_t staked_era; static int32_t lastStakedEra;
     std::vector<int32_t> notarisations;
-    uint64_t signedmask,voutmask; char symbol[KOMODO_ASSETCHAIN_MAXLEN],dest[KOMODO_ASSETCHAIN_MAXLEN]; struct komodo_state *sp;
+    uint64_t signedmask,voutmask; char symbol[SQUISHY_ASSETCHAIN_MAXLEN],dest[SQUISHY_ASSETCHAIN_MAXLEN]; struct squishy_state *sp;
     uint8_t scriptbuf[10001],pubkeys[64][33],rmd160[20],scriptPubKey[35]; uint256 zero,btctxid,txhash;
     int32_t i,j,k,numnotaries,notarized,scriptlen,isratification,nid,numvalid,specialtx,notarizedheight,notaryid,len,numvouts,numvins,height,txn_count;
     if ( pindex == 0 )
     {
-        LogPrintf("komodo_connectblock null pindex\n");
+        LogPrintf("squishy_connectblock null pindex\n");
         return(0);
     }
     memset(&zero,0,sizeof(zero));
-    komodo_init(pindex->nHeight);
-    KOMODO_INITDONE = (uint32_t)time(NULL);
-    if ( (sp= komodo_stateptr(symbol,dest)) == 0 )
+    squishy_init(pindex->nHeight);
+    SQUISHY_INITDONE = (uint32_t)time(NULL);
+    if ( (sp= squishy_stateptr(symbol,dest)) == 0 )
     {
-        LogPrintf("unexpected null komodostateptr.[%s]\n",chainName.symbol().c_str());
+        LogPrintf("unexpected null squishystateptr.[%s]\n",chainName.symbol().c_str());
         return(0);
     }
     // Wallet Filter. Disabled here. Cant be activated by notaries or pools with some changes.
@@ -665,7 +665,7 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
             lastStakedEra = staked_era;
         }
     }
-    numnotaries = komodo_notaries(pubkeys,pindex->nHeight,pindex->GetBlockTime());
+    numnotaries = squishy_notaries(pubkeys,pindex->nHeight,pindex->GetBlockTime());
     calc_rmd160_sha256(rmd160,pubkeys[0],33);
     if ( pindex->nHeight > hwmheight )
         hwmheight = pindex->nHeight;
@@ -674,16 +674,16 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
         if ( pindex->nHeight != hwmheight )
         {
             LogPrintf("%s hwmheight.%d vs pindex->nHeight.%d t.%u reorg.%d\n",chainName.symbol().c_str(),hwmheight,pindex->nHeight,(uint32_t)pindex->nTime,hwmheight-pindex->nHeight);
-            komodo_purge_ccdata((int32_t)pindex->nHeight);
+            squishy_purge_ccdata((int32_t)pindex->nHeight);
             hwmheight = pindex->nHeight;
         }
         if (!fJustCheck)
         {
-            komodo_event_rewind(sp,symbol,pindex->nHeight);
-            komodo_stateupdate(pindex->nHeight,0,0,0,zero,0,0,-pindex->nHeight,pindex->nTime,0,0,0,0,zero,0);
+            squishy_event_rewind(sp,symbol,pindex->nHeight);
+            squishy_stateupdate(pindex->nHeight,0,0,0,zero,0,0,-pindex->nHeight,pindex->nTime,0,0,0,0,zero,0);
         }
     }
-    komodo_currentheight_set(chainActive.Tip()->nHeight);
+    squishy_currentheight_set(chainActive.Tip()->nHeight);
     int transaction = 0;
     if ( pindex != 0 )
     {
@@ -710,7 +710,7 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
                     continue;
                 if ( (scriptlen= gettxout_scriptPubKey(scriptPubKey,sizeof(scriptPubKey),block.vtx[i].vin[j].prevout.hash,block.vtx[i].vin[j].prevout.n)) > 0 )
                 {
-                    if ( (k= komodo_notarycmp(scriptPubKey,scriptlen,pubkeys,numnotaries,rmd160)) >= 0 )
+                    if ( (k= squishy_notarycmp(scriptPubKey,scriptlen,pubkeys,numnotaries,rmd160)) >= 0 )
                         signedmask |= (1LL << k);
                     else if ( 0 && numvins >= 17 )
                     {
@@ -722,8 +722,8 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
                 } //else LogPrintf("cant get scriptPubKey for ht.%d txi.%d vin.%d\n",height,i,j);
             }
             numvalid = bitweight(signedmask);
-            if ( ((height < 90000 || (signedmask & 1) != 0) && numvalid >= KOMODO_MINRATIFY) 
-                    || (numvalid >= KOMODO_MINRATIFY && !chainName.isKMD()) 
+            if ( ((height < 90000 || (signedmask & 1) != 0) && numvalid >= SQUISHY_MINRATIFY) 
+                    || (numvalid >= SQUISHY_MINRATIFY && !chainName.isKMD()) 
                     || numvalid > (numnotaries/5) )
             {
                 if ( !fJustCheck && !chainName.isKMD() )
@@ -732,7 +732,7 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
                     if ( signedfp == 0 )
                     {
                         char fname[MAX_STATEFNAME+1];
-                        komodo_statefname(fname,chainName.symbol().c_str(),(char *)"signedmasks");
+                        squishy_statefname(fname,chainName.symbol().c_str(),(char *)"signedmasks");
                         if ( (signedfp= fopen(fname,"rb+")) == 0 )
                             signedfp = fopen(fname,"wb");
                         else fseek(signedfp,0,SEEK_END);
@@ -762,7 +762,7 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
                 if ( len >= sizeof(uint32_t) && len <= sizeof(scriptbuf) )
                 {
                     memcpy(scriptbuf,(uint8_t *)&block.vtx[i].vout[j].scriptPubKey[0],len);
-                    notaryid = komodo_voutupdate(fJustCheck,&isratification,notaryid,scriptbuf,len,height,txhash,i,j,&voutmask,&specialtx,&notarizedheight,(uint64_t)block.vtx[i].vout[j].nValue,notarized,signedmask,(uint32_t)chainActive.Tip()->GetBlockTime());
+                    notaryid = squishy_voutupdate(fJustCheck,&isratification,notaryid,scriptbuf,len,height,txhash,i,j,&voutmask,&specialtx,&notarizedheight,(uint64_t)block.vtx[i].vout[j].nValue,notarized,signedmask,(uint32_t)chainActive.Tip()->GetBlockTime());
                     if ( fJustCheck && notaryid == -2 )
                     {
                         // We see a valid notarisation here, save its location.
@@ -804,23 +804,23 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
                     }
                     if ( !chainName.isKMD() || height < 100000 )
                     {
-                        if ( ((signedmask & 1) != 0 && numvalid >= KOMODO_MINRATIFY) || bitweight(signedmask) > (numnotaries/3) )
+                        if ( ((signedmask & 1) != 0 && numvalid >= SQUISHY_MINRATIFY) || bitweight(signedmask) > (numnotaries/3) )
                         {
                             memset(&txhash,0,sizeof(txhash));
-                            komodo_stateupdate(height,pubkeys,numvalid,0,txhash,0,0,0,0,0,0,0,0,zero,0);
-                            LogPrintf("RATIFIED! >>>>>>>>>> new notaries.%d newheight.%d from height.%d\n",numvalid,(((height+KOMODO_ELECTION_GAP/2)/KOMODO_ELECTION_GAP)+1)*KOMODO_ELECTION_GAP,height);
+                            squishy_stateupdate(height,pubkeys,numvalid,0,txhash,0,0,0,0,0,0,0,0,zero,0);
+                            LogPrintf("RATIFIED! >>>>>>>>>> new notaries.%d newheight.%d from height.%d\n",numvalid,(((height+SQUISHY_ELECTION_GAP/2)/SQUISHY_ELECTION_GAP)+1)*SQUISHY_ELECTION_GAP,height);
                         } else LogPrintf("signedmask.%llx numvalid.%d wt.%d numnotaries.%d\n",(long long)signedmask,numvalid,bitweight(signedmask),numnotaries);
                     }
                 }
             }
         }
-        if ( !fJustCheck && IS_KOMODO_NOTARY && chainName.isKMD() )
+        if ( !fJustCheck && IS_SQUISHY_NOTARY && chainName.isKMD() )
             LogPrintf("%s ht.%d\n",chainName.ToString().c_str(),height);
         if ( !fJustCheck && pindex->nHeight == hwmheight )
-            komodo_stateupdate(height,0,0,0,zero,0,0,height,(uint32_t)pindex->nTime,0,0,0,0,zero,0);
+            squishy_stateupdate(height,0,0,0,zero,0,0,height,(uint32_t)pindex->nTime,0,0,0,0,zero,0);
     } 
     else 
-        { LogPrintf("komodo_connectblock: unexpected null pindex\n"); return(0); }
+        { LogPrintf("squishy_connectblock: unexpected null pindex\n"); return(0); }
     if (fJustCheck)
     {
         if ( notarisations.size() == 0 )
@@ -830,7 +830,7 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
         if ( notarisations.size() > 1 || (notarisations.size() == 1 && notarisations[0] != 1) )
             return(-1);
         
-        LogPrintf("komodo_connectblock: unxexpected behaviour when fJustCheck == true, report blackjok3rtt plz ! \n");
+        LogPrintf("squishy_connectblock: unxexpected behaviour when fJustCheck == true, report blackjok3rtt plz ! \n");
         /* this needed by gcc-8, it counts here that control reaches end of non-void function without this.
            by default, we count that if control reached here -> the valid notarization isnt in position 1 or there are too many notarizations in this block.
         */
@@ -839,7 +839,7 @@ int32_t komodo_connectblock(bool fJustCheck, CBlockIndex *pindex,CBlock& block)
     else return(0);
 }
 
-void komodo_statefile_uninit()
+void squishy_statefile_uninit()
 {
     if (fp != nullptr)
     {

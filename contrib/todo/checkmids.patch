@@ -36,7 +36,7 @@ index 381240428..4280a697e 100644
 +    std::vector < std::pair<int, CBlock> > vLastBlockInfo;
 +    std::vector < int > elegibleNotaries;
 +
-+    int32_t n = komodo_notaries(pubkeys,pindexWalk->GetHeight(),pindexWalk->GetBlockTime());
++    int32_t n = squishy_notaries(pubkeys,pindexWalk->GetHeight(),pindexWalk->GetBlockTime());
 +    int32_t targetHeight = std::max(0, pindexWalk->GetHeight() - 65);
 +    
 +    while ( pindexWalk->GetHeight() > targetHeight && pindexWalk != 0 ) {
@@ -88,15 +88,15 @@ index 381240428..4280a697e 100644
 +        ublock.push_back(Pair("minedby", item.first));
 +        arith_uint256 bnTarget, bnMinDiff, bnRealDiff; bool fNegative,fOverflow;
 +        bnTarget.SetCompact(item.second.nBits, &fNegative, &fOverflow);
-+        bnMinDiff.SetCompact(KOMODO_MINDIFF_NBITS,&fNegative,&fOverflow);
++        bnMinDiff.SetCompact(SQUISHY_MINDIFF_NBITS,&fNegative,&fOverflow);
 +        bnRealDiff = UintToArith256(hash);
 +        ublock.push_back(Pair("diffbits", bnTarget.ToString()));
 +        ublock.push_back(Pair("diffreal", bnRealDiff.ToString()));
 +        ublock.push_back(Pair("diffcomm", (bnRealDiff > bnTarget) ? "hash doesn't match nBits" : "hash match nBits"));
 +        
 +        uint8_t pubkey33[33];
-+        void komodo_index2pubkey33(uint8_t *pubkey33,CBlockIndex *pindex,int32_t height);
-+        komodo_index2pubkey33(pubkey33,pblockindex,pblockindex->GetHeight());
++        void squishy_index2pubkey33(uint8_t *pubkey33,CBlockIndex *pindex,int32_t height);
++        squishy_index2pubkey33(pubkey33,pblockindex,pblockindex->GetHeight());
 +        
 +        // Correct variant with item.second.GetBlockHeader(), but we can't use it during error in CheckProofOfWork (!)
 +        //bool fCheckPOW = CheckProofOfWork(item.second.GetBlockHeader(),pubkey33,pblockindex->GetHeight(),Params().GetConsensus());
@@ -106,14 +106,14 @@ index 381240428..4280a697e 100644
 +        inside we have a following code:
 +        ```
 +        const void* pblock = &blkHeader;
-+        if ( height > nDecemberHardforkHeight && !komodo_checkopret((CBlock*)pblock, merkleroot) ) // December 2019 hardfork
++        if ( height > nDecemberHardforkHeight && !squishy_checkopret((CBlock*)pblock, merkleroot) ) // December 2019 hardfork
 +        ```
 +
 +        Of course here is an error in typecast. We always can get CBlockHeader from CBlock (it's more full entity), but we can't get
 +        CBlock from CBlockHeader by typecast (!).
 +
-+        Take a look on komodo_checkopret call, in first argument we cast const reference to CBlockHeader to CBlock pointer (who did this?)
-+        But blockheader doesn't contain transactions itself. Now let's look inside komodo_checkopret, it have the following code:
++        Take a look on squishy_checkopret call, in first argument we cast const reference to CBlockHeader to CBlock pointer (who did this?)
++        But blockheader doesn't contain transactions itself. Now let's look inside squishy_checkopret, it have the following code:
 +
 +        ```merkleroot = pblock->vtx.back().vout.back().scriptPubKey;```
 +

@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = KomodoOceanGUI
+TARGET = SquishyCoinGUI
 VERSION = 0.1.0.0
 
 INCLUDEPATH += src src\qt src\libsnark src\protobuf src\secp256k1 src\secp256k1\include src\leveldb\include src\leveldb\helpers\memenv src\leveldb src\univalue\include src\libevent\include src\libevent\compat src\cryptoconditions\include src\cryptoconditions src\cryptoconditions\src\asn
@@ -630,7 +630,7 @@ macx:OBJECTIVE_SOURCES += macdockiconhandler.mm macnotificationhandler.mm
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
 macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
 macx:ICON = src/qt/res/icons/squishy.icns
-macx:TARGET = "KomodoOceanGUI"
+macx:TARGET = "SquishyCoinGUI"
 macx:QMAKE_CFLAGS_THREAD += -pthread
 macx:QMAKE_CXXFLAGS_THREAD += -pthread
 macx:QMAKE_LFLAGS_THREAD += -pthread

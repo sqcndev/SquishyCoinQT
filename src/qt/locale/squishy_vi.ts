@@ -32,7 +32,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>KomodoOceanGUI</name>
+    <name>SquishyCoinGUI</name>
     </context>
 <context>
     <name>CoinControlDialog</name>

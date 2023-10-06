@@ -88,7 +88,7 @@ PlatformStyle::PlatformStyle(const QString &_name, bool _imagesOnButtons, bool _
         const int colorTextLightness = colorText.lightness();
         // QColor colorbase = QColor(0, 94, 94); // Squishy Color
         // QColor colorbase = QColor(38, 69, 107);  // Squishy Dark Blue
-        QColor colorbase = QColor(43, 102, 128);    // Squishy Light Blue
+        QColor colorbase = QColor(204, 131, 22);    // Squishy Orange Blue
 
         /*if (abs(colorHighlightBg.lightness() - colorTextLightness) < abs(colorHighlightFg.lightness() - colorTextLightness))
             colorbase = colorHighlightBg;

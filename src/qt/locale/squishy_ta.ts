@@ -52,7 +52,7 @@
     </message>
     </context>
 <context>
-    <name>KomodoOceanGUI</name>
+    <name>SquishyCoinGUI</name>
     <message>
         <source>&amp;Overview</source>
         <translation>&amp;கண்ணோட்டம்</translation>

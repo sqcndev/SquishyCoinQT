@@ -13,7 +13,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.squishyfoundation.KomodoOceanGUI";
+        return @"org.squishyfoundation.SquishyCoinGUI";
     } else {
         return [self __bundleIdentifier];
     }

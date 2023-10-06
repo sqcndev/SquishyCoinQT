@@ -242,7 +242,7 @@ public:
     /// Get process return value
     int getReturnValue() const { return returnValue; }
 
-    /// Get window identifier of QMainWindow (KomodoOceanGUI)
+    /// Get window identifier of QMainWindow (SquishyCoinGUI)
     WId getMainWinId() const;
 
 public Q_SLOTS:
@@ -261,7 +261,7 @@ private:
     QThread *coreThread;
     OptionsModel *optionsModel;
     ClientModel *clientModel;
-    KomodoOceanGUI *window;
+    SquishyCoinGUI *window;
     QTimer *pollShutdownTimer;
 #ifdef ENABLE_WALLET
     PaymentServer* paymentServer;
@@ -418,7 +418,7 @@ KomodoApplication::KomodoApplication():
     // This must be done inside the KomodoApplication constructor, or after it, because
     // PlatformStyle::instantiate requires a QApplication
     std::string platformName;
-    platformName = GetArg("-uiplatform", KomodoOceanGUI::DEFAULT_UIPLATFORM);
+    platformName = GetArg("-uiplatform", SquishyCoinGUI::DEFAULT_UIPLATFORM);
     platformStyle = PlatformStyle::instantiate(QString::fromStdString(platformName));
     if (!platformStyle) // Fall back to "other" if specified name not found
         platformStyle = PlatformStyle::instantiate("other");
@@ -466,7 +466,7 @@ void KomodoApplication::createOptionsModel(bool resetSettings)
 
 void KomodoApplication::createWindow(const NetworkStyle *networkStyle)
 {
-    window = new KomodoOceanGUI(platformStyle, networkStyle, 0);
+    window = new SquishyCoinGUI(platformStyle, networkStyle, 0);
 
     pollShutdownTimer = new QTimer(window);
     connect(pollShutdownTimer, SIGNAL(timeout()), window, SLOT(detectShutdown()));
@@ -569,8 +569,8 @@ void KomodoApplication::initializeResult(bool success)
         {
             walletModel = new WalletModel(platformStyle, vpwallets[0], optionsModel);
 
-            window->addWallet(KomodoOceanGUI::DEFAULT_WALLET, walletModel);
-            window->setCurrentWallet(KomodoOceanGUI::DEFAULT_WALLET);
+            window->addWallet(SquishyCoinGUI::DEFAULT_WALLET, walletModel);
+            window->setCurrentWallet(SquishyCoinGUI::DEFAULT_WALLET);
             
             #ifdef ENABLE_BIP70
             connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
@@ -615,7 +615,7 @@ void KomodoApplication::shutdownResult()
 
 void KomodoApplication::handleRunawayException(const QString &message)
 {
-    QMessageBox::critical(0, "Runaway exception", KomodoOceanGUI::tr("A fatal error occurred. Squishy can no longer continue safely and will quit.") + QString("\n\n") + message);
+    QMessageBox::critical(0, "Runaway exception", SquishyCoinGUI::tr("A fatal error occurred. Squishy can no longer continue safely and will quit.") + QString("\n\n") + message);
     ::exit(EXIT_FAILURE);
 }
 

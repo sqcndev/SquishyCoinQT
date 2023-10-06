@@ -13,7 +13,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
-WalletFrame::WalletFrame(const PlatformStyle *_platformStyle, KomodoOceanGUI *_gui) :
+WalletFrame::WalletFrame(const PlatformStyle *_platformStyle, SquishyCoinGUI *_gui) :
     QFrame(_gui),
     gui(_gui),
     platformStyle(_platformStyle)
@@ -45,7 +45,7 @@ bool WalletFrame::addWallet(const QString& name, WalletModel *walletModel)
         return false;
 
     WalletView *walletView = new WalletView(platformStyle, this);
-    walletView->setKomodoOceanGUI(gui);
+    walletView->setSquishyCoinGUI(gui);
     walletView->setClientModel(clientModel);
     walletView->setWalletModel(walletModel);
     walletView->showOutOfSyncWarning(bOutOfSync);
@@ -61,7 +61,7 @@ bool WalletFrame::addWallet(const QString& name, WalletModel *walletModel)
 
     connect(walletView, SIGNAL(outOfSyncWarningClicked()), this, SLOT(outOfSyncWarningClicked()));
 
-    connect(gui, &KomodoOceanGUI::setPrivacy, walletView, &WalletView::setPrivacy);
+    connect(gui, &SquishyCoinGUI::setPrivacy, walletView, &WalletView::setPrivacy);
 
     return true;
 }

@@ -297,7 +297,7 @@
     </message>
 </context>
 <context>
-    <name>KomodoOceanGUI</name>
+    <name>SquishyCoinGUI</name>
     <message>
         <location filename="../squishyoceangui.cpp" line="+357"/>
         <source>Sign &amp;message...</source>

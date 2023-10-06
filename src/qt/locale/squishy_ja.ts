@@ -232,7 +232,7 @@
     </message>
 </context>
 <context>
-    <name>KomodoOceanGUI</name>
+    <name>SquishyCoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>メッセージの署名... (&amp;m)</translation>

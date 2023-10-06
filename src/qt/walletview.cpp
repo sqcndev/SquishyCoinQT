@@ -93,7 +93,7 @@ WalletView::~WalletView()
 {
 }
 
-void WalletView::setKomodoOceanGUI(KomodoOceanGUI *gui)
+void WalletView::setSquishyCoinGUI(SquishyCoinGUI *gui)
 {
     if (gui)
     {

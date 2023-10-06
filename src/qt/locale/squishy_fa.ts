@@ -196,7 +196,7 @@
     </message>
 </context>
 <context>
-    <name>KomodoOceanGUI</name>
+    <name>SquishyCoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>&amp;امضای پیام...</translation>

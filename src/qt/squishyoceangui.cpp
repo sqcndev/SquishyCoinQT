@@ -64,7 +64,7 @@
 #include <QUrlQuery>
 #endif
 
-const std::string KomodoOceanGUI::DEFAULT_UIPLATFORM =
+const std::string SquishyCoinGUI::DEFAULT_UIPLATFORM =
 #if defined(Q_OS_MAC)
         "macosx"
 #elif defined(Q_OS_WIN)
@@ -76,9 +76,9 @@ const std::string KomodoOceanGUI::DEFAULT_UIPLATFORM =
 
 /** Display name for default wallet name. Uses tilde to avoid name
  * collisions in the future with additional wallets */
-const QString KomodoOceanGUI::DEFAULT_WALLET = "~Default";
+const QString SquishyCoinGUI::DEFAULT_WALLET = "~Default";
 
-KomodoOceanGUI::KomodoOceanGUI(const PlatformStyle *_platformStyle, const NetworkStyle *networkStyle, QWidget *parent) :
+SquishyCoinGUI::SquishyCoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *networkStyle, QWidget *parent) :
     QMainWindow(parent),
     enableWallet(false),
     clientModel(0),
@@ -261,7 +261,7 @@ KomodoOceanGUI::KomodoOceanGUI(const PlatformStyle *_platformStyle, const Networ
 #endif
 }
 
-KomodoOceanGUI::~KomodoOceanGUI()
+SquishyCoinGUI::~SquishyCoinGUI()
 {
     // Unsubscribe from notifications from core
     unsubscribeFromCoreSignals();
@@ -278,7 +278,7 @@ KomodoOceanGUI::~KomodoOceanGUI()
     delete rpcConsole;
 }
 
-void KomodoOceanGUI::createActions()
+void SquishyCoinGUI::createActions()
 {
     QActionGroup *tabGroup = new QActionGroup(this);
 
@@ -426,7 +426,7 @@ void KomodoOceanGUI::createActions()
         connect(usedReceivingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedReceivingAddresses()));
         connect(usedReceivingZAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedReceivingZAddresses()));
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
-        connect(m_mask_values_action, &QAction::toggled, this, &KomodoOceanGUI::setPrivacy);
+        connect(m_mask_values_action, &QAction::toggled, this, &SquishyCoinGUI::setPrivacy);
     }
 #endif // ENABLE_WALLET
 
@@ -434,7 +434,7 @@ void KomodoOceanGUI::createActions()
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_D), this, SLOT(showDebugWindow()));
 }
 
-void KomodoOceanGUI::createMenuBar()
+void SquishyCoinGUI::createMenuBar()
 {
 #ifdef Q_OS_MAC
     // Create a decoupled menu bar on Mac which stays even if the window is closed
@@ -482,7 +482,7 @@ void KomodoOceanGUI::createMenuBar()
     help->addAction(aboutQtAction);
 }
 
-void KomodoOceanGUI::createToolBars()
+void SquishyCoinGUI::createToolBars()
 {
     if(walletFrame)
     {
@@ -499,7 +499,7 @@ void KomodoOceanGUI::createToolBars()
     }
 }
 
-void KomodoOceanGUI::setClientModel(ClientModel *_clientModel)
+void SquishyCoinGUI::setClientModel(ClientModel *_clientModel)
 {
     this->clientModel = _clientModel;
     if(_clientModel)
@@ -561,7 +561,7 @@ void KomodoOceanGUI::setClientModel(ClientModel *_clientModel)
 }
 
 #ifdef ENABLE_WALLET
-bool KomodoOceanGUI::addWallet(const QString& name, WalletModel *walletModel)
+bool SquishyCoinGUI::addWallet(const QString& name, WalletModel *walletModel)
 {
     if(!walletFrame)
         return false;
@@ -569,14 +569,14 @@ bool KomodoOceanGUI::addWallet(const QString& name, WalletModel *walletModel)
     return walletFrame->addWallet(name, walletModel);
 }
 
-bool KomodoOceanGUI::setCurrentWallet(const QString& name)
+bool SquishyCoinGUI::setCurrentWallet(const QString& name)
 {
     if(!walletFrame)
         return false;
     return walletFrame->setCurrentWallet(name);
 }
 
-void KomodoOceanGUI::removeAllWallets()
+void SquishyCoinGUI::removeAllWallets()
 {
     if(!walletFrame)
         return;
@@ -585,7 +585,7 @@ void KomodoOceanGUI::removeAllWallets()
 }
 #endif // ENABLE_WALLET
 
-void KomodoOceanGUI::setWalletActionsEnabled(bool enabled)
+void SquishyCoinGUI::setWalletActionsEnabled(bool enabled)
 {
     overviewAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
@@ -606,7 +606,7 @@ void KomodoOceanGUI::setWalletActionsEnabled(bool enabled)
     openAction->setEnabled(enabled);
 }
 
-void KomodoOceanGUI::createTrayIcon(const NetworkStyle *networkStyle)
+void SquishyCoinGUI::createTrayIcon(const NetworkStyle *networkStyle)
 {
 #ifndef Q_OS_MAC
     trayIcon = new QSystemTrayIcon(this);
@@ -619,7 +619,7 @@ void KomodoOceanGUI::createTrayIcon(const NetworkStyle *networkStyle)
     notificator = new Notificator(QApplication::applicationName(), trayIcon, this);
 }
 
-void KomodoOceanGUI::createTrayIconMenu()
+void SquishyCoinGUI::createTrayIconMenu()
 {
 #ifndef Q_OS_MAC
     // return if trayIcon is unset (only on non-Mac OSes)
@@ -634,7 +634,7 @@ void KomodoOceanGUI::createTrayIconMenu()
 #else
     // Note: On macOS, the Dock icon is used to provide the tray's functionality.
     MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
-    connect(dockIconHandler, &MacDockIconHandler::dockIconClicked, this, &KomodoOceanGUI::macosDockIconActivated);
+    connect(dockIconHandler, &MacDockIconHandler::dockIconClicked, this, &SquishyCoinGUI::macosDockIconActivated);
 
     trayIconMenu = new QMenu(this);
     trayIconMenu->setAsDockMenu();
@@ -662,7 +662,7 @@ void KomodoOceanGUI::createTrayIconMenu()
 }
 
 #ifndef Q_OS_MAC
-void KomodoOceanGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+void SquishyCoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
     {
@@ -671,14 +671,14 @@ void KomodoOceanGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 #else
-void KomodoOceanGUI::macosDockIconActivated()
+void SquishyCoinGUI::macosDockIconActivated()
 {
     show();
     activateWindow();
 }
 #endif
 
-void KomodoOceanGUI::optionsClicked()
+void SquishyCoinGUI::optionsClicked()
 {
     if(!clientModel || !clientModel->getOptionsModel())
         return;
@@ -688,7 +688,7 @@ void KomodoOceanGUI::optionsClicked()
     dlg.exec();
 }
 
-void KomodoOceanGUI::aboutClicked()
+void SquishyCoinGUI::aboutClicked()
 {
     if(!clientModel)
         return;
@@ -697,7 +697,7 @@ void KomodoOceanGUI::aboutClicked()
     dlg.exec();
 }
 
-void KomodoOceanGUI::showDebugWindow()
+void SquishyCoinGUI::showDebugWindow()
 {
     rpcConsole->showNormal();
     rpcConsole->show();
@@ -705,19 +705,19 @@ void KomodoOceanGUI::showDebugWindow()
     rpcConsole->activateWindow();
 }
 
-void KomodoOceanGUI::showDebugWindowActivateConsole()
+void SquishyCoinGUI::showDebugWindowActivateConsole()
 {
     rpcConsole->setTabFocus(RPCConsole::TAB_CONSOLE);
     showDebugWindow();
 }
 
-void KomodoOceanGUI::showHelpMessageClicked()
+void SquishyCoinGUI::showHelpMessageClicked()
 {
     helpMessageDialog->show();
 }
 
 #ifdef ENABLE_WALLET
-void KomodoOceanGUI::openClicked()
+void SquishyCoinGUI::openClicked()
 {
     OpenURIDialog dlg(this);
     if(dlg.exec())
@@ -726,48 +726,48 @@ void KomodoOceanGUI::openClicked()
     }
 }
 
-void KomodoOceanGUI::gotoOverviewPage()
+void SquishyCoinGUI::gotoOverviewPage()
 {
     overviewAction->setChecked(true);
     if (walletFrame) walletFrame->gotoOverviewPage();
 }
 
-void KomodoOceanGUI::gotoHistoryPage()
+void SquishyCoinGUI::gotoHistoryPage()
 {
     historyAction->setChecked(true);
     if (walletFrame) walletFrame->gotoHistoryPage();
 }
 
-void KomodoOceanGUI::gotoReceiveCoinsPage()
+void SquishyCoinGUI::gotoReceiveCoinsPage()
 {
     receiveCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
 }
 
-void KomodoOceanGUI::gotoSendCoinsPage(QString addr)
+void SquishyCoinGUI::gotoSendCoinsPage(QString addr)
 {
     sendCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
 }
 
-void KomodoOceanGUI::gotoZSendCoinsPage(QString addr)
+void SquishyCoinGUI::gotoZSendCoinsPage(QString addr)
 {
     zsendCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoZSendCoinsPage(addr);
 }
 
-void KomodoOceanGUI::gotoSignMessageTab(QString addr)
+void SquishyCoinGUI::gotoSignMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoSignMessageTab(addr);
 }
 
-void KomodoOceanGUI::gotoVerifyMessageTab(QString addr)
+void SquishyCoinGUI::gotoVerifyMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoVerifyMessageTab(addr);
 }
 #endif // ENABLE_WALLET
 
-void KomodoOceanGUI::updateNetworkState()
+void SquishyCoinGUI::updateNetworkState()
 {
     int count = clientModel->getNumConnections();
     QString icon;
@@ -796,19 +796,19 @@ void KomodoOceanGUI::updateNetworkState()
     connectionsControl->setPixmap(platformStyle->SingleColorIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
 }
 
-void KomodoOceanGUI::setNumConnections(int count)
+void SquishyCoinGUI::setNumConnections(int count)
 {
     (void)count;
     updateNetworkState();
 }
 
-void KomodoOceanGUI::setNetworkActive(bool networkActive)
+void SquishyCoinGUI::setNetworkActive(bool networkActive)
 {
     (void)networkActive;
     updateNetworkState();
 }
 
-void KomodoOceanGUI::updateHeadersSyncProgressLabel()
+void SquishyCoinGUI::updateHeadersSyncProgressLabel()
 {
     int64_t headersTipTime = clientModel->getHeaderTipTime();
     int headersTipHeight = clientModel->getHeaderTipHeight();
@@ -817,7 +817,7 @@ void KomodoOceanGUI::updateHeadersSyncProgressLabel()
         progressBarLabel->setText(tr("Syncing Headers (%1%)...").arg(QString::number(100.0 / (headersTipHeight+estHeadersLeft)*headersTipHeight, 'f', 1)));
 }
 
-void KomodoOceanGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header)
+void SquishyCoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header)
 {
     if (modalOverlay)
     {
@@ -927,7 +927,7 @@ void KomodoOceanGUI::setNumBlocks(int count, const QDateTime& blockDate, double 
     progressBar->setToolTip(tooltip);
 }
 
-void KomodoOceanGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
+void SquishyCoinGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
 {
     QString strTitle = tr("Squishy"); // default title
     // Default to information icon
@@ -986,7 +986,7 @@ void KomodoOceanGUI::message(const QString &title, const QString &message, unsig
         notificator->notify((Notificator::Class)nNotifyIcon, strTitle, message);
 }
 
-void KomodoOceanGUI::changeEvent(QEvent *e)
+void SquishyCoinGUI::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
 #ifndef Q_OS_MAC // Ignored on Mac
@@ -1005,7 +1005,7 @@ void KomodoOceanGUI::changeEvent(QEvent *e)
 #endif
 }
 
-void KomodoOceanGUI::closeEvent(QCloseEvent *event)
+void SquishyCoinGUI::closeEvent(QCloseEvent *event)
 {
 #ifndef Q_OS_MAC // Ignored on Mac
     if(clientModel && clientModel->getOptionsModel())
@@ -1028,7 +1028,7 @@ void KomodoOceanGUI::closeEvent(QCloseEvent *event)
 #endif
 }
 
-void KomodoOceanGUI::showEvent(QShowEvent *event)
+void SquishyCoinGUI::showEvent(QShowEvent *event)
 {
     (void)event;
     // enable the debug window when the main window shows up
@@ -1038,7 +1038,7 @@ void KomodoOceanGUI::showEvent(QShowEvent *event)
 }
 
 #ifdef ENABLE_WALLET
-void KomodoOceanGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label)
+void SquishyCoinGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label)
 {
     // On new transaction, make an info balloon
     QString msg = tr("Date: %1\n").arg(date) +
@@ -1053,14 +1053,14 @@ void KomodoOceanGUI::incomingTransaction(const QString& date, int unit, const CA
 }
 #endif // ENABLE_WALLET
 
-void KomodoOceanGUI::dragEnterEvent(QDragEnterEvent *event)
+void SquishyCoinGUI::dragEnterEvent(QDragEnterEvent *event)
 {
     // Accept only URIs
     if(event->mimeData()->hasUrls())
         event->acceptProposedAction();
 }
 
-void KomodoOceanGUI::dropEvent(QDropEvent *event)
+void SquishyCoinGUI::dropEvent(QDropEvent *event)
 {
     if(event->mimeData()->hasUrls())
     {
@@ -1072,7 +1072,7 @@ void KomodoOceanGUI::dropEvent(QDropEvent *event)
     event->acceptProposedAction();
 }
 
-bool KomodoOceanGUI::eventFilter(QObject *object, QEvent *event)
+bool SquishyCoinGUI::eventFilter(QObject *object, QEvent *event)
 {
     // Catch status tip events
     if (event->type() == QEvent::StatusTip)
@@ -1085,7 +1085,7 @@ bool KomodoOceanGUI::eventFilter(QObject *object, QEvent *event)
 }
 
 #ifdef ENABLE_WALLET
-bool KomodoOceanGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
+bool SquishyCoinGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
 {
     // URI has to be valid
     if (walletFrame && walletFrame->handlePaymentRequest(recipient))
@@ -1097,7 +1097,7 @@ bool KomodoOceanGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
     return false;
 }
 
-void KomodoOceanGUI::setHDStatus(int hdEnabled)
+void SquishyCoinGUI::setHDStatus(int hdEnabled)
 {
     labelWalletHDStatusIcon->setPixmap(platformStyle->SingleColorIcon(hdEnabled ? ":/icons/hd_enabled" : ":/icons/hd_disabled").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
     labelWalletHDStatusIcon->setToolTip(hdEnabled ? tr("HD key generation is <b>enabled</b>") : tr("HD key generation is <b>disabled</b>"));
@@ -1106,7 +1106,7 @@ void KomodoOceanGUI::setHDStatus(int hdEnabled)
     labelWalletHDStatusIcon->setEnabled(hdEnabled);
 }
 
-void KomodoOceanGUI::setEncryptionStatus(int status)
+void SquishyCoinGUI::setEncryptionStatus(int status)
 {
     switch(status)
     {
@@ -1136,7 +1136,7 @@ void KomodoOceanGUI::setEncryptionStatus(int status)
 }
 #endif // ENABLE_WALLET
 
-void KomodoOceanGUI::showNormalIfMinimized(bool fToggleHidden)
+void SquishyCoinGUI::showNormalIfMinimized(bool fToggleHidden)
 {
     if(!clientModel)
         return;
@@ -1161,12 +1161,12 @@ void KomodoOceanGUI::showNormalIfMinimized(bool fToggleHidden)
         hide();
 }
 
-void KomodoOceanGUI::toggleHidden()
+void SquishyCoinGUI::toggleHidden()
 {
     showNormalIfMinimized(true);
 }
 
-void KomodoOceanGUI::detectShutdown()
+void SquishyCoinGUI::detectShutdown()
 {
     if (ShutdownRequested())
     {
@@ -1176,7 +1176,7 @@ void KomodoOceanGUI::detectShutdown()
     }
 }
 
-void KomodoOceanGUI::showProgress(const QString &title, int nProgress)
+void SquishyCoinGUI::showProgress(const QString &title, int nProgress)
 {
     if (nProgress == 0)
     {
@@ -1199,7 +1199,7 @@ void KomodoOceanGUI::showProgress(const QString &title, int nProgress)
         progressDialog->setValue(nProgress);
 }
 
-void KomodoOceanGUI::setTrayIconVisible(bool fHideTrayIcon)
+void SquishyCoinGUI::setTrayIconVisible(bool fHideTrayIcon)
 {
     if (trayIcon)
     {
@@ -1207,13 +1207,13 @@ void KomodoOceanGUI::setTrayIconVisible(bool fHideTrayIcon)
     }
 }
 
-void KomodoOceanGUI::showModalOverlay()
+void SquishyCoinGUI::showModalOverlay()
 {
     if (modalOverlay && (progressBar->isVisible() || modalOverlay->isLayerVisible()))
         modalOverlay->toggleVisibility();
 }
 
-static bool ThreadSafeMessageBox(KomodoOceanGUI *gui, const std::string& message, const std::string& caption, unsigned int style)
+static bool ThreadSafeMessageBox(SquishyCoinGUI *gui, const std::string& message, const std::string& caption, unsigned int style)
 {
     bool modal = (style & CClientUIInterface::MODAL);
     // The SECURE flag has no effect in the Qt GUI.
@@ -1230,28 +1230,28 @@ static bool ThreadSafeMessageBox(KomodoOceanGUI *gui, const std::string& message
     return ret;
 }
 
-void KomodoOceanGUI::subscribeToCoreSignals()
+void SquishyCoinGUI::subscribeToCoreSignals()
 {
     // Connect signals to client
     uiInterface.ThreadSafeMessageBox.connect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
     uiInterface.ThreadSafeQuestion.connect(boost::bind(ThreadSafeMessageBox, this, _1, _3, _4));
 }
 
-void KomodoOceanGUI::unsubscribeFromCoreSignals()
+void SquishyCoinGUI::unsubscribeFromCoreSignals()
 {
     // Disconnect signals from client
     uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
     uiInterface.ThreadSafeQuestion.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _3, _4));
 }
 
-void KomodoOceanGUI::toggleNetworkActive()
+void SquishyCoinGUI::toggleNetworkActive()
 {
     if (clientModel) {
         clientModel->setNetworkActive(!clientModel->getNetworkActive());
     }
 }
 
-bool KomodoOceanGUI::isPrivacyModeActivated() const
+bool SquishyCoinGUI::isPrivacyModeActivated() const
 {
     assert(m_mask_values_action);
     return m_mask_values_action->isChecked();

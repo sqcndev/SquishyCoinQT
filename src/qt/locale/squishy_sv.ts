@@ -233,7 +233,7 @@ Var vänlig och försök igen.</translation>
     </message>
 </context>
 <context>
-    <name>KomodoOceanGUI</name>
+    <name>SquishyCoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Signera &amp;meddelande...</translation>

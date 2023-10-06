@@ -2,10 +2,10 @@ Target x86-unicode
 ; SetCompressor lzma
 
 ; Settings 
-Name "KomodoOcean (Squishy-Qt)"
+Name "SqishyCoin (Squishy-Qt)"
 OutFile "squishy-qt-install.exe"
 RequestExecutionLevel admin
-InstallDir "$PROGRAMFILES64\KomodoOcean"
+InstallDir "$PROGRAMFILES64\SqishyCoin"
 Icon "squishy.ico"
 CRCCheck on
 

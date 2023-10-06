@@ -119,7 +119,7 @@ cd squishy
 
 ## Create squishy.conf ##
 
-Before start the wallet you should [create config file](https://github.com/DeckerSU/KomodoOcean/wiki/F.A.Q.#q-after-i-start-squishy-qt-i-receive-the-following-error-error-cannot-parse-configuration-file-missing-squishyconf-only-use-keyvalue-syntax-what-should-i-do) `squishy.conf` at one of the following locations:
+Before start the wallet you should [create config file](https://github.com/DeckerSU/SqishyCoin/wiki/F.A.Q.#q-after-i-start-squishy-qt-i-receive-the-following-error-error-cannot-parse-configuration-file-missing-squishyconf-only-use-keyvalue-syntax-what-should-i-do) `squishy.conf` at one of the following locations:
 
 - Linux - `~/.squishy/squishy.conf`
 - Windows - `%APPDATA%\Squishy\squishy.conf`

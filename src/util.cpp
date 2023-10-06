@@ -1073,7 +1073,7 @@ std::string PrivacyInfo()
 std::string LicenseInfo()
 {
 
-    const std::string URL_SOURCE_CODE = "<https://github.com/KomodoPlatform/KomodoOcean>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/KomodoPlatform/SqishyCoin>";
 
     return "\n" +
            FormatParagraph(strprintf(_("Copyright (C) 2009-%i The Bitcoin Core Developers"), COPYRIGHT_YEAR)) + "\n" +

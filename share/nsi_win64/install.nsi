@@ -6,10 +6,10 @@ RequestExecutionLevel highest
 SetCompressor /SOLID lzma
 
 ; Settings 
-Name "SqishyCoin (Squishy-Qt)"
+Name "SquishyCoin (Squishy-Qt)"
 OutFile "squishy-qt-install.exe"
 ; RequestExecutionLevel admin
-InstallDir "$PROGRAMFILES64\SqishyCoin"
+InstallDir "$PROGRAMFILES64\SquishyCoin"
 Icon "squishy.ico"
 CRCCheck on
 

@@ -426,7 +426,7 @@ The following flags change the behavior of the compiled code.
     of the corresponding algebraic objects. This option works for all
     curves except bn128.
 
-*   define `USE_ASM` (on by default)
+*   define `USE_ASM_SNARK` (on by default)
 
     Use unrolled assembly routines for F[p] arithmetic and faster heap in
     multi-exponentiation. (When not set, use GMP's `mpn_*` routines instead.)
@@ -472,7 +472,7 @@ with respect to portability. Specifically:
    tested with g++ 4.7, g++ 4.8, and clang 3.4.
 
 6. On x86-64, we by default use highly optimized assembly implementations for some
-   operations (see `USE_ASM` above). On other architectures we fall back to a
+   operations (see `USE_ASM_SNARK` above). On other architectures we fall back to a
    portable C++ implementation, which is slower.
 
 Tested configurations include:

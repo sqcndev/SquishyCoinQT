@@ -116,3 +116,7 @@ make -C src/cryptoconditions clean
 rm src/qt/moc_*.cpp
 ```
 after each different build.
+
+### part 6
+
+For some reason moving out `PKG_CONFIG_SYSROOT_DIR`, `PKG_CONFIG_LIBDIR`, `QT_MAC_SDK_NO_VERSION_CHECK` environment variables into $(package)_config_env as mentione here - https://github.com/bitcoin/bitcoin/commit/affbf58a1e52a8e60c830be6a9e0347e0ff4c28e doesn't work for Qt package build, so we define them in `$(package)_config_cmds` in `qt.mk`.

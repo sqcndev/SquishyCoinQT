@@ -21,7 +21,8 @@ squishy_test_SOURCES = \
     test-squishy/test_hex.cpp \
     test-squishy/test_haraka_removal.cpp \
     test-squishy/test_oldhash_removal.cpp \
-    test-squishy/test_kmd_feat.cpp
+    test-squishy/test_kmd_feat.cpp \
+    test-squishy/test_legacy_events.cpp
 
 if TARGET_WINDOWS
 squishy_test_SOURCES += test-squishy/squishy-test-res.rc

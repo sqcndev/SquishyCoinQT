@@ -103,12 +103,12 @@ namespace LegacyEventsTests {
                 // clear global structures between tests (should be called in SetUp and TearDown as well)
 
                 adjust_hwmheight(0);
-                for(size_t i = 0; i < KOMODO_STATES_NUMBER; ++i)
+                for(size_t i = 0; i < SQUISHY_STATES_NUMBER; ++i)
                 {
                     /* The destructors of all members, including NPOINTS (std::vector) and events (std::list),
                        will be called correctly after this assignment, and the memory will be freed.
                     */
-                    KOMODO_STATES[i] = squishy_state();
+                    SQUISHY_STATES[i] = squishy_state();
                 }
             }
         public:
@@ -140,7 +140,7 @@ namespace LegacyEventsTests {
 
                 squishy_setactivation(Consensus::NetworkUpgrade::ALWAYS_ACTIVE); // act as UpdateNetworkUpgradeParameters for regtest, to set sapling & overwinter activation height, but for mainnet
 
-                KOMODO_REWIND = 0;
+                SQUISHY_REWIND = 0;
                 chainActive.SetTip(nullptr);
 
                 mempool.clear();
@@ -204,7 +204,7 @@ namespace LegacyEventsTests {
         chainActive.SetTip(&indexDummy);
         int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
-        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &SQUISHY_STATES[0]
 
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->events.size() == 0);
@@ -218,7 +218,7 @@ namespace LegacyEventsTests {
         */
 
         uintmax_t stateFileSize = 0;
-        fs::path filePath = GetDataDir(false) / KOMODO_STATE_FILENAME; // instead of squishy_statefname call
+        fs::path filePath = GetDataDir(false) / SQUISHY_STATE_FILENAME; // instead of squishy_statefname call
         if (fs::exists(filePath) && fs::is_regular_file(filePath)) {
             stateFileSize = fs::file_size(filePath);
         }
@@ -291,7 +291,7 @@ namespace LegacyEventsTests {
         chainActive.SetTip(&indexDummy);
         int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
-        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &SQUISHY_STATES[0]
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->NumCheckpoints() == 1);
         ASSERT_TRUE(state_ptr->events.size() == 0);
@@ -382,7 +382,7 @@ namespace LegacyEventsTests {
         chainActive.SetTip(&indexDummy);
         int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
-        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &SQUISHY_STATES[0]
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->events.size() == 0);
 
@@ -468,7 +468,7 @@ namespace LegacyEventsTests {
         chainActive.SetTip(&indexDummy);
         int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
-        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &SQUISHY_STATES[0]
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->events.size() == 0);
 
@@ -549,7 +549,7 @@ namespace LegacyEventsTests {
             4. state_ptr changes check ...
         */
 
-        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &SQUISHY_STATES[0]
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->events.size() == 2);
 

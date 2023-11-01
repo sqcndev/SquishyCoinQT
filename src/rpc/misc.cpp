@@ -71,9 +71,9 @@ int32_t squishy_notarized_height(int32_t *prevMoMheightp,uint256 *hashp,uint256 
 bool squishy_txnotarizedconfirmed(uint256 txid);
 uint32_t squishy_chainactive_timestamp();
 int32_t squishy_whoami(char *pubkeystr,int32_t height,uint32_t timestamp);
-extern uint64_t KOMODO_INTERESTSUM,KOMODO_WALLETBALANCE;
-extern bool IS_KOMODO_NOTARY;
-extern int32_t KOMODO_LASTMINED,JUMBLR_PAUSE,KOMODO_LONGESTCHAIN,STAKED_NOTARY_ID,STAKED_ERA,KOMODO_INSYNC;
+extern uint64_t SQUISHY_INTERESTSUM,SQUISHY_WALLETBALANCE;
+extern bool IS_SQUISHY_NOTARY;
+extern int32_t SQUISHY_LASTMINED,JUMBLR_PAUSE,SQUISHY_LONGESTCHAIN,STAKED_NOTARY_ID,STAKED_ERA,SQUISHY_INSYNC;
 uint32_t squishy_segid32(char *coinaddr);
 int64_t squishy_coinsupply(int64_t *zfundsp,int64_t *sproutfundsp,int32_t height);
 int32_t notarizedtxid_height(char *dest,char *txidstr,int32_t *kmdnotarized_heightp);
@@ -81,7 +81,7 @@ int8_t StakedNotaryID(std::string &notaryname, char *Raddress);
 uint64_t squishy_notarypayamount(int32_t nHeight, int64_t notarycount);
 int32_t squishy_notaries(uint8_t pubkeys[64][33],int32_t height,uint32_t timestamp);*/
 
-#define KOMODO_VERSION "0.8.1"
+#define SQUISHY_VERSION "0.8.1"
 extern uint16_t ASSETCHAINS_P2PPORT,ASSETCHAINS_RPCPORT;
 extern uint32_t ASSETCHAINS_CC;
 extern uint32_t ASSETCHAINS_MAGIC,ASSETCHAINS_ALGO;
@@ -251,13 +251,13 @@ UniValue getinfo(const UniValue& params, bool fHelp, const CPubKey& mypk)
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("version", CLIENT_VERSION));
     obj.push_back(Pair("protocolversion", PROTOCOL_VERSION));
-    obj.push_back(Pair("KMDversion", KOMODO_VERSION));
-    obj.push_back(Pair("synced", KOMODO_INSYNC!=0));
+    obj.push_back(Pair("KMDversion", SQUISHY_VERSION));
+    obj.push_back(Pair("synced", SQUISHY_INSYNC!=0));
     obj.push_back(Pair("notarized", notarized_height));
     obj.push_back(Pair("prevMoMheight", prevMoMheight));
     obj.push_back(Pair("notarizedhash", notarized_hash.ToString()));
     obj.push_back(Pair("notarizedtxid", notarized_desttxid.ToString()));
-    if ( KOMODO_NSPV_FULLNODE )
+    if ( SQUISHY_NSPV_FULLNODE )
     {
         txid_height = notarizedtxid_height(!chainName.isKMD() ? (char *)"KMD" : (char *)"BTC",(char *)notarized_desttxid.ToString().c_str(),&kmdnotarized_height);
         if ( txid_height > 0 )
@@ -272,8 +272,8 @@ UniValue getinfo(const UniValue& params, bool fHelp, const CPubKey& mypk)
             obj.push_back(Pair("walletversion", pwalletMain->GetVersion()));
             if ( chainName.isKMD() )
             {
-                obj.push_back(Pair("interest",       ValueFromAmount(KOMODO_INTERESTSUM)));
-                obj.push_back(Pair("balance",       ValueFromAmount(KOMODO_WALLETBALANCE))); //pwalletMain->GetBalance()
+                obj.push_back(Pair("interest",       ValueFromAmount(SQUISHY_INTERESTSUM)));
+                obj.push_back(Pair("balance",       ValueFromAmount(SQUISHY_WALLETBALANCE))); //pwalletMain->GetBalance()
             }
             else
             {
@@ -283,7 +283,7 @@ UniValue getinfo(const UniValue& params, bool fHelp, const CPubKey& mypk)
 #endif
         //fprintf(stderr,"after wallet %u\n",(uint32_t)time(NULL));
         obj.push_back(Pair("blocks",        (int)chainActive.Height()));
-        if ( (longestchain= KOMODO_LONGESTCHAIN) != 0 && chainActive.Height() > longestchain )
+        if ( (longestchain= SQUISHY_LONGESTCHAIN) != 0 && chainActive.Height() > longestchain )
             longestchain = chainActive.Height();
         //fprintf(stderr,"after longestchain %u\n",(uint32_t)time(NULL));
         obj.push_back(Pair("longestchain",        longestchain));
@@ -314,8 +314,8 @@ UniValue getinfo(const UniValue& params, bool fHelp, const CPubKey& mypk)
             obj.push_back(Pair("notaryname",      notaryname));
         } else if( (notaryid= squishy_whoami(pubkeystr,(int32_t)chainActive.Tip()->nHeight,squishy_chainactive_timestamp())) >= 0 )  {
             obj.push_back(Pair("notaryid",        notaryid));
-            if ( KOMODO_LASTMINED != 0 )
-                obj.push_back(Pair("lastmined", KOMODO_LASTMINED));
+            if ( SQUISHY_LASTMINED != 0 )
+                obj.push_back(Pair("lastmined", SQUISHY_LASTMINED));
         }
         obj.push_back(Pair("pubkey", NOTARY_PUBKEY));
     }
@@ -1342,7 +1342,7 @@ UniValue getsnapshot(const UniValue& params, bool fHelp, const CPubKey& mypk)
         top = atoi(params[0].get_str().c_str());
         if ( top < 0 ) 
         {
-            if ( KOMODO_SNAPSHOT_INTERVAL == 0 )
+            if ( SQUISHY_SNAPSHOT_INTERVAL == 0 )
                 throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, top must be a positive integer");
             else 
                 top = -1;

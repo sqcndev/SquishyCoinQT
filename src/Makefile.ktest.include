@@ -1,42 +1,43 @@
-TESTS += squishy-test
-bin_PROGRAMS += squishy-test
+TESTS += komodo-test
+bin_PROGRAMS += komodo-test
 
 # tool for generating our public parameters
-squishy_test_SOURCES = \
-    test-squishy/main.cpp \
-    test-squishy/testutils.cpp \
-    test-squishy/test_cryptoconditions.cpp \
-    test-squishy/test_coinimport.cpp \
-    test-squishy/test_eval_bet.cpp \
-    test-squishy/test_eval_notarisation.cpp \
-    test-squishy/test_parse_notarisation.cpp \
-    test-squishy/test_buffered_file.cpp \
-    test-squishy/test_sha256_crypto.cpp \
-    test-squishy/test_script_standard_tests.cpp \
-    test-squishy/test_multisig_tests.cpp \
-    test-squishy/test_merkle_tests.cpp \
-    test-squishy/test_addrman.cpp \
-    test-squishy/test_netbase_tests.cpp \
-    test-squishy/test_events.cpp \
-    test-squishy/test_hex.cpp \
-    test-squishy/test_haraka_removal.cpp \
-    test-squishy/test_oldhash_removal.cpp \
-    test-squishy/test_kmd_feat.cpp
+komodo_test_SOURCES = \
+    test-komodo/main.cpp \
+    test-komodo/testutils.cpp \
+    test-komodo/test_cryptoconditions.cpp \
+    test-komodo/test_coinimport.cpp \
+    test-komodo/test_eval_bet.cpp \
+    test-komodo/test_eval_notarisation.cpp \
+    test-komodo/test_parse_notarisation.cpp \
+    test-komodo/test_buffered_file.cpp \
+    test-komodo/test_sha256_crypto.cpp \
+    test-komodo/test_script_standard_tests.cpp \
+    test-komodo/test_multisig_tests.cpp \
+    test-komodo/test_merkle_tests.cpp \
+    test-komodo/test_addrman.cpp \
+    test-komodo/test_netbase_tests.cpp \
+    test-komodo/test_events.cpp \
+    test-komodo/test_hex.cpp \
+    test-komodo/test_haraka_removal.cpp \
+    test-komodo/test_oldhash_removal.cpp \
+    test-komodo/test_kmd_feat.cpp \
+    test-komodo/test_legacy_events.cpp
 
 if TARGET_WINDOWS
-squishy_test_SOURCES += test-squishy/squishy-test-res.rc
+komodo_test_SOURCES += test-komodo/komodo-test-res.rc
 endif
 
-squishy_test_CPPFLAGS = $(squishyd_CPPFLAGS)
+komodo_test_CPPFLAGS = $(komodod_CPPFLAGS)
 
-squishy_test_LDADD = -lgtest $(squishyd_LDADD)
+komodo_test_LDADD = -lgtest $(komodod_LDADD)
 
-squishy_test_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) -static
-squishy_test_LIBTOOLFLAGS = --tag CXX
+komodo_test_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) -static
+komodo_test_LIBTOOLFLAGS = --tag CXX
 
 yellow := $(shell tput setaf 11)
 reset := $(shell tput sgr0)
-$(info $(yellow)[ Decker ]$(reset) Check the $(yellow)squishy_test$(reset) dependencies ...)
+$(info $(yellow)[ Decker ]$(reset) Check the $(yellow)komodo_test$(reset) dependencies ...)
 
-$(info $(yellow)$$squishyd_LDADD$(reset) is [$(squishyd_LDADD)])
-$(info $(yellow)$$squishy_test_LDADD$(reset) is [${squishy_test_LDADD}])
+$(info $(yellow)$$komodod_LDADD$(reset) is [$(komodod_LDADD)])
+$(info $(yellow)$$komodo_test_LDADD$(reset) is [${komodo_test_LDADD}])

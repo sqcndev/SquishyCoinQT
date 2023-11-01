@@ -23,7 +23,7 @@ template<mp_size_t n, const bigint<n>& modulus>
 void Fp_model<n,modulus>::mul_reduce(const bigint<n> &other)
 {
     /* stupid pre-processor tricks; beware */
-#if defined(__x86_64__) && defined(USE_ASM)
+#if defined(__x86_64__) && defined(USE_ASM_SNARK)
     if (n == 3)
     { // Use asm-optimized Comba multiplication and reduction
         mp_limb_t res[2*n];
@@ -293,7 +293,7 @@ Fp_model<n,modulus>& Fp_model<n,modulus>::operator+=(const Fp_model<n,modulus>& 
 #ifdef PROFILE_OP_COUNTS
     this->add_cnt++;
 #endif
-#if defined(__x86_64__) && defined(USE_ASM)
+#if defined(__x86_64__) && defined(USE_ASM_SNARK)
     if (n == 3)
     {
         __asm__
@@ -406,7 +406,7 @@ Fp_model<n,modulus>& Fp_model<n,modulus>::operator-=(const Fp_model<n,modulus>& 
 #ifdef PROFILE_OP_COUNTS
     this->sub_cnt++;
 #endif
-#if defined(__x86_64__) && defined(USE_ASM)
+#if defined(__x86_64__) && defined(USE_ASM_SNARK)
     if (n == 3)
     {
         __asm__
@@ -579,7 +579,7 @@ Fp_model<n,modulus> Fp_model<n,modulus>::squared() const
     this->mul_cnt--; // zero out the upcoming mul
 #endif
     /* stupid pre-processor tricks; beware */
-#if defined(__x86_64__) && defined(USE_ASM)
+#if defined(__x86_64__) && defined(USE_ASM_SNARK)
     if (n == 3)
     { // use asm-optimized Comba squaring
         mp_limb_t res[2*n];

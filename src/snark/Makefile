@@ -18,9 +18,9 @@ CURVE = BN128
 OPTFLAGS = -O2 -march=x86-64 -g -mtune=x86-64
 
 ifneq ($(PLATFORM),darwin)
-	FEATUREFLAGS = -DUSE_ASM -DMONTGOMERY_OUTPUT
+	FEATUREFLAGS = -DUSE_ASM_SNARK -DMONTGOMERY_OUTPUT
 else
-	FEATUREFLAGS = -DUSE_ASM -DMONTGOMERY_OUTPUT -D__SIZE_TYPE__="unsigned long long"
+	FEATUREFLAGS = -DUSE_ASM_SNARK -DMONTGOMERY_OUTPUT -D__SIZE_TYPE__="unsigned long long"
 endif
 
 # Initialize this using "CXXFLAGS=... make". The makefile appends to that.

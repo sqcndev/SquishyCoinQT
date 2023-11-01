@@ -38,7 +38,7 @@ public:
 
     bool operator<(const ordered_exponent<n> &other) const
     {
-#if defined(__x86_64__) && defined(USE_ASM)
+#if defined(__x86_64__) && defined(USE_ASM_SNARK)
         if (n == 3)
         {
             int64_t res;

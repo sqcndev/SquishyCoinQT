@@ -1,8 +1,8 @@
 /** @file
  *****************************************************************************
  Assembly code snippets for F[p] finite field arithmetic, used by fp.tcc .
- Specific to x86-64, and used only if USE_ASM is defined.
- On other architectures or without USE_ASM, fp.tcc uses a portable
+ Specific to x86-64, and used only if USE_ASM_SNARK is defined.
+ On other architectures or without USE_ASM_SNARK, fp.tcc uses a portable
  C++ implementation instead.
  *****************************************************************************
  * @author     This file is part of libsnark, developed by SCIPR Lab

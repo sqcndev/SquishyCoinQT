@@ -6,16 +6,16 @@
 #include "util.h"
 #include "chainparams.h"
 
-#include "komodo_globals.h"
+#include "squishy_globals.h"
 #include "main.h"
 #include "primitives/transaction.h"
 #include "core_io.h"
-#include "komodo.h"
-#include "komodo_notary.h"
+#include "squishy.h"
+#include "squishy_notary.h"
 
 // https://bitcointalk.org/index.php?topic=1605144.msg32538076#msg32538076 - notarization txes explained
 
-void adjust_hwmheight(int32_t in); // declared in komodo.cpp (should be used only in unit-tests)
+void adjust_hwmheight(int32_t in); // declared in squishy.cpp (should be used only in unit-tests)
 namespace fs = boost::filesystem;
 
 namespace LegacyEventsTests {
@@ -108,7 +108,7 @@ namespace LegacyEventsTests {
                     /* The destructors of all members, including NPOINTS (std::vector) and events (std::list),
                        will be called correctly after this assignment, and the memory will be freed.
                     */
-                    KOMODO_STATES[i] = komodo_state();
+                    KOMODO_STATES[i] = squishy_state();
                 }
             }
         public:
@@ -134,11 +134,11 @@ namespace LegacyEventsTests {
                     pathDataDir = GetDataDir(false);
                 }
 
-                STAKED_NOTARY_ID = -1; // should be set via komodo_args call in real world
-                SelectParams(CBaseChainParams::MAIN); // by default it's a CBaseChainParams::REGTEST, see ./src/test-komodo/main.cpp
+                STAKED_NOTARY_ID = -1; // should be set via squishy_args call in real world
+                SelectParams(CBaseChainParams::MAIN); // by default it's a CBaseChainParams::REGTEST, see ./src/test-squishy/main.cpp
                 chainName = assetchain();
 
-                komodo_setactivation(Consensus::NetworkUpgrade::ALWAYS_ACTIVE); // act as UpdateNetworkUpgradeParameters for regtest, to set sapling & overwinter activation height, but for mainnet
+                squishy_setactivation(Consensus::NetworkUpgrade::ALWAYS_ACTIVE); // act as UpdateNetworkUpgradeParameters for regtest, to set sapling & overwinter activation height, but for mainnet
 
                 KOMODO_REWIND = 0;
                 chainActive.SetTip(nullptr);
@@ -164,7 +164,7 @@ namespace LegacyEventsTests {
                 pathDataDir.clear();
 
                 chainActive.SetTip(nullptr);
-                komodo_setactivation(Consensus::NetworkUpgrade::NO_ACTIVATION_HEIGHT);
+                squishy_setactivation(Consensus::NetworkUpgrade::NO_ACTIVATION_HEIGHT);
                 SelectParams(CBaseChainParams::REGTEST);
 
                 mempool.clear();
@@ -202,28 +202,28 @@ namespace LegacyEventsTests {
         indexDummy.nHeight = fakeBlockHeight;
         //indexDummy.nTime = GetTime();
         chainActive.SetTip(&indexDummy);
-        int32_t res_kcb = komodo_connectblock(false, &indexDummy, b);
+        int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
-        komodo_state *state_ptr = komodo_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
 
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->events.size() == 0);
 
         /*
             we shouldn't have matched == 1 on 3rd transaction in a block here, as a result,
-            we shouldn't have komodo_voutupdate -> komodo_stateupdate -> write_event call
-            for komodo::event_opreturn, only for komodo::event_kmdheight, so the komodostate
-            filesize should be equal size of written komodo::event_kmdheight, i.e. 9. but
+            we shouldn't have squishy_voutupdate -> squishy_stateupdate -> write_event call
+            for squishy::event_opreturn, only for squishy::event_kmdheight, so the squishystate
+            filesize should be equal size of written squishy::event_kmdheight, i.e. 9. but
             let's calculate this size here.
         */
 
         uintmax_t stateFileSize = 0;
-        fs::path filePath = GetDataDir(false) / KOMODO_STATE_FILENAME; // instead of komodo_statefname call
+        fs::path filePath = GetDataDir(false) / KOMODO_STATE_FILENAME; // instead of squishy_statefname call
         if (fs::exists(filePath) && fs::is_regular_file(filePath)) {
             stateFileSize = fs::file_size(filePath);
         }
 
-        komodo::event_kmdheight kmd_ht(fakeBlockHeight);
+        squishy::event_kmdheight kmd_ht(fakeBlockHeight);
         kmd_ht.kheight = fakeBlockHeight;
         kmd_ht.timestamp = 0;
         std::stringstream ss; ss << kmd_ht; std::string buf = ss.str(); // see write_event
@@ -289,9 +289,9 @@ namespace LegacyEventsTests {
         indexDummy.nHeight = fakeBlockHeight;
         //indexDummy.nTime = GetTime();
         chainActive.SetTip(&indexDummy);
-        int32_t res_kcb = komodo_connectblock(false, &indexDummy, b);
+        int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
-        komodo_state *state_ptr = komodo_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->NumCheckpoints() == 1);
         ASSERT_TRUE(state_ptr->events.size() == 0);
@@ -306,19 +306,19 @@ namespace LegacyEventsTests {
         ASSERT_TRUE(state_ptr->LastNotarizedMoMDepth() == 0);
 
         /*
-            komodo_stateupdate will be called 2 times here:
+            squishy_stateupdate will be called 2 times here:
 
-            1. [ komodo::event_notarized ]
-               inside komodo_voutupdate komodo_stateupdate(height,0,0,0,zero,0,0,0,0,0,0,0,0,sp->LastNotarizedMoM(),sp->LastNotarizedMoMDepth()); and
-               this call will trigger komodo::event_notarized creation inside komodo_stateupdate and write_event to disk. Then in komodo_eventadd_notarized
-               it will call komodo_state::add_event<komodo::event_notarized>, but it will not be added (!) in events list because add_event adds events to
-               the list only for assetchains (!). Then komodo_notarized_update will be called and checkpoint to numpoints will be
+            1. [ squishy::event_notarized ]
+               inside squishy_voutupdate squishy_stateupdate(height,0,0,0,zero,0,0,0,0,0,0,0,0,sp->LastNotarizedMoM(),sp->LastNotarizedMoMDepth()); and
+               this call will trigger squishy::event_notarized creation inside squishy_stateupdate and write_event to disk. Then in squishy_eventadd_notarized
+               it will call squishy_state::add_event<squishy::event_notarized>, but it will not be added (!) in events list because add_event adds events to
+               the list only for assetchains (!). Then squishy_notarized_update will be called and checkpoint to numpoints will be
                added via AddCheckpoint.
-            2. [ komodo::event_kmdheight ]
-               Second time komodo_stateupdate will be called from komodo_connectblock: komodo_stateupdate(height,0,0,0,zero,0,0,height,(uint32_t)pindex->nTime,0,0,0,0,zero,0)
-               and for this time it will trigger komodo::event_kmdheight event creation. it will also be written to disk, but will not be added to events list
-               in komodo_eventadd_kmdheight, bcz add_event adds events to this list only for assetchains. Additionally komodo_eventadd_kmdheight will be called
-               with future call to komodo_setkmdheight (or rewind event create) and SAVEDHEIGHT, SAVEDTIMESTAMP and CURRENT_HEIGHT possible update.
+            2. [ squishy::event_kmdheight ]
+               Second time squishy_stateupdate will be called from squishy_connectblock: squishy_stateupdate(height,0,0,0,zero,0,0,height,(uint32_t)pindex->nTime,0,0,0,0,zero,0)
+               and for this time it will trigger squishy::event_kmdheight event creation. it will also be written to disk, but will not be added to events list
+               in squishy_eventadd_kmdheight, bcz add_event adds events to this list only for assetchains. Additionally squishy_eventadd_kmdheight will be called
+               with future call to squishy_setkmdheight (or rewind event create) and SAVEDHEIGHT, SAVEDTIMESTAMP and CURRENT_HEIGHT possible update.
         */
 
     }
@@ -380,9 +380,9 @@ namespace LegacyEventsTests {
         indexDummy.nHeight = fakeBlockHeight;
         //indexDummy.nTime = GetTime();
         chainActive.SetTip(&indexDummy);
-        int32_t res_kcb = komodo_connectblock(false, &indexDummy, b);
+        int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
-        komodo_state *state_ptr = komodo_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->events.size() == 0);
 
@@ -393,18 +393,18 @@ namespace LegacyEventsTests {
             *notarizedheightp = 642230
 
             There is no additional events should be added in events list, no new checkpoints added, etc. The only thing
-            the komodo_stateupdate may be called from the komodo_connectblock here:
+            the squishy_stateupdate may be called from the squishy_connectblock here:
 
             if ( !fJustCheck && pindex->nHeight == hwmheight )
-            komodo_stateupdate(height,0,0,0,zero,0,0,height,(uint32_t)pindex->nTime,0,0,0,0,zero,0);
+            squishy_stateupdate(height,0,0,0,zero,0,0,height,(uint32_t)pindex->nTime,0,0,0,0,zero,0);
 
-            and komodo::event_kmdheight will be written via write_event to komodoevents file.
+            and squishy::event_kmdheight will be written via write_event to squishyevents file.
 
-            This test added for fast debug "back notarisations" inside komodo_connectblock -> komodo_voutupdate.
+            This test added for fast debug "back notarisations" inside squishy_connectblock -> squishy_voutupdate.
 
             Also as MIL is 3p coin it uses 3rd party notaries, so, notarized variable inside the check will be 0.
             May be for 3P we should skip all checks and calculations at all? Like if chain is KMD and notarized is 0
-            (and matched = 0), then skip it at all inside komodo_voutupdate?
+            (and matched = 0), then skip it at all inside squishy_voutupdate?
         */
 
     }
@@ -466,14 +466,14 @@ namespace LegacyEventsTests {
         indexDummy.nHeight = fakeBlockHeight;
         //indexDummy.nTime = GetTime();
         chainActive.SetTip(&indexDummy);
-        int32_t res_kcb = komodo_connectblock(false, &indexDummy, b);
+        int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
-        komodo_state *state_ptr = komodo_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->events.size() == 0);
 
         /* Same as in NormalMILKMDNota test, we have back notarization of MARTY in KMD chain ...
-           but we haven't any events or so related to it added, except writing of komodo::event_kmdheight in komodoevents file.
+           but we haven't any events or so related to it added, except writing of squishy::event_kmdheight in squishyevents file.
         */
 
     }
@@ -537,19 +537,19 @@ namespace LegacyEventsTests {
         indexDummy.nHeight = fakeBlockHeight;
         indexDummy.nTime = 1689620962; /* for AC tests set blockindex time is mandatory (!) */
         chainActive.SetTip(&indexDummy);
-        int32_t res_kcb = komodo_connectblock(false, &indexDummy, b);
+        int32_t res_kcb = squishy_connectblock(false, &indexDummy, b);
 
         /*
             This is MARTY -> KMD notarization in MARTY chain. In this test:
 
             1. signedmasks file should be filled like this { 0x45, 0x16, 0x02, 0x00, 0xb9, 0x01, 0x00, 0x41, 0x04, 0x02, 0x82, 0x80 },
                first 4 bytes is a int32_t height and 8 bytes of uint64_t signedmask after. signedmask.80820204410001b9
-            2. komodo::event_notarized and komodo::event_kmdheight added in the events list, because it's AC
+            2. squishy::event_notarized and squishy::event_kmdheight added in the events list, because it's AC
             3. TODO: ??? events in file written check ...
             4. state_ptr changes check ...
         */
 
-        komodo_state *state_ptr = komodo_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
+        squishy_state *state_ptr = squishy_stateptrget((char *)chainName.symbol().c_str()); // &KOMODO_STATES[0]
         ASSERT_TRUE(state_ptr != nullptr);
         ASSERT_TRUE(state_ptr->events.size() == 2);
 
@@ -573,21 +573,21 @@ namespace LegacyEventsTests {
         ASSERT_TRUE(expectedBytes == sm_bytes);
 
         // (2) Check events count
-        std::map<komodo::komodo_event_type, int> eventCounter;
-        for (const std::shared_ptr<komodo::event>& e : state_ptr->events) {
+        std::map<squishy::squishy_event_type, int> eventCounter;
+        for (const std::shared_ptr<squishy::event>& e : state_ptr->events) {
             ++eventCounter[e->type];
         }
-        auto notarized_it = eventCounter.find(komodo::komodo_event_type::EVENT_NOTARIZED);
-        auto kmdheight_it = eventCounter.find(komodo::komodo_event_type::EVENT_KMDHEIGHT);
+        auto notarized_it = eventCounter.find(squishy::squishy_event_type::EVENT_NOTARIZED);
+        auto kmdheight_it = eventCounter.find(squishy::squishy_event_type::EVENT_KMDHEIGHT);
         bool fAllEventsCorrect = (notarized_it != eventCounter.end() && notarized_it->second == 1)
             && (kmdheight_it != eventCounter.end() && kmdheight_it->second == 1);
         ASSERT_TRUE(fAllEventsCorrect);
 
-        // (3) Check the komodoevents file content
+        // (3) Check the squishyevents file content
 
         // TODO ...
 
-        // (4) Check komodo_state changes
+        // (4) Check squishy_state changes
 
         ASSERT_TRUE(state_ptr->SAVEDHEIGHT==fakeBlockHeight);
         ASSERT_TRUE(state_ptr->CURRENT_HEIGHT==fakeBlockHeight);

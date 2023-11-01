@@ -59,12 +59,12 @@ delete_artefacts() {
     mkdir -p ${WORKSPACE}/releases/${release_name}
 
     binaries=(
-    "src/komodod"
+    "src/squishyd"
     "src/wallet-utility"
-    "src/komodo-tx"
-    "src/komodo-cli"
-    "src/komodo-test"
-    "src/qt/komodo-qt"
+    "src/squishy-tx"
+    "src/squishy-cli"
+    "src/squishy-test"
+    "src/qt/squishy-qt"
     )
 
     for binary in "${binaries[@]}"
@@ -91,11 +91,11 @@ copy_release() {
     mkdir -p ${WORKSPACE}/releases/${release_name}
 
     binaries=(
-    "src/komodod"
+    "src/squishyd"
     "src/wallet-utility"
-    "src/komodo-tx"
-    "src/komodo-cli"
-    "src/qt/komodo-qt"
+    "src/squishy-tx"
+    "src/squishy-cli"
+    "src/qt/squishy-qt"
     )
 
     for binary in "${binaries[@]}"
@@ -117,21 +117,21 @@ copy_release() {
     case $release_name in
         xenial)
             echo "Performing actions for Xenial..."
-            mv "${WORKSPACE}/releases/${release_name}/komodo-qt" "${WORKSPACE}/releases/${release_name}/komodo-qt-linux"
+            mv "${WORKSPACE}/releases/${release_name}/squishy-qt" "${WORKSPACE}/releases/${release_name}/squishy-qt-linux"
             ;;
         focal)
             echo "Performing actions for Focal..."
-            mv "${WORKSPACE}/releases/${release_name}/komodo-qt" "${WORKSPACE}/releases/${release_name}/komodo-qt-linux"
+            mv "${WORKSPACE}/releases/${release_name}/squishy-qt" "${WORKSPACE}/releases/${release_name}/squishy-qt-linux"
             ;;
         windows)
             echo "Performing actions for Windows..."
-            mv "${WORKSPACE}/releases/${release_name}/komodo-qt${ext}" "${WORKSPACE}/releases/${release_name}/komodo-qt-windows${ext}"
+            mv "${WORKSPACE}/releases/${release_name}/squishy-qt${ext}" "${WORKSPACE}/releases/${release_name}/squishy-qt-windows${ext}"
             ;;
         macos)
             echo "Performing actions for MacOS..."
             docker run -it -u $(id -u ${USER}):$(id -g ${USER}) -v $PWD:$PWD -w $PWD -e HOME=/root ocean_focal_builder /bin/bash -c "make deploy" || false
             cp -f ${WORKSPACE}/*.dmg "${WORKSPACE}/releases/${release_name}/"
-            mv "${WORKSPACE}/releases/${release_name}/komodo-qt${ext}" "${WORKSPACE}/releases/${release_name}/komodo-qt-mac${ext}"
+            mv "${WORKSPACE}/releases/${release_name}/squishy-qt${ext}" "${WORKSPACE}/releases/${release_name}/squishy-qt-mac${ext}"
             ;;
         *)
             echo "Unknown release name: $release_name"

@@ -37,7 +37,7 @@ if [ "$is_git_root" -eq "1" ]; then
 
     rm -f ./src/qt/moc_*.cpp # delete meta object code files, otherwise we will have MacOS after Linux/Windows build error
     rm -f ./src/qt/*.moc
-    rm -f ./src/qt/libkomodoqt.a
+    rm -f ./src/qt/libsquishyqt.a
     rm -f ./src/leveldb/libmemenv.a
     rm -f ./src/leveldb/libleveldb_sse42.a
     rm -f ./src/leveldb/libleveldb.a

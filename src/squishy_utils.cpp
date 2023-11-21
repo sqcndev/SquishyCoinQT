@@ -475,7 +475,7 @@ void squishy_statefname(char *fname, const char *symbol, const char *str)
     strcat(fname,str);
 }
 
-void squishy_configfile(const char *symbol,uint16_t rpcport)
+void SQCN.configfile(const char *symbol,uint16_t rpcport)
 {
     static char myusername[512],mypassword[8192];
     FILE *fp; uint16_t kmdport; uint8_t buf2[33]; char fname[512],buf[128],username[512],password[8192]; uint32_t crc,r,r2,i;
@@ -527,14 +527,14 @@ void squishy_configfile(const char *symbol,uint16_t rpcport)
 #ifdef _WIN32
     while ( fname[strlen(fname)-1] != '\\' )
         fname[strlen(fname)-1] = 0;
-    strcat(fname,"squishy.conf");
+    strcat(fname,"SQCN.conf");
 #else
     while ( fname[strlen(fname)-1] != '/' )
         fname[strlen(fname)-1] = 0;
 #ifdef __APPLE__
     strcat(fname,"Squishy.conf");
 #else
-    strcat(fname,"squishy.conf");
+    strcat(fname,"SQCN.conf");
 #endif
 #endif
     if ( (fp= fopen(fname,"rb")) != 0 )
@@ -555,7 +555,7 @@ uint16_t squishy_userpass(char *userpass,const char *symbol)
 #ifdef __APPLE__
         sprintf(confname,"Squishy.conf");
 #else
-        sprintf(confname,"squishy.conf");
+        sprintf(confname,"SQCN.conf");
 #endif
     }
     else if(!mapArgs.count("-conf")) {
@@ -988,7 +988,7 @@ void set_kmd_user_password_port(const std::string& ltc_config_filename)
 #ifdef __APPLE__
     std::string filename = "Squishy.conf";
 #else
-    std::string filename = "squishy.conf";
+    std::string filename = "SQCN.conf";
 #endif
 
     auto datadir_path = GetDataDir();
@@ -1562,7 +1562,7 @@ void squishy_args(char *argv0)
             uint16_t port;
             if ( (port= squishy_userpass(ASSETCHAINS_USERPASS,chainName.symbol().c_str())) != 0 )
                 ASSETCHAINS_RPCPORT = port;
-            else squishy_configfile(chainName.symbol().c_str(),ASSETCHAINS_P2PPORT + 1);
+            else SQCN.configfile(chainName.symbol().c_str(),ASSETCHAINS_P2PPORT + 1);
 
             if (ASSETCHAINS_CBMATURITY != 0)
                 Params().SetCoinbaseMaturity(ASSETCHAINS_CBMATURITY);

@@ -117,13 +117,13 @@ cd squishy
 
 *p.s.* Currently only `x86_64` arch supported for MacOS, build for `Apple M1` processors unfortunately not yet supported.
 
-## Create squishy.conf ##
+## Create SQCN.conf ##
 
-Before start the wallet you should [create config file](https://github.com/DeckerSU/SquishyCoin/wiki/F.A.Q.#q-after-i-start-squishy-qt-i-receive-the-following-error-error-cannot-parse-configuration-file-missing-squishyconf-only-use-keyvalue-syntax-what-should-i-do) `squishy.conf` at one of the following locations:
+Before start the wallet you should [create config file](https://github.com/DeckerSU/SquishyCoin/wiki/F.A.Q.#q-after-i-start-squishy-qt-i-receive-the-following-error-error-cannot-parse-configuration-file-missing-squishyconf-only-use-keyvalue-syntax-what-should-i-do) `SQCN.conf` at one of the following locations:
 
-- Linux - `~/.squishy/squishy.conf`
-- Windows - `%APPDATA%\Squishy\squishy.conf`
-- MacOS - `~/Library/Application Support/Squishy/squishy.conf`
+- Linux - `~/.squishy/SQCN.conf`
+- Windows - `%APPDATA%\Squishy\SQCN.conf`
+- MacOS - `~/Library/Application Support/Squishy/SQCN.conf`
 
 With the following content:
 
@@ -136,11 +136,11 @@ rpcbind=127.0.0.1
 server=1
 ```
 
-Bash one-liner for Linux to create `squishy.conf` with random RPC password:
+Bash one-liner for Linux to create `SQCN.conf` with random RPC password:
 
 ```
 RANDPASS=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w16 | head -n1) && \
-tee -a ~/.squishy/squishy.conf << END
+tee -a ~/.squishy/SQCN.conf << END
 txindex=1
 rpcuser=squishy
 rpcpassword=${RANDPASS}

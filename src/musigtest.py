@@ -22,7 +22,7 @@ def def_credentials(chain):
     elif operating_system == 'Windows':
         ac_dir = '%s/squishy/' % os.environ['APPDATA']
     if chain == 'KMD':
-        coin_config_file = str(ac_dir + '/squishy.conf')
+        coin_config_file = str(ac_dir + '/SQCN.conf')
     else:
         coin_config_file = str(ac_dir + '/' + chain + '/' + chain + '.conf')
     with open(coin_config_file, 'r') as f:

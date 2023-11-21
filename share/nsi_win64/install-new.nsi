@@ -90,11 +90,11 @@ Abort
 next_5:
 SectionEnd
 
-Section "Create squishy.conf" Section2
+Section "Create SQCN.conf" Section2
   SetOverwrite on
   CreateDirectory "$APPDATA\Squishy"  
   SetOutPath $APPDATA\Squishy
-  File "content\squishy.conf"
+  File "content\SQCN.conf"
 SectionEnd
 
 # Installer functions

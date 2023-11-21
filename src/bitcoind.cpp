@@ -128,7 +128,7 @@ bool AppInit(int argc, char* argv[])
     //
     // Parameters
     //
-    // If Qt is used, parameters/squishy.conf are parsed in qt/bitcoin.cpp's main()
+    // If Qt is used, parameters/SQCN.conf are parsed in qt/bitcoin.cpp's main()
     ParseParameters(argc, argv);
 
     // Process help and version before taking care about datadir
@@ -189,8 +189,8 @@ bool AppInit(int argc, char* argv[])
                  _("- Source code:  %s\n"
                    "- .deb package: %s\n")).c_str(),
                 GetConfigFile().string().c_str(),
-                "contrib/debian/examples/squishy.conf",
-                "/usr/share/doc/squishy/examples/squishy.conf");
+                "contrib/debian/examples/SQCN.conf",
+                "/usr/share/doc/squishy/examples/SQCN.conf");
             return false;
         } catch (const std::exception& e) {
             LogPrintf("Error reading configuration file: %s\n", e.what());

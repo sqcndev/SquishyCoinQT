@@ -106,6 +106,8 @@ sudo update-alternatives --config x86_64-w64-mingw32-gcc
 sudo update-alternatives --config x86_64-w64-mingw32-g++
 # (configure to use POSIX variant)
 
+sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # build patch
+
 git clone https://github.com/sqcndev/SquishyCoinQT-V0.8.git
 cd squishy
 ./zcutil/fetch-params.sh

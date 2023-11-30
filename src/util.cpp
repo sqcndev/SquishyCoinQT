@@ -733,7 +733,7 @@ boost::filesystem::path GetConfigFile()
 #ifdef __APPLE__
         strcpy(confname,"Squishy.conf");
 #else
-        strcpy(confname,"SQCN.conf");
+        strcpy(confname,"squishy.conf");
 #endif
     }
     boost::filesystem::path pathConfigFile(GetArg("-conf",confname));
@@ -756,7 +756,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 
     for (boost::program_options::detail::config_file_iterator it(streamConfig, setOptions), end; it != end; ++it)
     {
-        // Don't overwrite existing settings so command line settings override SQCN.conf
+        // Don't overwrite existing settings so command line settings override squishy.conf
         string strKey = string("-") + it->string_key;
         if (mapSettingsRet.count(strKey) == 0)
         {

@@ -553,7 +553,7 @@ uint16_t squishy_userpass(char *userpass,const char *symbol)
 #ifdef __APPLE__
         sprintf(confname,"Squishy.conf");
 #else
-        sprintf(confname,"SQCN.conf");
+        sprintf(confname,"squishy.conf");
 #endif
     }
     else sprintf(confname,"%s.conf",symbol);

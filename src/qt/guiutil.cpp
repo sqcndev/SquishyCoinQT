@@ -433,7 +433,7 @@ bool openKomodoConf()
     
     configFile.close();
     
-    /* Open SQCN.conf with the associated application */
+    /* Open squishy.conf with the associated application */
     return QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 }
 

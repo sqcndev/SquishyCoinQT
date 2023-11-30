@@ -2,13 +2,13 @@
 
 #set -ex
 
-echo "...Checking SQCN.conf"
+echo "...Checking squishy.conf"
 
-if [ ! -e "$HOME/.squishy/SQCN.conf" ]; then
+if [ ! -e "$HOME/.squishy/squishy.conf" ]; then
     mkdir -p $HOME/.squishy
 
-    echo "...Creating SQCN.conf"
-    cat <<EOF > $HOME/.squishy/SQCN.conf
+    echo "...Creating squishy.conf"
+    cat <<EOF > $HOME/.squishy/squishy.conf
 rpcuser=${rpcuser:-squishyrpc}
 rpcpassword=${rpcpassword:-`dd if=/dev/urandom bs=33 count=1 2>/dev/null | base64`}
 txindex=1
@@ -16,7 +16,7 @@ bind=${listenip:-127.0.0.1}
 rpcbind=${listenip:-127.0.0.1}
 EOF
 
-    cat $HOME/.squishy/SQCN.conf
+    cat $HOME/.squishy/squishy.conf
 fi
 
 echo "...Checking fetch-params"

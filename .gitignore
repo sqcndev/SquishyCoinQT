@@ -128,8 +128,8 @@ squishy-qt
 squishy-qt_test            
 src/qt/gen*
 
-src/config/SQCN.config.h
-src/config/SQCN.config.h.in
+src/config/squishy-config.h
+src/config/squishy-config.h.in
 src/squishyd
 src/qt/squishy-qt
 
